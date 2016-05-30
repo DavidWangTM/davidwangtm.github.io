@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 温智全，Web & algorithm Lover，Server Enginee | 这里是 @温智全 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="wenzhiquan, wenknows, 温智全, 技术, 软件, 互联网, Mac, 算法, Linux, blog">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Mac OS Yosemite 配置sublime text C语言开发环境
+            -
+            温智全的博客 | Wenknows's Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://wenzhiquan.github.io/2015/05/04/mac_os_yosemite_sublime_and_c/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wenknow's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-art.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-art.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#MacOS" title="MacOS">MacOS</a>
+                        
+                        <a class="tag" href="/tags/#Sublime Text" title="Sublime Text">Sublime Text</a>
+                        
+                    </div>
+                    <h1>Mac OS Yosemite 配置sublime text C语言开发环境</h1>
+                    
+                    
+                    <h2 class="subheading">sublime支持各种语言的编译和运行</h2>
+                    
+                    <span class="meta">Posted by Wenzhiquan on May 4, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>“Sublime Text是一个轻便的文本编辑器”</p>
+</blockquote>
+
+<h3 id="section">1. 概述</h3>
+
+<p><a href="http://www.sublimetext.com/3" title="sublime text 3">Sublime Text</a> 是一个代码编辑器，也是HTML和散文先进的文本编辑器。它是由程序员Jon Skinner于2008年1月份所开发出来，它最初被设计为一个具有丰富扩展功能的<a href="http://www.vim.org/download.php" title="Vim">Vim</a>。
+<a href="http://www.sublimetext.com/3" title="sublime text 3">Sublime Text</a>具有漂亮的用户界面和强大的功能，例如代码缩略图，代码段等。还可自定义键绑定，菜单和工具栏。它的主要功能包括：拼写检查，书签，Goto 功能，即时项目切换，多选择，多窗口等等。它是一个跨平台的编辑器，同时支持Windows、Linux、Mac OS X等操作系统。它还具有大量的可扩展插件，极大地丰富了这款编辑器的功能。</p>
+
+<h3 id="sublime-text">2. 安装配置sublime text</h3>
+
+<h4 id="sublime-text-3">2.1 安装sublime text 3</h4>
+
+<p>首先可以前往<a href="http://www.sublimetext.com/3" title="sublime text 3">Sublime Text官方网站</a>下载对应平台的软件，安装完成后即可使用。但是为了更好地使用这一款强大的软件，我们可以安装一些插件。</p>
+
+<p>这款软件是永久免费的，但是免费版会时不时的弹出购买提示，下面提供一个注册码，可以直接注册这个软件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>—– BEGIN LICENSE —–
+Andrew Weber
+Single User License
+EA7E-855605
+813A03DD 5E4AD9E6 6C0EEB94 BC99798F
+942194A6 02396E98 E62C9979 4BB979FE
+91424C9D A45400BF F6747D88 2FB88078
+90F5CC94 1CDC92DC 8457107A F151657B
+1D22E383 A997F016 42397640 33F41CFC
+E1D0AE85 A0BBD039 0E9C8D55 E1B89D5D
+5CDB7036 E56DE1C0 EFCC0840 650CD3A6
+B98FC99C 8FAC73EE D2B95564 DF450523
+—— END LICENSE ——
+</code></pre>
+</div>
+
+<h4 id="sublime-text-3-">2.2 安装sublime text 3 插件</h4>
+
+<p><em>2.2.1 Package Control组件：</em></p>
+
+<ul>
+  <li>
+    <p>按control+`(键盘上1左边的按钮)调出console控制台</p>
+  </li>
+  <li>
+    <p>粘贴以下代码到底部命令行并回车：</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>重启Sublime Text 3</p>
+  </li>
+  <li>
+    <p>如果在Perferences-&gt;package settings中看到package control这一项，则安装成功</p>
+  </li>
+</ul>
+
+<p>下面是sublime text 2 的安装命令：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>import urllib2,os; pf='Package Control.sublime-package'; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) if not os.path.exists(ipp) else None; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler( ))); open( os.path.join( ipp, pf), 'wb' ).write( urllib2.urlopen( 'http://sublime.wbond.net/' +pf.replace( ' ','%20' )).read()); print( 'Please restart Sublime Text to finish installation')
+</code></pre>
+</div>
+
+<blockquote>
+  <p>用Package Control安装插件的方法：</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>按下Ctrl+Shift+P调出命令面板</p>
+  </li>
+  <li>
+    <p>输入pcic 调出 Install Package 选项并回车，然后在列表中选中要安装的插件</p>
+  </li>
+</ul>
+
+<p><em>2.2.2 较为常用的一些插件</em></p>
+
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">ConvertToUTF8</code>　　支持 GBK, BIG5, EUC-KR, EUC-JP, Shift_JIS 等编码的插件</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">Bracket Highlighter</code>　　用于匹配括号，引号和html标签。对于很长的代码很有用。安装好之后，不需要设置插件会自动生效</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">DocBlockr</code>　　DocBlockr可以自动生成PHPDoc风格的注释。它支持的语言有Javascript, PHP, ActionScript, CoffeeScript, Java, Objective C, C, C++</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">Emmet(Zen Coding)</code>　　快速生成HTML代码段的插件，强大到无与伦比，不知道的请自行google</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">SideBar Enhancements</code>　　这个插件改进了侧边栏，增加了许多功能</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">SideBar Folders</code>　　增加了侧边栏对于文件夹的支持</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">SublimeCodeIntel</code>	提供了代码提示和自动补全功能</p>
+  </li>
+</ol>
+
+<p>sublime text 还具有很多插件，读者可以根据自己所使用的语言和需要进行相应的安装</p>
+
+<p><em>2.2.3 配置sublime text主题</em></p>
+
+<p>Sublime Text本身对于主题的扩展也是十分的强大，一些推荐的主题可以前往<a href="http://designbeep.com/2014/06/10/35-cool-sublime-text-themes/">design beep网站</a>进行选择和安装</p>
+
+<p>下面介绍一下我安装的主题和相应的配置文件：</p>
+
+<p>在package control中分别输入<code class="highlighter-rouge">numix</code>和<code class="highlighter-rouge">itg.flat</code>进行主题的安装，然后安装插件<code class="highlighter-rouge">markdown extend</code>增加对markdown语法的支持，然后编辑<code class="highlighter-rouge">Settings-User</code>，加入以下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+	</span><span class="nt">"color_scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Packages/Theme - itg.flat/itg.dark.tmTheme"</span><span class="p">,</span><span class="w">
+	</span><span class="nt">"numix_sidebar_tree_medium"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+	</span><span class="nt">"numix_small_tabs"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+	</span><span class="nt">"theme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Numix.sublime-theme"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+</div>
+
+<p>效果如下：</p>
+
+<p><img src="/img/in-post/sublime_theme.png" alt="numix主题" /></p>
+
+<h3 id="gcc">3. 安装gcc</h3>
+
+<p>安装完sublime text后，编辑C语言的文本编辑器就已经配置好了，但是想要编译C文件，则需要安装<a href="http://gcc.gnu.org/" title="gcc官方网站">gcc</a>，在Mac OS中，直接使用<code class="highlighter-rouge">brew</code>命令进行安装即可，安装命令如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install gcc
+</code></pre>
+</div>
+
+<p>等待安装完成</p>
+
+<p>输入命令<code class="highlighter-rouge">gcc -v</code>验证是否安装成功，如果安装成功，应该有以下提示：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Configured with: --prefix=/Library/Developer/CommandLineTools/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
+Apple LLVM version 6.1.0 (clang-602.0.49) (based on LLVM 3.6.0svn)
+Target: x86_64-apple-darwin14.3.0
+Thread model: posix
+</code></pre>
+</div>
+
+<h3 id="sublime-textc">4. 配置sublime text的C语言编译系统</h3>
+
+<p>经过前面的步骤，就可以分别进行C语言的编辑和编译，但是为了方便，只需要简单地配置就可以直接用sublime text进行编译了</p>
+
+<p>打开Tools-&gt;Build System-&gt;New Build System，在新建的文件中输入以下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+	</span><span class="nt">"cmd"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"gcc -o ${file_base_name} $file_name"</span><span class="p">],</span><span class="w">
+    </span><span class="nt">"shell"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"working_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"$file_path"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"selector"</span><span class="p">:</span><span class="w"> </span><span class="s2">"source.c"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"encoding"</span><span class="p">:</span><span class="s2">"utf-8"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"variants"</span><span class="w"> </span><span class="p">:</span><span class="w">
+    </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Run"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"cmd"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"./${file_base_name}"</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>使用control+B进行编译文件，使用control+shift+B运行编译好的文件</p>
+
+<p>以下是sublime text 2的内容</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+	</span><span class="nt">"cmd"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"gcc"</span><span class="p">,</span><span class="w">  </span><span class="s2">"-o"</span><span class="p">,</span><span class="w"> </span><span class="s2">"$file_base_name"</span><span class="p">,</span><span class="w"> </span><span class="s2">"$file_name"</span><span class="p">],</span><span class="w">
+    </span><span class="nt">"cmd"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"./$file_base_name"</span><span class="p">],</span><span class="w">
+    </span><span class="nt">"selector"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"source.c"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"shell"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"working_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"$file_path"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>第一行相当于在shell中输入命令<code class="highlighter-rouge">gcc -o 文件名 文件名.c</code></p>
+  </li>
+  <li>
+    <p>第二行则是运行编译成功的文件</p>
+  </li>
+  <li>
+    <p>第三行的意思是对后缀为<code class="highlighter-rouge">.c</code>的文件进行选择</p>
+  </li>
+</ul>
+
+<p>编辑完成后，保存文件，命名为C.sublime-build，然后就可以在Build System中选中这个编译方式了</p>
+
+<p>编辑文件hello.c:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;stdio.h&gt;
+
+int main(){
+	printf("hello world\n");
+	return 0;
+}
+</code></pre>
+</div>
+
+<p>使用命令<code class="highlighter-rouge">command + B</code>编译并运行，效果如下:</p>
+
+<p><img src="/img/in-post/hello_world_c.png" alt="hello world" /></p>
+
+<p>至此，就可以在你的Mac OS中使用sublime text进行C语言的开发了</p>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/03/19/mac_os_yosemite_install_jekyll/" data-toggle="tooltip" data-placement="top" title="Mac OS安装jekyll">
+                        Previous<br>
+                        <span>Mac OS安装jekyll</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2015/05/19/leetcode_26_easy_remove_duplicates_from_sorted_array/" data-toggle="tooltip" data-placement="top" title="Leetcode Remove Duplicates from Sorted Array">
+                        Next<br>
+                        <span>Leetcode Remove Duplicates from Sorted Array</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="3">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="2">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://xiaochutian.github.io/">肖楚天的博客</a></li>
+                    
+                        <li><a href="http://saberzun.github.io/">遵达的博客</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "wenzhiquan";
+    var disqus_identifier = "/2015/05/04/mac_os_yosemite_sublime_and_c";
+    var disqus_url = "http://wenzhiquan.github.io/2015/05/04/mac_os_yosemite_sublime_and_c/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/wen-zhi-quan-28">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/wenzhiquanr">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100006943363300">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wenzhiquan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Wenknow's Blog 2016
+                    <br>
+                    Theme © <a href="http://wenzhiquan.github.io">wenzhiquan</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=wenzhiquan&repo=wenzhiquan.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-75727255-1';
+    var _gaDomain = 'wenzhiquan.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '0ee846e1ba3a25130ad41180a73f6f9a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

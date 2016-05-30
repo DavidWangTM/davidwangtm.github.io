@@ -1,0 +1,92 @@
+# Site settings
+title: DavidWang's Blog
+SEOTitle: 王伟达的博客 | DavidWang's Blog
+header-img: img/home-bg.jpg
+email: 232190315@qq.com
+description: "爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。"
+keyword: "DavidWang, davidwang, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios"
+url: "http://davidwang.github.io"              # your host, for absolute URL
+baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
+
+
+
+# SNS settings
+RSS: false
+weibo_username:     davidwang
+zhihu_username:     davidwang
+github_username:    davidwang
+#twitter_username:  davidwang
+facebook_username:  profile.php?id=100006943363300
+
+
+
+# Build settings
+# from 2016, 'pygments' is unsupported on GitHub Pages. Use 'rouge' for highlighting instead.
+highlighter: rouge
+permalink: pretty
+paginate: 10
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md","README.zh.md"]
+anchorjs: true                          # if you want to customize anchor. check out line:181 of `post.html`
+
+
+
+# Gems
+# from PR#40, to support local preview for Jekyll 3.0
+gems: [jekyll-paginate]
+
+
+
+# Markdown settings
+# replace redcarpet to kramdown,
+# although redcarpet can auto highlight code, the lack of header-id make the catalog impossible, so I switch to kramdown
+# document: http://jekyllrb.com/docs/configuration/#kramdown
+markdown: kramdown
+kramdown:
+  input: GFM                            # use Github Flavored Markdown !important
+
+
+
+# Disqus settings
+#disqus_username: _your_disqus_short_name_
+disqus_username: davidwang
+
+# Duoshuo settings
+# duoshuo_username: davidwang
+# Share component is depend on Comment so we can NOT use share only.
+# duoshuo_share: false                     # set to false if you want to use Comment without Sharing
+
+
+
+
+# Analytics settings
+# Baidu Analytics
+ba_track_id: 2436e853445e53365067f8975c3f123b
+# Google Analytics
+ga_track_id: ''            # Format: UA-xxxxxx-xx
+ga_domain: davidwang.github.io
+
+
+
+# Sidebar settings
+sidebar: true                           # whether or not using Sidebar.
+sidebar-about-description: "爱唱歌，爱健身，准备好了吗，动起来吧。"
+sidebar-avatar: /img/avatar-wen.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+
+
+
+# Featured Tags
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
+
+
+# Friends
+friends: [
+    {
+        title: "肖楚天的博客",
+        href: "http://xiaochutian.github.io/"
+    },{
+        title: "遵达的博客",
+        href: "http://saberzun.github.io/"
+    },
+]

@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 温智全，Web & algorithm Lover，Server Enginee | 这里是 @温智全 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="wenzhiquan, wenknows, 温智全, 技术, 软件, 互联网, Mac, 算法, Linux, blog">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Mac OS上搭建Nginx,Mysql,PHP开发环境
+            -
+            温智全的博客 | Wenknows's Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://wenzhiquan.github.io/2015/05/29/install_nginx_php_mysql_phpmyadmin_on_mac_osx/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wenknow's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-os-metro.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-os-metro.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#MacOS" title="MacOS">MacOS</a>
+                        
+                        <a class="tag" href="/tags/#PHP" title="PHP">PHP</a>
+                        
+                    </div>
+                    <h1>Mac OS上搭建Nginx,Mysql,PHP开发环境</h1>
+                    
+                    
+                    <h2 class="subheading">在MacOS上配置LNMP开发环境</h2>
+                    
+                    <span class="meta">Posted by Wenzhiquan on May 29, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>“LNMP开发环境是PHP语言开发网站的主流环境。”</p>
+</blockquote>
+
+<h3 id="section">1. 概述</h3>
+
+<p>LNMP代表的就是：Linux系统下Nginx+MySQL+PHP这种网站服务器架构。Linux是一类Unix计算机操作系统的统称，是目前最流行的免费操作系统。代表版本有：debian、centos、ubuntu、fedora、gentoo等。<a href="http://nginx.org/">Nginx</a>是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP代理服务器。<a href="http://www.mysql.com/">Mysql</a>是一个小型关系型数据库管理系统。<a href="http://php.net/">PHP</a>是一种在服务器端执行的嵌入HTML文档的脚本语言。这四种软件均为免费开源软件，组合到一起，成为一个免费、高效、扩展性强的网站服务系统。</p>
+
+<h3 id="homebrew">2. 安装Homebrew</h3>
+
+<p>使用Mac的程序员必不可少的一步便是安装Homebrew，他就像是centOS的<code class="highlighter-rouge">yum</code>命令和ubuntu的<code class="highlighter-rouge">apt-get</code>命令一样，通过<code class="highlighter-rouge">brew</code>命令，我们可以快速的安装一些软件包。
+使用命令行安装Homebrew的命令如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+</code></pre>
+</div>
+
+<p>使用<code class="highlighter-rouge">brew doctor</code>检查是否存在冲突，然后使用<code class="highlighter-rouge">brew update &amp;&amp; brew upgrade</code>对brew进行升级。</p>
+
+<!--break-->
+
+<h3 id="nginx">3. 安装nginx</h3>
+
+<p>nginx在Mac OS中可以直接使用brew命令进行安装：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install nginx
+</code></pre>
+</div>
+
+<p>如果需要使用80端口的话，需要将nginx加入root组当中：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo cp -v /usr/local/opt/nginx/*.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+</code></pre>
+</div>
+
+<p>然后使用命令启动nginx服务：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nginx
+</code></pre>
+</div>
+
+<p>测试nginx是否安装成功，因为默认配置文件监听的是<code class="highlighter-rouge">8080</code>端口，所以先对<code class="highlighter-rouge">8080</code>端口发起请求：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -IL http://127.0.0.1:8080
+</code></pre>
+</div>
+
+<p>结果应该类似于下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP/1.1 200 OK
+Server: nginx/1.9.1
+Date: Fri, 29 May 2015 14:50:47 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Fri, 29 May 2015 14:40:47 GMT
+Connection: keep-alive
+ETag: "5444dea7-264"
+Accept-Ranges: bytes
+</code></pre>
+</div>
+
+<p>nginx的相关操作如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nginx //启动nginx
+sudo nginx -s reload|reopen|quit //重新加载|重启|退出
+</code></pre>
+</div>
+
+<h3 id="php-fpm">4. 安装php-fpm</h3>
+
+<p>因为brew并没有php-fpm的源，所以首先要添加源：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew tap homebrew/dupes
+brew tap homebrew/php
+</code></pre>
+</div>
+
+<p>然后安装php-fpm，输入命令:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install php56 --whitout-apache --with-imap --with-tidy --with-debug --with-pgsql --with-mysql --with-fpm
+</code></pre>
+</div>
+
+<p>程序会自动安装，等待几分钟后完成安装。</p>
+
+<p>安装完成后，还需要将php加入<code class="highlighter-rouge">$PATH</code>当中：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 如果使用bash的话
+vim ~/.bash_profile
+export PATH="/usr/local/sbin:$PATH"
+source ~/.bash_profile
+
+# 如果使用ZSH的话
+vim ~/.zshrc
+export PATH="/usr/local/sbin:$PATH"
+source ~/.zshrc
+</code></pre>
+</div>
+
+<p>然后可以设置php-fpm的开机自启动：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir -p ~/Library/LaunchAgents
+ln -sfv /usr/local/opt/php56/homebrew.mxcl.php56.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php56.plist
+</code></pre>
+</div>
+
+<p>使用以下命令监测php-fpm是否启动成功：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>lsof -Pni4 | grep LISTEN | grep php
+</code></pre>
+</div>
+
+<p>如果启动成功应当有以下类似输出：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>php-fpm   27578 wenzhiquan    9u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+php-fpm   27628 wenzhiquan    0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+php-fpm   27629 wenzhiquan    0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+php-fpm   27630 wenzhiquan    0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+</code></pre>
+</div>
+
+<h3 id="mysql">5. 安装MySQL</h3>
+
+<p>MySQL也可以使用brew命令直接进行安装：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install mysql
+</code></pre>
+</div>
+
+<p>同样，可以设置MySQL的开机自启动：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+</code></pre>
+</div>
+
+<p>然后进行MySQL的安全安装，使用以下命令，可以更改root密码、删除匿名用户、关闭远程连接等：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql_secure_installation
+</code></pre>
+</div>
+
+<p>然后会输出以下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; Enter current password for root (enter for none):		//默认没有密码，直接回车即可
+&gt; Change the root password? [Y/n]						//是否更改root密码，选择是，然后输入并确认密码
+&gt; Remove anonymous users? [Y/n]							//是否删除匿名用户，选择是
+&gt; Disallow root login remotely? [Y/n]					//是否禁止远程登录，选择是
+&gt; Remove test database and access to it? [Y/n]			//是否删除test数据库，选择是
+&gt; Reload privilege tables now? [Y/n]					//是否重载表格数据，选择是
+
+</code></pre>
+</div>
+
+<p>测试数据库是否安装成功：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql -u root -p
+</code></pre>
+</div>
+
+<p>然后输入刚才设置的root密码，将会输出以下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql&gt; exit			//输入exit退出数据库
+</code></pre>
+</div>
+
+<h3 id="nginx-1">6. 配置nginx</h3>
+
+<p>首先，为我们的配置文件创建一些文件夹，这些是仿照ubuntu的nginx结构进行建立的目录：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir -p /usr/local/etc/nginx/logs
+mkdir -p /usr/local/etc/nginx/sites-available
+mkdir -p /usr/local/etc/nginx/sites-enabled
+mkdir -p /usr/local/etc/nginx/conf.d
+mkdir -p /usr/local/etc/nginx/ssl
+
+sudo mkdir -p /var/www
+sudo chown :staff /var/www
+sudo chmod 775 /var/www
+</code></pre>
+</div>
+
+<p>然后修改nginx配置文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vim /usr/local/etc/nginx/nginx.conf
+</code></pre>
+</div>
+
+<p>将内容替换为：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>worker_processes  1;
+
+error_log  /usr/local/etc/nginx/logs/error.log debug;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include             mime.types;
+    default_type        application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /usr/local/etc/nginx/logs/access.log  main;
+
+    sendfile            on;
+
+    keepalive_timeout   65;
+
+    index index.html index.php;
+
+    include /usr/local/etc/nginx/sites-enabled/*;
+}
+</code></pre>
+</div>
+
+<p>然后创建php-fpm配置文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vim /usr/local/ect/nginx/conf.d/php-fpm
+</code></pre>
+</div>
+
+<p>输入以下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>location ~ \.php$ {
+    try_files      $uri = 404;
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include        fastcgi_params;
+}
+</code></pre>
+</div>
+
+<p>然后加入站点配置文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vim /usr/local/ect/nginx/sites-enabled/default
+</code></pre>
+</div>
+
+<p>输入以下内容：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+    listen       80;
+    server_name  localhost;
+    root       /var/www/;
+
+    access_log  /usr/local/etc/nginx/logs/default.access.log  main;
+
+    location / {
+        include   /usr/local/etc/nginx/conf.d/php-fpm;
+    }
+
+    location = /info {
+        allow   127.0.0.1;
+        deny    all;
+        rewrite (.*) /.info.php;
+    }
+
+    error_page  404     /404.html;
+    error_page  403     /403.html;
+}
+</code></pre>
+</div>
+
+<p>重启nginx，至此，配置完成，在www下写一个测试文件，进行测试即可</p>
+
+<p><strong>尽情的享受在Mac OS开发PHP的快感吧！</strong></p>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/05/20/leetcode_205_easy_isomorphic_strings/" data-toggle="tooltip" data-placement="top" title="Leetcode Isomorphic Strings">
+                        Previous<br>
+                        <span>Leetcode Isomorphic Strings</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2015/09/18/install_jekyll_on_fedora_22/" data-toggle="tooltip" data-placement="top" title="Fedora 22上安装jekyll">
+                        Next<br>
+                        <span>Fedora 22上安装jekyll</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="3">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="2">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://xiaochutian.github.io/">肖楚天的博客</a></li>
+                    
+                        <li><a href="http://saberzun.github.io/">遵达的博客</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "wenzhiquan";
+    var disqus_identifier = "/2015/05/29/install_nginx_php_mysql_phpmyadmin_on_mac_osx";
+    var disqus_url = "http://wenzhiquan.github.io/2015/05/29/install_nginx_php_mysql_phpmyadmin_on_mac_osx/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/wen-zhi-quan-28">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/wenzhiquanr">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100006943363300">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wenzhiquan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Wenknow's Blog 2016
+                    <br>
+                    Theme © <a href="http://wenzhiquan.github.io">wenzhiquan</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=wenzhiquan&repo=wenzhiquan.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-75727255-1';
+    var _gaDomain = 'wenzhiquan.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '0ee846e1ba3a25130ad41180a73f6f9a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

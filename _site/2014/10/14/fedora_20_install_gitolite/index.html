@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 温智全，Web & algorithm Lover，Server Enginee | 这里是 @温智全 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="wenzhiquan, wenknows, 温智全, 技术, 软件, 互联网, Mac, 算法, Linux, blog">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Fedora 20 安装gitolite
+            -
+            温智全的博客 | Wenknows's Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://wenzhiquan.github.io/2014/10/14/fedora_20_install_gitolite/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wenknow's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-rwd.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-rwd.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Fedora" title="Fedora">Fedora</a>
+                        
+                        <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                    </div>
+                    <h1>Fedora 20 安装gitolite</h1>
+                    
+                    
+                    <h2 class="subheading">git本地化的权限管理工具</h2>
+                    
+                    <span class="meta">Posted by Wenzhiquan on October 14, 2014</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>“git本地化之后，可能会用到权限管理，gitolite就是一个强大的权限管理工具”</p>
+</blockquote>
+
+<h3 id="gitolite">1.gitolite安装先决条件</h3>
+
+<p>关于<code class="highlighter-rouge">git</code>和<code class="highlighter-rouge">ssh</code>登录的基础知识，网上已经有很多很好的文章，在这里就不再加以赘述了。</p>
+
+<h5 id="git">1.1.安装git</h5>
+
+<p>要安装<code class="highlighter-rouge">gitolite</code>，首先要安装<code class="highlighter-rouge">git</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo yum install git
+</code></pre>
+</div>
+
+<h5 id="gitgit">1.2.创建git用户组和git用户</h5>
+
+<p>然后，需要新建用户和用户组<code class="highlighter-rouge">git</code>，以方便所有用户使用<code class="highlighter-rouge">git</code>账户进行登录：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 添加git用户组
+sudo groupadd git
+
+# 创建新用户git并将其添加到用户组git之中
+sudo adduser -g git git
+
+# 修改用户git的密码
+sudo passwd git
+</code></pre>
+</div>
+
+<h5 id="section">1.3.创建管理员密钥</h5>
+
+<p>由于初始化<code class="highlighter-rouge">gitolite</code>需要一个管理员的公钥，所以需要创建一个<code class="highlighter-rouge">key</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 为名为“yourname”的账户生成相应的key
+ssh-keygen -t rsa -C "yourname"
+
+# 选择存储key的位置及key文件名称
+Enter file in which to save the key (/home/user/.ssh/id_rsa): /home/user/.ssh/yourname
+Enter passphrase (empty for no passphrase): #为你的key创建密码，一般不需要，回车即可
+Enter same passphrase again: #回车即可
+
+# 最后输出类似的结果表示key生成成功
+...
+The key's randomart image is:
++--[ RSA 2048]----+
+|    . .          |
+|     = .         |
+|  . o E          |
+| o o = o         |
+|  o o = S        |
+|   . + B.        |
+|    . =o.        |
+|     .o.         |
+|     .oo.        |
++-----------------+
+</code></pre>
+</div>
+
+<h5 id="git-1">1.4.将公钥上传到git用户中</h5>
+
+<p>生成<code class="highlighter-rouge">key</code>之后，需要将其上传到<code class="highlighter-rouge">git</code>用户之中：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 将公钥上传到git用户中
+scp /home/user/.ssh/yourname.pub git@localhost:/tmp
+
+ECDSA key fingerprint is 77:ad:e9:c2:e3:9f:bc:eb:38:42:e8:24:4f:b4:4a:a9.
+Are you sure you want to continue connecting (yes/no)? yes
+</code></pre>
+</div>
+
+<p>若此时出现错误：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ssh: connect to host 127.0.0.1 port 22: Connection refused
+lost connection
+</code></pre>
+</div>
+
+<p>则说明<code class="highlighter-rouge">ssh</code>服务没有打开，需要开启<code class="highlighter-rouge">ssh</code>服务：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 开启ssh服务
+sudo service sshd start
+
+# 开机启动ssh服务
+sudo systemctl enable sshd.service
+</code></pre>
+</div>
+
+<p>除此之外，要让局域网内的用户能够访问<code class="highlighter-rouge">git</code>服务器，需要关闭防火墙：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo systemctl stop firewalld.service
+sudo systemctl disable firewalld.service
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="gitolite-1">2.安装gitolite</h3>
+
+<h5 id="gitbin">2.1.进入git用户并创建bin目录</h5>
+
+<p>安装<code class="highlighter-rouge">gitolite</code>的操作需要在<code class="highlighter-rouge">git</code>用户下进行，首先需要切换到<code class="highlighter-rouge">git</code>用户：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>su git
+</code></pre>
+</div>
+
+<p>输入密码后，需要切换到<code class="highlighter-rouge">git</code>用户的用户根目录下创建<code class="highlighter-rouge">bin</code>文件夹：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~
+
+# 创建bin文件夹是为了将gitolite安装到其中便于认知和管理
+mkdir bin
+</code></pre>
+</div>
+
+<h5 id="gitolite-2">2.2.克隆gitolite并安装</h5>
+
+<p>我们需要从<code class="highlighter-rouge">github</code>中克隆<code class="highlighter-rouge">gitolite</code>的官方仓库进行安装：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 克隆gitolite仓库
+git clone git://github.com/sitaramc/gitolite
+
+#将gitolite安装到bin目录下
+./gitolite/install -to ~/bin/
+</code></pre>
+</div>
+
+<p>安装<code class="highlighter-rouge">gitolite</code>的时候，可能会出现错误：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Can't locate Data/Dumper.pm in @INC
+</code></pre>
+</div>
+
+<p>这是由于没有安装相应的<code class="highlighter-rouge">perl</code>包所导致的，需要切换回非<code class="highlighter-rouge">git</code>用户进行安装，使用命令：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 使用CPAN安装perl包
+sudo perl -MCPAN -e shell
+
+cpan[1]&gt; install Data::Dumper
+</code></pre>
+</div>
+
+<p>如果是首次使用<code class="highlighter-rouge">CPAN</code>会进行一定的配置，在询问是否自动配置处输入<code class="highlighter-rouge">yes</code>即可。</p>
+
+<p>使用<code class="highlighter-rouge">CPAN</code>时可能出现错误：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Can't locate CPAN.pm in @INC
+</code></pre>
+</div>
+
+<p>这是由于没有安装<code class="highlighter-rouge">CPAN</code>出现的错误，使用命令：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo yum install perl-CPAN
+</code></pre>
+</div>
+
+<p>安装完成后，应该会自动集成<code class="highlighter-rouge">Data::Dumper</code>包。</p>
+
+<p>回到<code class="highlighter-rouge">git</code>用户，安装<code class="highlighter-rouge">gitolite</code>后，<code class="highlighter-rouge">bin</code>文件夹中会出现相应的文件，到此，<code class="highlighter-rouge">gitolite</code>就安装成功了。</p>
+
+<h5 id="gitolite-3">2.3.使用公钥初始化gitolite</h5>
+
+<p>完成安装<code class="highlighter-rouge">gitolite</code>后，需要使用刚才上传的公钥将<code class="highlighter-rouge">gitolite</code>进行初始化，这个公钥的所有者将成为<code class="highlighter-rouge">gitolite</code>的第一个管理员, 在<code class="highlighter-rouge">git</code>用户根目录下，使用命令：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 使用yourname.pub对gitolite进行初始化
+./bin/gitolite setup -pk yourname.pub
+
+初始化空的 Git 版本库于 /home/git/repositories/gitolite-admin.git/
+初始化空的 Git 版本库于 /home/git/repositories/testing.git/
+WARNING: /home/git/.ssh missing; creating a new one
+    (this is normal on a brand new install)
+WARNING: /home/git/.ssh/authorized_keys missing; creating a new one
+    (this is normal on a brand new install)
+</code></pre>
+</div>
+
+<p>到此为止，<code class="highlighter-rouge">gitolite</code>的初始化已经完成。</p>
+
+<p><br /></p>
+
+<h3 id="gitolite-4">3.添加gitolite的用户和仓库</h3>
+
+<p>不要手动在<code class="highlighter-rouge">git</code>服务器中添加新用户或者新仓库。因为<code class="highlighter-rouge">gitolite</code>的用户，仓库和权限规则都是使用一个名为<code class="highlighter-rouge">gitolite-admin</code>的特殊仓库进行维护的，想要进行修改，就需要通过修改该仓库的文件并<code class="highlighter-rouge">push</code>到服务器当中。</p>
+
+<p>要添加用户和仓库，首先需要退出<code class="highlighter-rouge">git</code>用户后，将<code class="highlighter-rouge">gitolite-admin</code>克隆到本地:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 退出git用户
+exit
+
+# 将gitolite-admin仓库克隆到本地
+git clone git@localhost:gitolite-admin
+</code></pre>
+</div>
+
+<p>进入<code class="highlighter-rouge">gtiolite</code>目录后，可以看到两个子目录<code class="highlighter-rouge">conf</code>和<code class="highlighter-rouge">keydir</code>，<code class="highlighter-rouge">conf/gitolite.conf</code>用于修改仓库，用户及其权限，<code class="highlighter-rouge">keydir</code>用于存放用户的公钥。</p>
+
+<p>为了增加新用户<code class="highlighter-rouge">alice</code>，<code class="highlighter-rouge">bob</code>和<code class="highlighter-rouge">carol</code>， 首先需要获取他们的公钥（alice.pub，bob.pub和carol.pub），并添加到<code class="highlighter-rouge">keydir</code>文件夹当中。</p>
+
+<p>为了增加新仓库<code class="highlighter-rouge">foo</code>，并赋予这些用户不同的权限，修改<code class="highlighter-rouge">conf/gitolite.conf</code>文件：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>repo foo
+    RW+         =   alice
+    RW          =   bob
+    R           =   carol
+</code></pre>
+</div>
+
+<p>进行修改之后，需要将改动上传到服务器使其生效：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add conf
+git add keydir
+git commit -m "added foo, gave access to alice, bob, carol"
+git push
+</code></pre>
+</div>
+
+<p>当<code class="highlighter-rouge">git</code>的<code class="highlighter-rouge">push</code>操作成功后，<code class="highlighter-rouge">gitolite</code>将会把新用户添加到服务器的<code class="highlighter-rouge">~/.ssh/authorized_keys</code>文件中，然后会新建一个名为<code class="highlighter-rouge">foo</code>的空仓库。</p>
+
+<p><br /></p>
+
+<h3 id="section-1">4.进阶操作</h3>
+
+<h5 id="section-2">4.1.权限管理</h5>
+
+<p><code class="highlighter-rouge">gitolite</code>的权限管理非常强大，之前展示的只是最简单的权限管理，下面是更加深入一些的管理：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>repo foo
+    RW+                     =   alice
+    -   master              =   bob
+    -   refs/tags/v[0-9]    =   bob
+    RW                      =   bob
+    RW  refs/tags/v[0-9]    =   carol
+    R                       =   dave
+</code></pre>
+</div>
+
+<p>下面对上述规则进行阐述：</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">alice</code>能够对仓库进行所有的操作。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">bob</code>能够创建和推送任何名字不为<code class="highlighter-rouge">master</code>的分支，并能够添加任何不以<code class="highlighter-rouge">v+数字</code>开头的<code class="highlighter-rouge">tag</code>。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">carol</code>能够添加任何以<code class="highlighter-rouge">v+数字</code>开头的<code class="highlighter-rouge">tag</code>。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">dave</code>能够进行<code class="highlighter-rouge">clone</code>和<code class="highlighter-rouge">fetch</code>操作。</p>
+  </li>
+</ul>
+
+<p>更加详细的权限管理请看<a href="http://gitolite.com/gitolite/gitolite.html&quot;gitolite官方文档&quot;">官方文档</a>。</p>
+
+<h5 id="section-3">4.2.组</h5>
+
+<p><code class="highlighter-rouge">gitolite</code>允许创建用户组：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@staff      =   alice bob carol
+@interns    =   ashok
+
+repo secret
+    RW      =   @staff
+
+repo foss
+    RW+     =   @staff
+    RW      =   @interns
+</code></pre>
+</div>
+
+<p>用户组是可以堆叠的，下面的写法和上方的<code class="highlighter-rouge">@staff</code>是相同的：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@staff      =   alice bob
+@staff      =   carol
+</code></pre>
+</div>
+
+<p>同样的，也可以将用户组添加到另一个用户组当中：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@all-devs   =   @staff @interns
+</code></pre>
+</div>
+
+<p>此外，<code class="highlighter-rouge">gitolite</code>有一个特殊的用户组，名为<code class="highlighter-rouge">@all</code>，他表示所有的用户。</p>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2014/10/10/fedora_20_installed_to_do/" data-toggle="tooltip" data-placement="top" title="安装fedora20后的一些操作">
+                        Previous<br>
+                        <span>安装fedora20后的一些操作</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2014/10/14/markdown_simple_syntax/" data-toggle="tooltip" data-placement="top" title="Markdown 简明语法">
+                        Next<br>
+                        <span>Markdown 简明语法</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="3">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="2">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://xiaochutian.github.io/">肖楚天的博客</a></li>
+                    
+                        <li><a href="http://saberzun.github.io/">遵达的博客</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "wenzhiquan";
+    var disqus_identifier = "/2014/10/14/fedora_20_install_gitolite";
+    var disqus_url = "http://wenzhiquan.github.io/2014/10/14/fedora_20_install_gitolite/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/wen-zhi-quan-28">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/wenzhiquanr">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100006943363300">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/wenzhiquan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Wenknow's Blog 2016
+                    <br>
+                    Theme © <a href="http://wenzhiquan.github.io">wenzhiquan</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=wenzhiquan&repo=wenzhiquan.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-75727255-1';
+    var _gaDomain = 'wenzhiquan.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '0ee846e1ba3a25130ad41180a73f6f9a';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

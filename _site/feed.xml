@@ -1,0 +1,1432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wenknow&#39;s Blog</title>
+    <description>爱唱歌健身的程序员 | 温智全，Web &amp; algorithm Lover，Server Enginee | 这里是 @温智全 的个人博客，期待和你一起学习成长。</description>
+    <link>http://wenzhiquan.github.io/</link>
+    <atom:link href="http://wenzhiquan.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Wed, 20 Apr 2016 11:33:02 +0800</pubDate>
+    <lastBuildDate>Wed, 20 Apr 2016 11:33:02 +0800</lastBuildDate>
+    <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Leetcode Maximum Product of Word Lengths</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given a string array words, find the maximum value of length(word[i]) * length(word[j])
+where the two words do not share common letters. You may assume that each word will
+contain only lower case letters. If no such two words exist, return 0.
+
+Example 1:
+Given [&quot;abcw&quot;, &quot;baz&quot;, &quot;foo&quot;, &quot;bar&quot;, &quot;xtfn&quot;, &quot;abcdef&quot;]
+Return 16
+The two words can be &quot;abcw&quot;, &quot;xtfn&quot;.
+
+Example 2:
+Given [&quot;a&quot;, &quot;ab&quot;, &quot;abc&quot;, &quot;d&quot;, &quot;cd&quot;, &quot;bcd&quot;, &quot;abcd&quot;]
+Return 4
+The two words can be &quot;ab&quot;, &quot;cd&quot;.
+
+Example 3:
+Given [&quot;a&quot;, &quot;aa&quot;, &quot;aaa&quot;, &quot;aaaa&quot;]
+Return 0
+No such pair of words.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个string数组words，找出没有重复字母的最大length(word[i]) * length(word[j])。
+你可以假设每个单词只有小写字母，如果没有这样的两个单词，返回0.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bit Manipulation&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java:
+
+public int maxProduct(String[] words) {
+    int max = 0;
+    int length = words.length;
+    int[] wordList = new int[length];
+    for(int i = 0; i &amp;lt; length; i++)
+        for(char chr: words[i].toCharArray())
+            wordList[i] |= 1 &amp;lt;&amp;lt; (int)(chr - &#39;a&#39;);
+
+    for(int i = 0; i &amp;lt; length; i++){
+        for(int j = i + 1; j &amp;lt; length; j++){
+            if((wordList[i] &amp;amp; wordList[j]) == 0)
+                max = Math.max(max, words[i].length() * words[j].length());
+        }
+    }
+
+    return max;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int类型有32位，小写字母只有26位，所以可以用一个int型存储所有小写字母，然后通过与操作可以知道两个
+单词是否有重复，进而可以算出长度积的最大值。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/maximum-product-of-word-lengths/&quot; target=&quot;_blank&quot;&gt;Maximum Product of Word Lengths &lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 19 Apr 2016 20:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Leetcode First Missing Positive</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given an unsorted integer array, find the first missing positive integer.
+
+For example,
+Given [1,2,0] return 3,
+and [3,4,-1,1] return 2.
+
+Your algorithm should run in O(n) time and uses constant space.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个未排序的整数数组，找出第一个缺失的正整数。
+
+例如
+给出数组[1,2,0]，返回3
+给出数组[3,4,-1,1]，返回2
+
+你的算法时间复杂度应该是O(n)，并且只使用常数大小的空间
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java:
+
+public int firstMissingPositive(int[] nums) {
+
+    int i = 0, n = nums.length;
+    while (i &amp;lt; n) {
+        // If the current value is in the range of (0,length) and it&#39;s not at its correct position,
+        // swap it to its correct position.
+        // Else just continue;
+        if (nums[i] &amp;gt;= 0 &amp;amp;&amp;amp; nums[i] &amp;lt; n &amp;amp;&amp;amp; nums[nums[i]] != nums[i])
+            swap(nums, i, nums[i]);
+        else
+            i++;
+    }
+    int k = 1;
+
+    // Check from k=1 to see whether each index and value can be corresponding.
+    while (k &amp;lt; n &amp;amp;&amp;amp; nums[k] == k)
+        k++;
+
+    // If it breaks because of empty array or reaching the end. K must be the first missing number.
+    if (n == 0 || k &amp;lt; n)
+        return k;
+    else   // If k is hiding at position 0, K+1 is the number.
+        return nums[0] == k ? k + 1 : k;
+
+}
+
+private void swap(int[] nums, int i, int j) {
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;将数组中每个数字放到他应该存在的位置上，如果该位置不是它本身，则说明该位置是缺失的第一个正整数，
+如果从1循环到结尾，每个数字都是对应的，说明第0位或者k就是缺失的第一个正整数了。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/first-missing-positive/&quot; target=&quot;_blank&quot;&gt;First Missing Positive&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 18 Apr 2016 20:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/18/leetcode_41_hard_first_missing_positive/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/18/leetcode_41_hard_first_missing_positive/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Leetcode Find the Duplicate Number</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given an array nums containing n + 1 integers where each integer is between 1
+and n (inclusive), prove that at least one duplicate number must exist.
+Assume that there is only one duplicate number, find the duplicate one.
+
+Note:
+You must not modify the array (assume the array is read only).
+You must use only constant, O(1) extra space.
+Your runtime complexity should be less than O(n²).
+There is only one duplicate number in the array,
+but it could be repeated more than once.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个包含n+1个整数的nums数组，每个数字都是从1到n（包括n），则一定有一个重复的数字存在。
+假设只有一个重复的数字，找出这个数字。
+
+注意：
+你不能改变数组结构（假设数组是只读的）。
+你只能使用O(1)的空间。
+时间复杂度必须小于O(n²)。
+只有一个重复的数字，但是这个数字可以重复出现多次。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Two Pointers&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Binary Search&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java:
+
+public int findDuplicate(int[] nums) {
+    int length = nums.length;
+    if(length &amp;lt; 1) return -1;
+    int low = 1, high = length, count, mid;
+    while(low &amp;lt; high){
+        count = 0;
+        mid = low + (high - low) / 2;
+        for(int num: nums)
+            if(num &amp;lt;= mid)
+                count++;
+        if(count &amp;gt; mid)
+            high = mid;
+        else
+            low = mid + 1;
+    }
+
+    return low;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;数组中的数字是从1到n的，且只有一个数字是重复的。
+取mid = n/2作为中间数，若比mid小的数超过一半，说明重复的数字在[1, mid]中，
+同理，若比mid大的数超过一半，说明重复的数字在(mid, n]中，
+以上述过程作为判断条件则可找出重复的数字。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/find-the-duplicate-number/&quot; target=&quot;_blank&quot;&gt;Find the Duplicate Number&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 14 Apr 2016 20:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/14/leetcode_287_hard_find_the_duplicate_number/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/14/leetcode_287_hard_find_the_duplicate_number/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Leetcode Missing Number</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one
+that is missing from the array.
+
+For example,
+Given nums = [0, 1, 3] return 2.
+Given nums = [3, 2, 0] return 1.
+
+Note:
+Your algorithm should run in linear runtime complexity. Could you implement it using
+only constant extra space complexity?
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个包含了n个唯一数字的数组，n的取值是从0到n，找出这个数组缺失的数字。
+
+例如，
+给定数组 nums = [0, 1, 3] 返回 2。
+给定数组 nums = [3, 2, 0] 返回 1。
+
+注意：
+你的算法应该是线性时间复杂度。你能够只使用常数空间复杂度的空间来完成这个题目吗？
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Math&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Bit Manipulation&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java:
+
+public int missingNumber(int[] nums) {
+    int sum1 = 0, sum2 = 0, length = nums.length;
+    for(int i = 0; i &amp;lt; length; i++){
+        sum1 += i;
+        sum2 += nums[i];
+    }
+    return Math.abs(sum2 - sum1 - length);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;因为数组是有序的，所以我们可以通过计算数据元素下标和元素值的差值得出缺失数据相对于数组最大数字侧
+的距离。
+例如，
+nums = [0,1,2,3,5,6]，其下标和为0+1+2+3+4+5 = 15，其元素和为17，则缺失数据距离右侧距离
+为2，缺失的数据应该为nums.length - 2 = 6 - 2 = 4。
+nums = [5,4,3,2,0],其下标和为0+1+2+3+4 = 10，其元素和为14，则缺失数据距离左侧距离为4，
+缺失的数据应该为nums.length - 4 = 5 - 4 = 1。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/missing-number/&quot; target=&quot;_blank&quot;&gt;Missing Number&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 13 Apr 2016 22:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/13/leetcode_268_medium_missing_number/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/13/leetcode_268_medium_missing_number/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Leetcode Happy Number</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Write an algorithm to determine if a number is &quot;happy&quot;.
+
+A happy number is a number defined by the following process:
+Starting with any positive integer, replace the number by the sum of the squares
+of its digits, and repeat the process until the number equals 1 (where it will stay),
+or it loops endlessly in a cycle which does not include 1.
+Those numbers for which this process ends in 1 are happy numbers.
+
+Example: 19 is a happy number
+
+1² + 9² = 82
+8² + 2² = 68
+6² + 8² = 100
+1² + 0² + 0² = 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;写一个算法判断一个数是否为“happy”的。
+一个happy number由下列程序进行判断：
+初始为一个正整数，用这个正整数的每一位数字的平方和代替原数，
+重复这个做法直到数字为1，或者进入一个不为1的无限循环。
+最后能够达到1的数字就是happy number。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Hash Table&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Math&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java Math：
+
+public boolean isHappy(int n) {
+    if(n == 0) return false;
+    int sum = 0, tmp = 0;
+    while(n != 1){
+        sum = 0;
+        tmp = n;
+        while(tmp &amp;gt; 0){
+            sum += Math.pow(tmp % 10, 2);
+            tmp /= 10;
+        }
+        n = sum;
+        if(n &amp;lt; 10 &amp;amp;&amp;amp; n != 1 &amp;amp;&amp;amp; n != 7)
+            return false;
+    }
+    return true;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java Hash Table:
+
+public boolean isHappy(int n) {
+    if(n == 0) return false;
+    HashSet&amp;lt;Integer&amp;gt; hashSet = new HashSet&amp;lt;&amp;gt;();
+    int sum = 0, tmp = 0;;
+    while(n != 1 &amp;amp;&amp;amp; n != 7){
+        sum = 0;
+        tmp = n;
+        while(tmp &amp;gt; 0){
+            sum += Math.pow(tmp % 10, 2);
+            tmp /= 10;
+        }
+        n = sum;
+        if(hashSet.contains(n)) return false;
+        hashSet.add(n);
+    }
+    return true;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;很容易的我们可以推断出，如果一个数为个位数，则只有1和7才是happy number，而任何数字经过有限次
+的转换一定会变成个位数，如果变成的个位数不为1和7，则不是happy number，反之则是。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/happy-number/&quot; target=&quot;_blank&quot;&gt;Happy Number&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 13 Apr 2016 21:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/13/leetcode_202_easy_happy_number/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/13/leetcode_202_easy_happy_number/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Leetcode Bulb Switcher</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;There are n bulbs that are initially off. You first turn on all the bulbs.
+Then, you turn off every second bulb. On the third round, you toggle every
+third bulb (turning on if it&#39;s off or turning off if it&#39;s on).
+For the ith round, you toggle every i bulb.
+For the nth round, you only toggle the last bulb.
+Find how many bulbs are on after n rounds.
+
+Example:
+
+Given n = 3.
+
+At first, the three bulbs are [off, off, off].
+After first round, the three bulbs are [on, on, on].
+After second round, the three bulbs are [on, off, on].
+After third round, the three bulbs are [on, off, off].
+
+So you should return 1, because there is only one bulb is on.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;有n个初始状态为关的灯泡。
+首先，你打开全部灯泡。
+然后每两个灯泡关闭一个。
+第三轮每隔三个灯泡切换一次开关（关的打开，开的关闭）。
+第i轮，每隔i个灯泡切换一次开关。
+第n轮，切换第n个开关。
+找出n轮之后又多少个灯泡还亮着。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Math&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Brainteaser&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java:
+
+public int bulbSwitch(int n) {
+    return (int)Math.sqrt(n);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;很容易的我们可以推断出，如果一个灯泡被切换了偶数次，他最后一定是关闭的。
+同理，如果一个灯泡被切换了奇数次，他最后一定是开启的。
+对于第i个灯泡，如果他不是一个完全平方数，那他一定有偶数个因子，也就是说他会被切换偶数次。
+比如6（1，2，3，6），18（1，2，3，6，9，18）等。
+如果他是一个完全平方数，则他只有奇数个因子，也就是说他会被切换奇数次。
+比如9（1，3，9），36（1，6，36）等。
+即最后开启的灯泡数为n中完全平方数的个数。
+我们只需要找出n中有多少个完全平方数即可，而不超过n的完全平方数个数等于不超过n的最大完全平方数的平方根。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/bulb-switcher/&quot; target=&quot;_blank&quot;&gt;Bulb Switcher&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 13 Apr 2016 20:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/13/leetcode_319_medium_bulb_switcher/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/13/leetcode_319_medium_bulb_switcher/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Leetcode Product of Array Except Self</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given an array of n integers where n &amp;gt; 1, nums, return an array output such that
+ output[i] is equal to the product of all the elements of nums except nums[i].
+
+Solve it without division and in O(n).
+
+For example, given [1,2,3,4], return [24,12,8,6].
+
+Follow up:
+Could you solve it with constant space complexity? (Note: The output array does
+    not count as extra space for the purpose of space complexity analysis.)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个含有n（n &amp;gt; 1)个整数的nums数组，返回一个output数组，其中output[i]的值等于nums数组中
+除nums[i]的所有数的乘积。
+
+在O(n)时间复杂度内解决问题，不能使用除法。
+
+例子：给出数组[1,2,3,4], 返回数组[24,12,8,6]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java：
+
+public int[] productExceptSelf(int[] nums) {
+    int length = nums.length;
+    if(length == 0) return new int[0];
+    int[] result = new int[length];
+    int tmp = 1;
+    for(int i = 0; i &amp;lt; length; i++){
+        result[i] = tmp;
+        tmp *= nums[i];
+    }
+
+    tmp = 1;
+    for(int i = length - 1; i &amp;gt;= 0; i--){
+        result[i] *= tmp;
+        tmp *= nums[i];
+    }
+    return result;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;首先构造一个前乘数组result，result中的每一个值result[i]都是nums中0到i-1的所有数的乘积。
+然后利用前乘数组构造一个后乘数组，result中的每一个值result[i]都是其与nums中length-1到i+1的乘积。
+
+例子：
+[2, 5, 7, 1]
+前乘数组：[1, 2, 10, 70]
+后乘数组：[35, 14, 10, 70]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/product-of-array-except-self/&quot; target=&quot;_blank&quot;&gt;Product of Array Except Self&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 12 Apr 2016 22:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Leetcode Counting Bits</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given a non negative integer number num. For every numbers i in the
+range 0 ≤ i ≤ num calculate the number of 1&#39;s in their binary representation
+and return them as an array.
+
+Example:
+For num = 5 you should return [0,1,1,2,1,2].
+
+Follow up:
+
+It is very easy to come up with a solution with run time O(n*sizeof(integer)).
+But can you do it in linear time O(n) /possibly in a single pass?
+Space complexity should be O(n).
+Can you do it like a boss? Do it without using any builtin function
+like __builtin_popcount in c++ or in any other language.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个非负整数num，针对每一个0 ≤ i ≤ num的i，计算i的二进制表示中含有的1的数量，返回一个数组。
+
+样例：
+如果num = 5，你应该返回[0,1,1,2,1,2]。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;提示&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. You should make use of what you have produced already.
+2. Divide the numbers in ranges like [2-3], [4-7], [8-15] and so on. And try to generate new range from previous.
+3. Or does the odd/even status of the number help you in calculating the number of 1s?
+
+1. 你可以利用已经生成的数据。
+2. 将数据分成像[2-3], [4-7], [8-15]的部分。试着利用旧的数据生成新的数据。
+3. 计算1的个数的过程中，数字的奇偶性能否提供帮助？
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Dynamic Programming&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Bit Manipulation&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java：
+
+public int[] countBits(int num) {
+    if(num &amp;lt; 0) return new int[]{0};
+    int[] result = new int[num + 1];
+    result[0] = 0;
+    if(num &amp;gt; 0)
+        result[1] = 1;
+    for(int i = 2; i &amp;lt; num + 1; i++)
+        result[i] = result[i&amp;gt;&amp;gt;1] + result[i&amp;amp;1];
+    return result;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;讲解&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;每个数字的二进制1的个数相当于他右移一位的数字的1的个数加上其二进制表示的最左端数字
+举例：
+5： 101
+10： 1010 右移一位为101，加上0，为2个
+11： 1011 右移一位为101，加上1，为3个
+23： 10111 右移一位为1011，加上1，为4个
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-5&quot;&gt;习题地址&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/counting-bits/&quot; target=&quot;_blank&quot;&gt;Counting Bits&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 12 Apr 2016 21:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/12/leetcode_338_medium_counting_bits/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/12/leetcode_338_medium_counting_bits/</guid>
+        
+        <category>Leetcode</category>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>使用IDEA和gradle搭建Spring MVC和MyBatis开发环境</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“IDEA是jetbrains公司开发的Java开发IDE，功能齐全。使用IDEA搭建SSM开发环境简单有效。”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;1. 概述&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://gradle.org/&quot;&gt;Gradle&lt;/a&gt;是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。
+它使用一种基于Groovy的特定领域语言(DSL)来声明项目设置，抛弃了基于XML的各种繁琐配置。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://spring.io/&quot;&gt;Spring MVC&lt;/a&gt;属于SpringFrameWork的后续产品，已经融合
+在Spring Web Flow里面。Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.mybatis.org/&quot;&gt;MyBatis&lt;/a&gt;本是apache的一个开源项目iBatis, 2010年这个项目
+由apache software foundation 迁移到了google code，并且改名为MyBatis 。
+2013年11月迁移到Github。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;2. 准备工作&lt;/h3&gt;
+
+&lt;p&gt;1.安装mysql，并完成相应数据库的建立&lt;/p&gt;
+
+&lt;p&gt;2.安装IDEA完整版&lt;/p&gt;
+
+&lt;p&gt;3.下载tomcat或其他服务器&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;3. 创建工程&lt;/h3&gt;
+
+&lt;p&gt;打开&lt;a href=&quot;https://www.jetbrains.com/idea/&quot;&gt;IDEA&lt;/a&gt;软件，选择Create New Project：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/start.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择创建基于gradle的java web项目：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/selectGradle.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;输入GroupId和ArtifactId：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/groupAndArtifact.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择gradle的来源，可以用自己下载的gradle，也可以使用IDEA内建的gradle版本：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/gradleSource.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;选择项目的目录：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/projectLocation.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击完成，会生成一个最基本的java web目录，增加文件夹和相应文件，将其目录结构改为以下结构：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/projectDirectory.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;其中resources目录中的config文件夹中的文件和WEB-INF文件夹下的web.xml，
+以及build.gradle都是自己进行配置的。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;配置文件&lt;/h4&gt;
+
+&lt;h6 id=&quot;generatorconfigxml&quot;&gt;1. generatorConfig.xml&lt;/h6&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE generatorConfiguration
+        PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;generatorConfiguration&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;classPathEntry&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;location=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${jarDirection}&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;context&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mysql&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetRuntime=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MyBatis3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;jdbcConnection&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;driverClass=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${driverClass}&quot;&lt;/span&gt;
+                        &lt;span class=&quot;na&quot;&gt;connectionURL=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${connectionURL}&quot;&lt;/span&gt;
+                        &lt;span class=&quot;na&quot;&gt;userId=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${userId}&quot;&lt;/span&gt;
+                        &lt;span class=&quot;na&quot;&gt;password=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${password}&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/jdbcConnection&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;javaTypeResolver&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;forceBigDecimals&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;false&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/javaTypeResolver&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;javaModelGenerator&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;targetPackage=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${modelPackage}&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;targetProject=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${src_main_java}&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;enableSubPackages&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;trimStrings&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/javaModelGenerator&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;sqlMapGenerator&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;targetPackage=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${sqlMapperPackage}&quot;&lt;/span&gt;  
+        &lt;span class=&quot;na&quot;&gt;targetProject=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${src_main_java}&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;enableSubPackages&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/sqlMapGenerator&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;javaClientGenerator&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;XMLMAPPER&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;targetPackage=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${mapperPackage}&quot;&lt;/span&gt;  
+        &lt;span class=&quot;na&quot;&gt;targetProject=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${src_main_java}&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;enableSubPackages&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/javaClientGenerator&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 每一个数据库表都需要建立一个对应的table字段 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;table&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;schema=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;test&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;tableName=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;domainObjectName=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;User&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- &amp;lt;property name=&quot;useActualColumnNames&quot; value=&quot;true&quot;/&amp;gt;
+            &amp;lt;generatedKey column=&quot;ID&quot; sqlStatement=&quot;DB2&quot; identity=&quot;true&quot; /&amp;gt;
+            &amp;lt;columnOverride column=&quot;DATE_FIELD&quot; property=&quot;startDate&quot; /&amp;gt;
+            &amp;lt;ignoreColumn column=&quot;FRED&quot; /&amp;gt;
+            &amp;lt;columnOverride column=&quot;LONG_VARCHAR_FIELD&quot; jdbcType=&quot;VARCHAR&quot; /&amp;gt; --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/context&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/generatorConfiguration&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h6 id=&quot;gradleproperties&quot;&gt;2. gradle.properties&lt;/h6&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 生成的model类所在包
+modelPackage=cn.edu.bupt.wen.model
+# 生成的mapper接口类所在包
+mapperPackage=cn.edu.bupt.wen.mapper
+# 生成的mapper xml文件所在包
+sqlMapperPackage=cn.edu.bupt.wen.mybatis_mapper
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h6 id=&quot;jdbc-mysqlproperties&quot;&gt;3. jdbc-mysql.properties&lt;/h6&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 将jdbc.jarDirection后的内容更改为gradle下载的
+# mysql-connector-java-5.1.x.jar所在的路径，gradle自动下载的路径如下所示
+jdbc.jarDirection=/Users/wenzhiquan/.gradle/caches/modules-2/files-2.1/mysql
+/mysql-connector-java/5.1.38/dbbd7cd309ce167ec8367de4e41c63c2c8593cc5
+/mysql-connector-java-5.1.38.jar
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/bookbest
+jdbc.user=root
+jdbc.pass=root
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h6 id=&quot;spring-mvcxml&quot;&gt;4. spring-mvc.xml&lt;/h6&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.springframework.org/schema/beans&quot;&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;xmlns:xsi=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;xmlns:context=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.springframework.org/schema/context&quot;&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;xmlns:mvc=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.springframework.org/schema/mvc&quot;&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.springframework.org/schema/beans&lt;/span&gt;
+       &lt;span class=&quot;err&quot;&gt;http://www.springframework.org/schema/beans/spring-beans.xsd&lt;/span&gt;
+       &lt;span class=&quot;err&quot;&gt;http://www.springframework.org/schema/context&lt;/span&gt;
+       &lt;span class=&quot;err&quot;&gt;http://www.springframework.org/schema/context/spring-context.xsd&lt;/span&gt;
+       &lt;span class=&quot;err&quot;&gt;http://www.springframework.org/schema/mvc&lt;/span&gt;
+       &lt;span class=&quot;err&quot;&gt;http://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 自动扫描控制器 --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;context:component-scan&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;base-package=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cn.edu.bupt.wen&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 视图渲染 --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;bean&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;internalResourceViewResolver&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;prefix&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/WEB-INF/views/&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;suffix&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;.jsp&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/bean&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 控制器映射器和控制器适配器 --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;mvc:annotation-driven&amp;gt;&amp;lt;/mvc:annotation-driven&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 静态资源映射器 --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;mvc:resources&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;mapping=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/statics/**&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;location=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/WEB-INF/statics/&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h6 id=&quot;webxml&quot;&gt;5. web.xml&lt;/h6&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;web-app&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://java.sun.com/xml/ns/javaee&quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;xmlns:xsi=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://java.sun.com/xml/ns/javaee&lt;/span&gt;
+		  &lt;span class=&quot;err&quot;&gt;http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;version=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;3.0&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;index-dispather&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-class&amp;gt;&lt;/span&gt;org.springframework.web.servlet.DispatcherServlet&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-class&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;init-param&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;param-name&amp;gt;&lt;/span&gt;contextConfigLocation&lt;span class=&quot;nt&quot;&gt;&amp;lt;/param-name&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;param-value&amp;gt;&lt;/span&gt;classpath*:config/spring/spring-mvc.xml&lt;span class=&quot;nt&quot;&gt;&amp;lt;/param-value&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/init-param&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-mapping&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;servlet-name&amp;gt;&lt;/span&gt;index-dispather&lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-name&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;url-pattern&amp;gt;&lt;/span&gt;/&lt;span class=&quot;nt&quot;&gt;&amp;lt;/url-pattern&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/servlet-mapping&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/web-app&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h6 id=&quot;buildgradle&quot;&gt;6. build.gradle&lt;/h6&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;group &#39;cn.edu.bupt.wen&#39;
+version &#39;1.0-SNAPSHOT&#39;
+
+apply plugin: &#39;groovy&#39;
+apply plugin: &#39;java&#39;
+apply plugin: &#39;war&#39;
+apply plugin: &#39;idea&#39;
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    mybatisGenerator
+}
+
+// 读取config文件夹中对应的配置文件
+ext{
+    def prop = new Properties();
+    file(&quot;src/main/resources/config/mybatis/jdbc-mysql.properties&quot;)
+    .withInputStream {
+        prop.load(it)
+    }
+    file(&quot;src/main/resources/config/mybatis/gradle.properties&quot;)
+    .withInputStream {
+        prop.load(it)
+    }
+    prop.each {
+        project.extensions.add(&quot;$it.key&quot;,it.value);
+    }
+}
+
+// 配置gradle的依赖项
+dependencies {
+    compile &#39;org.codehaus.groovy:groovy-all:2.3.11&#39;
+    compile &#39;jstl:jstl:1.2&#39;
+    compile &#39;org.springframework:spring-aop:4.2.4.RELEASE&#39;
+    compile &#39;org.springframework:spring-context:4.2.4.RELEASE&#39;
+    compile &#39;org.springframework:spring-beans:4.2.4.RELEASE&#39;
+    compile &#39;org.springframework:spring-web:4.2.4.RELEASE&#39;
+    compile &#39;org.springframework:spring-webmvc:4.2.4.RELEASE&#39;
+    compile &#39;org.springframework:spring-tx:4.2.4.RELEASE&#39;
+    compile &#39;org.springframework:spring-jdbc:4.2.4.RELEASE&#39;
+    compile &#39;org.springframework:spring-test:4.2.4.RELEASE&#39;
+    compile &#39;mysql:mysql-connector-java:5.1.38&#39;
+    compile &#39;org.mybatis.generator:mybatis-generator-core:1.3.2&#39;
+    compile &#39;org.mybatis:mybatis-spring:1.2.3&#39;
+    compile &#39;org.mybatis:mybatis:3.3.0&#39;
+    compile &#39;junit:junit:4.12&#39;
+
+
+    mybatisGenerator &#39;org.mybatis.generator:mybatis-generator-core:1.3.2&#39;
+    mybatisGenerator &#39;mysql:mysql-connector-java:5.1.38&#39;
+
+    testCompile group: &#39;junit&#39;, name: &#39;junit&#39;, version: &#39;4.11&#39;
+}
+
+// 利用ant创建一个自动生成MyBatis目录文件的task
+task mybatisGenerate &amp;lt;&amp;lt; {
+    ant.properties[&#39;targetProject&#39;] = projectDir.path
+    ant.properties[&#39;jarDirection&#39;] = project[&#39;jdbc.jarDirection&#39;]
+    ant.properties[&#39;driverClass&#39;] = project[&#39;jdbc.driverClassName&#39;]
+    ant.properties[&#39;connectionURL&#39;] = project[&#39;jdbc.url&#39;]
+    ant.properties[&#39;userId&#39;] = project[&#39;jdbc.user&#39;]
+    ant.properties[&#39;password&#39;] = project[&#39;jdbc.pass&#39;]
+    ant.properties[&#39;src_main_java&#39;] = sourceSets.main.java.srcDirs[0].path
+    ant.properties[&#39;src_main_resources&#39;] = sourceSets.main.resources.srcDirs[0].path
+    ant.properties[&#39;modelPackage&#39;] = project[&#39;modelPackage&#39;]
+    ant.properties[&#39;mapperPackage&#39;] = project[&#39;mapperPackage&#39;]
+    ant.properties[&#39;sqlMapperPackage&#39;] = project[&#39;sqlMapperPackage&#39;]
+
+    ant.taskdef(
+            name: &#39;mbgenerator&#39;,
+            classname: &#39;org.mybatis.generator.ant.GeneratorAntTask&#39;,
+            classpath: configurations.mybatisGenerator.asPath
+    )
+
+    ant.mbgenerator(overwrite: true,
+            configfile: &#39;src/main/resources/config/mybatis/generatorConfig.xml&#39;,
+            verbose: true) {
+        propertyset {
+            propertyref(name: &#39;targetProject&#39;)
+            propertyref(name: &#39;jarDirection&#39;)
+            propertyref(name: &#39;userId&#39;)
+            propertyref(name: &#39;driverClass&#39;)
+            propertyref(name: &#39;connectionURL&#39;)
+            propertyref(name: &#39;password&#39;)
+            propertyref(name: &#39;src_main_java&#39;)
+            propertyref(name: &#39;src_main_resources&#39;)
+            propertyref(name: &#39;modelPackage&#39;)
+            propertyref(name: &#39;mapperPackage&#39;)
+            propertyref(name: &#39;sqlMapperPackage&#39;)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;gradle&quot;&gt;下载gradle依赖包&lt;/h4&gt;
+
+&lt;p&gt;至此，基本的配置就完成了，接下来就需要运行gradle下载相应的依赖包了，
+操作如下：打开&lt;code class=&quot;highlighter-rouge&quot;&gt;IDEA &amp;gt; View &amp;gt; Tool Windows &amp;gt; gradle&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/runGradle.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击图中的按钮，IDEA就会自动下载依赖包了。&lt;/p&gt;
+
+&lt;p&gt;下载完成后，目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;External Libraries&lt;/code&gt;文件夹会生成相应的目录：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/gradleDownload.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;下载完依赖包之后，整体的配置基本上就完成了。&lt;/p&gt;
+
+&lt;h3 id=&quot;tomcat&quot;&gt;3. 部署到Tomcat服务器&lt;/h3&gt;
+
+&lt;p&gt;打开&lt;code class=&quot;highlighter-rouge&quot;&gt;IDEA &amp;gt; Run &amp;gt; Edit Configurations...&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/tomcatConf.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击tomcat server的local选项，点击右上角的&lt;code class=&quot;highlighter-rouge&quot;&gt;configure...&lt;/code&gt;，
+在弹出的对话框中选中下载的Tomcat根目录：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/tomcatHome.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后将配置好的tomcat添加到运行库当中：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/addTomcat.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;4. 编写代码并运行&lt;/h3&gt;
+
+&lt;h5 id=&quot;controller&quot;&gt;编写controller代码&lt;/h5&gt;
+
+&lt;p&gt;在controller文件夹中创建&lt;code class=&quot;highlighter-rouge&quot;&gt;IndexController&lt;/code&gt;文件，将代码修改为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package cn.edu.bupt.wen.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+/**
+ * Author wenzhiquan
+ * Created on 16/4/12 下午12:25
+ * File name: IndexController.java
+ * Description: null
+ */
+
+@Controller
+public class IndexController {
+
+    @RequestMapping(&quot;/&quot;)
+    public String index(){
+        return &quot;index&quot;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;indexjsp&quot;&gt;修改index.jsp&lt;/h5&gt;
+
+&lt;p&gt;将index.jsp文件修改为自己想要的样式：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;%--
+  Created by IntelliJ IDEA.
+  User: wenzhiquan
+  Date: 16/4/12
+  Time: 下午12:23
+  To change this template use File | Settings | File Templates.
+--%&amp;gt;
+&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Index&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+  Hello World!
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;tomcat-1&quot;&gt;运行Tomcat&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/runTomcat.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击运行按钮，服务器启动后会自动启动浏览器进入主界面：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/indexJsp.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;至此，hello world程序已经完成。&lt;/p&gt;
+
+&lt;h3 id=&quot;mybatis&quot;&gt;5. 自动生成mybatis相关文件&lt;/h3&gt;
+
+&lt;p&gt;进入&lt;code class=&quot;highlighter-rouge&quot;&gt;gradle&lt;/code&gt;的view，点击创建&lt;code class=&quot;highlighter-rouge&quot;&gt;gradle&lt;/code&gt;任务：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/mybatisGen.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;创建一个mybatisGenerate任务：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/mybatisGenRun.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;点击OK，会在&lt;code class=&quot;highlighter-rouge&quot;&gt;model&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;mapper&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;mybatis_mapper&lt;/code&gt;文件夹中自动生成相应的文件：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/idea_gradle_ssm/afterMybatisGen.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;至此，Spring MVC + MyBatis的Java Web开发环境配置完成。&lt;/p&gt;
+</description>
+        <pubDate>Tue, 12 Apr 2016 20:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/04/12/idea_gradle_ssm/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/12/idea_gradle_ssm/</guid>
+        
+        <category>Java</category>
+        
+        <category>Web</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>七种排序算法</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“排序算法可以说是数据结构与算法当中最为基础的部分”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;1. 概述&lt;/h3&gt;
+
+&lt;p&gt;排序算法可以说是数据结构与算法当中最为基础的部分，针对的是数组这一数据结构。将数组中的无序数据元素通过算法整理为有序的数据元素即为排序。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;2. 简单排序&lt;/h3&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;2.1 冒泡排序&lt;/h4&gt;
+
+&lt;p&gt;简介：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;冒泡排序&lt;/code&gt;（Bubble Sort）是一种简单的排序算法。它重复地访问要排序的数列，将每次访问的最大值“浮”到数组尾部。&lt;/p&gt;
+
+&lt;p&gt;步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;比较相邻的元素。如果第一个比第二个大，就交换他们两个，直到把最大的元素放到数组尾部。&lt;/li&gt;
+  &lt;li&gt;遍历长度减一，对剩下的元素从头重复以上的步骤。&lt;/li&gt;
+  &lt;li&gt;直到没有任何一对数字需要比较时完成。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!--break--&gt;
+
+&lt;p&gt;实现代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def bubbleSort(arr):
+    for i in range(len(arr))[::-1]:
+        for j in range(i):
+            if arr[j] &amp;gt; arr[j + 1]:
+                swap(arr[j], arr[j + 1])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;效果图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/bubbleSort.gif&quot; alt=&quot;冒泡排序&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;2.2 选择排序&lt;/h4&gt;
+
+&lt;p&gt;简介：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;选择排序&lt;/code&gt;(Selection sort)是一种简单直观的排序算法。它的工作原理如下。首先在未排序序列中找到最小元素，存放到排序序列的起始位置，重复上述过程，直到所有元素均排序完毕。&lt;/p&gt;
+
+&lt;p&gt;步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;遍历数组，找到最小的元素，将其置于数组起始位置。&lt;/li&gt;
+  &lt;li&gt;从上次最小元素存放的后一个元素开始遍历至数组尾，将最小的元素置于开始处。&lt;/li&gt;
+  &lt;li&gt;重复上述过程，直到元素排序完毕。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;实现代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def selectSort(arr):
+    for i in range(len(arr)):
+        min = i
+        for j in range(i, len(arr)):
+            if arr[j] &amp;lt; arr[min]:
+                min = j
+        swap(arr[i], arr[min])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;效果图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/selectSort.gif&quot; alt=&quot;选择排序&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;2.3 插入排序&lt;/h4&gt;
+
+&lt;p&gt;简介：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;插入排序&lt;/code&gt;（Insertion Sort）是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。&lt;/p&gt;
+
+&lt;p&gt;步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;从第一个元素开始，该元素可以认为已经被排序&lt;/li&gt;
+  &lt;li&gt;取出下一个元素，在已经排序的元素序列中从后向前扫描&lt;/li&gt;
+  &lt;li&gt;如果该元素（已排序）大于新元素，将该元素移到下一位置&lt;/li&gt;
+  &lt;li&gt;重复步骤3，直到找到已排序的元素小于或者等于新元素的位置&lt;/li&gt;
+  &lt;li&gt;将新元素插入到该位置中&lt;/li&gt;
+  &lt;li&gt;重复步骤2&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;实现代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def insertSort(arr):
+    for i in range(len(arr)):
+        tmp = arr[i]
+        pre = i - 1
+        while pre &amp;gt;= 0 and arr[pre] &amp;gt; tmp:
+            arr[pre + 1] = arr[pre]
+            pre -= 1
+        arr[pre + 1] = tmp
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;3. 高级排序&lt;/h3&gt;
+
+&lt;h4 id=&quot;section-6&quot;&gt;3.1 希尔排序&lt;/h4&gt;
+
+&lt;p&gt;简介：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;希尔排序&lt;/code&gt;(Shell Sort)是插入排序的一种。也称缩小增量排序，是直接插入排序算法的一种更高效的改进版本。希尔排序是非稳定排序算法。&lt;/p&gt;
+
+&lt;p&gt;步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；&lt;/li&gt;
+  &lt;li&gt;随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;实现代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def insertSort(arr):
+    k = 1
+    while k &amp;lt; len(arr) / 3:
+        k = 3 * h + 1 //此处为Knuth算法
+
+    while k &amp;gt; 0:
+        for i in range(k, len(arr)):
+            tmp = arr[i]
+            pre = i - k
+            while pre &amp;gt;= 0 and arr[pre] &amp;gt; tmp:
+                arr[pre + k] = arr[pre]
+                pre -= k
+            arr[pre + k] = tmp
+        k = (k - 1) / 3
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;效果图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/shellSort.gif&quot; alt=&quot;希尔排序&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-7&quot;&gt;3.2 快速排序&lt;/h4&gt;
+
+&lt;p&gt;简介：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;快速排序&lt;/code&gt;（Quicksort）是对冒泡排序的一种改进。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。&lt;/p&gt;
+
+&lt;p&gt;步骤如下：&lt;/p&gt;
+
+&lt;p&gt;步骤：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;从数列中挑出一个元素，称为 “基准”（pivot），&lt;/li&gt;
+  &lt;li&gt;重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作。&lt;/li&gt;
+  &lt;li&gt;递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;实现代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def quickSort(arr, low, high):
+    if low &amp;lt; high:
+        pivot = partition(arr, low, high)
+        quickSort(arr, low, pivot - 1)
+        quickSort(arr, pivot + 1, high)
+
+def partition(arr, low, high):
+    pivot = arr[low]
+    while low &amp;lt; high:
+        while low &amp;lt; high and arr[high] &amp;gt;= pivot:
+            high -= 1
+        arr[low] = arr[high]
+        while low &amp;lt; high and arr[low] &amp;lt;= pivot:
+            low += 1
+        arr[high] = arr[low]
+    arr[low] = pivot
+    return low
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;效果图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/quickSort.gif&quot; alt=&quot;快速排序&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-8&quot;&gt;3.3 归并排序&lt;/h4&gt;
+
+&lt;p&gt;简介：&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;归并排序&lt;/code&gt;(Merge Sort)是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。&lt;/p&gt;
+
+&lt;p&gt;步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;申请空间，创建两个数组，长度分别为两个有序数组的长度&lt;/li&gt;
+  &lt;li&gt;设定两个指针，最初位置分别为两个已经排序序列的起始位置&lt;/li&gt;
+  &lt;li&gt;比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置&lt;/li&gt;
+  &lt;li&gt;重复步骤3直到某一指针达到序列尾&lt;/li&gt;
+  &lt;li&gt;将另一序列剩下的所有元素直接复制到合并序列尾&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;实现代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def mergeSort(arr, low, high):
+    if low &amp;lt; high:
+        mid = low + (high - low) / 2
+        mergeSort(arr, low, mid)
+        mergeSort(arr, mid + 1, high)
+        return merge(arr, low, mid, high)
+
+def merge(arr, low, mid, high):
+    leftArr = arr[low : mid + 1]
+    rightArr = arr[mid + 1 : high + 1]
+    i, j, m = 0, 0, low
+    while i &amp;lt; len(leftArr) and j &amp;lt; len(rightArr)：
+        if leftArr[i] &amp;lt; rightArr[j]:
+            arr[m] = leftArr[i]
+            i += 1
+        else:
+            arr[m] = rightArr[j]
+            j += 1
+        m += 1
+    while i &amp;lt; len(leftArr):
+        arr[m] = leftArr[i]
+        m += 1
+        i += 1
+    while j &amp;lt; len(rightArr):
+        arr[m] = rightArr[j]
+        m += 1
+        j += 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;实现效果：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/mergeSort.gif&quot; alt=&quot;归并排序&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;section-9&quot;&gt;3.4 堆排序&lt;/h4&gt;
+
+&lt;p&gt;简介：&lt;/p&gt;
+
+&lt;p&gt;堆积排序（Heap Sort）是指利用堆这种数据结构所设计的一种排序算法。堆是一个近似完全二叉树的结构，并同时满足堆性质：即子结点的键值或索引总是小于（或者大于）它的父节点。&lt;/p&gt;
+
+&lt;p&gt;步骤如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;按堆的定义将数组R[0..n]调整为堆（这个过程称为创建初始堆），交换R[0]和R[n]；&lt;/li&gt;
+  &lt;li&gt;将R[0..n-1]调整为堆，交换R[0]和R[n-1]；&lt;/li&gt;
+  &lt;li&gt;重复上述过程，直到交换了R[0]和R[1]为止。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;实现代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def heapSort(arr):
+    for i in range(len(arr) / 2)[::-1]:
+        heapAdjust(arr, i, len(arr) - 1)
+
+    for i in range(len(arr) - 1)[::-1]:
+        swap(arr[i], arr[0])
+        heapAdjust(arr, 0, i)
+
+def heapAdjust(arr, parent, length)：
+    tmp = arr[parent]
+    child = 2 * parent + 1
+    while child &amp;lt; length:
+        if child + 1 &amp;lt; length and arr[child + 1] &amp;gt; arr[child]:
+            child += 1
+        if arr[child] &amp;lt;= tmp:
+            break
+        arr[parent] = arr[child]
+        parent = child
+        child = 2 * parent + 1
+    arr[parent] = tmp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;效果图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/heapSort.gif&quot; alt=&quot;堆排序&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-10&quot;&gt;4. 各排序算法时间空间复杂度&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/sortTimeComplexity.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 28 Mar 2016 20:00:00 +0800</pubDate>
+        <link>http://wenzhiquan.github.io/2016/03/28/seven_sort/</link>
+        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/03/28/seven_sort/</guid>
+        
+        <category>Algorithm</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
