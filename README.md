@@ -190,8 +190,8 @@ From V1.5, we support Google Analytics and Baidu Tongji officially with a deathl
 ba_track_id: 2436e853445e53365067f8975c3f123b
 
 # Google Analytics
-ga_track_id: 'UA-75727255-1'            # Format: UA-xxxxxx-xx
-ga_domain: wenzhiquan.github.io
+ga_track_id: 'UA-xxxxxx-xx'            # Format: UA-xxxxxx-xx
+ga_domain: DavidWangTM.github.io
 ```
 
 Just checkout the code offered by Google/Baidu, and copy paste here, all the rest is already done for you.
