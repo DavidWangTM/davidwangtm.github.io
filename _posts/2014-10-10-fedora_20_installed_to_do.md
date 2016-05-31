@@ -3,7 +3,7 @@ layout:     post
 title:      "安装fedora20后的一些操作"
 subtitle:   "安装Fedora 20后的必备软件包和系统操作"
 date:       2014-10-10 13:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-ios9-web.jpg"
 catalog: true
 tags:

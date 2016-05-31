@@ -3,7 +3,7 @@ layout:     post
 title:      "fedora20 安装搜狗输入法"
 subtitle:   "卸载ibus，启用fcitx"
 date:       2014-11-26 14:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/home-bg.jpg"
 catalog: true
 tags:

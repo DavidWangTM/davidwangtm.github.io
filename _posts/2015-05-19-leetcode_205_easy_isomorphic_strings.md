@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Isomorphic Strings"
 subtitle:   "Easy题目 编号205"
 date:       2015-05-19 16:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

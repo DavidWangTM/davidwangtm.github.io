@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Wenknow&#39;s Blog</title>
-    <description>爱唱歌健身的程序员 | 温智全，Web &amp; algorithm Lover，Server Enginee | 这里是 @温智全 的个人博客，期待和你一起学习成长。</description>
-    <link>http://wenzhiquan.github.io/</link>
-    <atom:link href="http://wenzhiquan.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 20 Apr 2016 11:33:02 +0800</pubDate>
-    <lastBuildDate>Wed, 20 Apr 2016 11:33:02 +0800</lastBuildDate>
-    <generator>Jekyll v3.1.2</generator>
+    <title>DavidWang&#39;s Blog</title>
+    <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
+    <link>http://DavidWangTM.github.io/</link>
+    <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Tue, 31 May 2016 14:13:57 +0800</pubDate>
+    <lastBuildDate>Tue, 31 May 2016 14:13:57 +0800</lastBuildDate>
+    <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>Leetcode Maximum Product of Word Lengths</title>
@@ -85,8 +85,8 @@ public int maxProduct(String[] words) {
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/maximum-product-of-word-lengths/&quot; target=&quot;_blank&quot;&gt;Maximum Product of Word Lengths &lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 19 Apr 2016 20:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</guid>
         
         <category>Leetcode</category>
         
@@ -179,8 +179,8 @@ private void swap(int[] nums, int i, int j) {
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/first-missing-positive/&quot; target=&quot;_blank&quot;&gt;First Missing Positive&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Apr 2016 20:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/18/leetcode_41_hard_first_missing_positive/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/18/leetcode_41_hard_first_missing_positive/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/18/leetcode_41_hard_first_missing_positive/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/18/leetcode_41_hard_first_missing_positive/</guid>
         
         <category>Leetcode</category>
         
@@ -266,8 +266,8 @@ public int findDuplicate(int[] nums) {
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/find-the-duplicate-number/&quot; target=&quot;_blank&quot;&gt;Find the Duplicate Number&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 14 Apr 2016 20:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/14/leetcode_287_hard_find_the_duplicate_number/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/14/leetcode_287_hard_find_the_duplicate_number/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/14/leetcode_287_hard_find_the_duplicate_number/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/14/leetcode_287_hard_find_the_duplicate_number/</guid>
         
         <category>Leetcode</category>
         
@@ -346,8 +346,8 @@ nums = [5,4,3,2,0],其下标和为0+1+2+3+4 = 10，其元素和为14，则缺失
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/missing-number/&quot; target=&quot;_blank&quot;&gt;Missing Number&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 13 Apr 2016 22:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/13/leetcode_268_medium_missing_number/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/13/leetcode_268_medium_missing_number/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/13/leetcode_268_medium_missing_number/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/13/leetcode_268_medium_missing_number/</guid>
         
         <category>Leetcode</category>
         
@@ -451,8 +451,8 @@ public boolean isHappy(int n) {
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/happy-number/&quot; target=&quot;_blank&quot;&gt;Happy Number&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 13 Apr 2016 21:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/13/leetcode_202_easy_happy_number/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/13/leetcode_202_easy_happy_number/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/13/leetcode_202_easy_happy_number/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/13/leetcode_202_easy_happy_number/</guid>
         
         <category>Leetcode</category>
         
@@ -533,8 +533,8 @@ public int bulbSwitch(int n) {
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/bulb-switcher/&quot; target=&quot;_blank&quot;&gt;Bulb Switcher&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 13 Apr 2016 20:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/13/leetcode_319_medium_bulb_switcher/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/13/leetcode_319_medium_bulb_switcher/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/13/leetcode_319_medium_bulb_switcher/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/13/leetcode_319_medium_bulb_switcher/</guid>
         
         <category>Leetcode</category>
         
@@ -621,8 +621,8 @@ public int[] productExceptSelf(int[] nums) {
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/product-of-array-except-self/&quot; target=&quot;_blank&quot;&gt;Product of Array Except Self&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 12 Apr 2016 22:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</guid>
         
         <category>Leetcode</category>
         
@@ -714,8 +714,8 @@ public int[] countBits(int num) {
 &lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/counting-bits/&quot; target=&quot;_blank&quot;&gt;Counting Bits&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 12 Apr 2016 21:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/12/leetcode_338_medium_counting_bits/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/12/leetcode_338_medium_counting_bits/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/12/leetcode_338_medium_counting_bits/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/12/leetcode_338_medium_counting_bits/</guid>
         
         <category>Leetcode</category>
         
@@ -1126,8 +1126,8 @@ public class IndexController {
 &lt;p&gt;至此，Spring MVC + MyBatis的Java Web开发环境配置完成。&lt;/p&gt;
 </description>
         <pubDate>Tue, 12 Apr 2016 20:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/04/12/idea_gradle_ssm/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/04/12/idea_gradle_ssm/</guid>
+        <link>http://DavidWangTM.github.io/2016/04/12/idea_gradle_ssm/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/12/idea_gradle_ssm/</guid>
         
         <category>Java</category>
         
@@ -1420,8 +1420,8 @@ def heapAdjust(arr, parent, length)：
 &lt;p&gt;&lt;img src=&quot;/img/in-post/sortTimeComplexity.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 28 Mar 2016 20:00:00 +0800</pubDate>
-        <link>http://wenzhiquan.github.io/2016/03/28/seven_sort/</link>
-        <guid isPermaLink="true">http://wenzhiquan.github.io/2016/03/28/seven_sort/</guid>
+        <link>http://DavidWangTM.github.io/2016/03/28/seven_sort/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/03/28/seven_sort/</guid>
         
         <category>Algorithm</category>
         

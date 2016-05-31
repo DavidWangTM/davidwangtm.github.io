@@ -4,19 +4,18 @@ SEOTitle: 王伟达的博客 | DavidWang's Blog
 header-img: img/home-bg.jpg
 email: 232190315@qq.com
 description: "爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。"
-keyword: "DavidWang, davidwang, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios"
-url: "http://davidwang.github.io"              # your host, for absolute URL
+keyword: "DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios"
+url: "http://DavidWangTM.github.io"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
-
 
 
 # SNS settings
 RSS: false
-weibo_username:     davidwang
-zhihu_username:     davidwang
-github_username:    davidwang
+weibo_username:     David_wang_xm
+zhihu_username:     DavidWangTM
+github_username:    DavidWangTM
 #twitter_username:  davidwang
-facebook_username:  profile.php?id=100006943363300
+# facebook_username:  profile.php?id=100006943363300
 
 
 
@@ -31,7 +30,7 @@ anchorjs: true                          # if you want to customize anchor. check
 
 
 # Gems
-# from PR#40, to support local preview for Jekyll 3.0
+# from PR#40, to support local preview for Jekyll 3.1.2
 gems: [jekyll-paginate]
 
 
@@ -57,13 +56,12 @@ disqus_username: davidwang
 
 
 
-
 # Analytics settings
 # Baidu Analytics
 ba_track_id: 2436e853445e53365067f8975c3f123b
 # Google Analytics
 ga_track_id: ''            # Format: UA-xxxxxx-xx
-ga_domain: davidwang.github.io
+ga_domain: DavidWangTM.github.io
 
 
 
@@ -82,11 +80,14 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 
 # Friends
 friends: [
-    {
-        title: "sergiochan的博客",
-        href: "http://sergiochan.xyz"
-    },{
-        title: "梁杰的博客",
-        href: "http://numbbbbb.com/"
-    },
+    # {
+    #     title: "sergiochan的博客",
+    #     href: "http://sergiochan.xyz"
+    # },{
+    #     title: "梁杰的博客",
+    #     href: "http://numbbbbb.com/"
+    # },
 ]
+
+
+

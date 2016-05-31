@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Missing Number"
 subtitle:   "Medium题目 编号268"
 date:       2016-04-13 14:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Remove Duplicates from Sorted Array"
 subtitle:   "Easy题目 编号26"
 date:       2015-05-19 14:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

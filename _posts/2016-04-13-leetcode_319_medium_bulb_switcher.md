@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Bulb Switcher"
 subtitle:   "Medium题目 编号319"
 date:       2016-04-13 12:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

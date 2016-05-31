@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Counting Bits"
 subtitle:   "Medium题目 编号338"
 date:       2016-04-12 13:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

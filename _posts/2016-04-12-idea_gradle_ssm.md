@@ -3,7 +3,7 @@ layout:     post
 title:      "使用IDEA和gradle搭建Spring MVC和MyBatis开发环境"
 subtitle:   "利用IDEA和gradle搭建Java Web开发环境"
 date:       2016-04-12 12:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-universe.jpg"
 catalog: true
 tags:

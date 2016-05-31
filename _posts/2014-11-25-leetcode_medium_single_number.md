@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Single Number"
 subtitle:   "Medium题目 编号136"
 date:       2014-11-25 14:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

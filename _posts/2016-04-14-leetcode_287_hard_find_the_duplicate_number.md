@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Find the Duplicate Number"
 subtitle:   "Hard题目 编号287"
 date:       2016-04-14 12:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

@@ -3,7 +3,7 @@ layout:     post
 title:      "Mac OS安装jekyll"
 subtitle:   ""
 date:       2015-03-19 14:00:00
-author:     "DavidWang"
+author:     "Wenzhiquan"
 header-img: "img/home-bg-o.jpg"
 catalog: true
 tags:
