@@ -3,7 +3,7 @@ layout:     post
 title:      "Mac OS上搭建Nginx,Mysql,PHP开发环境"
 subtitle:   "在MacOS上配置LNMP开发环境"
 date:       2015-05-29 14:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-os-metro.jpg"
 catalog: true
 tags:
@@ -126,10 +126,10 @@ lsof -Pni4 | grep LISTEN | grep php
 如果启动成功应当有以下类似输出：
 
 ```
-php-fpm   27578 wenzhiquan    9u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
-php-fpm   27628 wenzhiquan    0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
-php-fpm   27629 wenzhiquan    0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
-php-fpm   27630 wenzhiquan    0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+php-fpm   27578     9u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+php-fpm   27628     0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+php-fpm   27629     0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
+php-fpm   27630     0u  IPv4 0xf29f8b26c08fc27      0t0  TCP 127.0.0.1:9000 (LISTEN)
 ```
 
 ### 5. 安装MySQL

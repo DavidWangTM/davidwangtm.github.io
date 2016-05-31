@@ -3,7 +3,7 @@ layout:     post
 title:      "fedora22 配置Nginx,Mysql,PHP"
 subtitle:   "在Fedora上配置LNMP开发环境"
 date:       2014-12-09 14:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/home-bg-o.jpg"
 catalog: true
 tags:

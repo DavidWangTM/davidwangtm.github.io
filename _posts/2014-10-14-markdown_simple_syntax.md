@@ -3,7 +3,7 @@ layout:     post
 title:      "Markdown 简明语法"
 subtitle:   "Markdown语言的基本语法讲解和展示"
 date:       2014-10-14 14:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-universe.jpg"
 catalog: true
 tags:

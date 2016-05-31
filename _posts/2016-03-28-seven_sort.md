@@ -3,7 +3,7 @@ layout:     post
 title:      "七种排序算法"
 subtitle:   "冒泡，选择，插入，希尔，快速，归并，堆"
 date:       2016-03-28 12:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

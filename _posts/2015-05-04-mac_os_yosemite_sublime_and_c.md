@@ -3,7 +3,7 @@ layout:     post
 title:      "Mac OS Yosemite 配置sublime text C语言开发环境"
 subtitle:   "sublime支持各种语言的编译和运行"
 date:       2015-05-04 12:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-art.jpg"
 catalog: true
 tags:

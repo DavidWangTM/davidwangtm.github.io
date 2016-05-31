@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Product of Array Except Self"
 subtitle:   "Medium题目 编号238"
 date:       2016-04-12 14:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:
