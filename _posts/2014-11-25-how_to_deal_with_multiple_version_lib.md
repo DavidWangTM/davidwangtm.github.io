@@ -3,7 +3,7 @@ layout:     post
 title:      "如何解决“保护多库版本”问题"
 subtitle:   ""
 date:       2014-11-25 12:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-e2e-ux.jpg"
 catalog: false
 tags:

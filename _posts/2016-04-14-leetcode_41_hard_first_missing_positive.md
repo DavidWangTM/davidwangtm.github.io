@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode First Missing Positive"
 subtitle:   "Hard题目 编号41"
 date:       2016-04-18 12:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

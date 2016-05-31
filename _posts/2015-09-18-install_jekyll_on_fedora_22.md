@@ -3,7 +3,7 @@ layout:     post
 title:      "Fedora 22上安装jekyll"
 subtitle:   ""
 date:       2015-09-18 12:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/home-bg-o.jpg"
 catalog: true
 tags:

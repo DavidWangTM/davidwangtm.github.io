@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Maximum Product of Word Lengths"
 subtitle:   "Medium题目 编号318"
 date:       2016-04-19 12:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

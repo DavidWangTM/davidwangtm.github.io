@@ -3,7 +3,7 @@ layout:     post
 title:      "Fedora 20 安装gitolite"
 subtitle:   "git本地化的权限管理工具"
 date:       2014-10-14 13:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-rwd.jpg"
 catalog: true
 tags:

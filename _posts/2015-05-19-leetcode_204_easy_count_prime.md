@@ -3,7 +3,7 @@ layout:     post
 title:      "Leetcode Count Primes"
 subtitle:   "Easy题目 编号204"
 date:       2015-05-19 15:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-digital-native.jpg"
 catalog: true
 tags:

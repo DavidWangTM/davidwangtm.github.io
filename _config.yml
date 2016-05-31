@@ -83,10 +83,10 @@ featured-condition-size: 1              # A tag will be featured if the size of 
 # Friends
 friends: [
     {
-        title: "肖楚天的博客",
-        href: "http://xiaochutian.github.io/"
+        title: "sergiochan的博客",
+        href: "http://sergiochan.xyz"
     },{
-        title: "遵达的博客",
-        href: "http://saberzun.github.io/"
+        title: "梁杰的博客",
+        href: "http://numbbbbb.com/"
     },
 ]

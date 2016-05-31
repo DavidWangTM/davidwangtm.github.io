@@ -3,7 +3,7 @@ layout:     post
 title:      "Mac OS上搭建Nginx,Mysql,PHP开发环境"
 subtitle:   "在MacOS上配置LNMP开发环境"
 date:       2015-05-29 14:00:00
-author:     "Wenzhiquan"
+author:     "DavidWang"
 header-img: "img/post-bg-os-metro.jpg"
 catalog: true
 tags:
