@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Fedora 20 中文字体美化
+        Mastering Markdown
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2014/10/10/fedora_20_chinese_fonts/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/05/31/mastering_markdown/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -150,13 +150,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-2015.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-markdown.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-2015.jpg')
+        background-image: url('/img/post-bg-markdown.jpg')
     }
 
     
@@ -169,15 +169,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Fedora" title="Fedora">Fedora</a>
+                        <a class="tag" href="/tags/#Markdown" title="Markdown">Markdown</a>
                         
                     </div>
-                    <h1>Fedora 20 中文字体美化</h1>
+                    <h1>Mastering Markdown</h1>
                     
                     
-                    <h2 class="subheading"> 如何美化Fedora 20的中文字体</h2>
+                    <h2 class="subheading"> Markdown 用法介绍</h2>
                     
-                    <span class="meta">Posted by DavidWang on October 10, 2014</span>
+                    <span class="meta">Posted by DavidWang on May 31, 2016</span>
                 </div>
             </div>
         </div>
@@ -195,227 +195,207 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>“Fedora 20 自带的中文字体确实难以入眼。”</p>
+				<h3 id="intro">Intro</h3>
+
+<p>Markdown is a lightweight and easy-to-use syntax for styling all forms of writing on the GitHub platform.</p>
+
+<h3 id="what-you-will-learn">What you will learn:</h3>
+
+<ul>
+  <li>How the Markdown format makes styled collaborative editing easy</li>
+  <li>How Markdown differs from traditional formatting approaches</li>
+  <li>How to use Markdown to format text</li>
+  <li>How to leverage GitHub’s automatic Markdown rendering</li>
+  <li>How to apply GitHub’s unique Markdown extensions</li>
+</ul>
+
+<h3 id="what-is-markdown">What is Markdown?</h3>
+
+<p><a href="href=&quot;http://daringfireball.net/projects/markdown/&quot;">markdown</a> is a way to style text on the web. You control the display of the document; formatting words as bold or italic, adding images, and creating lists are just a few of the things we can do with Markdown. Mostly, Markdown is just regular text with a few non-alphabetic characters thrown in, like <code class="highlighter-rouge">#</code> or <code class="highlighter-rouge">*</code>.</p>
+
+<p>You can use Markdown most places around GitHub:</p>
+
+<ul>
+  <li><a href="https://gist.github.com/">Gists</a></li>
+  <li>Comments in Issues and Pull Requests</li>
+  <li>Files with the <code class="highlighter-rouge">.md</code> or <code class="highlighter-rouge">.markdown</code> extension</li>
+</ul>
+
+<h3 id="examples">Examples</h3>
+
+<h4 id="text">Text</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>It's very easy to make some words **bold** and other 
+words *italic* with Markdown. You can even [link to 
+Google!](http://google.com)
+</code></pre>
+</div>
+
+<p>It’s very easy to make some words <strong>bold</strong> and other 
+words <em>italic</em> with Markdown. You can even <a href="http://google.com">link to 
+Google!</a></p>
+
+<h4 id="lists">Lists</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>Sometimes you want numbered lists:
+
+1. One
+2. Two
+3. Three
+
+Sometimes you want bullet points:
+
+* Start a line with a star
+* Profit!
+
+Alternatively,
+
+- Dashes work just as well
+- And if you have sub points, put two spaces before the dash or star:
+  - Like this
+  - And this
+</code></pre>
+</div>
+<p>Sometimes you want numbered lists:</p>
+
+<ol>
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ol>
+
+<p>Sometimes you want bullet points:</p>
+
+<ul>
+  <li>Start a line with a star</li>
+  <li>Profit!</li>
+</ul>
+
+<p>Alternatively,</p>
+
+<ul>
+  <li>Dashes work just as well</li>
+  <li>And if you have sub points, put two spaces before the dash or star:
+    <ul>
+      <li>Like this</li>
+      <li>And this</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="images">Images</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>If you want to embed images, this is how you do it:
+
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+</code></pre>
+</div>
+<p>If you want to embed images, this is how you do it:</p>
+
+<p><img src="https://octodex.github.com/images/yaktocat.png" alt="Image of Yaktocat" /></p>
+
+<h4 id="headers--quotes">Headers &amp; Quotes</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code># Structured documents
+
+Sometimes it's useful to have different levels of headings to structure your documents. Start lines with a `#` to create headings. Multiple `##` in a row denote smaller heading sizes.
+
+#### This is a third-tier heading
+
+You can use one `#` all the way up to `######` six for different heading sizes.
+
+If you'd like to quote someone, use the &gt; character before the line:
+
+&gt; Coffee. The finest organic suspension ever devised... I beat the Borg with it.
+&gt; - Captain Janeway
+</code></pre>
+</div>
+<p># Structured documents</p>
+
+<p>Sometimes it’s useful to have different levels of headings to structure your documents. Start lines with a <code class="highlighter-rouge">#</code> to create headings. Multiple <code class="highlighter-rouge">##</code> in a row denote smaller heading sizes.</p>
+
+<h4 id="this-is-a-third-tier-heading">This is a third-tier heading</h4>
+
+<p>You can use one <code class="highlighter-rouge">#</code> all the way up to <code class="highlighter-rouge">######</code> six for different heading sizes.</p>
+
+<p>If you’d like to quote someone, use the &gt; character before the line:</p>
+
+<blockquote>
+  <p>Coffee. The finest organic suspension ever devised… I beat the Borg with it.
+- Captain Janeway</p>
 </blockquote>
 
-<p>新装了Fedora 20，但是他的中文字体看起来略微有一些奇怪，通过上网查找和自己的实践，总结出了以下美化的步骤：</p>
+<h4 id="code">Code</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>There are many different ways to style code with GitHub's markdown. If you have inline code blocks, wrap them in backticks: `var example = true`.  If you've got a longer block of code, you can indent with four spaces:
 
-<h2 id="section">1. 安装字体</h2>
+    if (isAwesome){
+      return true
+    }
 
-<p>安装文泉驿微米黑并开启文泉驿微米黑渲染：</p>
+GitHub also supports something called code fencing, which allows for multiple lines without indentation:
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo yum install wqy-microhei-fonts
+```
+if (isAwesome){
+  return true
+}
+```
+
+And if you'd like to use syntax highlighting, include the language:
+
+```javascript
+if (isAwesome){
+  return true
+}
+```
+</code></pre>
+</div>
+<p>There are many different ways to style code with GitHub’s markdown. If you have inline code blocks, wrap them in backticks: <code class="highlighter-rouge">var example = true</code>.  If you’ve got a longer block of code, you can indent with four spaces:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>if (isAwesome){
+  return true
+}
 </code></pre>
 </div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>vi /etc/fonts/conf.d/65-0-wqy-microhei.conf
+<p>GitHub also supports something called code fencing, which allows for multiple lines without indentation:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>if (isAwesome){
+  return true
+}
 </code></pre>
 </div>
 
-<p>将false改成true,然后保存。</p>
+<p>And if you’d like to use syntax highlighting, include the language:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
-<span class="cp">&lt;!DOCTYPE fontconfig SYSTEM "fonts.dtd"&gt;</span>
-<span class="nt">&lt;fontconfig&gt;</span>
-    <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"family"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;string&gt;</span>WenQuanYi Micro Hei<span class="nt">&lt;/string&gt;</span>
-        <span class="nt">&lt;/test&gt;</span>
-        <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"hinting"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-        <span class="nt">&lt;/edit&gt;</span>
-    <span class="nt">&lt;/match&gt;</span>
-<span class="nt">&lt;/fontconfig&gt;</span>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">isAwesome</span><span class="p">){</span>
+  <span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
-<h2 id="section-1">2.安装字体渲染软件</h2>
+<h4 id="extras">Extras</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>  GitHub supports many extras in Markdown that help you reference and link to people. If you ever want to direct a comment at someone, you can prefix their name with an @ symbol: Hey @kneath — love your sweater!
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo rpm -Uvh http://www.infinality.net/fedora/linux/infinality-repo-1.0-1.noarch.rpm
-sudo yum install freetype-infinality fontconfig-infinality
+But I have to admit, tasks lists are my favorite:
+
+- [x] This is a complete item
+- [ ] This is an incomplete item
+
+When you include a task list in the first comment of an Issue, you will see a helpful progress bar in your list of issues. It works in Pull Requests, too!
+
+And, of course emoji! :sparkles: :camel: :boom:
+
 </code></pre>
 </div>
+<p>GitHub supports many extras in Markdown that help you reference and link to people. If you ever want to direct a comment at someone, you can prefix their name with an @ symbol: Hey @kneath — love your sweater!</p>
 
-<h2 id="section-2">3.配置渲染</h2>
+<p>But I have to admit, tasks lists are my favorite:</p>
 
-<p><em>(1)建立自定义渲染方案：</em></p>
+<ul>
+  <li>[x] This is a complete item</li>
+  <li>[ ] This is an incomplete item</li>
+</ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd /etc/fonts/infinality/styles.conf.avail
-sudo mkdir fedora
-sudo cp linux/* fedora
-</code></pre>
-</div>
+<p>When you include a task list in the first comment of an Issue, you will see a helpful progress bar in your list of issues. It works in Pull Requests, too!</p>
 
-<p><em>(2)在/etc/fonts/infinality/styles.conf.avail/fedora目录中：</em></p>
-
-<p>编辑<code class="highlighter-rouge">20-aliases-default-linux.conf</code>文件：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo gedit 20-aliases-default-linux.conf
-</code></pre>
-</div>
-
-<p>在每一对<code class="highlighter-rouge">&lt;prefer&gt;</code>和<code class="highlighter-rouge">&lt;/prefer&gt;</code>标签之间添加以下文本：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;family&gt;WenQuanYi Micro Hei&lt;/family&gt;
-</code></pre>
-</div>
-
-<p>比如：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;alias&gt;
-    &lt;family&gt;sans-serif&lt;/family&gt;
-    &lt;prefer&gt;
-        &lt;family&gt;DejaVu Sans&lt;/family&gt;
-    &lt;/prefer&gt;
-&lt;/alias&gt;
-</code></pre>
-</div>
-
-<p>就变成了：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;alias&gt;
-    &lt;family&gt;sans-serif&lt;/family&gt;
-        &lt;prefer&gt;
-            &lt;family&gt;DejaVu Sans&lt;/family&gt;
-            &lt;family&gt;WenQuanYi Micro Hei&lt;/family&gt;
-    &lt;/prefer&gt;
-&lt;/alias&gt;
-</code></pre>
-</div>
-
-<p>总共添加三处，然后保存退出。</p>
-
-<p><em>(3) 创建中文渲染配置文件</em></p>
-
-<p>创建<code class="highlighter-rouge">62-group-chinese-fonts.conf</code></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo gedit 62-group-chinese-fonts.conf
-</code></pre>
-</div>
-
-<p>添加以下代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version='1.0'?&gt;</span>
-<span class="cp">&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;</span>
-<span class="nt">&lt;fontconfig&gt;</span>
-   <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"force_autohint"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"family"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>WenQuanYi Micro Hei<span class="nt">&lt;/string&gt;</span>
-        <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"font_type"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>Chinese Font<span class="nt">&lt;/string&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-   <span class="nt">&lt;/match&gt;</span>
-
-   <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"force_autohint"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"family"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>WenQuanYi Micro Hei Light<span class="nt">&lt;/string&gt;</span>
-        <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"font_type"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>Chinese Font<span class="nt">&lt;/string&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-   <span class="nt">&lt;/match&gt;</span>
-
-   <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"force_autohint"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"family"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>WenQuanYi Micro Hei Mono<span class="nt">&lt;/string&gt;</span>
-        <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"font_type"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>Chinese Font<span class="nt">&lt;/string&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-   <span class="nt">&lt;/match&gt;</span>
-
-   <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"force_autohint"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"family"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>WenQuanYi Micro Hei Mono Light<span class="nt">&lt;/string&gt;</span>
-        <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"font_type"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>Chinese Font<span class="nt">&lt;/string&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-   <span class="nt">&lt;/match&gt;</span>
-
-   <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"force_autohint"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"family"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>WenQuanYi Zen Hei<span class="nt">&lt;/string&gt;</span>
-        <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"font_type"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>Chinese Font<span class="nt">&lt;/string&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-   <span class="nt">&lt;/match&gt;</span>
-
-   <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"force_autohint"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"family"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>WenQuanYi Zei Hei Mono<span class="nt">&lt;/string&gt;</span>
-        <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"font_type"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>Chinese Font<span class="nt">&lt;/string&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-   <span class="nt">&lt;/match&gt;</span>
-<span class="nt">&lt;/fontconfig&gt;</span>
-</code></pre>
-</div>
-
-<p>然后保存退出。</p>
-
-<p>创建<code class="highlighter-rouge">63-group-chinese-fonts-rendering.conf</code></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo gedit 63-group-chinese-fonts-rendering.conf
-</code></pre>
-</div>
-
-<p>添加以下代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version='1.0'?&gt;</span>
-<span class="cp">&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;</span>
-<span class="nt">&lt;fontconfig&gt;</span>
-   <span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">"font"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">"font_type"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;string&gt;</span>Chinese Font<span class="nt">&lt;/string&gt;</span>
-      <span class="nt">&lt;/test&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"antialias"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>true<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"hintstyle"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;const&gt;</span>hintslight<span class="nt">&lt;/const&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-      <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">"autohint"</span> <span class="na">mode=</span><span class="s">"assign"</span><span class="nt">&gt;</span>
-         <span class="nt">&lt;bool&gt;</span>false<span class="nt">&lt;/bool&gt;</span>
-      <span class="nt">&lt;/edit&gt;</span>
-   <span class="nt">&lt;/match&gt;</span>
-<span class="nt">&lt;/fontconfig&gt;</span>
-</code></pre>
-</div>
-
-<p>然后保存退出。</p>
-
-<h2 id="section-3">4.选择配置方案</h2>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo /etc/fonts/infinality/infctl.sh setstyle
-</code></pre>
-</div>
-
-<p>输入我们创建的渲染方案fedora的序号 2，回车。</p>
-
-<p>重启计算机之后就可以看到比较令人满意的显示效果了。</p>
+<p>And, of course emoji! :sparkles: :camel: :boom:</p>
 
 
                 <hr>
@@ -425,13 +405,13 @@ sudo cp linux/* fedora
 
                 <ul class="pager">
                     
-                    
-                    <li class="next">
-                        <a href="/2014/10/10/fedora_20_installed_to_do/" data-toggle="tooltip" data-placement="top" title="安装fedora20后的一些操作">
-                        Next<br>
-                        <span>安装fedora20后的一些操作</span>
+                    <li class="previous">
+                        <a href="/2016/05/30/mac_os_markdown_user_macdown/" data-toggle="tooltip" data-placement="top" title="Mac OS 好用的Markdown编辑工具MacDown">
+                        Previous<br>
+                        <span>Mac OS 好用的Markdown编辑工具MacDown</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
 
@@ -554,8 +534,8 @@ sudo cp linux/* fedora
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2014/10/10/fedora_20_chinese_fonts";
-    var disqus_url = "http://DavidWangTM.github.io/2014/10/10/fedora_20_chinese_fonts/";
+    var disqus_identifier = "/2016/05/31/mastering_markdown";
+    var disqus_url = "http://DavidWangTM.github.io/2016/05/31/mastering_markdown/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
