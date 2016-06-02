@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      "Mac OS安装jekyll第二篇"
-subtitle:   ""
-date:       2015-06-01 09:00:00
+title:      "Mac OS M安装jekyll第二篇"
+subtitle:   "RVM安装jekyll"
+date:       2016-06-01 09:00:00
 author:     "DavidWang"
 header-img: "img/home-bg-o.jpg"
 catalog: true

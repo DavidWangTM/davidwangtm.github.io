@@ -5,9 +5,123 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 01 Jun 2016 23:37:09 +0800</pubDate>
-    <lastBuildDate>Wed, 01 Jun 2016 23:37:09 +0800</lastBuildDate>
+    <pubDate>Thu, 02 Jun 2016 08:24:50 +0800</pubDate>
+    <lastBuildDate>Thu, 02 Jun 2016 08:24:50 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Mac OS M安装jekyll第二篇</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“六一快乐,由于很多同学安装通过第一篇jekyll安装不成功，因此本文将使用RVM更新系统Ruby版本安装jekyll”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;rvm&quot;&gt;步骤1 － 安装 RVM&lt;/h3&gt;
+&lt;p&gt;RVM 是干什么的这里就不解释了，后面你将会慢慢搞明白。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+$ curl -sSL https://get.rvm.io | bash -s stable
+# 如果上面的连接失败，可以尝试: 
+$ curl -L https://raw.githubusercontent.com/wayneeseguin/rvm/master/binscripts/rvm-installer | bash -s stable
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;期间可能会问你 sudo 管理员密码，以及自动通过 Homebrew 安装依赖包，等待一段时间后就可以成功安装好 RVM。&lt;/p&gt;
+
+&lt;p&gt;然后，载入 RVM 环境（新开 Termal 就不用这么做了，会自动重新载入的）&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ source ~/.rvm/scripts/rvm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;修改 RVM 下载 Ruby 的源，到 Ruby China 的镜像:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;echo &quot;ruby_url=https://cache.ruby-china.org/pub/ruby&quot; &amp;gt; ~/.rvm/user/db
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;检查一下是否安装正确&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rvm -v
+rvm 1.22.17 (stable) by Wayne E. Seguin &amp;lt;wayneeseguin@gmail.com&amp;gt;, Michal Papis &amp;lt;mpapis@gmail.com&amp;gt; [https://rvm.io/]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;rvm--ruby-&quot;&gt;步骤2 － 用 RVM 安装 Ruby 环境&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rvm requirements
+$ rvm install 2.3.1
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;同样继续等待漫长的下载，编译过程，完成以后，Ruby, Ruby Gems 就安装好了。&lt;/p&gt;
+
+&lt;h3 id=&quot;ruby-&quot;&gt;步骤3 － 设置 Ruby 版本&lt;/h3&gt;
+
+&lt;p&gt;RVM 装好以后，需要执行下面的命令将指定版本的 Ruby 设置为系统默认版本&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rvm use 2.3.1 --default
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;同样，也可以用其他版本号，前提是你有用 rvm install 安装过那个版本&lt;/p&gt;
+
+&lt;p&gt;这个时候你可以测试是否正确&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ruby -v
+ruby 2.3.0 ...
+
+$ gem -v
+2.1.6
+
+$ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
+//或者
+$ gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
+
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;jkeyll&quot;&gt;步骤4 － 安装jkeyll&lt;/h3&gt;
+
+&lt;p&gt;安装最新版本的jekyll，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install jekyll
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;因为我们将会使用Markdown语言作为标记语言，所以还需要安装kramdown以及jekyll-paginate ，命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install kramdown
+gem install jekyll-paginate
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;至此，本机的jekyll运行环境就已经搭建好了&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;步骤5 － 运行例子&lt;/h3&gt;
+
+&lt;p&gt;安装好之后，就可以自己构建一个博客系统，或者也可以到&lt;a href=&quot;http://jekyllthemes.org/&quot; title=&quot;jekyll 模板网站&quot;&gt;jekyll模板网站&lt;/a&gt; 下载自己喜欢的模板进行修改，然后运行并查看效果，要运行jekyll首先要进入博客的根目录，然后运行命令&lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll server&lt;/code&gt;，最后会显示启动信息：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Server address: http://127.0.0.1:4000/
+Server running... press ctrl-c to stop.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;说明程序已经成功启动，在浏览器中输入localhost:4000，就可以查看自己的博客了。&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 01 Jun 2016 17:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/01/mac_os_rvm_install_jekyll_osx/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/01/mac_os_rvm_install_jekyll_osx/</guid>
+        
+        <category>MacOS</category>
+        
+        <category>Jekyll</category>
+        
+        
+      </item>
     
       <item>
         <title>Mastering Markdown</title>
@@ -1258,99 +1372,6 @@ public int[] productExceptSelf(int[] nums) {
         <pubDate>Tue, 12 Apr 2016 22:00:00 +0800</pubDate>
         <link>http://DavidWangTM.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</link>
         <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/</guid>
-        
-        <category>Leetcode</category>
-        
-        <category>Algorithm</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Leetcode Counting Bits</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given a non negative integer number num. For every numbers i in the
-range 0 ≤ i ≤ num calculate the number of 1&#39;s in their binary representation
-and return them as an array.
-
-Example:
-For num = 5 you should return [0,1,1,2,1,2].
-
-Follow up:
-
-It is very easy to come up with a solution with run time O(n*sizeof(integer)).
-But can you do it in linear time O(n) /possibly in a single pass?
-Space complexity should be O(n).
-Can you do it like a boss? Do it without using any builtin function
-like __builtin_popcount in c++ or in any other language.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个非负整数num，针对每一个0 ≤ i ≤ num的i，计算i的二进制表示中含有的1的数量，返回一个数组。
-
-样例：
-如果num = 5，你应该返回[0,1,1,2,1,2]。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-2&quot;&gt;提示&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. You should make use of what you have produced already.
-2. Divide the numbers in ranges like [2-3], [4-7], [8-15] and so on. And try to generate new range from previous.
-3. Or does the odd/even status of the number help you in calculating the number of 1s?
-
-1. 你可以利用已经生成的数据。
-2. 将数据分成像[2-3], [4-7], [8-15]的部分。试着利用旧的数据生成新的数据。
-3. 计算1的个数的过程中，数字的奇偶性能否提供帮助？
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Dynamic Programming&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Bit Manipulation&lt;/code&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;section-3&quot;&gt;代码&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java：
-
-public int[] countBits(int num) {
-    if(num &amp;lt; 0) return new int[]{0};
-    int[] result = new int[num + 1];
-    result[0] = 0;
-    if(num &amp;gt; 0)
-        result[1] = 1;
-    for(int i = 2; i &amp;lt; num + 1; i++)
-        result[i] = result[i&amp;gt;&amp;gt;1] + result[i&amp;amp;1];
-    return result;
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-4&quot;&gt;讲解&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;每个数字的二进制1的个数相当于他右移一位的数字的1的个数加上其二进制表示的最左端数字
-举例：
-5： 101
-10： 1010 右移一位为101，加上0，为2个
-11： 1011 右移一位为101，加上1，为3个
-23： 10111 右移一位为1011，加上1，为4个
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-5&quot;&gt;习题地址&lt;/h4&gt;
-&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/counting-bits/&quot; target=&quot;_blank&quot;&gt;Counting Bits&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 12 Apr 2016 21:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/04/12/leetcode_338_medium_counting_bits/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/12/leetcode_338_medium_counting_bits/</guid>
         
         <category>Leetcode</category>
         
