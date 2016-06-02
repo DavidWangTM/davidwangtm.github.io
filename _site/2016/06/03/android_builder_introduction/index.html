@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Android 设计模式分析二
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/03/android_builder_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android 设计模式分析二</h1>
+                    
+                    
+                    <h2 class="subheading">Builder模式</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 3, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">1. 模式介绍</h2>
+
+<h3 id="section-1">模式的定义</h3>
+<p>将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。</p>
+
+<h3 id="section-2">模式的使用场景</h3>
+<ol>
+  <li>相同的方法，不同的执行顺序，产生不同的事件结果时；</li>
+  <li>多个部件或零件，都可以装配到一个对象中，但是产生的运行结果又不相同时；</li>
+  <li>产品类非常复杂，或者产品类中的调用顺序不同产生了不同的效能，这个时候使用建造者模式非常合适；</li>
+</ol>
+
+<h2 id="uml">2. UML类图</h2>
+<p><img src="/img/in-post/android_introduction/android_builder_uml.png" alt="url" /></p>
+
+<h3 id="section-3">角色介绍</h3>
+<ul>
+  <li>Product 产品类 :  产品的抽象类。</li>
+  <li>Builder : 抽象类， 规范产品的组建，一般是由子类实现具体的组件过程。</li>
+  <li>ConcreteBuilder : 具体的构建器.</li>
+  <li>Director : 统一组装过程(可省略)。</li>
+</ul>
+
+<h2 id="section-4">3. 模式的简单实现</h2>
+<p>###  简单实现的介绍
+电脑的组装过程较为复杂，步骤繁多，但是顺序却是不固定的。下面我们以组装电脑为例来演示一下简单且经典的builder模式。</p>
+
+<h3 id="section-5">实现源码</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">builder</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Computer产品抽象类, 为了例子简单, 只列出这几个属性
+ * 
+ * @author mrsimple
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+
+	<span class="kd">protected</span> <span class="kt">int</span> <span class="n">mCpuCore</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+	<span class="kd">protected</span> <span class="kt">int</span> <span class="n">mRamSize</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="kd">protected</span> <span class="n">String</span> <span class="n">mOs</span> <span class="o">=</span> <span class="s">"Dos"</span><span class="o">;</span>
+
+	<span class="kd">protected</span> <span class="n">Computer</span><span class="o">()</span> <span class="o">{</span>
+
+	<span class="o">}</span>
+
+	<span class="c1">// 设置CPU核心数</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">);</span>
+
+	<span class="c1">// 设置内存</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">);</span>
+
+	<span class="c1">// 设置操作系统</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">);</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">String</span> <span class="n">toString</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="s">"Computer [mCpuCore="</span> <span class="o">+</span> <span class="n">mCpuCore</span> <span class="o">+</span> <span class="s">", mRamSize="</span> <span class="o">+</span> <span class="n">mRamSize</span>
+				<span class="o">+</span> <span class="s">", mOs="</span> <span class="o">+</span> <span class="n">mOs</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">;</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">builder</span><span class="o">;</span>
+
+<span class="cm">/**
+ * Apple电脑
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppleComputer</span> <span class="kd">extends</span> <span class="n">Computer</span> <span class="o">{</span>
+
+	<span class="kd">protected</span> <span class="n">AppleComputer</span><span class="o">()</span> <span class="o">{</span>
+
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mCpuCore</span> <span class="o">=</span> <span class="n">core</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mRamSize</span> <span class="o">=</span> <span class="n">gb</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mOs</span> <span class="o">=</span> <span class="n">os</span><span class="o">;</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">builder</span><span class="o">;</span>
+
+
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">builder</span><span class="o">;</span>
+
+<span class="cm">/**
+ * builder抽象类
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+	<span class="c1">// 设置CPU核心数</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">buildCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">);</span>
+
+	<span class="c1">// 设置内存</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">buildRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">);</span>
+
+	<span class="c1">// 设置操作系统</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">buildOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">);</span>
+
+	<span class="c1">// 创建Computer</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="n">Computer</span> <span class="n">create</span><span class="o">();</span>
+
+<span class="o">}</span>
+
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">builder</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplePCBuilder</span> <span class="kd">extends</span> <span class="n">Builder</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">Computer</span> <span class="n">mApplePc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AppleComputer</span><span class="o">();</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">buildCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mApplePc</span><span class="o">.</span><span class="na">setCPU</span><span class="o">(</span><span class="n">core</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">buildRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mApplePc</span><span class="o">.</span><span class="na">setRAM</span><span class="o">(</span><span class="n">gb</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">buildOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mApplePc</span><span class="o">.</span><span class="na">setOs</span><span class="o">(</span><span class="n">os</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Computer</span> <span class="n">create</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">mApplePc</span><span class="o">;</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">builder</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Director</span> <span class="o">{</span>
+	<span class="n">Builder</span> <span class="n">mBuilder</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+	<span class="cm">/**
+	 * 
+	 * @param builder
+	 */</span>
+	<span class="kd">public</span> <span class="n">Director</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mBuilder</span> <span class="o">=</span> <span class="n">builder</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * 构建对象
+	 * 
+	 * @param cpu
+	 * @param ram
+	 * @param os
+	 */</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">construct</span><span class="o">(</span><span class="kt">int</span> <span class="n">cpu</span><span class="o">,</span> <span class="kt">int</span> <span class="n">ram</span><span class="o">,</span> <span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">mBuilder</span><span class="o">.</span><span class="na">buildCPU</span><span class="o">(</span><span class="n">cpu</span><span class="o">);</span>
+		<span class="n">mBuilder</span><span class="o">.</span><span class="na">buildRAM</span><span class="o">(</span><span class="n">ram</span><span class="o">);</span>
+		<span class="n">mBuilder</span><span class="o">.</span><span class="na">buildOs</span><span class="o">(</span><span class="n">os</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * 经典实现较为繁琐
+ * 
+ * @author mrsimple
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// 构建器</span>
+		<span class="n">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApplePCBuilder</span><span class="o">();</span>
+		<span class="c1">// Director</span>
+		<span class="n">Director</span> <span class="n">pcDirector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Director</span><span class="o">(</span><span class="n">builder</span><span class="o">);</span>
+		<span class="c1">// 封装构建过程, 4核, 内存2GB, Mac系统</span>
+		<span class="n">pcDirector</span><span class="o">.</span><span class="na">construct</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="s">"Mac OS X 10.9.1"</span><span class="o">);</span>
+		<span class="c1">// 构建电脑, 输出相关信息</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Computer Info : "</span> <span class="o">+</span> <span class="n">builder</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">toString</span><span class="o">());</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>通过Builder来构建产品对象, 而Director封装了构建复杂产品对象对象的过程，不对外隐藏构建细节。</p>
+
+<h2 id="android">Android源码中的模式实现</h2>
+<p>在Android源码中，我们最常用到的Builder模式就是AlertDialog.Builder， 使用该Builder来构建复杂的AlertDialog对象。简单示例如下 :</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="c1">//显示基本的AlertDialog  </span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="n">showDialog</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="n">AlertDialog</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AlertDialog</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>  
+        <span class="n">builder</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">icon</span><span class="o">);</span>  
+        <span class="n">builder</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="s">"Title"</span><span class="o">);</span>  
+        <span class="n">builder</span><span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="s">"Message"</span><span class="o">);</span>  
+        <span class="n">builder</span><span class="o">.</span><span class="na">setPositiveButton</span><span class="o">(</span><span class="s">"Button1"</span><span class="o">,</span>  
+                <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>  
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
+                        <span class="n">setTitle</span><span class="o">(</span><span class="s">"点击了对话框上的Button1"</span><span class="o">);</span>  
+                    <span class="o">}</span>  
+                <span class="o">});</span>  
+        <span class="n">builder</span><span class="o">.</span><span class="na">setNeutralButton</span><span class="o">(</span><span class="s">"Button2"</span><span class="o">,</span>  
+                <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>  
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
+                        <span class="n">setTitle</span><span class="o">(</span><span class="s">"点击了对话框上的Button2"</span><span class="o">);</span>  
+                    <span class="o">}</span>  
+                <span class="o">});</span>  
+        <span class="n">builder</span><span class="o">.</span><span class="na">setNegativeButton</span><span class="o">(</span><span class="s">"Button3"</span><span class="o">,</span>  
+                <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>  
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
+                        <span class="n">setTitle</span><span class="o">(</span><span class="s">"点击了对话框上的Button3"</span><span class="o">);</span>  
+                    <span class="o">}</span>  
+                <span class="o">});</span>  
+        <span class="n">builder</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">show</span><span class="o">();</span>  <span class="c1">// 构建AlertDialog， 并且显示</span>
+    <span class="o">}</span> 
+</code></pre>
+</div>
+
+<p>结果 : 
+<img src="/img/in-post/android_introduction/android_result.png" alt="result" /></p>
+
+<p>下面我们看看AlertDialog的相关源码 :</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// AlertDialog</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AlertDialog</span> <span class="kd">extends</span> <span class="n">Dialog</span> <span class="kd">implements</span> <span class="n">DialogInterface</span> <span class="o">{</span>
+    <span class="c1">// Controller, 接受Builder成员变量P中的各个参数</span>
+    <span class="kd">private</span> <span class="n">AlertController</span> <span class="n">mAlert</span><span class="o">;</span>
+
+    <span class="c1">// 构造函数</span>
+    <span class="kd">protected</span> <span class="n">AlertDialog</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">theme</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">theme</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 4 : 构造AlertDialog</span>
+    <span class="n">AlertDialog</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">theme</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">createContextWrapper</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">resolveDialogTheme</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">theme</span><span class="o">),</span> <span class="n">createContextWrapper</span><span class="o">);</span>
+        <span class="n">mWindow</span><span class="o">.</span><span class="na">alwaysReadCloseOnTouchAttr</span><span class="o">();</span>
+        <span class="n">mAlert</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AlertController</span><span class="o">(</span><span class="n">getContext</span><span class="o">(),</span> <span class="k">this</span><span class="o">,</span> <span class="n">getWindow</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 实际上调用的是mAlert的setTitle方法</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setTitle</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
+        <span class="n">mAlert</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 实际上调用的是mAlert的setCustomTitle方法</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setCustomTitle</span><span class="o">(</span><span class="n">View</span> <span class="n">customTitleView</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mAlert</span><span class="o">.</span><span class="na">setCustomTitle</span><span class="o">(</span><span class="n">customTitleView</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setMessage</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mAlert</span><span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// AlertDialog其他的代码省略</span>
+    
+    <span class="c1">// ************  Builder为AlertDialog的内部类   *******************</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="c1">// 1 : 存储AlertDialog的各个参数, 例如title, message, icon等.</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="n">AlertController</span><span class="o">.</span><span class="na">AlertParams</span> <span class="n">P</span><span class="o">;</span>
+        <span class="c1">// 属性省略</span>
+        
+        <span class="cm">/**
+         * Constructor using a context for this builder and the {@link AlertDialog} it creates.
+         */</span>
+        <span class="kd">public</span> <span class="n">Builder</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">resolveDialogTheme</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
+        <span class="o">}</span>
+
+
+        <span class="kd">public</span> <span class="n">Builder</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">theme</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">P</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AlertController</span><span class="o">.</span><span class="na">AlertParams</span><span class="o">(</span><span class="k">new</span> <span class="n">ContextThemeWrapper</span><span class="o">(</span>
+                    <span class="n">context</span><span class="o">,</span> <span class="n">resolveDialogTheme</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">theme</span><span class="o">)));</span>
+            <span class="n">mTheme</span> <span class="o">=</span> <span class="n">theme</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        <span class="c1">// Builder的其他代码省略 ......</span>
+
+        <span class="c1">// 2 : 设置各种参数</span>
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setTitle</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">mTitle</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setMessage</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">mMessage</span> <span class="o">=</span> <span class="n">message</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setIcon</span><span class="o">(</span><span class="kt">int</span> <span class="n">iconId</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">mIconId</span> <span class="o">=</span> <span class="n">iconId</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setPositiveButton</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">text</span><span class="o">,</span> <span class="kd">final</span> <span class="n">OnClickListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">mPositiveButtonText</span> <span class="o">=</span> <span class="n">text</span><span class="o">;</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">mPositiveButtonListener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setView</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">mView</span> <span class="o">=</span> <span class="n">view</span><span class="o">;</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">mViewSpacingSpecified</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        <span class="c1">// 3 : 构建AlertDialog, 传递参数</span>
+        <span class="kd">public</span> <span class="n">AlertDialog</span> <span class="n">create</span><span class="o">()</span> <span class="o">{</span>
+            <span class="c1">// 调用new AlertDialog构造对象， 并且将参数传递个体AlertDialog </span>
+            <span class="kd">final</span> <span class="n">AlertDialog</span> <span class="n">dialog</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AlertDialog</span><span class="o">(</span><span class="n">P</span><span class="o">.</span><span class="na">mContext</span><span class="o">,</span> <span class="n">mTheme</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+            <span class="c1">// 5 : 将P中的参数应用的dialog中的mAlert对象中</span>
+            <span class="n">P</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">dialog</span><span class="o">.</span><span class="na">mAlert</span><span class="o">);</span>
+            <span class="n">dialog</span><span class="o">.</span><span class="na">setCancelable</span><span class="o">(</span><span class="n">P</span><span class="o">.</span><span class="na">mCancelable</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">P</span><span class="o">.</span><span class="na">mCancelable</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setCanceledOnTouchOutside</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">dialog</span><span class="o">.</span><span class="na">setOnCancelListener</span><span class="o">(</span><span class="n">P</span><span class="o">.</span><span class="na">mOnCancelListener</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">P</span><span class="o">.</span><span class="na">mOnKeyListener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setOnKeyListener</span><span class="o">(</span><span class="n">P</span><span class="o">.</span><span class="na">mOnKeyListener</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">dialog</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>可以看到，通过Builder来设置AlertDialog中的title, message, button等参数， 这些参数都存储在类型为AlertController.AlertParams的成员变量P中，AlertController.AlertParams中包含了与之对应的成员变量。在调用Builder类的create函数时才创建AlertDialog, 并且将Builder成员变量P中保存的参数应用到AlertDialog的mAlert对象中，即P.apply(dialog.mAlert)代码段。我们看看apply函数的实现 :</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">apply</span><span class="p">(</span><span class="n">AlertController</span> <span class="n">dialog</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mCustomTitleView</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setCustomTitle</span><span class="o">(</span><span class="n">mCustomTitleView</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">mTitle</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">dialog</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">mTitle</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">mIcon</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">dialog</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="n">mIcon</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">mIconId</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">dialog</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="n">mIconId</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">mIconAttrId</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">dialog</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="n">dialog</span><span class="o">.</span><span class="na">getIconAttributeResId</span><span class="o">(</span><span class="n">mIconAttrId</span><span class="o">));</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mMessage</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="n">mMessage</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mPositiveButtonText</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setButton</span><span class="o">(</span><span class="n">DialogInterface</span><span class="o">.</span><span class="na">BUTTON_POSITIVE</span><span class="o">,</span> <span class="n">mPositiveButtonText</span><span class="o">,</span>
+                        <span class="n">mPositiveButtonListener</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mNegativeButtonText</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setButton</span><span class="o">(</span><span class="n">DialogInterface</span><span class="o">.</span><span class="na">BUTTON_NEGATIVE</span><span class="o">,</span> <span class="n">mNegativeButtonText</span><span class="o">,</span>
+                        <span class="n">mNegativeButtonListener</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mNeutralButtonText</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setButton</span><span class="o">(</span><span class="n">DialogInterface</span><span class="o">.</span><span class="na">BUTTON_NEUTRAL</span><span class="o">,</span> <span class="n">mNeutralButtonText</span><span class="o">,</span>
+                        <span class="n">mNeutralButtonListener</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mForceInverseBackground</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">dialog</span><span class="o">.</span><span class="na">setInverseBackgroundForced</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="c1">// For a list, the client can either supply an array of items or an</span>
+            <span class="c1">// adapter or a cursor</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">mItems</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">||</span> <span class="o">(</span><span class="n">mCursor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">||</span> <span class="o">(</span><span class="n">mAdapter</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">createListView</span><span class="o">(</span><span class="n">dialog</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mView</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">mViewSpacingSpecified</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">dialog</span><span class="o">.</span><span class="na">setView</span><span class="o">(</span><span class="n">mView</span><span class="o">,</span> <span class="n">mViewSpacingLeft</span><span class="o">,</span> <span class="n">mViewSpacingTop</span><span class="o">,</span> <span class="n">mViewSpacingRight</span><span class="o">,</span>
+                            <span class="n">mViewSpacingBottom</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">dialog</span><span class="o">.</span><span class="na">setView</span><span class="o">(</span><span class="n">mView</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+</code></pre>
+</div>
+<p>实际上就是把P中的参数挨个的设置到AlertController中， 也就是AlertDialog中的mAlert对象。从AlertDialog的各个setter方法中我们也可以看到，实际上也都是调用了mAlert对应的setter方法。在这里，Builder同时扮演了上文中提到的builder、ConcreteBuilder、Director的角色，简化了Builder模式的设计。</p>
+
+<h2 id="section-6">4. 杂谈</h2>
+
+<h3 id="section-7">优点</h3>
+
+<ul>
+  <li>良好的封装性， 使用建造者模式可以使客户端不必知道产品内部组成的细节；</li>
+  <li>建造者独立，容易扩展；</li>
+  <li>在对象创建过程中会使用到系统中的一些其它对象，这些对象在产品对象的创建过程中不易得到。</li>
+</ul>
+
+<h3 id="section-8">缺点</h3>
+
+<ul>
+  <li>会产生多余的Builder对象以及Director对象，消耗内存；</li>
+  <li>对象的构建过程暴露。</li>
+</ul>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/02/android_singleton_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析一">
+                        Previous<br>
+                        <span>Android 设计模式分析一</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="2">
+                                    Android
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/03/android_builder_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/03/android_builder_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
