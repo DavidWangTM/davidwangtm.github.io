@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Android 设计模式分析一
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/02/android_singleton_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android 设计模式分析一</h1>
+                    
+                    
+                    <h2 class="subheading">单例模式</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 2, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">1. 模式介绍</h2>
+
+<h3 id="section-1">模式的定义</h3>
+<p>确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。</p>
+
+<h3 id="section-2">模式的使用场景</h3>
+<p>确保某个类有且只有一个对象的场景，例如创建一个对象需要消耗的资源过多，如要访问 IO 和数据库等资源。</p>
+
+<h2 id="uml">2. UML类图</h2>
+<p><img src="/img/in-post/android_introduction/android_uml.png" alt="url" /></p>
+
+<h3 id="section-3">角色介绍</h3>
+<ul>
+  <li>Client : 高层客户端。</li>
+  <li>Singleton : 单例类。</li>
+</ul>
+
+<h2 id="section-4">3. 模式的简单实现</h2>
+<p>###  简单实现的介绍
+单例模式是设计模式中最简单的，只有一个单例类，没有其他的层次结构与抽象。该模式需要确保该类只能生成一个对象，通常是该类需要消耗太多的资源或者没有没有多个实例的理由。例如一个公司只有一个CEO、一台电脑通常只有一个显示器等。下面我们以公司里的CEO为例来简单演示一下，一个公司可以有几个VP，无数个员工，但是CEO只有一个，请看下面示例。</p>
+
+<h3 id="section-5">实现源码</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">singleton</span><span class="o">;</span>
+<span class="cm">/**
+ * 人的基类
+ * @author mrsimple
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">talk</span><span class="o">()</span> <span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// 普通员工</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Staff</span> <span class="kd">extends</span> <span class="n">Person</span> <span class="o">{</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">talk</span><span class="o">()</span> <span class="o">{</span>
+
+	<span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="c1">// 副总裁</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">VP</span> <span class="kd">extends</span> <span class="n">Person</span> <span class="o">{</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">talk</span><span class="o">()</span> <span class="o">{</span>
+
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// CEO， 单例模式</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CEO</span> <span class="kd">extends</span> <span class="n">Person</span> <span class="o">{</span>
+
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">CEO</span> <span class="n">mCeo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CEO</span><span class="o">();</span>
+
+	<span class="kd">private</span> <span class="n">CEO</span><span class="o">()</span> <span class="o">{</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">CEO</span> <span class="n">getCeo</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">mCeo</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">talk</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"CEO发表讲话"</span><span class="o">);</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="c1">// 公司类</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Company</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">allPersons</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;();</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">addStaff</span><span class="o">(</span><span class="n">Person</span> <span class="n">per</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">allPersons</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">per</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">showAllStaffs</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="n">Person</span> <span class="n">per</span> <span class="o">:</span> <span class="n">allPersons</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Obj : "</span> <span class="o">+</span> <span class="n">per</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// test</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">Company</span> <span class="n">cp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Company</span><span class="o">()</span> <span class="o">;</span>
+		<span class="n">Person</span> <span class="n">ceo1</span> <span class="o">=</span> <span class="n">CEO</span><span class="o">.</span><span class="na">getCeo</span><span class="o">()</span> <span class="o">;</span>
+		<span class="n">Person</span> <span class="n">ceo2</span> <span class="o">=</span> <span class="n">CEO</span><span class="o">.</span><span class="na">getCeo</span><span class="o">()</span> <span class="o">;</span>
+		<span class="n">cp</span><span class="o">.</span><span class="na">addStaff</span><span class="o">(</span><span class="n">ceo1</span><span class="o">);</span>
+		<span class="n">cp</span><span class="o">.</span><span class="na">addStaff</span><span class="o">(</span><span class="n">ceo2</span><span class="o">);</span>
+		
+		<span class="n">Person</span> <span class="n">vp1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VP</span><span class="o">()</span> <span class="o">;</span>
+		<span class="n">Person</span> <span class="n">vp2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VP</span><span class="o">()</span> <span class="o">;</span>
+		
+		<span class="n">Person</span> <span class="n">staff1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Staff</span><span class="o">()</span> <span class="o">;</span>
+		<span class="n">Person</span> <span class="n">staff2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Staff</span><span class="o">()</span> <span class="o">;</span>
+		<span class="n">Person</span> <span class="n">staff3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Staff</span><span class="o">()</span> <span class="o">;</span>
+		
+		<span class="n">cp</span><span class="o">.</span><span class="na">addStaff</span><span class="o">(</span><span class="n">vp1</span><span class="o">);</span>
+		<span class="n">cp</span><span class="o">.</span><span class="na">addStaff</span><span class="o">(</span><span class="n">vp2</span><span class="o">);</span>
+		<span class="n">cp</span><span class="o">.</span><span class="na">addStaff</span><span class="o">(</span><span class="n">staff1</span><span class="o">);</span>
+		<span class="n">cp</span><span class="o">.</span><span class="na">addStaff</span><span class="o">(</span><span class="n">staff2</span><span class="o">);</span>
+		<span class="n">cp</span><span class="o">.</span><span class="na">addStaff</span><span class="o">(</span><span class="n">staff3</span><span class="o">);</span>
+		
+		<span class="n">cp</span><span class="o">.</span><span class="na">showAllStaffs</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>输出结果如下 : 
+<img src="/img/in-post/android_introduction/android_showlog.png" alt="result" /></p>
+
+<p>可以看到, CEO两次输出的CEO对象的文字描述都是一样的，而VP、Staff类的对象都是不同的。即CEO是唯一实例，而其他类型都是不同的实例。这个实现的核心在于将CEO类的构造方法私有化，使得外部程序不能通过构造函数来构造CEO对象，而CEO类通过一个静态方法返回一个唯一的对象。</p>
+
+<h3 id="section-6">单例模式的其他实现</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">singleton</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="n">mInstance</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+	<span class="kd">private</span> <span class="n">Singleton</span><span class="o">()</span> <span class="o">{</span>
+
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">doSomething</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"do sth."</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * 方式二、double-check， 避免并发时创建了多个实例, 该方式不能完全避免并发带来的破坏.
+	 * 
+	 * @return
+	 */</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="n">getInstance</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">mInstance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kd">synchronized</span> <span class="o">(</span><span class="n">Singleton</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">mInstance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+					<span class="n">mInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Singleton</span><span class="o">();</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">mInstance</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * 方式三 : 在第一次加载SingletonHolder时初始化一次mOnlyInstance对象, 保证唯一性, 也延迟了单例的实例化,
+	 * 如果该单例比较耗资源可以使用这种模式.
+	 * 
+	 * @return
+	 */</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="n">getInstanceFromHolder</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">SingletonHolder</span><span class="o">.</span><span class="na">mOnlyInstance</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * 静态内部类
+	 * 
+	 * @author mrsimple
+	 *
+	 */</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SingletonHolder</span> <span class="o">{</span>
+		<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Singleton</span> <span class="n">mOnlyInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Singleton</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 *  方式四 : 枚举单例, 线程安全
+	 * @author mrsimple
+	 *
+	 */</span>
+	<span class="kd">enum</span> <span class="n">SingletonEnum</span> <span class="o">{</span>
+		<span class="n">INSTANCE</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="n">doSomething</span><span class="o">()</span> <span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"do sth."</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * 方式五 : 注册到容器, 根据key获取对象.一般都会有多种相同属性类型的对象会注册到一个map中
+	 * instance容器
+	 */</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">string</span> <span class="n">singleton</span><span class="o">=</span><span class="s">""</span><span class="o">&gt;</span> <span class="n">objMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">string</span> <span class="n">singleton</span><span class="o">=</span><span class="s">""</span><span class="o">&gt;();</span>
+	<span class="cm">/**
+	 * 注册对象到map中
+	 * @param key
+	 * @param instance
+	 */</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">registerService</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Singleton</span> <span class="n">instance</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(!</span><span class="n">objMap</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">key</span><span class="o">)</span> <span class="o">)</span> <span class="o">{</span>
+			<span class="n">objMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">instance</span><span class="o">)</span> <span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="cm">/**
+	 * 根据key获取对象
+	 * @param key
+	 * @return
+	 */</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Singleton</span> <span class="n">getService</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">objMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">)</span> <span class="o">;</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>不管以哪种形式实现单例模式，它们的核心原理都是将构造函数私有化，并且通过静态方法获取一个唯一的实例，在这个获取的过程中你必须保证线程安全、反序列化导致重新生成实例对象等问题，该模式简单，但使用率较高。</p>
+
+<h2 id="android">Android源码中的模式实现</h2>
+<p>在Android系统中，我们经常会通过Context获取系统级别的服务，比如WindowsManagerService, ActivityManagerService等，更常用的是一个叫LayoutInflater的类。这些服务会在合适的时候以单例的形式注册在系统中，在我们需要的时候就通过Context的getSystemService(String name)获取。我们以LayoutInflater为例来说明, 平时我们使用LayoutInflater较为常见的地方是在ListView的getView方法中。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="n">View</span> <span class="nf">getView</span><span class="p">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="n">View</span> <span class="n">convertView</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">)</span>	
+	<span class="n">View</span> <span class="n">itemView</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">convertView</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">itemView</span> <span class="o">=</span> <span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">mContext</span><span class="o">).</span><span class="na">inflate</span><span class="o">(</span><span class="n">mLayoutId</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+		<span class="c1">// 其他代码</span>
+	<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+		<span class="n">itemView</span> <span class="o">=</span> <span class="n">convertView</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="c1">// 获取Holder</span>
+	<span class="c1">// 初始化每项的数据</span>
+	<span class="k">return</span> <span class="n">itemView</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>通常我们使用LayoutInflater.from(Context)来获取LayoutInflater服务, 下面我们看看LayoutInflater.from(Context)的实现。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    /**
+     * Obtains the LayoutInflater from the given context.
+     */
+    public static LayoutInflater from(Context context) {
+        LayoutInflater LayoutInflater =
+                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (LayoutInflater == null) {
+            throw new AssertionError("LayoutInflater not found.");
+        }
+        return LayoutInflater;
+    }
+</code></pre>
+</div>
+
+<p>可以看到from(Context)函数内部调用的是Context类的getSystemService(String key)方法，我们跟踪到Context类看到, 该类是抽象类。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Context</span> <span class="o">{</span>
+    <span class="c1">// 省略</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>使用的getView中使用的Context对象的具体实现类是什么呢 ？其实在Application，Activity, Service,中都会存在一个Context对象，即Context的总个数为Activity个数 + Service个数 + 1。而ListView通常都是显示在Activity中，那么我们就以Activity中的Context来分析。</p>
+
+<p>我们知道，一个Activity的入口是ActivityThread的main函数。在该main函数中创建一个新的ActivityThread对象，并且启动消息循环(UI线程)，创建新的Activity、新的Context对象，然后将该Context对象传递给Activity。下面我们看看ActivityThread源码。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SamplingProfilerIntegration</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+        <span class="c1">// CloseGuard defaults to true and can be quite spammy.  We</span>
+        <span class="c1">// disable it here, but selectively enable it later (via</span>
+        <span class="c1">// StrictMode) on debug builds, but using DropBox, not logs.</span>
+        <span class="n">CloseGuard</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+
+        <span class="n">Environment</span><span class="o">.</span><span class="na">initForCurrentUser</span><span class="o">();</span>
+
+        <span class="c1">// Set the reporter for event logging in libcore</span>
+        <span class="n">EventLogger</span><span class="o">.</span><span class="na">setReporter</span><span class="o">(</span><span class="k">new</span> <span class="n">EventLoggingReporter</span><span class="o">());</span>
+        <span class="n">Process</span><span class="o">.</span><span class="na">setArgV0</span><span class="o">(</span><span class="s">"&lt;pre-initialized&gt;"</span><span class="o">);</span>
+        <span class="c1">// 主线程消息循环</span>
+        <span class="n">Looper</span><span class="o">.</span><span class="na">prepareMainLooper</span><span class="o">();</span>
+        <span class="c1">// 创建ActivityThread对象</span>
+        <span class="n">ActivityThread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ActivityThread</span><span class="o">();</span>
+        <span class="n">thread</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">sMainThreadHandler</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sMainThreadHandler</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="na">getHandler</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="n">AsyncTask</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="kc">false</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">Looper</span><span class="o">.</span><span class="na">myLooper</span><span class="o">().</span><span class="na">setMessageLogging</span><span class="o">(</span><span class="k">new</span>
+                    <span class="n">LogPrinter</span><span class="o">(</span><span class="n">Log</span><span class="o">.</span><span class="na">DEBUG</span><span class="o">,</span> <span class="s">"ActivityThread"</span><span class="o">));</span>
+        <span class="o">}</span>
+
+        <span class="n">Looper</span><span class="o">.</span><span class="na">loop</span><span class="o">();</span>
+
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">"Main thread loop unexpectedly exited"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="n">attach</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">system</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">sThreadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="n">mSystemThread</span> <span class="o">=</span> <span class="n">system</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">system</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">ViewRootImpl</span><span class="o">.</span><span class="na">addFirstDrawHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+                <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+                    <span class="n">ensureJitEnabled</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">});</span>
+            <span class="n">android</span><span class="o">.</span><span class="na">ddm</span><span class="o">.</span><span class="na">DdmHandleAppName</span><span class="o">.</span><span class="na">setAppName</span><span class="o">(</span><span class="s">"&lt;pre-initialized&gt;"</span><span class="o">,</span>
+                                                    <span class="n">UserHandle</span><span class="o">.</span><span class="na">myUserId</span><span class="o">());</span>
+            <span class="n">RuntimeInit</span><span class="o">.</span><span class="na">setApplicationObject</span><span class="o">(</span><span class="n">mAppThread</span><span class="o">.</span><span class="na">asBinder</span><span class="o">());</span>
+            <span class="n">IActivityManager</span> <span class="n">mgr</span> <span class="o">=</span> <span class="n">ActivityManagerNative</span><span class="o">.</span><span class="na">getDefault</span><span class="o">();</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">mgr</span><span class="o">.</span><span class="na">attachApplication</span><span class="o">(</span><span class="n">mAppThread</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">RemoteException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// Ignore</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+               <span class="c1">// 省略</span>
+        <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>在main方法中，我们创建一个ActivityThread对象后，调用了其attach函数，并且参数为false. 在attach函数中， 参数为false的情况下， 会通过Binder机制与ActivityManagerService通信，并且最终调用handleLaunchActivity函数 ( 具体分析请参考老罗的博客 : <a href="http://blog.csdn.net/luoshengyang/article/details/6689748">Activity的启动流程</a>)，我们看看该函数的实现 。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">handleLaunchActivity</span><span class="p">(</span><span class="n">ActivityClientRecord</span> <span class="n">r</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">customIntent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 代码省略</span>
+        <span class="n">Activity</span> <span class="n">a</span> <span class="o">=</span> <span class="n">performLaunchActivity</span><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">customIntent</span><span class="o">);</span>
+        <span class="c1">// 代码省略</span>
+    <span class="o">}</span>
+    
+     <span class="kd">private</span> <span class="n">Activity</span> <span class="n">performLaunchActivity</span><span class="o">(</span><span class="n">ActivityClientRecord</span> <span class="n">r</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">customIntent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// System.out.println("##### [" + System.currentTimeMillis() + "] ActivityThread.performLaunchActivity(" + r + ")");</span>
+        <span class="c1">// 代码省略</span>
+        <span class="n">Activity</span> <span class="n">activity</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">ClassLoader</span> <span class="n">cl</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="na">packageInfo</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">();</span>
+            <span class="n">activity</span> <span class="o">=</span> <span class="n">mInstrumentation</span><span class="o">.</span><span class="na">newActivity</span><span class="o">(</span>         <span class="c1">// 1 : 创建Activity</span>
+                    <span class="n">cl</span><span class="o">,</span> <span class="n">component</span><span class="o">.</span><span class="na">getClassName</span><span class="o">(),</span> <span class="n">r</span><span class="o">.</span><span class="na">intent</span><span class="o">);</span>
+         <span class="c1">// 代码省略</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+         <span class="c1">// 省略</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">Application</span> <span class="n">app</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="na">packageInfo</span><span class="o">.</span><span class="na">makeApplication</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="n">mInstrumentation</span><span class="o">);</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">activity</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">Context</span> <span class="n">appContext</span> <span class="o">=</span> <span class="n">createBaseContextForActivity</span><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">activity</span><span class="o">);</span> <span class="c1">// 2 : 获取Context对象</span>
+                <span class="n">CharSequence</span> <span class="n">title</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="na">activityInfo</span><span class="o">.</span><span class="na">loadLabel</span><span class="o">(</span><span class="n">appContext</span><span class="o">.</span><span class="na">getPackageManager</span><span class="o">());</span>
+                <span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Configuration</span><span class="o">(</span><span class="n">mCompatConfiguration</span><span class="o">);</span>
+                <span class="c1">// 3: 将appContext等对象attach到activity中</span>
+                <span class="n">activity</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="n">appContext</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="n">getInstrumentation</span><span class="o">(),</span> <span class="n">r</span><span class="o">.</span><span class="na">token</span><span class="o">,</span>
+                        <span class="n">r</span><span class="o">.</span><span class="na">ident</span><span class="o">,</span> <span class="n">app</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">intent</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">activityInfo</span><span class="o">,</span> <span class="n">title</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">parent</span><span class="o">,</span>
+                        <span class="n">r</span><span class="o">.</span><span class="na">embeddedID</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">lastNonConfigurationInstances</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+
+                <span class="c1">// 代码省略</span>
+                <span class="c1">// 4 ： 调用Activity的onCreate方法</span>
+                <span class="n">mInstrumentation</span><span class="o">.</span><span class="na">callActivityOnCreate</span><span class="o">(</span><span class="n">activity</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">state</span><span class="o">);</span>
+                <span class="c1">// 代码省略</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SuperNotCalledException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="n">e</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 代码省略</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">activity</span><span class="o">;</span>
+    <span class="o">}</span>
+
+
+    <span class="kd">private</span> <span class="n">Context</span> <span class="n">createBaseContextForActivity</span><span class="o">(</span><span class="n">ActivityClientRecord</span> <span class="n">r</span><span class="o">,</span>
+            <span class="kd">final</span> <span class="n">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 5 ： 创建Context对象, 可以看到实现类是ContextImpl</span>
+        <span class="n">ContextImpl</span> <span class="n">appContext</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ContextImpl</span><span class="o">();</span>           <span class="n">appContext</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="n">r</span><span class="o">.</span><span class="na">packageInfo</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">token</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+        <span class="n">appContext</span><span class="o">.</span><span class="na">setOuterContext</span><span class="o">(</span><span class="n">activity</span><span class="o">);</span>
+
+        <span class="c1">// 代码省略</span>
+        <span class="k">return</span> <span class="n">baseContext</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+</code></pre>
+</div>
+
+<p>通过上面1~5的代码分析可以知道， Context的实现类为ComtextImpl类。我们继续跟踪到ContextImpl类。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">ContextImpl</span> <span class="kd">extends</span> <span class="n">Context</span> <span class="o">{</span>
+  
+    <span class="c1">// 代码省略</span>
+    <span class="cm">/**
+     * Override this class when the system service constructor needs a
+     * ContextImpl.  Else, use StaticServiceFetcher below.
+     */</span>
+     <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ServiceFetcher</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">mContextCacheIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+
+        <span class="cm">/**
+         * Main entrypoint; only override if you don't need caching.
+         */</span>
+        <span class="kd">public</span> <span class="n">Object</span> <span class="n">getService</span><span class="o">(</span><span class="n">ContextImpl</span> <span class="n">ctx</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">mServiceCache</span><span class="o">;</span>
+            <span class="n">Object</span> <span class="n">service</span><span class="o">;</span>
+            <span class="kd">synchronized</span> <span class="o">(</span><span class="n">cache</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">cache</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sNextPerContextServiceCacheIndex</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="n">cache</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">service</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">mContextCacheIndex</span><span class="o">);</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">service</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">return</span> <span class="n">service</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="n">service</span> <span class="o">=</span> <span class="n">createService</span><span class="o">(</span><span class="n">ctx</span><span class="o">);</span>
+                <span class="n">cache</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">mContextCacheIndex</span><span class="o">,</span> <span class="n">service</span><span class="o">);</span>
+                <span class="k">return</span> <span class="n">service</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="cm">/**
+         * Override this to create a new per-Context instance of the
+         * service.  getService() will handle locking and caching.
+         */</span>
+        <span class="kd">public</span> <span class="n">Object</span> <span class="n">createService</span><span class="o">(</span><span class="n">ContextImpl</span> <span class="n">ctx</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">"Not implemented"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 1 : service容器</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">ServiceFetcher</span><span class="o">&gt;</span> <span class="n">SYSTEM_SERVICE_MAP</span> <span class="o">=</span>
+            <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">ServiceFetcher</span><span class="o">&gt;();</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">sNextPerContextServiceCacheIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="c1">// 2: 注册服务器</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">registerService</span><span class="o">(</span><span class="n">String</span> <span class="n">serviceName</span><span class="o">,</span> <span class="n">ServiceFetcher</span> <span class="n">fetcher</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!(</span><span class="n">fetcher</span> <span class="k">instanceof</span> <span class="n">StaticServiceFetcher</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">fetcher</span><span class="o">.</span><span class="na">mContextCacheIndex</span> <span class="o">=</span> <span class="n">sNextPerContextServiceCacheIndex</span><span class="o">++;</span>
+        <span class="o">}</span>
+        <span class="n">SYSTEM_SERVICE_MAP</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">serviceName</span><span class="o">,</span> <span class="n">fetcher</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="c1">// 3: 静态语句块, 第一次加载该类时执行 ( 只执行一次, 保证实例的唯一性. )</span>
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="c1">//  代码省略</span>
+        <span class="c1">// 注册Activity Servicer</span>
+        <span class="n">registerService</span><span class="o">(</span><span class="n">ACTIVITY_SERVICE</span><span class="o">,</span> <span class="k">new</span> <span class="n">ServiceFetcher</span><span class="o">()</span> <span class="o">{</span>
+                <span class="kd">public</span> <span class="n">Object</span> <span class="n">createService</span><span class="o">(</span><span class="n">ContextImpl</span> <span class="n">ctx</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="k">new</span> <span class="n">ActivityManager</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">getOuterContext</span><span class="o">(),</span> <span class="n">ctx</span><span class="o">.</span><span class="na">mMainThread</span><span class="o">.</span><span class="na">getHandler</span><span class="o">());</span>
+                <span class="o">}});</span>
+
+        <span class="c1">// 注册LayoutInflater service</span>
+        <span class="n">registerService</span><span class="o">(</span><span class="n">LAYOUT_INFLATER_SERVICE</span><span class="o">,</span> <span class="k">new</span> <span class="n">ServiceFetcher</span><span class="o">()</span> <span class="o">{</span>
+                <span class="kd">public</span> <span class="n">Object</span> <span class="n">createService</span><span class="o">(</span><span class="n">ContextImpl</span> <span class="n">ctx</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">return</span> <span class="n">PolicyManager</span><span class="o">.</span><span class="na">makeNewLayoutInflater</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">getOuterContext</span><span class="o">());</span>
+                <span class="o">}});</span>
+        <span class="c1">// 代码省略</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 4: 根据key获取对应的服务, </span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Object</span> <span class="n">getSystemService</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 根据name来获取服务</span>
+        <span class="n">ServiceFetcher</span> <span class="n">fetcher</span> <span class="o">=</span> <span class="n">SYSTEM_SERVICE_MAP</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">fetcher</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">fetcher</span><span class="o">.</span><span class="na">getService</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 代码省略</span>
+<span class="o">}</span>
+
+</code></pre>
+</div>
+
+<p>从ContextImpl类的部分代码中可以看到，在虚拟机第一次加载该类时会注册各种服务，其中就包含了LayoutInflater Service, 将这些服务以键值对的形式存储在一个HashMap中，用户使用时只需要根据key来获取到对应的服务，从而达到单例的效果。这种模式就是上文中提到的“单例模式的实现方式5”。系统核心服务以单例形式存在，减少了资源消耗。</p>
+
+<h2 id="section-7">4. 杂谈</h2>
+
+<h3 id="section-8">优点</h3>
+
+<ul>
+  <li>由于单例模式在内存中只有一个实例，减少了内存开支，特别是一个对象需要频繁地创建、销毁时，而且创建或销毁时性能又无法优化，单例模式的优势就非常明显。</li>
+  <li>由于单例模式只生成一个实例，所以减少了系统的性能开销，当一个对象的产生需要比较多的资源时，如读取配置、产生其他依赖对象时，则可以通过在应用启动时直接产生一个单例对象，然后用永久驻留内存的方式来解决；</li>
+  <li>单例模式可以避免对资源的多重占用，例如一个写文件动作，由于只有一个实例存在内存中，避免对同一个资源文件的同时写操作。</li>
+  <li>单例模式可以在系统设置全局的访问点，优化和共享资源访问，例如可以设计一个单例类，负责所有数据表的映射处理。</li>
+</ul>
+
+<h3 id="section-9">缺点</h3>
+
+<ul>
+  <li>单例模式一般没有接口，扩展很困难，若要扩展，除了修改代码基本上没有第二种途径可以实现。</li>
+</ul>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/01/mac_os_rvm_install_jekyll_osx/" data-toggle="tooltip" data-placement="top" title="Mac OS M安装jekyll第二篇">
+                        Previous<br>
+                        <span>Mac OS M安装jekyll第二篇</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/02/android_singleton_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/02/android_singleton_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
