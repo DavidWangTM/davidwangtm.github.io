@@ -48,7 +48,6 @@ rvm 1.22.17 (stable) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <
 ```
 $ rvm requirements
 $ rvm install 2.3.1
-
 ```
 
 同样继续等待漫长的下载，编译过程，完成以后，Ruby, Ruby Gems 就安装好了。
@@ -59,7 +58,6 @@ RVM 装好以后，需要执行下面的命令将指定版本的 Ruby 设置为�
 
 ```
 rvm use 2.3.1 --default
-
 ```
 
 同样，也可以用其他版本号，前提是你有用 rvm install 安装过那个版本
@@ -76,8 +74,6 @@ $ gem -v
 $ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 //或者
 $ gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
-
-
 ```
 
 ### 步骤4 － 安装jkeyll
@@ -86,7 +82,6 @@ $ gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
 
 ```
 gem install jekyll
-
 ```
 
 因为我们将会使用Markdown语言作为标记语言，所以还需要安装kramdown以及jekyll-paginate ，命令如下：
@@ -94,7 +89,6 @@ gem install jekyll
 ```
 gem install kramdown
 gem install jekyll-paginate
-
 ```
 
 至此，本机的jekyll运行环境就已经搭建好了

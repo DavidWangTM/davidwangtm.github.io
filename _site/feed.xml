@@ -5,8 +5,8 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 02 Jun 2016 08:24:50 +0800</pubDate>
-    <lastBuildDate>Thu, 02 Jun 2016 08:24:50 +0800</lastBuildDate>
+    <pubDate>Thu, 02 Jun 2016 21:33:32 +0800</pubDate>
+    <lastBuildDate>Thu, 02 Jun 2016 21:33:32 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -48,7 +48,6 @@ rvm 1.22.17 (stable) by Wayne E. Seguin &amp;lt;wayneeseguin@gmail.com&amp;gt;, 
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rvm requirements
 $ rvm install 2.3.1
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -59,7 +58,6 @@ $ rvm install 2.3.1
 &lt;p&gt;RVM 装好以后，需要执行下面的命令将指定版本的 Ruby 设置为系统默认版本&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rvm use 2.3.1 --default
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -76,8 +74,6 @@ $ gem -v
 $ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
 //或者
 $ gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
-
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -86,7 +82,6 @@ $ gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
 &lt;p&gt;安装最新版本的jekyll，命令如下：&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install jekyll
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -94,7 +89,6 @@ $ gem sources --add https://ruby.taobao.org/ --remove https://rubygems.org/
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install kramdown
 gem install jekyll-paginate
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
