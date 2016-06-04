@@ -2,7 +2,7 @@
 layout:     post
 title:      "Android 设计模式分析二"
 subtitle:   "Builder模式"
-date:       2016-06-02 23:00:00
+date:       2016-06-03 07:49:00
 author:     "DavidWang"
 header-img: "img/post-bg-universe.jpg"
 catalog: true
