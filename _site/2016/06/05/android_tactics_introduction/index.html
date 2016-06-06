@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Android 设计模式分析五
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/05/android_tactics_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android 设计模式分析五</h1>
+                    
+                    
+                    <h2 class="subheading">策略模式</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 5, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">1. 模式介绍</h2>
+
+<h3 id="section-1">模式的定义</h3>
+
+<p><strong>策略模式定义了一系列的算法，并将每一个算法封装起来，而且使它们还可以相互替换。策略模式让算法独立于使用它的客户而独立变化。</strong></p>
+
+<p><code class="highlighter-rouge">注：针对同一类型操作，将复杂多样的处理方式分别开来，有选择的实现各自特有的操作。</code></p>
+
+<h3 id="section-2">模式的使用场景</h3>
+
+<ul>
+  <li>针对同一类型问题的多种处理方式，仅仅是具体行为有差别时。</li>
+  <li>需要安全的封装多种同一类型的操作时。</li>
+  <li>出现同一抽象多个子类，而又需要使用if-else 或者 switch-case来选择时。</li>
+</ul>
+
+<h2 id="uml">2. UML类图</h2>
+
+<p><img src="/img/in-post/android_introduction/android_strategy-kerison-uml.png" alt="url" /></p>
+
+<h3 id="section-3">角色介绍</h3>
+
+<ul>
+  <li>Context：用来操作策略的上下文环境。</li>
+  <li>Strategy : 策略的抽象。</li>
+  <li>ConcreteStrategyA、ConcreteStrategyB : 具体的策略实现。</li>
+</ul>
+
+<h2 id="section-4">3. 模式的简单实现</h2>
+
+<h3 id="section-5">简单实现的介绍</h3>
+
+<p>通常如果一个问题有多个解决方案或者稍有区别的操作时，最简单的方式就是利用if-else or switch-case方式来解决，对于简单的解决方案这样做无疑是比较简单、方便、快捷的，但是如果解决方案中包括大量的处理逻辑需要封装，或者处理方式变动较大的时候则就显得混乱、复杂，而策略模式则很好的解决了这样的问题，它将各种方案分离开来，让操作者根据具体的需求来动态的选择不同的策略方案。
+这里以简单的计算操作(+、-、*、/)作为示例：</p>
+
+<h3 id="section-6">未使用策略模式</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span> <span class="nf">calc</span><span class="p">(</span><span class="n">String</span> <span class="n">op</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="s">"+"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">op</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行加法..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">+</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">"-"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">op</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行减法..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">-</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">"*"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">op</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行乘法..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">*</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">"/"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">op</span><span class="o">))</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行除法..."</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">paramB</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">"除数不能为0!"</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">/</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">"未找到计算方法!"</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="section-7">使用策略模式</h3>
+
+<p>UML类图
+<img src="/img/in-post/android_introduction/android_strategy-kerison-uml-calc.png" alt="url" /></p>
+
+<ul>
+  <li>Calc：进行计算操作的上下文环境。</li>
+  <li>Strategy : 计算操作的抽象。</li>
+  <li>AddStrategy、SubStrategy、MultiStrategy、DivStrategy : 具体的 +、-、*、/ 实现。</li>
+</ul>
+
+<p>具体实现代码如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="c1">//针对操作进行抽象</span>
+  <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Strategy</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">calc</span><span class="o">(</span><span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">);</span>
+  <span class="o">}</span>
+  
+  <span class="c1">//加法的具体实现策略</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AddStrategy</span> <span class="kd">implements</span> <span class="n">Strategy</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">calc</span><span class="o">(</span><span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO Auto-generated method stub</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行加法策略..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">+</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//减法的具体实现策略</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SubStrategy</span> <span class="kd">implements</span> <span class="n">Strategy</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">calc</span><span class="o">(</span><span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO Auto-generated method stub</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行减法策略..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">-</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//乘法的具体实现策略</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MultiStrategy</span> <span class="kd">implements</span> <span class="n">Strategy</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">calc</span><span class="o">(</span><span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO Auto-generated method stub</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行乘法策略..."</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">*</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//除法的具体实现策略</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">DivStrategy</span> <span class="kd">implements</span> <span class="n">Strategy</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">calc</span><span class="o">(</span><span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO Auto-generated method stub</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行除法策略..."</span><span class="o">);</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">paramB</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">"除数不能为0!"</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="n">paramA</span> <span class="o">/</span> <span class="n">paramB</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="c1">//上下文环境的实现</span>
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Calc</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Strategy</span> <span class="n">strategy</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setStrategy</span><span class="o">(</span><span class="n">Strategy</span> <span class="n">strategy</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">strategy</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">double</span> <span class="n">calc</span><span class="o">(</span><span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO Auto-generated method stub</span>
+      <span class="c1">// doing something</span>
+      <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">strategy</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="s">"你还没有设置计算的策略"</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">strategy</span><span class="o">.</span><span class="na">calc</span><span class="o">(</span><span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+
+  <span class="c1">//执行方法</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span> <span class="n">calc</span><span class="o">(</span><span class="n">Strategy</span> <span class="n">strategy</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramA</span><span class="o">,</span> <span class="kt">double</span> <span class="n">paramB</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Calc</span> <span class="n">calc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Calc</span><span class="o">();</span>
+    <span class="n">calc</span><span class="o">.</span><span class="na">setStrategy</span><span class="o">(</span><span class="n">strategy</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">calc</span><span class="o">.</span><span class="na">calc</span><span class="o">(</span><span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>二者运行：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">double</span> <span class="n">paramA</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+    <span class="kt">double</span> <span class="n">paramB</span> <span class="o">=</span> <span class="mi">21</span><span class="o">;</span>
+    
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"------------- 普通形式 ----------------"</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"加法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="s">"+"</span><span class="o">,</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"减法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="s">"-"</span><span class="o">,</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"乘法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="s">"*"</span><span class="o">,</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"除法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="s">"/"</span><span class="o">,</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+    
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"------------ 策略模式  ----------------"</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"加法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="k">new</span> <span class="n">AddStrategy</span><span class="o">(),</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"减法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="k">new</span> <span class="n">SubStrategy</span><span class="o">(),</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"乘法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="k">new</span> <span class="n">MultiStrategy</span><span class="o">(),</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"除法结果是："</span> <span class="o">+</span> <span class="n">calc</span><span class="o">(</span><span class="k">new</span> <span class="n">DivStrategy</span><span class="o">(),</span> <span class="n">paramA</span><span class="o">,</span> <span class="n">paramB</span><span class="o">));</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>结果为：</p>
+
+<p><img src="/img/in-post/android_introduction/android_strategy-kerison-uml-calc-result.png" alt="url" /></p>
+
+<h3 id="section-8">总结</h3>
+
+<p>通过简单的代码可以清晰的看出二者的优势所在，前者通过简单的if-else来解决问题，在解决简单问题事会更简单、方便，后者则是通过给予不同的具体策略来获取不同的结果，对于较为复杂的业务逻辑显得更为直观，扩展也更为方便。</p>
+
+<h2 id="android">Android源码中的模式实现</h2>
+
+<p>日常的Android开发中经常会用到动画，Android中最简单的动画就是Tween Animation了，当然帧动画和属性动画也挺方便的，但是基本原理都类似，毕竟动画的本质都是一帧一帧的展现给用户的，只不要当fps小于60的时候，人眼基本看不出间隔，也就成了所谓的流畅动画。（注：属性动画是3.0以后才有的，低版本可采用<a href="https://github.com/JakeWharton/NineOldAndroids">NineOldAndroids</a>来兼容。而动画的动态效果往往也取决于插值器Interpolator不同，我们只需要对Animation对象设置不同的Interpolator就可以实现不同的效果，这是怎么实现的呢？</p>
+
+<p>首先要想知道动画的执行流程，还是得从View入手，因为Android中主要针对的操作对象还是View，所以我们首先到View中查找，我们找到了View.startAnimation(Animation animation)这个方法。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startAnimation</span><span class="p">(</span><span class="n">Animation</span> <span class="n">animation</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//初始化动画开始时间</span>
+        <span class="n">animation</span><span class="o">.</span><span class="na">setStartTime</span><span class="o">(</span><span class="n">Animation</span><span class="o">.</span><span class="na">START_ON_FIRST_FRAME</span><span class="o">);</span>
+    <span class="c1">//对View设置动画</span>
+        <span class="n">setAnimation</span><span class="o">(</span><span class="n">animation</span><span class="o">);</span> 
+    <span class="c1">//刷新父类缓存</span>
+        <span class="n">invalidateParentCaches</span><span class="o">();</span>
+    <span class="c1">//刷新View本身及子View</span>
+        <span class="n">invalidate</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+<p>考虑到View一般不会单独存在，都是存在于某个ViewGroup中，所以google使用动画绘制的地方选择了在ViewGroup中的drawChild(Canvas canvas, View child, long drawingTime)方法中进行调用子View的绘制。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">drawChild</span><span class="p">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">,</span> <span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">long</span> <span class="n">drawingTime</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="na">draw</span><span class="o">(</span><span class="n">canvas</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span> <span class="n">drawingTime</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>再看下View中的draw(Canvas canvas, ViewGroup parent, long drawingTime)方法中是如何调用使用Animation的</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kt">boolean</span> <span class="nf">draw</span><span class="p">(</span><span class="n">Canvas</span> <span class="n">canvas</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">,</span> <span class="kt">long</span> <span class="n">drawingTime</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//...</span>
+    
+    <span class="c1">//查看是否需要清除动画信息</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="na">mGroupFlags</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">((</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">ViewGroup</span><span class="o">.</span><span class="na">FLAG_CLEAR_TRANSFORMATION</span><span class="o">)</span> <span class="o">==</span> <span class="n">ViewGroup</span><span class="o">.</span><span class="na">FLAG_CLEAR_TRANSFORMATION</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">parent</span><span class="o">.</span><span class="na">getChildTransformation</span><span class="o">().</span><span class="na">clear</span><span class="o">();</span>
+            <span class="n">parent</span><span class="o">.</span><span class="na">mGroupFlags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">ViewGroup</span><span class="o">.</span><span class="na">FLAG_CLEAR_TRANSFORMATION</span><span class="o">;</span>
+        <span class="o">}</span>
+  
+    <span class="c1">//获取设置的动画信息</span>
+      <span class="kd">final</span> <span class="n">Animation</span> <span class="n">a</span> <span class="o">=</span> <span class="n">getAnimation</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">//绘制动画</span>
+            <span class="n">more</span> <span class="o">=</span> <span class="n">drawAnimation</span><span class="o">(</span><span class="n">parent</span><span class="o">,</span> <span class="n">drawingTime</span><span class="o">,</span> <span class="n">a</span><span class="o">,</span> <span class="n">scalingRequired</span><span class="o">);</span>
+            <span class="n">concatMatrix</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">willChangeTransformationMatrix</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">concatMatrix</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mPrivateFlags3</span> <span class="o">|=</span> <span class="n">PFLAG3_VIEW_IS_ANIMATING_TRANSFORM</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">transformToApply</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="na">getChildTransformation</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="c1">//...</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>可以看出在父类调用View的draw方法中，会先判断是否设置了清除到需要做该表的标记，然后再获取设置的动画的信息，如果设置了动画，就会调用View中的drawAnimation方法，具体如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">drawAnimation</span><span class="p">(</span><span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">,</span> <span class="kt">long</span> <span class="n">drawingTime</span><span class="o">,</span>
+            <span class="n">Animation</span> <span class="n">a</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">scalingRequired</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="n">Transformation</span> <span class="n">invalidationTransform</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="kt">int</span> <span class="n">flags</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="na">mGroupFlags</span><span class="o">;</span>
+    <span class="c1">//判断动画是否已经初始化过</span>
+        <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">initialized</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">isInitialized</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">initialized</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">a</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="n">mRight</span> <span class="o">-</span> <span class="n">mLeft</span><span class="o">,</span> <span class="n">mBottom</span> <span class="o">-</span> <span class="n">mTop</span><span class="o">,</span> <span class="n">parent</span><span class="o">.</span><span class="na">getWidth</span><span class="o">(),</span> <span class="n">parent</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+            <span class="n">a</span><span class="o">.</span><span class="na">initializeInvalidateRegion</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">mRight</span> <span class="o">-</span> <span class="n">mLeft</span><span class="o">,</span> <span class="n">mBottom</span> <span class="o">-</span> <span class="n">mTop</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mAttachInfo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">a</span><span class="o">.</span><span class="na">setListenerHandler</span><span class="o">(</span><span class="n">mAttachInfo</span><span class="o">.</span><span class="na">mHandler</span><span class="o">);</span>
+            <span class="n">onAnimationStart</span><span class="o">();</span>
+        <span class="o">}</span>
+    
+    <span class="c1">//判断View是否需要进行缩放</span>
+    <span class="kd">final</span> <span class="n">Transformation</span> <span class="n">t</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="na">getChildTransformation</span><span class="o">();</span>
+        <span class="kt">boolean</span> <span class="n">more</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">getTransformation</span><span class="o">(</span><span class="n">drawingTime</span><span class="o">,</span> <span class="n">t</span><span class="o">,</span> <span class="mi">1</span><span class="n">f</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">scalingRequired</span> <span class="o">&amp;&amp;</span> <span class="n">mAttachInfo</span><span class="o">.</span><span class="na">mApplicationScale</span> <span class="o">!=</span> <span class="mi">1</span><span class="n">f</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">mInvalidationTransformation</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">parent</span><span class="o">.</span><span class="na">mInvalidationTransformation</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Transformation</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="n">invalidationTransform</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="na">mInvalidationTransformation</span><span class="o">;</span>
+            <span class="n">a</span><span class="o">.</span><span class="na">getTransformation</span><span class="o">(</span><span class="n">drawingTime</span><span class="o">,</span> <span class="n">invalidationTransform</span><span class="o">,</span> <span class="mi">1</span><span class="n">f</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">invalidationTransform</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+        <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">more</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">//根据具体实现，判断当前动画类型是否需要进行调整位置大小，然后刷新不同的区域</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">a</span><span class="o">.</span><span class="na">willChangeBounds</span><span class="o">())</span> <span class="o">{</span>
+        <span class="c1">//...</span>
+        
+      <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+        <span class="c1">//...</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">more</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>其中主要的操作是动画始化、动画操作、界面刷新。动画的具体实现是调用了Animation中的getTransformation(long currentTime, Transformation outTransformation,float scale)方法。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">getTransformation</span><span class="p">(</span><span class="kt">long</span> <span class="n">currentTime</span><span class="o">,</span> <span class="n">Transformation</span> <span class="n">outTransformation</span><span class="o">,</span>
+            <span class="kt">float</span> <span class="n">scale</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mScaleFactor</span> <span class="o">=</span> <span class="n">scale</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">getTransformation</span><span class="o">(</span><span class="n">currentTime</span><span class="o">,</span> <span class="n">outTransformation</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>在上面的方法中主要是获取缩放系数和调用Animation.getTransformation(long currentTime, Transformation outTransformation)来计算和应用动画效果。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>  <span class="n">Interpolator</span> <span class="n">mInterpolator</span><span class="o">;</span>  <span class="c1">//成员变量</span>
+  <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">getTransformation</span><span class="o">(</span><span class="kt">long</span> <span class="n">currentTime</span><span class="o">,</span> <span class="n">Transformation</span> <span class="n">outTransformation</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">//计算处理当前动画的时间点...</span>
+            <span class="kd">final</span> <span class="kt">float</span> <span class="n">interpolatedTime</span> <span class="o">=</span> <span class="n">mInterpolator</span><span class="o">.</span><span class="na">getInterpolation</span><span class="o">(</span><span class="n">normalizedTime</span><span class="o">);</span>
+      <span class="c1">//后续处理，以此来应用动画效果...</span>
+            <span class="n">applyTransformation</span><span class="o">(</span><span class="n">interpolatedTime</span><span class="o">,</span> <span class="n">outTransformation</span><span class="o">);</span>
+      <span class="k">return</span> <span class="n">mMore</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>很容易发现Android系统中在处理动画的时候会调用插值器中的getInterpolation(float input)方法来获取当前的时间点，依次来计算当前变化的情况。这就不得不说到Android中的插值器Interpolator，它的作用是根据时间流逝的百分比来计算出当前属性值改变的百分比，系统预置的有LinearInterpolator（线性插值器：匀速动画）、AccelerateDecelerateInterpolator（加速减速插值器：动画两头慢中间快）和DecelerateInterpolator（减速插值器：动画越来越慢）等，如图：</p>
+
+<p><img src="/img/in-post/android_introduction/android_strategy-kerison-uml-android-interpolator.png" alt="url" /></p>
+
+<p>由于初期比较旧的版本采用的插值器是TimeInterpolator抽象，google采用了多加一层接口继承来实现兼容也不足为怪了。很显然策略模式在这里作了很好的实现，Interpolator就是处理动画时间的抽象，LinearInterpolator、CycleInterpolator等插值器就是具体的实现策略。插值器与Animation的关系图如下：</p>
+
+<p><img src="/img/in-post/android_introduction/android_strategy-kerison-uml-android.png" alt="url" /></p>
+
+<p>这里以LinearInterpolator和CycleInterpolator为例：</p>
+
+<ul>
+  <li>
+    <p>LinearInterpolator</p>
+
+    <p>public float getInterpolation(float input) {
+        return input;
+    }</p>
+  </li>
+  <li>
+    <p>CycleInterpolator</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>public float getInterpolation(float input) {
+    return (float)(Math.sin(2 * mCycles * Math.PI * input));
+}    
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<p>可以看出LinearInterpolator中计算当前时间的方法是做线性运算，也就是返回input*1，所以动画会成直线匀速播放出来，而CycleInterpolator是按照正弦运算，所以动画会正反方向跑一次，其它插值器依次类推。不同的插值器的计算方法都有所差别，用户设置插值器以实现动画速率的算法替换。</p>
+
+<h2 id="section-9">4. 杂谈</h2>
+
+<p>策略模式主要用来分离算法，根据相同的行为抽象来做不同的具体策略实现。
+通过以上也可以看出策略模式的优缺点：</p>
+
+<p>优点：</p>
+
+<ul>
+  <li>结构清晰明了、使用简单直观。</li>
+  <li>耦合度相对而言较低，扩展方便。</li>
+  <li>操作封装也更为彻底，数据更为安全。</li>
+</ul>
+
+<p>缺点：</p>
+
+<ul>
+  <li>随着策略的增加，子类也会变得繁多。</li>
+</ul>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/04/android_model_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析四">
+                        Previous<br>
+                        <span>Android 设计模式分析四</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/06/06/android_binder_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析六">
+                        Next<br>
+                        <span>Android 设计模式分析六</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="6">
+                                    Android
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/05/android_tactics_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/05/android_tactics_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
