@@ -5,9 +5,214 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 06 Jun 2016 21:28:43 +0800</pubDate>
-    <lastBuildDate>Mon, 06 Jun 2016 21:28:43 +0800</lastBuildDate>
+    <pubDate>Tue, 07 Jun 2016 22:17:50 +0800</pubDate>
+    <lastBuildDate>Tue, 07 Jun 2016 22:17:50 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Android 设计模式分析七</title>
+        <description>&lt;h2 id=&quot;section&quot;&gt;1. 模式介绍&lt;/h2&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;模式的定义&lt;/h3&gt;
+
+&lt;p&gt;迭代器（Iterator）模式，又叫做游标（Cursor）模式。GOF给出的定义为：提供一种方法访问一个容器（container）对象中各个元素，而又不需暴露该对象的内部细节。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;模式的使用场景&lt;/h3&gt;
+&lt;p&gt;　　Java JDK 1.2 版开始支持迭代器。每一个迭代器提供next()以及hasNext()方法，同时也支持remove()(1.8的时候remove已经成为default throw new UnsupportedOperationException(“remove”))。对Android来说,集合Collection实现了Iterable接口,就是说,无论是List的一大家子还是Map的一大家子,我们都可以使用Iterator来遍历里面的元素,&lt;a href=&quot;http://docs.oracle.com/javase/8/docs/api/java/util/package-tree.html&quot;&gt;可以使用Iterator的集合&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;uml&quot;&gt;2. UML类图&lt;/h2&gt;
+&lt;p&gt;　　　
+&lt;img src=&quot;/img/in-post/android_introduction/android_Iterator_UML_class_diagram.svg.png&quot; alt=&quot;iterator&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;角色介绍　　&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;迭代器接口Iterator：该接口必须定义实现迭代功能的最小定义方法集比如提供hasNext()和next()方法。&lt;/li&gt;
+  &lt;li&gt;迭代器实现类：迭代器接口Iterator的实现类。可以根据具体情况加以实现。&lt;/li&gt;
+  &lt;li&gt;容器接口：定义基本功能以及提供类似Iterator iterator()的方法。&lt;/li&gt;
+  &lt;li&gt;容器实现类：容器接口的实现类。必须实现Iterator iterator()方法。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;3. 模式的简单实现&lt;/h2&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;简单实现的介绍&lt;/h3&gt;
+
+&lt;p&gt;我们有一个数组,对其遍历的过程我们希望使用者像ArrayList一样的使用,我们就可以用过iterator来实现.&lt;/p&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;实现源码&lt;/h3&gt;
+
+&lt;p&gt;下面我们自己实现一个Iterator的集合&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public Iterator&amp;lt;Mileage&amp;gt; iterator() {
+    return new ArrayIterator();
+}
+
+private class ArrayIterator implements Iterator&amp;lt;Mileage&amp;gt; {
+/**
+ * Number of elements remaining in this iteration
+ */
+private int remaining = size;
+
+/**
+ * Index of element that remove() would remove, or -1 if no such elt
+ */
+private int removalIndex = -1;
+
+@Override
+public boolean hasNext() {
+    return remaining != 0;
+}
+
+@Override
+public Mileage next() {
+    Mileage mileage = new Mileage();
+    removalIndex = size-remaining;
+    mileage.name = String.valueOf(versionCodes[removalIndex]);
+    mileage.value = versionMileages[removalIndex];
+    remaining-=1;
+    return mileage;
+}
+
+@Override
+public void remove() {
+    versionCodes[removalIndex]=-1;
+    versionMileages[removalIndex]=&quot;It was set null&quot;;
+}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;使用的过程如下,我们特意使用了remove方法,注意这个只是一个示例,和大多数的集合相比,该实现并不严谨&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AndroidMileage androidMileage = new AndroidMileage();
+Iterator&amp;lt;AndroidMileage.Mileage&amp;gt; iterator =androidMileage.iterator();
+while (iterator.hasNext()){
+    AndroidMileage.Mileage mileage = iterator.next();
+    if(mileage.name.equalsIgnoreCase(&quot;16&quot;)){
+    	//remove掉的是当前的这个,暂时只是置空,并未真的移掉
+        iterator.remove();
+    }
+    Log.e(&quot;mileage&quot;,mileage.toString());
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;下面直接写出几种集合的遍历方式,大家可以对比一下&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;HashMap的遍历&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HashMap&amp;lt;String, String&amp;gt; colorMap=new HashMap&amp;lt;&amp;gt;();
+colorMap.put(&quot;Color1&quot;,&quot;Red&quot;);
+colorMap.put(&quot;Color2&quot;,&quot;Blue&quot;);
+Iterator iterator = colorMap.keySet().iterator();
+while( iterator. hasNext() ){
+    String key = (String) iterator.next();
+    String value = colorMap.get(key);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;JSONObject的遍历&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;String paramString = &quot;{menu:{\&quot;1\&quot;:\&quot;sql\&quot;, \&quot;2\&quot;:\&quot;android\&quot;, \&quot;3\&quot;:\&quot;mvc\&quot;}}&quot;;
+JSONObject menuJSONObj  = new JSONObject(paramString);
+JSONObject  menuObj = menuJSONObj.getJSONObject(&quot;menu&quot;);
+Iterator iter = menuObj.keys();
+while(iter.hasNext()){
+    String key = (String)iter.next();
+    String value = menuObj.getString(key);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;就目前而言，各种高级语言都有对迭代器的基本实现，没必要自己实现迭代器，使用内置的迭代器即可满足日常需求。&lt;/p&gt;
+
+&lt;h2 id=&quot;android&quot;&gt;Android源码中的模式实现&lt;/h2&gt;
+&lt;p&gt;一个集合想要实现Iterator很是很简单的,需要注意的是每次需要重新生成一个Iterator来进行遍历.且遍历过程是单方向的,HashMap是通过一个类似HashIterator来实现的,我们为了解释简单,这里只是研究ArrayList(此处以Android L源码为例,其他版本略有不同)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Override public Iterator&amp;lt;E&amp;gt; iterator() {
+    return new ArrayListIterator();
+}
+
+private class ArrayListIterator implements Iterator&amp;lt;E&amp;gt; {
+    /** Number of elements remaining in this iteration */
+    private int remaining = size;
+
+    /** Index of element that remove() would remove, or -1 if no such elt */
+    private int removalIndex = -1;
+
+    /** The expected modCount value */
+    private int expectedModCount = modCount;
+
+    public boolean hasNext() {
+        return remaining != 0;
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;) public E next() {
+        ArrayList&amp;lt;E&amp;gt; ourList = ArrayList.this;
+        int rem = remaining;
+        if (ourList.modCount != expectedModCount) {
+            throw new ConcurrentModificationException();
+        }
+        if (rem == 0) {
+            throw new NoSuchElementException();
+        }
+        remaining = rem - 1;
+        return (E) ourList.array[removalIndex = ourList.size - rem];
+    }
+
+    public void remove() {
+        Object[] a = array;
+        int removalIdx = removalIndex;
+        if (modCount != expectedModCount) {
+            throw new ConcurrentModificationException();
+        }
+        if (removalIdx &amp;lt; 0) {
+            throw new IllegalStateException();
+        }
+        System.arraycopy(a, removalIdx + 1, a, removalIdx, remaining);
+        a[--size] = null;  // Prevent memory leak
+        removalIndex = -1;
+        expectedModCount = ++modCount;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;java中的写法一般都是通过iterator()来生成Iterator,保证iterator()每次生成新的实例&lt;/li&gt;
+  &lt;li&gt;remaining初始化使用整个list的size大小,removalIndex表示remove掉的位置,modCount在集合大小发生变化的时候后都会进行一次modCount++操作,避免数据不一致,前面我写的例子这方面没有写,请务必注意这点&lt;/li&gt;
+  &lt;li&gt;hasNext方法中,因为remaining是一个size-&amp;gt;0的变化过程,这样只需要判断非0就可以得知当前遍历的是否还有未完成的元素&lt;/li&gt;
+  &lt;li&gt;next,第一次调用的时候返回array[0]的元素,这个过程中removalIndex会被设置成当前array的index&lt;/li&gt;
+  &lt;li&gt;remove的实现是直接操作的内存中的数据,是能够直接删掉元素的,不展开了&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-7&quot;&gt;4. 杂谈&lt;/h2&gt;
+
+&lt;h3 id=&quot;section-8&quot;&gt;优点&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;面向对象设计原则中的单一职责原则，对于不同的功能,我们要尽可能的把这个功能分解出单一的职责，不同的类去承担不同的职责。Iterator模式就是分离了集合对象的遍历行为，抽象出一个迭代器类来负责，这样不暴露集合的内部结构，又可让外部代码透明的访问集合内部的数据。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-9&quot;&gt;缺点&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;会产生多余的对象，消耗内存；&lt;/li&gt;
+  &lt;li&gt;遍历过程是一个单向且不可逆的遍历&lt;/li&gt;
+  &lt;li&gt;如果你在遍历的过程中,集合发生改变,变多变少,内容变化都是算,就会抛出来ConcurrentModificationException异常.&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 07 Jun 2016 15:25:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/07/android_iterator_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/07/android_iterator_introduction/</guid>
+        
+        <category>Android</category>
+        
+        
+      </item>
     
       <item>
         <title>Android 设计模式分析六</title>
@@ -2987,92 +3192,6 @@ date: 2014-06-06 20:00:00
         <category>Markdown</category>
         
         <category>MacOS</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Leetcode Maximum Product of Word Lengths</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;“&lt;a href=&quot;https://leetcode.com/&quot;&gt;Leetcode&lt;/a&gt;是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;题目&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Given a string array words, find the maximum value of length(word[i]) * length(word[j])
-where the two words do not share common letters. You may assume that each word will
-contain only lower case letters. If no such two words exist, return 0.
-
-Example 1:
-Given [&quot;abcw&quot;, &quot;baz&quot;, &quot;foo&quot;, &quot;bar&quot;, &quot;xtfn&quot;, &quot;abcdef&quot;]
-Return 16
-The two words can be &quot;abcw&quot;, &quot;xtfn&quot;.
-
-Example 2:
-Given [&quot;a&quot;, &quot;ab&quot;, &quot;abc&quot;, &quot;d&quot;, &quot;cd&quot;, &quot;bcd&quot;, &quot;abcd&quot;]
-Return 4
-The two words can be &quot;ab&quot;, &quot;cd&quot;.
-
-Example 3:
-Given [&quot;a&quot;, &quot;aa&quot;, &quot;aaa&quot;, &quot;aaaa&quot;]
-Return 0
-No such pair of words.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;翻译&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;给定一个string数组words，找出没有重复字母的最大length(word[i]) * length(word[j])。
-你可以假设每个单词只有小写字母，如果没有这样的两个单词，返回0.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;tags&quot;&gt;Tags&lt;/h4&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bit Manipulation&lt;/code&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;section-2&quot;&gt;代码&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Java:
-
-public int maxProduct(String[] words) {
-    int max = 0;
-    int length = words.length;
-    int[] wordList = new int[length];
-    for(int i = 0; i &amp;lt; length; i++)
-        for(char chr: words[i].toCharArray())
-            wordList[i] |= 1 &amp;lt;&amp;lt; (int)(chr - &#39;a&#39;);
-
-    for(int i = 0; i &amp;lt; length; i++){
-        for(int j = i + 1; j &amp;lt; length; j++){
-            if((wordList[i] &amp;amp; wordList[j]) == 0)
-                max = Math.max(max, words[i].length() * words[j].length());
-        }
-    }
-
-    return max;
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-3&quot;&gt;讲解&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;int类型有32位，小写字母只有26位，所以可以用一个int型存储所有小写字母，然后通过与操作可以知道两个
-单词是否有重复，进而可以算出长度积的最大值。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;section-4&quot;&gt;习题地址&lt;/h4&gt;
-&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/maximum-product-of-word-lengths/&quot; target=&quot;_blank&quot;&gt;Maximum Product of Word Lengths &lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 19 Apr 2016 20:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/</guid>
-        
-        <category>Leetcode</category>
-        
-        <category>Algorithm</category>
         
         
       </item>
