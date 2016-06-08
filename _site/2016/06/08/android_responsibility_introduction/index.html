@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Android 设计模式分析八
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/08/android_responsibility_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android 设计模式分析八</h1>
+                    
+                    
+                    <h2 class="subheading">责任链模式</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 8, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">1. 模式介绍</h2>
+
+<h3 id="section-1">模式的定义</h3>
+<p>一个请求沿着一条“链”传递，直到该“链”上的某个处理者处理它为止。</p>
+
+<h3 id="section-2">模式的使用场景</h3>
+<p>一个请求可以被多个处理者处理或处理者未明确指定时。</p>
+
+<h2 id="uml">2. UML类图</h2>
+<p><img src="/img/in-post/android_introduction/android_chain-of-responsibility.jpg" alt="url" /></p>
+
+<h3 id="section-3">角色介绍</h3>
+<p>Client：客户端</p>
+
+<p>Handler：抽象处理者</p>
+
+<p>ConcreteHandler：具体处理者</p>
+
+<h2 id="section-4">3. 模式的简单实现</h2>
+<p>###  简单实现的介绍
+责任链模式非常简单异常好理解，相信我它比单例模式还简单易懂，其应用也几乎无所不在，甚至可以这么说……从你敲代码的第一天起你就不知不觉用过了它最原始的裸体结构：分支语句：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleResponsibility</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">request</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">3</span><span class="o">);</span>
+        <span class="k">switch</span> <span class="o">(</span><span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"SMBother handle it: "</span> <span class="o">+</span> <span class="n">request</span><span class="o">);</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Aige handle it: "</span> <span class="o">+</span> <span class="n">request</span><span class="o">);</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"7Bother handle it: "</span> <span class="o">+</span> <span class="n">request</span><span class="o">);</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>谁敢说没用过上面这种结构体的站出来我保证不打屎他，没用过swith至少if-else用过吧，if-else都没用过你怎么知道github的……上面的这段代码其实就是一种最最简单的责任链模式，其根据request的值进行不同的处理。当然这只是个不恰当的例子来让大家尽快对责任链模式有个简单的理解，因为可能很多童鞋第一次听说这个模式，而人对未知事物总是恐惧的，为了消除大家的这种恐惧，我将大家最常见的code搬出来相信熟悉的代码对大家来说有一种亲切的感觉，当然我们实际应用中的责任链模式绝逼不是这么Mr.Simple，但是也不会复杂不到哪去。责任链模式，顾名思义，必定与责任Responsibility相关，其实质呢就像上面定义中说的那样一个请求（比如上面代码中的request值）沿着一条“链”（比如上面代码中我们的switch分支语句）传递，当某个处于“链”上的处理者（case定义的条件）处理它时完成处理。其实现实生活中关于责任者模式的例子数不胜数，最常见的就是工作中上下级之间的责任请求关系了。比如：</p>
+
+<blockquote>
+  <p>程序猿狗屎运被派出去异国出差一周，这时候就要去申请一定的差旅费了，你心里小算一笔加上各种车马费估计大概要个两三万，于是先向小组长汇报申请，可是大于一千块小组长没权利批复，于是只好去找项目主管，项目主管一看妈蛋这么狠要这么多我只能批小于五千块的，于是你只能再跑去找部门经理，部门经理看了下一阵淫笑后说没法批我只能批小于一万的，于是你只能狗血地去跪求老总，老总一看哟！小伙子心忒黑啊！老总话虽如此但还是把钱批给你了毕竟是给公司办事，到此申请处理完毕，你也可以屁颠屁颠地滚了。</p>
+</blockquote>
+
+<p>如果把上面的场景应用到责任链模式，那么我们的request请求就是申请经费，组长主管经理老总们就是一个个具体的责任人他们可以对请求做出处理但是他们只能在自己的责任范围内处理该处理的请求，而程序猿只是个底层狗请求者向责任人们发起请求…………苦逼的猿。</p>
+
+<h3 id="section-5">实现源码</h3>
+<p>上面的场景我们可以使用使用如下的代码来模拟实现：</p>
+
+<p>首先定义一个程序员类：</p>
+
+<pre><code class="language-Java">/**
+ * 程序猿类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */
+public class ProgramApe {
+    private int expenses;// 声明整型成员变量表示出差费用
+    private String apply = "爹要点钱出差";// 声明字符串型成员变量表示差旅申请
+
+    /*
+     * 含参构造方法
+     */
+    public ProgramApe(int expenses) {
+        this.expenses = expenses;
+    }
+
+    /*
+     * 获取程序员具体的差旅费用
+     */
+    public int getExpenses() {
+        return expenses;
+    }
+
+    /*
+     * 获取差旅费申请
+     */
+    public String getApply() {
+        return apply;
+    }
+}
+</code></pre>
+
+<p>然后依次是各个大爷类：</p>
+
+<pre><code class="language-Java">/**
+ * 小组长类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */
+public class GroupLeader {
+
+    /**
+     * 处理请求
+     * 
+     * @param ape
+     *            具体的猿
+     */
+    public void handleRequest(ProgramApe ape) {
+        System.out.println(ape.getApply());
+        System.out.println("GroupLeader: Of course Yes!");
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">/**
+ * 项目主管类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */
+public class Director {
+    /**
+     * 处理请求
+     * 
+     * @param ape
+     *            具体的猿
+     */
+    public void handleRequest(ProgramApe ape) {
+        System.out.println(ape.getApply());
+        System.out.println("Director: Of course Yes!");
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">/**
+ * 部门经理类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */
+public class Manager {
+    /**
+     * 处理请求
+     * 
+     * @param ape
+     *            具体的猿
+     */
+    public void handleRequest(ProgramApe ape) {
+        System.out.println(ape.getApply());
+        System.out.println("Manager: Of course Yes!");
+    }
+}
+</code></pre>
+
+<pre><code class="language-Java">/**
+ * 老总类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */
+public class Boss {
+    /**
+     * 处理请求
+     * 
+     * @param ape
+     *            具体的猿
+     */
+    public void handleRequest(ProgramApe ape) {
+        System.out.println(ape.getApply());
+        System.out.println("Boss: Of course Yes!");
+    }
+}
+</code></pre>
+
+<p>好了，万事俱备只欠场景，现在我们模拟一下整个场景过程：</p>
+
+<pre><code class="language-Java">/**
+ * 场景模拟类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */
+public class Client {
+    public static void main(String[] args) {
+        /*
+         * 先来一个程序猿 这里给他一个三万以内的随机值表示需要申请的差旅费
+         */
+        ProgramApe ape = new ProgramApe((int) (Math.random() * 30000));
+
+        /*
+         * 再来四个老大
+         */
+        GroupLeader leader = new GroupLeader();
+        Director director = new Director();
+        Manager manager = new Manager();
+        Boss boss = new Boss();
+
+        /*
+         * 处理申请
+         */
+        if (ape.getExpenses() &lt;= 1000) {
+            leader.handleRequest(ape);
+        } else if (ape.getExpenses() &lt;= 5000) {
+            director.handleRequest(ape);
+        } else if (ape.getExpenses() &lt;= 10000) {
+            manager.handleRequest(ape);
+        } else {
+            boss.handleRequest(ape);
+        }
+    }
+}
+</code></pre>
+
+<p>运行一下，我的结果输出如下（注：由于随机值的原因你的结果也许与我不一样）：</p>
+
+<blockquote>
+  <p>爹要点钱出差</p>
+
+  <p>Manager: Of course Yes!</p>
+</blockquote>
+
+<p>是不是感觉有点懂了？当然上面的代码虽然在一定程度上体现了责任链模式的思想，但是确是非常terrible的。作为一个code新手可以原谅，但是对有一定经验的code+来说就不可饶恕了，很明显所有的老大都有共同的handleRequest方法而程序猿也有不同类型的，比如一个公司的php、c/c++、Android、IOS等等，所有的这些共性我们都可以将其抽象为一个抽象类或接口，比如我们的程序猿抽象父类：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 程序猿抽象接口
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">ProgramApes</span> <span class="o">{</span>
+    <span class="cm">/**
+     * 获取程序员具体的差旅费用
+     * 
+     * @return 要多少钱
+     */</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">int</span> <span class="n">getExpenses</span><span class="o">();</span>
+
+    <span class="cm">/**
+     * 获取差旅费申请
+     * 
+     * @return Just a request
+     */</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="n">getApply</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>这时我们就可以实现该接口使用呆毛具现化一个具体的程序猿，比如Android猿：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Android程序猿类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AndroidApe</span> <span class="kd">extends</span> <span class="n">ProgramApes</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">expenses</span><span class="o">;</span><span class="c1">// 声明整型成员变量表示出差费用</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">apply</span> <span class="o">=</span> <span class="s">"爹要点钱出差"</span><span class="o">;</span><span class="c1">// 声明字符串型成员变量表示差旅申请</span>
+
+    <span class="cm">/*
+     * 含参构造方法
+     */</span>
+    <span class="kd">public</span> <span class="n">AndroidApe</span><span class="o">(</span><span class="kt">int</span> <span class="n">expenses</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">expenses</span> <span class="o">=</span> <span class="n">expenses</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">getExpenses</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">expenses</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">getApply</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">apply</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>同样的，所有的老大都有一个批复经费申请的权利，我们把这个权利抽象为一个IPower接口：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 老大们的权利接口
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IPower</span> <span class="o">{</span>
+    <span class="cm">/**
+     * 处理请求
+     * 
+     * @param ape
+     *            具体的猿
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">handleRequest</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>然后让所有的老大们实现该接口即可其它不变，而场景类Client中也只是修改各个老大的引用类型为IPower而已，具体代码就不贴了，运行效果也类似。</p>
+
+<p>然而上面的代码依然问题重重，为什么呢？大家想想，当程序猿发出一个申请时却是在场景类中做出判断决定的……然而这个职责事实上应该由老大们来承担并作出决定，上面的代码搞反了……既然知道了错误，那么我们就来再次重构一下代码：</p>
+
+<p>把所有老大抽象为一个leader抽象类，在该抽象类中实现处理逻辑：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 领导人抽象类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Leader</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">expenses</span><span class="o">;</span><span class="c1">// 当前领导能批复的金额</span>
+    <span class="kd">private</span> <span class="n">Leader</span> <span class="n">mSuperiorLeader</span><span class="o">;</span><span class="c1">// 上级领导</span>
+
+    <span class="cm">/**
+     * 含参构造方法
+     * 
+     * @param expenses
+     *            当前领导能批复的金额
+     */</span>
+    <span class="kd">public</span> <span class="n">Leader</span><span class="o">(</span><span class="kt">int</span> <span class="n">expenses</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">expenses</span> <span class="o">=</span> <span class="n">expenses</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 回应程序猿
+     * 
+     * @param ape
+     *            具体的程序猿
+     */</span>
+    <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">);</span>
+
+    <span class="cm">/**
+     * 处理请求
+     * 
+     * @param ape
+     *            具体的程序猿
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">handleRequest</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/*
+         * 如果说程序猿申请的money在当前领导的批复范围内
+         */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">ape</span><span class="o">.</span><span class="na">getExpenses</span><span class="o">()</span> <span class="o">&lt;=</span> <span class="n">expenses</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 那么就由当前领导批复即可</span>
+            <span class="n">reply</span><span class="o">(</span><span class="n">ape</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="cm">/*
+             * 否则看看当前领导有木有上级
+             */</span>
+            <span class="k">if</span> <span class="o">(</span><span class="kc">null</span> <span class="o">!=</span> <span class="n">mSuperiorLeader</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 有的话简单撒直接扔给上级处理即可</span>
+                <span class="n">mSuperiorLeader</span><span class="o">.</span><span class="na">handleRequest</span><span class="o">(</span><span class="n">ape</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="c1">// 没有上级的话就批复不了老……不过在这个场景中总会有领导批复的淡定</span>
+                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Goodbye my money......"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 为当前领导设置一个上级领导
+     * 
+     * @param superiorLeader
+     *            上级领导
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setLeader</span><span class="o">(</span><span class="n">Leader</span> <span class="n">superiorLeader</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mSuperiorLeader</span> <span class="o">=</span> <span class="n">superiorLeader</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>这么一来，我们的领导老大们就有了实实在在的权利职责去处理底层苦逼程序猿的请求。OK，接下来要做的事就是让所有的领导继承该类：</p>
+
+<pre><code class="language-Java">/**
+ * 小组长类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */
+public class GroupLeader extends Leader {
+
+    public GroupLeader() {
+        super(1000);
+    }
+
+    @Override
+    protected void reply(ProgramApe ape) {
+        System.out.println(ape.getApply());
+        System.out.println("GroupLeader: Of course Yes!");
+    }
+}
+</code></pre>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 项目主管类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Director</span> <span class="kd">extends</span> <span class="n">Leader</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="n">Director</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ape</span><span class="o">.</span><span class="na">getApply</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Director: Of course Yes!"</span><span class="o">);</span>     
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 部门经理类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Manager</span> <span class="kd">extends</span> <span class="n">Leader</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">Manager</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="mi">10000</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ape</span><span class="o">.</span><span class="na">getApply</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Manager: Of course Yes!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 老总类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Boss</span> <span class="kd">extends</span> <span class="n">Leader</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">Boss</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="mi">40000</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ape</span><span class="o">.</span><span class="na">getApply</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Boss: Of course Yes!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>最后，更新我们的场景类，将其从责任人的角色中解放出来：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 场景模拟类
+ * 
+ * @author Aige{@link https://github.com/AigeStudio}
+ *
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/*
+         * 先来一个程序猿 这里给他一个三万以内的随机值表示需要申请的差旅费
+         */</span>
+        <span class="n">ProgramApe</span> <span class="n">ape</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProgramApe</span><span class="o">((</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">30000</span><span class="o">));</span>
+
+        <span class="cm">/*
+         * 再来四个老大
+         */</span>
+        <span class="n">Leader</span> <span class="n">leader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GroupLeader</span><span class="o">();</span>
+        <span class="n">Leader</span> <span class="n">director</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Director</span><span class="o">();</span>
+        <span class="n">Leader</span> <span class="n">manager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Manager</span><span class="o">();</span>
+        <span class="n">Leader</span> <span class="n">boss</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Boss</span><span class="o">();</span>
+
+        <span class="cm">/*
+         * 设置老大的上一个老大
+         */</span>
+        <span class="n">leader</span><span class="o">.</span><span class="na">setLeader</span><span class="o">(</span><span class="n">director</span><span class="o">);</span>
+        <span class="n">director</span><span class="o">.</span><span class="na">setLeader</span><span class="o">(</span><span class="n">manager</span><span class="o">);</span>
+        <span class="n">manager</span><span class="o">.</span><span class="na">setLeader</span><span class="o">(</span><span class="n">boss</span><span class="o">);</span>
+
+        <span class="c1">// 处理申请</span>
+        <span class="n">leader</span><span class="o">.</span><span class="na">handleRequest</span><span class="o">(</span><span class="n">ape</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>运行三次，下面是三次运行的结果（注：由于随机值的原因你的结果也许与我不一样）：</p>
+
+<blockquote>
+  <p>爹要点钱出差</p>
+
+  <p>Boss: Of course Yes!
+***
+爹要点钱出差</p>
+
+  <p>Director: Of course Yes!
+***
+爹要点钱出差</p>
+
+  <p>Boss: Of course Yes!</p>
+</blockquote>
+
+<h3 id="section-6">总结</h3>
+
+<p>OK，这样我们就将请求和处理分离开来，对于程序猿来说，不需要知道是谁给他批复的钱，而对于领导们来说，也不需要确切地知道是批给哪个程序猿，只要根据自己的责任做出处理即可，由此将两者优雅地解耦。</p>
+
+<h2 id="android">Android源码中的模式实现</h2>
+<p>Android中关于责任链模式比较明显的体现就是在事件分发过程中对事件的投递，其实严格来说，事件投递的模式并不是严格的责任链模式，但是其是责任链模式的一种变种体现，在ViewGroup中对事件处理者的查找方式如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchTouchEvent</span><span class="p">(</span><span class="n">MotionEvent</span> <span class="n">ev</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 省略两行代码…………</span>
+
+    <span class="kt">boolean</span> <span class="n">handled</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">onFilterTouchEventForSecurity</span><span class="o">(</span><span class="n">ev</span><span class="o">))</span> <span class="o">{</span>
+
+        <span class="c1">// 省略N行代码…………</span>
+
+        <span class="cm">/*
+         * 如果事件未被取消并未被拦截
+         */</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">canceled</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">intercepted</span><span class="o">)</span> <span class="o">{</span>
+            <span class="cm">/*
+             * 如果事件为起始事件
+             */</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">actionMasked</span> <span class="o">==</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_DOWN</span>
+                    <span class="o">||</span> <span class="o">(</span><span class="n">split</span> <span class="o">&amp;&amp;</span> <span class="n">actionMasked</span> <span class="o">==</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_POINTER_DOWN</span><span class="o">)</span>
+                    <span class="o">||</span> <span class="n">actionMasked</span> <span class="o">==</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_HOVER_MOVE</span><span class="o">)</span> <span class="o">{</span>
+
+                <span class="c1">// 省掉部分逻辑…………</span>
+
+                <span class="kd">final</span> <span class="kt">int</span> <span class="n">childrenCount</span> <span class="o">=</span> <span class="n">mChildrenCount</span><span class="o">;</span>
+
+                <span class="cm">/*
+                 * 如果TouchTarget为空并且子元素不为0
+                 */</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">newTouchTarget</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">childrenCount</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="kd">final</span> <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="na">getX</span><span class="o">(</span><span class="n">actionIndex</span><span class="o">);</span>
+                    <span class="kd">final</span> <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="na">getY</span><span class="o">(</span><span class="n">actionIndex</span><span class="o">);</span>
+
+                    <span class="kd">final</span> <span class="n">View</span><span class="o">[]</span> <span class="n">children</span> <span class="o">=</span> <span class="n">mChildren</span><span class="o">;</span>
+
+                    <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">customOrder</span> <span class="o">=</span> <span class="n">isChildrenDrawingOrderEnabled</span><span class="o">();</span>
+
+                   <span class="cm">/*
+                    * 遍历子元素
+                    */</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">childrenCount</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+                        <span class="kd">final</span> <span class="kt">int</span> <span class="n">childIndex</span> <span class="o">=</span> <span class="n">customOrder</span> <span class="o">?</span>
+                                <span class="n">getChildDrawingOrder</span><span class="o">(</span><span class="n">childrenCount</span><span class="o">,</span> <span class="n">i</span><span class="o">)</span> <span class="o">:</span> <span class="n">i</span><span class="o">;</span>
+                        <span class="kd">final</span> <span class="n">View</span> <span class="n">child</span> <span class="o">=</span> <span class="n">children</span><span class="o">[</span><span class="n">childIndex</span><span class="o">];</span>
+
+                       <span class="cm">/*
+                        * 如果这个子元素无法接收Pointer Event或这个事件点压根就没有落在子元素的边界范围内
+                        */</span>
+                        <span class="k">if</span> <span class="o">(!</span><span class="n">canViewReceivePointerEvents</span><span class="o">(</span><span class="n">child</span><span class="o">)</span>
+                                <span class="o">||</span> <span class="o">!</span><span class="n">isTransformedTouchPointInView</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">child</span><span class="o">,</span> <span class="kc">null</span><span class="o">))</span> <span class="o">{</span>
+                            <span class="c1">// 那么就跳出该次循环继续遍历</span>
+                            <span class="k">continue</span><span class="o">;</span>
+                        <span class="o">}</span>
+
+                        <span class="c1">// 找到Event该由哪个子元素持有</span>
+                        <span class="n">newTouchTarget</span> <span class="o">=</span> <span class="n">getTouchTarget</span><span class="o">(</span><span class="n">child</span><span class="o">);</span>
+
+
+                        <span class="k">if</span> <span class="o">(</span><span class="n">newTouchTarget</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">newTouchTarget</span><span class="o">.</span><span class="na">pointerIdBits</span> <span class="o">|=</span> <span class="n">idBitsToAssign</span><span class="o">;</span>
+                            <span class="k">break</span><span class="o">;</span>
+                        <span class="o">}</span>
+
+                        <span class="n">resetCancelNextUpFlag</span><span class="o">(</span><span class="n">child</span><span class="o">);</span>
+
+                       <span class="cm">/*
+                        * 投递事件执行触摸操作
+                        * 如果子元素还是一个ViewGroup则递归调用重复此过程
+                        * 如果子元素是一个View那么则会调用View的dispatchTouchEvent并最终由onTouchEvent处理
+                        */</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">dispatchTransformedTouchEvent</span><span class="o">(</span><span class="n">ev</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="n">child</span><span class="o">,</span> <span class="n">idBitsToAssign</span><span class="o">))</span> <span class="o">{</span>
+                            <span class="n">mLastTouchDownTime</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="na">getDownTime</span><span class="o">();</span>
+                            <span class="n">mLastTouchDownIndex</span> <span class="o">=</span> <span class="n">childIndex</span><span class="o">;</span>
+                            <span class="n">mLastTouchDownX</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="na">getX</span><span class="o">();</span>
+                            <span class="n">mLastTouchDownY</span> <span class="o">=</span> <span class="n">ev</span><span class="o">.</span><span class="na">getY</span><span class="o">();</span>
+                            <span class="n">newTouchTarget</span> <span class="o">=</span> <span class="n">addTouchTarget</span><span class="o">(</span><span class="n">child</span><span class="o">,</span> <span class="n">idBitsToAssign</span><span class="o">);</span>
+                            <span class="n">alreadyDispatchedToNewTouchTarget</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                            <span class="k">break</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+
+               <span class="cm">/*
+                * 如果发现没有子元素可以持有该次事件
+                */</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">newTouchTarget</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">mFirstTouchTarget</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">newTouchTarget</span> <span class="o">=</span> <span class="n">mFirstTouchTarget</span><span class="o">;</span>
+                    <span class="k">while</span> <span class="o">(</span><span class="n">newTouchTarget</span><span class="o">.</span><span class="na">next</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">newTouchTarget</span> <span class="o">=</span> <span class="n">newTouchTarget</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                    <span class="o">}</span>
+                    <span class="n">newTouchTarget</span><span class="o">.</span><span class="na">pointerIdBits</span> <span class="o">|=</span> <span class="n">idBitsToAssign</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 省去不必要代码……</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 省去一行代码……</span>
+
+    <span class="k">return</span> <span class="n">handled</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>再来看看dispatchTransformedTouchEvent方法是如何调度子元素dispatchTouchEvent方法的：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">dispatchTransformedTouchEvent</span><span class="p">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">cancel</span><span class="o">,</span>
+        <span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">desiredPointerIdBits</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">handled</span><span class="o">;</span>
+
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">oldAction</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+
+    <span class="cm">/*
+     * 如果事件被取消
+     */</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cancel</span> <span class="o">||</span> <span class="n">oldAction</span> <span class="o">==</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_CANCEL</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">event</span><span class="o">.</span><span class="na">setAction</span><span class="o">(</span><span class="n">MotionEvent</span><span class="o">.</span><span class="na">ACTION_CANCEL</span><span class="o">);</span>
+
+       <span class="cm">/*
+        * 如果没有子元素
+        */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">child</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 那么就直接调用父类的dispatchTouchEvent注意这里的父类终会为View类</span>
+            <span class="n">handled</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">dispatchTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// 如果有子元素则传递cancle事件</span>
+            <span class="n">handled</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="na">dispatchTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">event</span><span class="o">.</span><span class="na">setAction</span><span class="o">(</span><span class="n">oldAction</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">handled</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/*
+     * 计算即将被传递的点的数量
+     */</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">oldPointerIdBits</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">getPointerIdBits</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="kt">int</span> <span class="n">newPointerIdBits</span> <span class="o">=</span> <span class="n">oldPointerIdBits</span> <span class="o">&amp;</span> <span class="n">desiredPointerIdBits</span><span class="o">;</span>
+
+    <span class="cm">/*
+     * 如果事件木有相应的点那么就丢弃该次事件
+     */</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">newPointerIdBits</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 声明临时变量保存坐标转换后的MotionEvent</span>
+    <span class="kd">final</span> <span class="n">MotionEvent</span> <span class="n">transformedEvent</span><span class="o">;</span>
+
+    <span class="cm">/*
+     * 如果事件点的数量一致
+     */</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">newPointerIdBits</span> <span class="o">==</span> <span class="n">oldPointerIdBits</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/*
+         * 子元素为空或子元素有一个单位矩阵
+         */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">child</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">child</span><span class="o">.</span><span class="na">hasIdentityMatrix</span><span class="o">())</span> <span class="o">{</span>
+            <span class="cm">/*
+             * 再次区分子元素为空的情况
+             */</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">child</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 为空则调用父类dispatchTouchEvent</span>
+                <span class="n">handled</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">dispatchTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="c1">// 否则尝试获取xy方向上的偏移量（如果通过scrollTo或scrollBy对子视图进行滚动的话）</span>
+                <span class="kd">final</span> <span class="kt">float</span> <span class="n">offsetX</span> <span class="o">=</span> <span class="n">mScrollX</span> <span class="o">-</span> <span class="n">child</span><span class="o">.</span><span class="na">mLeft</span><span class="o">;</span>
+                <span class="kd">final</span> <span class="kt">float</span> <span class="n">offsetY</span> <span class="o">=</span> <span class="n">mScrollY</span> <span class="o">-</span> <span class="n">child</span><span class="o">.</span><span class="na">mTop</span><span class="o">;</span>
+
+                <span class="c1">// 将MotionEvent进行坐标变换</span>
+                <span class="n">event</span><span class="o">.</span><span class="na">offsetLocation</span><span class="o">(</span><span class="n">offsetX</span><span class="o">,</span> <span class="n">offsetY</span><span class="o">);</span>
+
+                <span class="c1">// 再将变换后的MotionEvent传递给子元素</span>
+                <span class="n">handled</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="na">dispatchTouchEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+
+                <span class="c1">// 复位MotionEvent以便之后再次使用</span>
+                <span class="n">event</span><span class="o">.</span><span class="na">offsetLocation</span><span class="o">(-</span><span class="n">offsetX</span><span class="o">,</span> <span class="o">-</span><span class="n">offsetY</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="c1">// 如果通过以上的逻辑判断当前事件被持有则可以直接返回</span>
+            <span class="k">return</span> <span class="n">handled</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">transformedEvent</span> <span class="o">=</span> <span class="n">MotionEvent</span><span class="o">.</span><span class="na">obtain</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">transformedEvent</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="n">newPointerIdBits</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/*
+     * 下述雷同不再累赘
+     */</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">child</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">handled</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">dispatchTouchEvent</span><span class="o">(</span><span class="n">transformedEvent</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="kt">float</span> <span class="n">offsetX</span> <span class="o">=</span> <span class="n">mScrollX</span> <span class="o">-</span> <span class="n">child</span><span class="o">.</span><span class="na">mLeft</span><span class="o">;</span>
+        <span class="kd">final</span> <span class="kt">float</span> <span class="n">offsetY</span> <span class="o">=</span> <span class="n">mScrollY</span> <span class="o">-</span> <span class="n">child</span><span class="o">.</span><span class="na">mTop</span><span class="o">;</span>
+        <span class="n">transformedEvent</span><span class="o">.</span><span class="na">offsetLocation</span><span class="o">(</span><span class="n">offsetX</span><span class="o">,</span> <span class="n">offsetY</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(!</span> <span class="n">child</span><span class="o">.</span><span class="na">hasIdentityMatrix</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">transformedEvent</span><span class="o">.</span><span class="na">transform</span><span class="o">(</span><span class="n">child</span><span class="o">.</span><span class="na">getInverseMatrix</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="n">handled</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="na">dispatchTouchEvent</span><span class="o">(</span><span class="n">transformedEvent</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="n">transformedEvent</span><span class="o">.</span><span class="na">recycle</span><span class="o">();</span>
+    <span class="k">return</span> <span class="n">handled</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>ViewGroup事件投递的递归调用就类似于一条责任链，一旦其寻找到责任者，那么将由责任者持有并消费掉该次事件，具体的体现在View的onTouchEvent方法中返回值的设置（这里介于篇幅就不具体介绍ViewGroup对事件的处理了），如果onTouchEvent返回false那么意味着当前View不会是该次事件的责任人将不会对其持有，如果为true则相反，此时View会持有该事件并不再向外传递。</p>
+
+<h2 id="section-7">4. 杂谈</h2>
+<p>世界不是完美的，所以不会有完美的事物存在。就像所有的设计模式一样，  有优点优缺点，但是总的来说优点必定大于缺点或者说缺点相对于优点来说更可控。责任链模式也一样，有点显而易见，可以对请求者和处理者关系的解耦提高代码的灵活性，比如上面我们的例子中如果在主管和经理之间多了一个总监，那么总监可以批复小于7500的经费，这时候根据我们上面重构的模式，仅需新建一个总监类继承Leader即可其它所有的存在类都可保持不变。责任链模式的最大缺点是对链中责任人的遍历，如果责任人太多那么遍历必定会影响性能，特别是在一些递归调用中，要慎重。</p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/07/android_iterator_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析七">
+                        Previous<br>
+                        <span>Android 设计模式分析七</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="8">
+                                    Android
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/08/android_responsibility_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/08/android_responsibility_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
