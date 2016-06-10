@@ -176,6 +176,80 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2014/12/09/nginx_mysql_php_in_fedora/">
+        <h2 class="post-title">
+            fedora22 配置Nginx,Mysql,PHP
+        </h2>
+        
+        <h3 class="post-subtitle">
+            在Fedora上配置LNMP开发环境
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  “LNMP开发环境是PHP语言开发网站的主流环境。”
+
+
+1. 安装nginx
+
+nginx在fedora当中是一个默认包，所以直接使用命令行进行安装即可：
+
+sudo dnf install nginx -y
+
+
+
+然后启动nginx服务：
+
+sudo service nginx start
+
+
+
+当然，也可以设置他为开机启动：
+
+sudo systemctl enable ngin...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on December 9, 2014
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2014/11/26/install_sougou_pinyin_in_fedora_20/">
+        <h2 class="post-title">
+            fedora20 安装搜狗输入法
+        </h2>
+        
+        <h3 class="post-subtitle">
+            卸载ibus，启用fcitx
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  “Fedora自带的输入法对中文的支持并不够好，可以安装搜狗输入法进行替代”
+
+
+0.环境描述
+
+系统环境: Fedora 20  64位
+搜狗输入法版本: sogou_pinyin_linux_1.1.0.0037_amd64
+
+
+
+1.卸载ibus
+
+sudo yum remove ibus
+gsettings set org.gnome.settings-daemon.plugi...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on November 26, 2014
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2014/11/25/leetcode_medium_single_number/">
         <h2 class="post-title">
             Leetcode Single Number
@@ -464,7 +538,7 @@ vi /etc/fonts/conf.d/65-0-wqy-microh...
                             
                         
                             
-                                <a href="/tags/#Android" title="Android" rel="8">
+                                <a href="/tags/#Android" title="Android" rel="10">
                                     Android
                                 </a>
                             

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Android 设计模式分析十
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/10/android_bridging_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android 设计模式分析十</h1>
+                    
+                    
+                    <h2 class="subheading">桥接模式</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 10, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">模式介绍</h2>
+
+<h3 id="section-1">模式的定义</h3>
+
+<p>将抽象部分与实现部分分离，使它们都可以独立的变化。</p>
+
+<h3 id="section-2">模式的使用场景</h3>
+
+<ul>
+  <li>如果一个系统需要在构件的抽象化角色和具体化角色之间添加更多的灵活性，避免在两个层次之间建立静态的联系。</li>
+  <li>设计要求实现化角色的任何改变不应当影响客户端，或者实现化角色的改变对客户端是完全透明的。</li>
+  <li>需要跨越多个平台的图形和窗口系统上。</li>
+  <li>一个类存在两个独立变化的维度，且两个维度都需要进行扩展。</li>
+</ul>
+
+<h3 id="uml">UML类图</h3>
+
+<p><img src="/img/in-post/android_introduction/android_design_uml.png" alt="uml" /></p>
+
+<h3 id="section-3">角色介绍</h3>
+
+<ul>
+  <li>抽象化(Abstraction)角色：抽象化给出的定义，并保存一个对实现化对象的引用。
+修正抽象化(Refined Abstraction)角色：扩展抽象化角色，改变和修正父类对抽象化的定义。</li>
+  <li>实现化(Implementor)角色：这个角色给出实现化角色的接口，但不给出具体的实现。必须指出的是，这个接 口不一定和抽象化角色的接口定义相同，实际上，这两个接口可以非常不一样。实现化角色应当只给出底层操作，而抽象化角色应当只给出基于底层操作的更高一层的操作。</li>
+  <li>具体实现化(ConcreteImplementor)角色：这个角色给出实现化角色接口的具体实现。</li>
+</ul>
+
+<h2 id="section-4">模式的简单实现</h2>
+
+<h3 id="section-5">介绍</h3>
+
+<p>其实Java的虚拟机就是一个很好的例子，在不同平台平台上，用不同的虚拟机进行实现，这样只需把Java程序编译成符合虚拟机规范的文件，且只用编译一次，便在不同平台上都能工作。 但是这样说比较抽象，用一个简单的例子来实现bridge模式。</p>
+
+<p>编写一个程序，使用两个绘图的程序的其中一个来绘制矩形或者原型，同时，在实例化矩形的时候，它要知道使用绘图程序1（DP1）还是绘图程序2（DP2）。</p>
+
+<p>(ps:假设dp1和dp2的绘制方式不一样，它们是用不同方式进行绘制，示例代码，不讨论过多细节)</p>
+
+<h3 id="section-6">实现源码</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="err">首先是两个绘图程序</span><span class="n">dp1</span><span class="o">,</span><span class="n">dp2</span>
+<span class="c1">//具体的绘图程序类dp1</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DP1</span> <span class="o">{</span>
+	
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw_1_Rantanle</span><span class="o">(){</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP1的程序画矩形"</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw_1_Circle</span><span class="o">(){</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP1的程序画圆形"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">//具体的绘图程序类dp2</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DP2</span> <span class="o">{</span>
+  
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantanle</span><span class="o">(){</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP2的程序画矩形"</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">(){</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP2的程序画圆形"</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span>
+<span class="err">接着​抽象的形状</span><span class="n">Shape</span><span class="err">和两个派生类：矩形</span><span class="n">Rantanle</span><span class="err">和圆形</span><span class="n">Circle</span>
+<span class="c1">//抽象化角色Abstraction</span>
+<span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Shape</span> <span class="o">{</span>
+	<span class="c1">//持有实现的角色Implementor(作图类)</span>
+	<span class="kd">protected</span> <span class="n">Drawing</span> <span class="n">myDrawing</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="n">Shape</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">myDrawing</span> <span class="o">=</span> <span class="n">drawing</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="kd">abstract</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">draw</span><span class="o">();</span>
+
+	<span class="c1">//保护方法drawRectangle</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="n">drawRectangle</span><span class="o">(){</span>
+       <span class="c1">//this.impl.implmentation()</span>
+		<span class="n">myDrawing</span><span class="o">.</span><span class="na">drawRantangle</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="c1">//保护方法drawCircle</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">(){</span>
+        <span class="c1">//this.impl.implmentation()</span>
+		<span class="n">myDrawing</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">//修正抽象化角色Refined Abstraction(矩形)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Rantangle</span> <span class="kd">extends</span> <span class="n">Shape</span><span class="o">{</span>
+	<span class="kd">public</span> <span class="n">Rantangle</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="n">drawing</span><span class="o">);</span>
+	<span class="o">}</span>
+     
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">drawRectangle</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">//修正抽象化角色Refined Abstraction(圆形)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">extends</span> <span class="n">Shape</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="n">Circle</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="n">drawing</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">drawCircle</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+<span class="err">最后，我们的实现绘图的</span><span class="n">Drawing</span><span class="err">和分别实现</span><span class="n">dp1</span><span class="err">的</span><span class="n">V1Drawing</span><span class="err">和</span><span class="n">dp2</span><span class="err">的</span><span class="n">V2Drawing</span>
+<span class="c1">//实现化角色Implementor</span>
+<span class="c1">//implmentation两个方法，画圆和画矩形</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Drawing</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantangle</span><span class="o">();</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="c1">//具体实现化逻辑ConcreteImplementor</span>
+<span class="c1">//实现了接口方法，使用DP1进行绘图</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">V1Drawing</span> <span class="kd">implements</span> <span class="n">Drawing</span><span class="o">{</span>
+ 
+	<span class="n">DP1</span> <span class="n">dp1</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="n">V1Drawing</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">dp1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DP1</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantangle</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">dp1</span><span class="o">.</span><span class="na">draw_1_Rantanle</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">dp1</span><span class="o">.</span><span class="na">draw_1_Circle</span><span class="o">();</span>
+	<span class="o">}</span>			
+<span class="o">}</span>
+<span class="c1">//具体实现化逻辑ConcreteImplementor</span>
+<span class="c1">//实现了接口方法，使用DP2进行绘图</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">V2Drawing</span> <span class="kd">implements</span> <span class="n">Drawing</span><span class="o">{</span>
+	<span class="n">DP2</span> <span class="n">dp2</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="n">V2Drawing</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">dp2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DP2</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantangle</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">dp2</span><span class="o">.</span><span class="na">drawRantanle</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">dp2</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>​在这个示例中，图形Shape类有两种类型，圆形和矩形，为了使用不同的绘图程序绘制图形，把实现的部分进行了分离，构成了Drawing类层次结构，包括V1Drawing和V2Drawing。在具体实现类中，V1Drawing控制着DP1程序进行绘图，V2Drawing控制着DP2程序进行绘图，以及保护的方法drawRantangle,drawCircle(Shape类中) 。</p>
+
+<h2 id="android">Android源码中的模式实现</h2>
+
+<p>在Android中也运用到了Bridge模式，我们使用很多的ListView和BaseAdpater其实就是Bridge模式的运行，很多人会问这个不是Adapter模式，接下来根据源码来分析。</p>
+
+<p>首先ListAdapter.java：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ListAdapter</span> <span class="kd">extends</span> <span class="n">Adapter</span><span class="o">{</span>
+    <span class="c1">//继承自Adapter，扩展了自己的两个实现方法</span>
+      <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">areAllItemsEnabled</span><span class="o">();</span>
+      <span class="kt">boolean</span> <span class="n">isEnabled</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">);</span>
+<span class="o">}</span>  
+</code></pre>
+</div>
+
+<p>这里先来看一下父类AdapterView。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AdapterView</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Adapter</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">ViewGroup</span> <span class="o">{</span>  
+    <span class="c1">//这里需要一个泛型的Adapter</span>
+      <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="n">getAdapter</span><span class="o">();</span>
+     <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setAdapter</span><span class="o">(</span><span class="n">T</span> <span class="n">adapter</span><span class="o">);</span>  
+<span class="o">}</span>  
+</code></pre>
+</div>
+
+<p>接着来看ListView的父类AbsListView，继承自AdapterView</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbsListView</span> <span class="kd">extends</span> <span class="n">AdapterView</span><span class="o">&lt;</span><span class="n">ListAdapter</span><span class="o">&gt;</span>   
+    <span class="c1">//继承自AdapterView,并且指明了T为ListAdapter</span>
+    <span class="cm">/**
+     * The adapter containing the data to be displayed by this view
+     */</span>
+    <span class="n">ListAdapter</span> <span class="n">mAdapter</span><span class="o">;</span>  
+    <span class="c1">//代码省略</span>
+    <span class="c1">//这里实现了setAdapter的方法，实例了对实现化对象的引用</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setAdapter</span><span class="o">(</span><span class="n">ListAdapter</span> <span class="n">adapter</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//这的adapter是从子类传入上来，也就是listview，拿到了具体实现化的对象</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">adapter</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mAdapterHasStableIds</span> <span class="o">=</span> <span class="n">mAdapter</span><span class="o">.</span><span class="na">hasStableIds</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">mChoiceMode</span> <span class="o">!=</span> <span class="n">CHOICE_MODE_NONE</span> <span class="o">&amp;&amp;</span> <span class="n">mAdapterHasStableIds</span> <span class="o">&amp;&amp;</span>
+                    <span class="n">mCheckedIdStates</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">mCheckedIdStates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LongSparseArray</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mCheckStates</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mCheckStates</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mCheckedIdStates</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mCheckedIdStates</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>大家都知道，构建一个listview，adapter中最重要的两个方法，getCount()告知数量，getview()告知具体的view类型，接下来看看AbsListView作为一个视图的集合是如何来根据实现化对象adapter来实现的具体的view呢？</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onAttachedToWindow</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onAttachedToWindow</span><span class="o">();</span>
+        
+            <span class="c1">//省略代码，</span>
+            <span class="c1">//这里在加入window的时候，getCount()确定了集合的个数</span>
+            <span class="n">mDataChanged</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+            <span class="n">mOldItemCount</span> <span class="o">=</span> <span class="n">mItemCount</span><span class="o">;</span>
+            <span class="n">mItemCount</span> <span class="o">=</span> <span class="n">mAdapter</span><span class="o">.</span><span class="na">getCount</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>接着来看</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="n">View</span> <span class="nf">obtainView</span><span class="p">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">isScrap</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//代码省略</span>
+      <span class="err">​</span><span class="c1">//这里根据位置显示具体的view,return的child是从持有的实现对象mAdapter里面的具体实现的</span>
+      <span class="err">​</span><span class="c1">//方法getview来得到的。</span>
+        <span class="kd">final</span> <span class="n">View</span> <span class="n">child</span> <span class="o">=</span> <span class="n">mAdapter</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="n">position</span><span class="o">,</span> <span class="n">scrapView</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+        <span class="c1">//代码省略</span>
+        <span class="k">return</span> <span class="n">child</span><span class="o">;</span>
+    <span class="o">}</span>  
+</code></pre>
+</div>
+
+<p>接下来在ListView中，onMeasure调用了obtainView来确定宽高，在扩展自己的方法来排列这些view。知道了</p>
+
+<p>这些以后，我们来画一个简易的UML图来看下:</p>
+
+<p><img src="/img/in-post/android_introduction/android_design_list.png" alt="uml" /></p>
+
+<p>对比下GOF的上图，是不是发现很像呢？实际上最开始研究Adapter模式的时候,越看越不对啊，于是整理结构，画了UML发现这更像是一个bridge模式，那时候对设计模式也是模模糊糊的，于是静下来研究。抽象化的角色一个视图的集合AdapterView，它扩展了AbsListView，AbsSpinner，接下来他们分别扩展了ListView，GridView，Spinner,Gallery，用不同方式来展现这些ItemViews，我们继续扩展类似ListView的PulltoRefreshView等等。而实现化角色Adapter扩展了ListAdpater,SpinnerAdapter，接着具体的实现化角色BaseAdapter实现了他们，我们通过继承BaseAdapter又实现了我们各式各样的ItemView。</p>
+
+<h2 id="section-7">杂谈</h2>
+
+<p>这里就是Android工程师的牛X之处了，用一个bridge和adapter来解决了一个大的难题。试想一下，视图的排列方式是无穷尽，是人们每个人开发的视图也是无穷尽的。如果你正常开发，你需要多少类来完成呢？而Android把最常用用的展现方式全部都封装了出来，而在实现角色通过Adapter模式来应变无穷无尽的视图需要。抽象化了一个容器使用适配器来给容器里面添加视图，容器的形状(或理解为展现的方式)以及怎么样来绘制容器内的视图，你都可以独自的变化，双双不会干扰，真正的脱耦，就要最开始说的那样：“将抽象部分与实现部分分离，使它们都可以独立的变化。”</p>
+
+<p>从上面的两个案例，我们可以看出，我们在两个解决方案中都用到bridge和adapter模式，那是因为我们必须使用给定的绘图程序(adapter适配器)，绘图程序(adapter适配器)有已经存在的接口必须要遵循，因此需要使用Adapter进行适配，然后才能用同样的方式处理他们,他们经常一起使用，并且相似，但是Adapter并不是Bridge的一部分。</p>
+
+<h3 id="section-8">优点与缺点</h3>
+
+<p>实现与使用实现的对象解耦，提供了可扩展性，客户对象无需担心操作的实现问题。  如果你采用了bridge模式，在处理新的实现将会非常容易。你只需定义一个新的具体实现类，并且实现它就好了，不需要修改任何其他的东西。但是如果你出现了一个新的具体情况，需要对实现进行修改时，就得先修改抽象的接口，再对其派生类进行修改，但是这种修改只会存在于局部,并且这种修改将变化的英雄控制在局部，并且降低了出现副作用的风险，而且类之间的关系十分清晰，如何实现一目了然。</p>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/09/android_command_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析九">
+                        Previous<br>
+                        <span>Android 设计模式分析九</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="10">
+                                    Android
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/10/android_bridging_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/10/android_bridging_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

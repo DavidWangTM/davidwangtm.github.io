@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Android 设计模式分析九
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/09/android_command_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android 设计模式分析九</h1>
+                    
+                    
+                    <h2 class="subheading">命令模式</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 9, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">1. 模式介绍</h2>
+
+<h3 id="section-1">模式的定义</h3>
+<p>将一个请求封装成一个对象，从而使你可用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。</p>
+
+<h3 id="section-2">模式的使用场景</h3>
+
+<ol>
+  <li>系统需要将请求调用者和请求接收者解耦，使得调用者和接收者不直接交互。</li>
+  <li>系统需要在不同的时间指定请求、将请求排队和执行请求。</li>
+  <li>系统需要支持命令的撤销(Undo)操作和恢复(Redo)操作。</li>
+  <li>系统需要将一组操作组合在一起，即支持宏命令。</li>
+</ol>
+
+<h2 id="uml">2. UML类图</h2>
+<p><img src="/img/in-post/android_introduction/android_lijunhuayc_uml.png" alt="UML类图" /></p>
+
+<h3 id="section-3">角色介绍</h3>
+<ul>
+  <li>
+    <p>命令角色（Command）：定义命令的接口，声明具体命令类需要执行的方法。这是一个抽象角色。</p>
+  </li>
+  <li>
+    <p>具体命令角色（ConcreteCommand）：命令接口的具体实现对象，通常会持有接收者，并调用接收者的功能来完成命令要执行的操作。</p>
+  </li>
+  <li>
+    <p>调用者角色（Invoker）：负责调用命令对象执行请求，通常会持有命令对象（可以持有多个命令对象）。Invoker是Client真正触发命令并要求命令执行相应操作的地方（使用命令对象的入口）。</p>
+  </li>
+  <li>
+    <p>接受者角色（Receiver）：Receiver是真正执行命令的对象。任何类都可能成为一个接收者，只要它能够实现命令要求实现的相应功能。</p>
+  </li>
+  <li>
+    <p>客户角色（Client）：Client可以创建具体的命令对象，并且设置命令对象的接收者。Tips：不能把Clinet理解为我们平常说的客户端，这里的Client是一个组装命令对象和接受者对象的角色，或者你把它理解为一个装配者。</p>
+  </li>
+</ul>
+
+<h2 id="section-4">3. 模式的简单实现</h2>
+<p>###  简单实现的介绍
+命令模式其实就是对命令进行封装，将命令请求者和命令执行者的责任分离开来实现松耦合。
+这里我们通过一个简单的实例来剖析一下命令模式：命令接收者ReceiverRole拥有一个PeopleBean类型成员，通过Invoker发出不同的命令来修改PeopleBean的相对应的属性，具体命令实现类ConcreteCommandImpl1执行修改年龄命令，ConcreteCommandImpl2执行修改姓名的命令等等，ClientRole负责组装各个部分。
+例子代码如下（resource目录下也可以查看）。</p>
+
+<h3 id="section-5">实现源码</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+    <span class="cm">/**
+     * 命令接口    [命令角色]
+     */</span>
+    <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Command</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">execute</span><span class="o">();</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">undo</span><span class="o">();</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">redo</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+</code></pre>
+</div>
+
+<p>ConcreteCommandImpl1.java类.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+    <span class="cm">/**
+     * 更新年龄的命令类  [ 具体命令角色 ]
+     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConcreteCommandImpl1</span> <span class="kd">implements</span> <span class="n">Command</span><span class="o">{</span>
+    	<span class="kd">private</span> <span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">;</span>
+    
+    	<span class="kd">public</span> <span class="n">ConcreteCommandImpl1</span><span class="o">(</span><span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">receiverRole1</span> <span class="o">=</span> <span class="n">receiverRole1</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">execute</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="cm">/*
+    		 * 可以加入命令排队等等，未执行的命令支持redo操作
+    		 */</span>
+    		<span class="n">receiverRole1</span><span class="o">.</span><span class="na">opActionUpdateAge</span><span class="o">(</span><span class="mi">1001</span><span class="o">);</span><span class="c1">//执行具体的命令操作</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">undo</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="n">receiverRole1</span><span class="o">.</span><span class="na">rollBackAge</span><span class="o">();</span><span class="c1">//执行具体的撤销回滚操作</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">redo</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="c1">//在命令执行前可以修改命令的执行</span>
+    	<span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>ConcreteCommandImpl2.java类.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+    <span class="cm">/**
+     * 更新姓名的命令类[具体命令角色]
+     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConcreteCommandImpl2</span> <span class="kd">implements</span> <span class="n">Command</span><span class="o">{</span>
+    	<span class="kd">private</span> <span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">;</span>
+    
+    	<span class="kd">public</span> <span class="n">ConcreteCommandImpl2</span><span class="o">(</span><span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">receiverRole1</span> <span class="o">=</span> <span class="n">receiverRole1</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">execute</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="cm">/*
+    		 * 可以加入命令排队等等，未执行的命令支持redo操作
+    		 */</span>
+    		<span class="n">receiverRole1</span><span class="o">.</span><span class="na">opActionUpdateName</span><span class="o">(</span><span class="s">"lijunhuayc"</span><span class="o">);</span><span class="c1">//执行具体的命令操作</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">undo</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="n">receiverRole1</span><span class="o">.</span><span class="na">rollBackName</span><span class="o">();</span><span class="c1">//执行具体的撤销回滚操作</span>
+    	<span class="o">}</span>
+    
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">redo</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="c1">//在命令执行前可以修改命令的执行</span>
+    	<span class="o">}</span>
+    	
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>InvokerRole.java.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+    <span class="cm">/**
+     * 命令调用[调用者角色]
+     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">InvokerRole</span> <span class="o">{</span>
+    	<span class="kd">private</span> <span class="n">Command</span> <span class="n">command1</span><span class="o">;</span>
+    	<span class="kd">private</span> <span class="n">Command</span> <span class="n">command2</span><span class="o">;</span>
+    	<span class="c1">//持有多个命令对象[实际的情况也可能是一个命令对象的集合来保存命令对象]</span>
+    	
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setCommand1</span><span class="o">(</span><span class="n">Command</span> <span class="n">command1</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">command1</span> <span class="o">=</span> <span class="n">command1</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setCommand2</span><span class="o">(</span><span class="n">Command</span> <span class="n">command2</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">command2</span> <span class="o">=</span> <span class="n">command2</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	
+    	<span class="cm">/**
+    	 * 执行正常命令，1执行回滚命令
+    	 */</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">invoke</span><span class="o">(</span><span class="kt">int</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="c1">//可以根据具体情况选择执行某些命令</span>
+    		<span class="k">if</span><span class="o">(</span><span class="n">args</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
+    			<span class="n">command1</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+    			<span class="n">command2</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+    		<span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">args</span> <span class="o">==</span> <span class="mi">1</span><span class="o">){</span>
+    			<span class="n">command1</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span>
+    			<span class="n">command2</span><span class="o">.</span><span class="na">undo</span><span class="o">();</span>
+    		<span class="o">}</span>
+    	<span class="o">}</span>
+    	
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>ReceiverRole.java.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+    <span class="cm">/**
+     * 命令的具体执行类[接收者角色], 命令接收者可以是任意的类，只要实现了命令要求实现的相应功能即可。
+     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReceiverRole</span> <span class="o">{</span>
+    	<span class="kd">private</span> <span class="n">PeopleBean</span> <span class="n">people</span><span class="o">;</span>
+    	<span class="c1">//具体命令操作的缓存栈，用于回滚。这里为了方便就用一个PeopleBean来代替    </span>
+    	<span class="kd">private</span> <span class="n">PeopleBean</span> <span class="n">peopleCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PeopleBean</span><span class="o">();</span>     	<span class="kd">public</span> <span class="n">ReceiverRole</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">people</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PeopleBean</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="s">"NULL"</span><span class="o">);</span><span class="c1">//初始化年龄为-1，姓名为NULL</span>
+    	<span class="o">}</span>
+    	
+    	<span class="kd">public</span> <span class="n">ReceiverRole</span><span class="o">(</span><span class="n">PeopleBean</span> <span class="n">people</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">people</span> <span class="o">=</span> <span class="n">people</span><span class="o">;</span>
+    	<span class="o">}</span>
+	
+	<span class="cm">/**
+	 * 具体操作方法[修改年龄和姓名]
+	 */</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">opActionUpdateAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令前："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">people</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">age</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="c1">//修改姓名</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">opActionUpdateName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令前："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">people</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="cm">/**
+	 * 回滚操作，用于撤销opAction执行的改变
+	 */</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">rollBackAge</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">people</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">peopleCache</span><span class="o">.</span><span class="na">getAge</span><span class="o">());</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"命令回滚后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="n">rollBackName</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">people</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">peopleCache</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"命令回滚后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>PeopleBean.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+    <span class="cm">/**
+     * @Desc: 辅助类，作为接收者Receiver的成员，包含两个属性，用来观察命令的执行情况
+     * @author ljh
+     * @date 2015-3-16 上午11:29:11
+     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">PeopleBean</span> <span class="o">{</span>
+    	<span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>	<span class="c1">//年龄</span>
+    	<span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"NULL"</span><span class="o">;</span>	<span class="c1">//姓名</span>
+    	<span class="kd">public</span> <span class="n">PeopleBean</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="o">}</span>
+    	<span class="kd">public</span> <span class="n">PeopleBean</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">update</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">update</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">update</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="cm">/**
+    	 * @return 返回一个PeopleBean的克隆对象
+    	 */</span>
+    	<span class="kd">protected</span> <span class="n">PeopleBean</span> <span class="n">clone</span><span class="o">(){</span>
+    		<span class="k">return</span> <span class="k">new</span> <span class="n">PeopleBean</span><span class="o">(</span><span class="n">age</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+    	<span class="o">}</span>
+    	<span class="nd">@Override</span>
+    	<span class="kd">public</span> <span class="n">String</span> <span class="n">toString</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="k">return</span> <span class="s">" 【年龄："</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="s">"\t姓名："</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">"】"</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="c1">// setter and getter </span>
+    	
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>ClientRole.java</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+    <span class="cm">/**
+     * 命令对象和接受者对象的组装类[客户角色].
+     * 我这把类名定义成ClientRole更方便读者理解这只是命令模式中的一个客户角色，而不是我们常规意义上说的客户端
+     */</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClientRole</span> <span class="o">{</span>
+    	<span class="cm">/**
+    	 * 组装操作
+    	 */</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">assembleAction</span><span class="o">()</span> <span class="o">{</span>
+    		<span class="c1">//创建一个命令接收者</span>
+    		<span class="n">ReceiverRole</span> <span class="n">receiverRole1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReceiverRole</span><span class="o">();</span>    			<span class="c1">//创建一个命令的具体实现对象，并指定命令接收者</span>
+    		<span class="n">Command</span> <span class="n">command1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcreteCommandImpl1</span><span class="o">(</span><span class="n">receiverRole1</span><span class="o">);</span>           		    <span class="n">Command</span> <span class="n">command2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcreteCommandImpl2</span><span class="o">(</span><span class="n">receiverRole1</span><span class="o">);</span>
+    
+    		<span class="n">InvokerRole</span> <span class="n">invokerRole</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InvokerRole</span><span class="o">();</span><span class="c1">//创建一个命令调用者</span>
+    		<span class="n">invokerRole</span><span class="o">.</span><span class="na">setCommand1</span><span class="o">(</span><span class="n">command1</span><span class="o">);</span><span class="c1">//为调用者指定命令对象1</span>
+    		<span class="n">invokerRole</span><span class="o">.</span><span class="na">setCommand2</span><span class="o">(</span><span class="n">command2</span><span class="o">);</span><span class="c1">//为调用者指定命令对象2</span>
+    		<span class="n">invokerRole</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>				<span class="c1">//发起调用命令请求</span>
+    		<span class="n">invokerRole</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>				<span class="c1">//发起调用命令请求</span>
+    	<span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>测试类.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainTest</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="n">ClientRole</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClientRole</span><span class="o">();</span>
+    		<span class="n">client</span><span class="o">.</span><span class="na">assembleAction</span><span class="o">();</span>
+    	<span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>输出结果如下：</p>
+
+<p><img src="/img/in-post/android_introduction/android_lijunhuayc_result.png" alt="运行结果图" /></p>
+
+<h3 id="section-6">总结</h3>
+<ul>
+  <li>每一个命令都是一个操作：请求的一方发出请求，要求执行一个操作；接收的一方收到请求，并执行操作。</li>
+  <li>命令模式允许请求的一方和接收的一方独立开来，使得请求的一方不必知道接收请求的一方的接口，更不必知道请求是怎么被接收，以及操作是否被执行、何时被执行，以及是怎么被执行的。</li>
+  <li>命令模式使请求本身成为一个对象，这个对象和其他对象一样可以被存储和传递。</li>
+  <li>命令模式的关键在于引入了抽象命令接口，且发送者针对抽象命令接口编程，只有实现了抽象命令接口的具体命令才能与接收者相关联。</li>
+</ul>
+
+<h2 id="android">Android源码中的模式实现</h2>
+<p>Command接口中定义了一个execute方法，客户端通过Invoker调用命令操作再来调用Recriver执行命令；把对Receiver的操作请求封装在具体的命令中，使得命令发起者和命令接收者解耦。
+以Android中大家常见的Runnable为例：客户端只需要new Thread(new Runnable(){}).start()就开始执行一系列相关的请求，这些请求大部分都是实现Runnable接口的匿名类。
+【O_o 模式就在我们身边~】</p>
+
+<p>命令接口Runnable接口定义如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package java.lang;
+/**
+ * Represents a command that can be executed. Often used to run code in a
+ * different {@link Thread}.
+ */
+public interface Runnable {
+
+    /**
+     * Starts executing the active part of the class' code. This method is
+     * called when a thread is started that has been created with a class which
+     * implements {@code Runnable}.
+     */
+    public void run();
+}
+</code></pre>
+</div>
+
+<p>调用者Thread源码如下（省略部分代码）：
+Tips：命令模式在这里本来不需要继承Runnable接口，但为了方便性等，继承了Runnable接口实现了run方法，这个run是Thread自身的运行run的方法，而不是命令Runnable的run。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>public class Thread implements Runnable {
+    //省略部分无关代码...
+    /* some of these are accessed directly by the VM; do not rename them */
+    volatile VMThread vmThread;
+    volatile ThreadGroup group;
+    volatile boolean daemon;
+    volatile String name;
+    volatile int priority;
+    volatile long stackSize;
+    Runnable target;
+    private static int count = 0;
+    
+    public synchronized void start() {
+        if (hasBeenStarted) {
+            throw new IllegalThreadStateException("Thread already started."); // TODO Externalize?
+        }
+
+        hasBeenStarted = true;
+
+        VMThread.create(this, stackSize);
+    }
+    //省略部分代码...
+}
+</code></pre>
+</div>
+
+<p>上面可以看到执行start()方法的时候实际执行了VMThread.create(this, stackSize)方法；create是VMThread的本地方法，其JNI实现在 android/dalvik/vm/native/java_lang_VMThread.cpp 中的 Dalvik_java_lang_VMThread_create方法，如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>static void Dalvik_java_lang_VMThread_create(const u4* args, JValue* pResult)
+{
+    Object* threadObj = (Object*) args[0];
+    s8 stackSize = GET_ARG_LONG(args, 1);
+
+    /* copying collector will pin threadObj for us since it was an argument */
+    dvmCreateInterpThread(threadObj, (int) stackSize);
+    RETURN_VOID();
+}
+</code></pre>
+</div>
+
+<p>而dvmCreateInterpThread的实现在Thread.app中，如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bool dvmCreateInterpThread(Object* threadObj, int reqStackSize){
+    Thread* self = dvmThreadSelf();
+    
+    Thread* newThread = allocThread(stackSize); 
+    newThread-&gt;threadObj = threadObj;
+    
+    Object* vmThreadObj = dvmAllocObject(gDvm.classJavaLangVMThread, ALLOC_DEFAULT);
+    dvmSetFieldInt(vmThreadObj, gDvm.offJavaLangVMThread_vmData, (u4)newThread);
+    dvmSetFieldObject(threadObj, gDvm.offJavaLangThread_vmThread, vmThreadObj);
+    
+    pthread_t threadHandle;
+    int cc = pthread_create(&amp;threadHandle, &amp;threadAttr, interpThreadStart, newThread);
+
+    dvmLockThreadList(self);
+
+    assert(newThread-&gt;status == THREAD_STARTING);
+    newThread-&gt;status = THREAD_VMWAIT;
+    pthread_cond_broadcast(&amp;gDvm.threadStartCond);
+
+    dvmUnlockThreadList();
+    
+}
+
+static Thread* allocThread(int interpStackSize)
+{
+    Thread* thread;
+    thread = (Thread*) calloc(1, sizeof(Thread));
+    
+    thread-&gt;status = THREAD_INITIALIZING;
+}
+</code></pre>
+</div>
+
+<p>这里是底层代码，简单介绍下就行了：
+第4行通过调用 allocThread 创建一个名为newThread的dalvik Thread并设置一些属性，第5行设置其成员变量threadObj为传入的Android Thread，这样dalvik Thread就与Android Thread对象关联起来了；第7行然后创建一个名为vmThreadObj的VMThread对象，设置其成员变量vmData为前面创建的newThread，设置 Android Thread threadObj的成员变量vmThread为这个vmThreadObj，这样Android Thread通过VMThread的成员变量vmData就和dalvik Thread关联起来了。</p>
+
+<p>接下来在12行通过pthread_create创建pthread线程，并让这个线程start，这样就会进入该线程的thread entry运行，下来我们来看新线程的thread entry方法 interpThreadStart，同样只列出关键的地方：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//pthread entry function for threads started from interpreted code.
+static void* interpThreadStart(void* arg){
+    Thread* self = (Thread*) arg;
+    std::string threadName(dvmGetThreadName(self));
+    setThreadName(threadName.c_str());
+
+    //Finish initializing the Thread struct.
+    dvmLockThreadList(self);
+    prepareThread(self);
+
+    while (self-&gt;status != THREAD_VMWAIT)
+        pthread_cond_wait(&amp;gDvm.threadStartCond, &amp;gDvm.threadListLock);
+
+    dvmUnlockThreadList();
+
+    /*
+     * Add a JNI context.
+     */
+    self-&gt;jniEnv = dvmCreateJNIEnv(self);
+
+    //修改状态为THREAD_RUNNING
+    dvmChangeStatus(self, THREAD_RUNNING);
+    
+    //执行run方法
+    Method* run = self-&gt;threadObj-&gt;clazz-&gt;vtable[gDvm.voffJavaLangThread_run];
+
+    JValue unused;
+    ALOGV("threadid=%d: calling run()", self-&gt;threadId);
+    assert(strcmp(run-&gt;name, "run") == 0);
+    dvmCallMethod(self, run, self-&gt;threadObj, &amp;unused);
+    ALOGV("threadid=%d: exiting", self-&gt;threadId);
+    
+    //移出线程并释放资源
+    dvmDetachCurrentThread();
+    return NULL;
+}
+
+//Finish initialization of a Thread struct.
+static bool prepareThread(Thread* thread){
+    assignThreadId(thread);
+    thread-&gt;handle = pthread_self();
+    thread-&gt;systemTid = dvmGetSysThreadId();
+    setThreadSelf(thread);
+    return true;
+}
+
+//Explore our sense of self.  Stuffs the thread pointer into TLS.
+static void setThreadSelf(Thread* thread){
+    int cc;
+    cc = pthread_setspecific(gDvm.pthreadKeySelf, thread);
+}
+</code></pre>
+</div>
+
+<p>在新线程的interpThreadStart方法中，首先设置线程的名字，然后调用prepareThread设置线程id以及其它一些属性，其中调用了setThreadSelf将新dalvik Thread自身保存在TLS中，这样之后就能通过dvmThreadSelf方法从TLS中获取它。然后在29行处修改状态为THREAD_RUNNING，并在36行调用对应Android Thread的run()方法，其中调用了Runnable的run方法，运行我们自己的代码。
+绕这么深才执行到我们的run方法，累不累？ v_v</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    /**
+     * Calls the &lt;code&gt;run()&lt;/code&gt; method of the Runnable object the receiver
+     * holds. If no Runnable is set, does nothing.
+     * @see Thread#start
+     */
+    public void run() {
+        if (target != null) {
+            target.run();
+        }
+    }
+</code></pre>
+</div>
+
+<p>到此我们已经完成一次命令调用，至于底层run调用完毕后续执行代码，读者可以自行跟进看看~~~</p>
+
+<h2 id="section-7">4. 杂谈</h2>
+
+<h3 id="section-8">优点</h3>
+
+<ol>
+  <li>降低对象之间的耦合度。</li>
+  <li>新的命令可以很容易地加入到系统中。</li>
+  <li>可以比较容易地设计一个组合命令。</li>
+  <li>调用同一方法实现不同的功能</li>
+</ol>
+
+<h3 id="section-9">缺点</h3>
+
+<p>使用命令模式可能会导致某些系统有过多的具体命令类。因为针对每一个命令都需要设计一个具体命令类，因此某些系统可能需要大量具体命令类，这将影响命令模式的使用。     <br />
+比如上面的PeopleBean的属性增加，Receiver针对PeopleBean一个属性一个执行方法，一个Command的实现可以调用Receiver的一个执行方法，由此得需要设计多少个具体命令类呀！！</p>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/08/android_responsibility_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析八">
+                        Previous<br>
+                        <span>Android 设计模式分析八</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/06/10/android_bridging_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析十">
+                        Next<br>
+                        <span>Android 设计模式分析十</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="10">
+                                    Android
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/09/android_command_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/09/android_command_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
