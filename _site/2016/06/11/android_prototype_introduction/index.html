@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        Android 设计模式分析十一
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/11/android_prototype_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-universe.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                    <h1>Android 设计模式分析十一</h1>
+                    
+                    
+                    <h2 class="subheading">原型模式</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 11, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">1. 模式介绍</h2>
+
+<h3 id="section-1">模式的定义</h3>
+<p>用原型实例指定创建对象的种类，并通过拷贝这些原型创建新的对象。</p>
+
+<h3 id="section-2">模式的使用场景</h3>
+<ol>
+  <li>类初始化需要消化非常多的资源，这个资源包括数据、硬件资源等，通过原型拷贝避免这些消耗；</li>
+  <li>通过 new 产生一个对象需要非常繁琐的数据准备或访问权限，则可以使用原型模式；</li>
+  <li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值时，可以考虑使用原型模式拷贝多个对象供调用者使用，即保护性拷贝。</li>
+</ol>
+
+<h2 id="uml">2. UML类图</h2>
+<p><img src="/img/in-post/android_introduction/android_prototype-uml.png" alt="uml" /></p>
+
+<h3 id="section-3">角色介绍</h3>
+<ul>
+  <li>Client  :  客户端用户。</li>
+  <li>Prototype : 抽象类或者接口，声明具备clone能力。</li>
+  <li>ConcretePrototype : 具体的原型类.</li>
+</ul>
+
+<h2 id="section-4">3. 模式的简单实现</h2>
+
+<h3 id="section-5">简单实现的介绍</h3>
+
+<p>下面我们以简单的文档拷贝为例来演示一下简单的原型模式模式。</p>
+
+<h3 id="section-6">实现源码</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">builder</span><span class="o">;</span>
+
+
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">prototype</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="cm">/**
+ * 文档类型, 扮演的是ConcretePrototype角色，而cloneable是代表prototype角色
+ * 
+ * @author mrsimple
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WordDocument</span> <span class="kd">implements</span> <span class="n">Cloneable</span> <span class="o">{</span>
+    <span class="cm">/**
+     * 文本
+     */</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">mText</span><span class="o">;</span>
+    <span class="cm">/**
+     * 图片名列表
+     */</span>
+    <span class="kd">private</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">mImages</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&lt;</span><span class="n">string</span><span class="o">&gt;();</span>
+
+    <span class="kd">public</span> <span class="n">WordDocument</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"----------- WordDocument构造函数 -----------"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 克隆对象
+     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">WordDocument</span> <span class="n">clone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">WordDocument</span> <span class="n">doc</span> <span class="o">=</span> <span class="o">(</span><span class="n">WordDocument</span><span class="o">)</span> <span class="kd">super</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+            <span class="n">doc</span><span class="o">.</span><span class="na">mText</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mText</span><span class="o">;</span>
+            <span class="n">doc</span><span class="o">.</span><span class="na">mImages</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mImages</span><span class="o">;</span>
+            <span class="k">return</span> <span class="n">doc</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">getText</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mText</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setText</span><span class="o">(</span><span class="n">String</span> <span class="n">mText</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mText</span> <span class="o">=</span> <span class="n">mText</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">getImages</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mImages</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * @param img
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">addImage</span><span class="o">(</span><span class="n">String</span> <span class="n">img</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mImages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">img</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 打印文档内容
+     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">showDocument</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"----------- Word Content Start -----------"</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Text : "</span> <span class="o">+</span> <span class="n">mText</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Images List: "</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">imgName</span> <span class="o">:</span> <span class="n">mImages</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"image name : "</span> <span class="o">+</span> <span class="n">imgName</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"----------- Word Content End -----------"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>通过WordDocument类模拟了word文档中的基本元素，即文字和图片。WordDocument的在该原型模式示例中扮演的角色为ConcretePrototype， 而Cloneable的角色则为Prototype。WordDocument实现了clone方法以实现对象克隆。下面我们看看Client端的使用 :</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">WordDocument</span> <span class="n">originDoc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WordDocument</span><span class="o">();</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"这是一篇文档"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片1"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片2"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片3"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+
+        <span class="n">WordDocument</span> <span class="n">doc2</span> <span class="o">=</span> <span class="n">originDoc</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+        <span class="n">doc2</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+        
+        <span class="n">doc2</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"这是修改过的Doc2文本"</span><span class="o">);</span>
+        <span class="n">doc2</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+         
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>输出结果如下 :   <br />
+<img src="/img/in-post/android_introduction/android_yx_result.png" alt="result" /></p>
+
+<p>可以看到，doc2是通过originDoc.clone()创建的，并且doc2第一次输出的时候和originDoc输出是一样的。即doc2是originDoc的一份拷贝，他们的内容是一样的，而doc2修改了文本内容以后并不会影响originDoc的文本内容。需要注意的是通过clone拷贝对象的时候并不会执行构造函数！</p>
+
+<h3 id="section-7">浅拷贝和深拷贝</h3>
+<p>将main函数的内容修改为如下 :</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">WordDocument</span> <span class="n">originDoc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WordDocument</span><span class="o">();</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"这是一篇文档"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片1"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片2"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片3"</span><span class="o">);</span>
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+
+        <span class="n">WordDocument</span> <span class="n">doc2</span> <span class="o">=</span> <span class="n">originDoc</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+        
+        <span class="n">doc2</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+        
+        <span class="n">doc2</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"这是修改过的Doc2文本"</span><span class="o">);</span>
+        <span class="n">doc2</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"哈哈.jpg"</span><span class="o">);</span>
+        <span class="n">doc2</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+        
+        <span class="n">originDoc</span><span class="o">.</span><span class="na">showDocument</span><span class="o">();</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>输出结果如下 :<br />
+<img src="/img/in-post/android_introduction/android_yx_result-2.png" alt="result" />     <br />
+细心的朋友可能发现了，在doc2添加了一张名为”哈哈.jpg”的照片，但是却也显示在originDoc中？这是怎么回事呢？  其实学习过C++的朋友都知道，这是因为上文中WordDocument的clone方法中只是简单的进行浅拷贝，引用类型的新对象doc2的mImages只是单纯的指向了this.mImages引用，而并没有进行拷贝。doc2的mImages添加了新的图片，实际上也就是往originDoc里添加了新的图片，所以originDoc里面也有”哈哈.jpg” 。那如何解决这个问题呢？  那就是采用深拷贝，即在拷贝对象时，对于引用型的字段也要采用拷贝的形式，而不是单纯引用的形式。示例如下 :</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="cm">/**
+     * 克隆对象
+     */</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">WordDocument</span> <span class="n">clone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">WordDocument</span> <span class="n">doc</span> <span class="o">=</span> <span class="o">(</span><span class="n">WordDocument</span><span class="o">)</span> <span class="kd">super</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+            <span class="n">doc</span><span class="o">.</span><span class="na">mText</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mText</span><span class="o">;</span>
+<span class="c1">//            doc.mImages = this.mImages;</span>
+            <span class="n">doc</span><span class="o">.</span><span class="na">mImages</span> <span class="o">=</span> <span class="o">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;)</span> <span class="k">this</span><span class="o">.</span><span class="na">mImages</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+            <span class="k">return</span> <span class="n">doc</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>如上代码所示，将doc.mImages指向this.mImages的一份拷贝， 而不是this.mImages本身，这样在doc2添加图片时并不会影响originDoc，如图所示 :    <br />
+<img src="/img/in-post/android_introduction/android_yx_result-3.png" alt="result" /></p>
+
+<h2 id="android">Android源码中的模式实现</h2>
+<p>在Android源码中，我们以熟悉的Intent来分析源码中的原型模式。简单示例如下 :</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">"smsto:0800000123"</span><span class="o">);</span>    
+    <span class="n">Intent</span> <span class="n">shareIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_SENDTO</span><span class="o">,</span> <span class="n">uri</span><span class="o">);</span>    
+    <span class="n">shareIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">"sms_body"</span><span class="o">,</span> <span class="s">"The SMS text"</span><span class="o">);</span>    
+    
+    <span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="o">(</span><span class="n">Intent</span><span class="o">)</span><span class="n">shareIntent</span><span class="o">.</span><span class="na">clone</span><span class="o">()</span> <span class="o">;</span>
+    <span class="n">startActivity</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<p>结果如下 :</p>
+
+<p><img src="/img/in-post/android_introduction/android_sms.png" alt="result" /></p>
+
+<p>可以看到，我们通过shareIntent.clone方法拷贝了一个对象intent, 然后执行startActivity(intent)， 随即就进入了短信页面，号码为0800000123,文本内容为The SMS text，即这些内容都与shareIntent一致。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Object</span> <span class="n">clone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * Copy constructor.
+     */</span>
+    <span class="kd">public</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mAction</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mAction</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mData</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mData</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mType</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mType</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mPackage</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mPackage</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mComponent</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mComponent</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">mFlags</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mFlags</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mCategories</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">mCategories</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArraySet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;(</span><span class="n">o</span><span class="o">.</span><span class="na">mCategories</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mExtras</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">mExtras</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bundle</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mExtras</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mSourceBounds</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">mSourceBounds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mSourceBounds</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mSelector</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">mSelector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mSelector</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mClipData</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">mClipData</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClipData</span><span class="o">(</span><span class="n">o</span><span class="o">.</span><span class="na">mClipData</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<p>可以看到，clone方法实际上在内部调用了new Intent(this); 这就和C++中的拷贝构造函数完全一致了，而且是深拷贝。由于该模式比较简单，就不做太多说明。</p>
+
+<h2 id="section-8">4. 杂谈</h2>
+
+<h3 id="section-9">优点与缺点</h3>
+
+<ul>
+  <li>
+    <p>优点  <br />
+原型模式是在内存二进制流的拷贝，要比直接 new 一个对象性能好很多，特别是要在一个循环体内产生大量的对象时，原型模式可以更好地体现其优点。</p>
+  </li>
+  <li>
+    <p>缺点 <br />
+这既是它的优点也是缺点，直接在内存中拷贝，构造函数是不会执行的，在实际开发当中应该注意这个潜在的问题。优点就是减少了约束，缺点也是减少了约束，需要大家在实际应用时考虑。</p>
+  </li>
+</ul>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/10/android_bridging_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析十">
+                        Previous<br>
+                        <span>Android 设计模式分析十</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="11">
+                                    Android
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/11/android_prototype_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/11/android_prototype_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
