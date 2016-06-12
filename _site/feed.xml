@@ -5,9 +5,446 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 11 Jun 2016 17:37:04 +0800</pubDate>
-    <lastBuildDate>Sat, 11 Jun 2016 17:37:04 +0800</lastBuildDate>
+    <pubDate>Sun, 12 Jun 2016 23:05:20 +0800</pubDate>
+    <lastBuildDate>Sun, 12 Jun 2016 23:05:20 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>IOS 炫酷框架</title>
+        <description>&lt;h3 id=&quot;pophttpsgithubcomfacebookpop&quot;&gt;&lt;a href=&quot;https://github.com/facebook/pop&quot;&gt;pop&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true&quot; alt=&quot;pop&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;poppinghttpsgithubcomschneiderandrepopping&quot;&gt;&lt;a href=&quot;https://github.com/schneiderandre/popping&quot;&gt;popping&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/6ab14f37121c61a4b568c38376f0e24984d1aad8/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31393135303330302f4769746875622f506f7070696e672f706f7070696e672e706e67&quot; alt=&quot;popping&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/a7a98afd238fd3e51d50af8389e6c2dfc3577d45/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31393135303330302f4769746875622f506f7070696e672f706f7070696e672e676966&quot; alt=&quot;popping&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;springhttpsgithubcommengtospring&quot;&gt;&lt;a href=&quot;https://github.com/MengTo/Spring&quot;&gt;Spring&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://cl.ly/image/3a1r1d3l3D1j/spring-logo.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://cl.ly/image/241o0G1G3S36/download/springsetup.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://cl.ly/image/1n1E2j3W3y24/springscreen.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;jnwspringanimationhttpsgithubcomjwillingjnwspringanimation&quot;&gt;&lt;a href=&quot;https://github.com/jwilling/JNWSpringAnimation&quot;&gt;JNWSpringAnimation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://jwilling.com/serve/github/jnwspringanimation/preview.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;dcanimationkithttpsgithubcomdaltoniamdcanimationkit&quot;&gt;&lt;a href=&quot;https://github.com/daltoniam/DCAnimationKit&quot;&gt;DCAnimationKit&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Tada&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/tada.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Bounce&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/bounce.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pulse&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/pulse.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Shake&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/shake.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Swing&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/swing.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Snap&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/snapin.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Bounce&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/bouncein.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Expand&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/expandin.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Compress&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/compressin.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Hinge&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/hinge.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Drop&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/drop.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Move&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/slide.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Rotation&lt;/strong&gt;
+&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/rotate.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;rbbanimationhttpsgithubcomrobbrbbanimation&quot;&gt;&lt;a href=&quot;https://github.com/robb/RBBAnimation&quot;&gt;RBBAnimation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://robb.is/img/rbbanimation/rainbow.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;http://robb.is/img/rbbanimation/spring.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;http://robb.is/img/rbbanimation/ease-in-out-back.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;http://robb.is/img/rbbanimation/bounce.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;http://robb.is/img/rbbanimation/sine-wave.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pop-mcanimatehttpsgithubcommatthewcheokpop-mcanimate&quot;&gt;&lt;a href=&quot;https://github.com/matthewcheok/POP-MCAnimate&quot;&gt;POP-MCAnimate&lt;/a&gt;&lt;/h3&gt;
+
+&lt;h3 id=&quot;jhchainableanimationshttpsgithubcomjhurrayjhchainableanimations&quot;&gt;&lt;a href=&quot;https://github.com/jhurray/JHChainableAnimations&quot;&gt;JHChainableAnimations&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/img/logo.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jhurray/JHChainableAnimations/master/img/JHChainableAnimationsExample1.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/jhurray/JHChainableAnimations/master/Gifs/JHChainableAnimationsExample1.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/img/JHChainableAnimationsExample2.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/Gifs/JHChainableAnimationsExample2.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/img/JHChainableAnimationsExample3.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/Gifs/JHChainableAnimationsExample3.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pmtweenhttpsgithubcompoetmountainpmtween&quot;&gt;&lt;a href=&quot;https://github.com/poetmountain/PMTween&quot;&gt;PMTween&lt;/a&gt;&lt;/h3&gt;
+
+&lt;h3 id=&quot;jazzhandshttpsgithubcomiftttjazzhands&quot;&gt;&lt;a href=&quot;https://github.com/IFTTT/JazzHands&quot;&gt;JazzHands&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.github.com/IFTTT/JazzHands/screenshots/screenshots/intro.gif&quot; alt=&quot;Jazz Hands&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;animatedtransitiongalleryhttpsgithubcomshu223animatedtransitiongallery&quot;&gt;&lt;a href=&quot;https://github.com/shu223/AnimatedTransitionGallery&quot;&gt;AnimatedTransitionGallery&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/gallery.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/coreimage.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/motionblur.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/boxblur.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;rztransitionshttpsgithubcomraizlabsrztransitions&quot;&gt;&lt;a href=&quot;https://github.com/Raizlabs/RZTransitions&quot;&gt;RZTransitions&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Raizlabs/RZTransitions/master/Web/RZTransitions.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;http://raw.github.com/Raizlabs/RZTransitions/master/Web/RZTransitionsDemo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;foldingtabbarioshttpsgithubcomyalantisfoldingtabbarios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/FoldingTabBar.iOS&quot;&gt;FoldingTabBar.iOS&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/495792/screenshots/2003376/tab_bar_animation_fin-02.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;side-menuioshttpsgithubcomyalantisside-menuios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Side-Menu.iOS&quot;&gt;Side-Menu.iOS&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1689922/events-menu_1-1-6.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;context-menuioshttpsgithubcomyalantiscontext-menuios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Context-Menu.iOS&quot;&gt;Context-Menu.iOS&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1785274/99miles-profile-light_1-1-4.gif&quot; alt=&quot;ContextMenu&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;guillotinemenuhttpsgithubcomyalantisguillotinemenu&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/GuillotineMenu&quot;&gt;GuillotineMenu&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/495792/screenshots/2018249/draft_06.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;perseihttpsgithubcomyalantispersei&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Persei&quot;&gt;Persei&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Persei/master/Assets/animation.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pull-to-refreshrentals-ioshttpsgithubcomyalantispull-to-refreshrentals-ios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Pull-to-Refresh.Rentals-iOS&quot;&gt;Pull-to-Refresh.Rentals-iOS&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1650317/realestate-pull_1-2-3.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pulltomakesouphttpsgithubcomyalantispulltomakesoup&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/PullToMakeSoup&quot;&gt;PullToMakeSoup&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/PullToMakeSoup/master/PullToMakeSoupDemo/Resouces/recipe-finder.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pulltomakeflighthttpsgithubcomyalantispulltomakeflight&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/PullToMakeFlight&quot;&gt;PullToMakeFlight&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/PullToMakeFlight/master/PullToMakeFlightDemo/Resources/tours-pull-airplane.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;kolodahttpsgithubcomyalantiskoloda&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Koloda&quot;&gt;Koloda&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Yalantis/Koloda/blob/master/Koloda_v2_example_animation.gif&quot; alt=&quot;Preview&quot; /&gt;
+&lt;img src=&quot;https://github.com/Yalantis/Koloda/blob/master/Koloda_v1_example_animation.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;starwarsioshttpsgithubcomyalantisstarwarsios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/StarWars.iOS&quot;&gt;StarWars.iOS&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://yalantis-com.s3.amazonaws.com/uploads/ckeditor/pictures/49/content_star_wars-shot__1_.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;eatfithttpsgithubcomyalantiseatfit&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/EatFit&quot;&gt;EatFit&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://yalantis.com/media/content/ckeditor/2015/09/30/charts-animation.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;preloaderophiuchushttpsgithubcomyalantispreloaderophiuchus&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Preloader.Ophiuchus&quot;&gt;Preloader.Ophiuchus&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/yalantistwodirections.gif&quot; alt=&quot;Yalantis&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/animation.gif&quot; alt=&quot;Preview&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/thegreenhorse.gif&quot; alt=&quot;The Green Horse&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;animated-tab-barhttpsgithubcomramotionanimated-tab-bar&quot;&gt;&lt;a href=&quot;https://github.com/Ramotion/animated-tab-bar&quot;&gt;animated-tab-bar&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Ramotion/animated-tab-bar/master/Screenshots/tab-bar-icons-iphone-ramotion-animation-interface-design.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;bubbletransitionhttpsgithubcomandreamazzbubbletransition&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/BubbleTransition&quot;&gt;BubbleTransition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/BubbleTransition/master/assets/logo.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/BubbleTransition/master/assets/screenshot.gif&quot; alt=&quot;BubbleTransition&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ios-bubble-transitionhttpsgithubcomfitomadios-bubble-transition&quot;&gt;&lt;a href=&quot;https://github.com/fitomad/iOS-Bubble-Transition&quot;&gt;iOS-Bubble-Transition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/fitomad/iOS-Bubble-Transition/blob/master/Bubble.gif?raw=true&quot; alt=&quot;Bubble Transition&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;cnppopupcontrollerhttpsgithubcomcarsonperrotticnppopupcontroller&quot;&gt;&lt;a href=&quot;https://github.com/carsonperrotti/CNPPopupController&quot;&gt;CNPPopupController&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/carsonperrotti/CNPPopupController/master/CNPPopupControllerExample/CNPPopupController.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;giftcard-implementationhttpsgithubcommartinrgbgiftcard-implementation&quot;&gt;&lt;a href=&quot;https://github.com/MartinRGB/GiftCard-Implementation&quot;&gt;GiftCard-Implementation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/MartinRGB/GiftCard-Implementation/blob/master/Gif/Origami.gif?raw=true&quot; alt=&quot;origami&quot; /&gt;
+&lt;img src=&quot;https://github.com/MartinRGB/GiftCard-Implementation/blob/master/Gif/Xcode.gif?raw=true&quot; alt=&quot;xcode&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;dkchainableanimationkithttpsgithubcomdravenessdkchainableanimationkit&quot;&gt;&lt;a href=&quot;https://github.com/Draveness/DKChainableAnimationKit&quot;&gt;DKChainableAnimationKit&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/DKChainableAnimationKit.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Code1.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Demo1.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Code2.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Demo2.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tindersimpleswipecardshttpsgithubcomcwrichardkimtindersimpleswipecards&quot;&gt;&lt;a href=&quot;https://github.com/cwRichardKim/TinderSimpleSwipeCards&quot;&gt;TinderSimpleSwipeCards&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://imgur.com/4bYw12e.gif&quot; alt=&quot;alt tag&quot; /&gt;
+&lt;img src=&quot;http://i.imgur.com/krDNpR0.gif&quot; alt=&quot;alt tag&quot; /&gt;
+&lt;img src=&quot;http://i.imgur.com/W4bIRkc.gif&quot; alt=&quot;alt tag&quot; /&gt;
+&lt;img src=&quot;http://i.imgur.com/3yk6aiS.gif&quot; alt=&quot;alt tag&quot; /&gt;
+&lt;img src=&quot;http://i.imgur.com/IIFVkm4.gif&quot; alt=&quot;alt tag&quot; /&gt;
+&lt;img src=&quot;http://i.imgur.com/j1ISIq5.gif&quot; alt=&quot;alt tag&quot; /&gt;
+&lt;img src=&quot;http://i.imgur.com/PQYs4sH.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;jtmaterialtransitionhttpsgithubcomjonathantribouharetjtmaterialtransition&quot;&gt;&lt;a href=&quot;https://github.com/jonathantribouharet/JTMaterialTransition&quot;&gt;JTMaterialTransition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jonathantribouharet/JTMaterialTransition/master/Screens/example.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;watchtransitionhttpsgithubcomkongtomorrowwatchtransition&quot;&gt;&lt;a href=&quot;https://github.com/kongtomorrow/WatchTransition&quot;&gt;WatchTransition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/kongtomorrow/WatchTransition/raw/master/WatchFaceTransition.gif&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;kypushtransitionhttpsgithubcomkittenyangkypushtransition&quot;&gt;&lt;a href=&quot;https://github.com/KittenYang/KYPushTransition&quot;&gt;KYPushTransition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/KittenYang/KYPushTransition/master/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;uiview-shakehttpsgithubcomandreamazzuiview-shake&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/UIView-Shake&quot;&gt;UIView-Shake&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UIView-Shake/master/assets/logo.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UIView-Shake/master/assets/screenshot.gif&quot; alt=&quot;UIView+Shake&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;uitextfield-shakehttpsgithubcomandreamazzuitextfield-shake&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/UITextField-Shake&quot;&gt;UITextField-Shake&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UITextField-Shake/master/assets/logo.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UITextField-Shake/master/assets/screenshot.gif&quot; alt=&quot;UITextField+Shake&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;rmpzoomtransitionanimatorhttpsgithubcomrecruit-mprmpzoomtransitionanimator&quot;&gt;&lt;a href=&quot;https://github.com/recruit-mp/RMPZoomTransitionAnimator&quot;&gt;RMPZoomTransitionAnimator&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/recruit-mp/RMPZoomTransitionAnimator/master/docs/collectionview.gif&quot; alt=&quot;Screen shot&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/recruit-mp/RMPZoomTransitionAnimator/master/docs/tableview.gif&quot; alt=&quot;Screen shot&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;popmenuhttpsgithubcomxhzengaibpopmenu&quot;&gt;&lt;a href=&quot;https://github.com/xhzengAIB/PopMenu&quot;&gt;PopMenu&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/xhzengAIB/LearnEnglish/raw/master/Screenshots/XHSinaMenuViewExample.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;zfdragablemodaltransitionhttpsgithubcomzoonoozzfdragablemodaltransition&quot;&gt;&lt;a href=&quot;https://github.com/zoonooz/ZFDragableModalTransition&quot;&gt;ZFDragableModalTransition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zoonooz/ZFDragableModalTransition/master/Screenshot/ss.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mcmheaderanimatedhttpsgithubcommathcarignanimcmheaderanimated&quot;&gt;&lt;a href=&quot;https://github.com/mathcarignani/MCMHeaderAnimated&quot;&gt;MCMHeaderAnimated&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/mathcarignani/MCMHeaderAnimated/master/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;rubberbandeffecthttpsgithubcomproduktrubberbandeffect&quot;&gt;&lt;a href=&quot;https://github.com/Produkt/RubberBandEffect&quot;&gt;RubberBandEffect&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Produkt/RubberBandEffect/master/Others/RubberBand_01.gif&quot; alt=&quot;rubber-band01&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Produkt/RubberBandEffect/master/Others/RubberBand_02.gif&quot; alt=&quot;rubber-band02&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;easyanimationhttpsgithubcomicanzilbeasyanimation&quot;&gt;&lt;a href=&quot;https://github.com/icanzilb/EasyAnimation&quot;&gt;EasyAnimation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/EA.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/moveX.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/corners.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/spring.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/chain.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mmtweenanimationhttpsgithubcomadad184mmtweenanimation&quot;&gt;&lt;a href=&quot;https://github.com/adad184/MMTweenAnimation&quot;&gt;MMTweenAnimation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/adad184/MMTweenAnimation/master/Images/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;gearrefreshcontrolhttpsgithubcomandreamazzgearrefreshcontrol&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/GearRefreshControl&quot;&gt;GearRefreshControl&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/GearRefreshControl/master/assets/screenshot.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;dragdropcollectionviewhttpsgithubcomliornndragdropcollectionview&quot;&gt;&lt;a href=&quot;https://github.com/LiorNn/DragDropCollectionView&quot;&gt;DragDropCollectionView&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/LiorNn/DragDropCollectionView/master/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;twitterbirdanimationhttpsgithubcomrounaktwitterbirdanimation&quot;&gt;&lt;a href=&quot;https://github.com/rounak/TwitterBirdAnimation&quot;&gt;TwitterBirdAnimation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://media.tumblr.com/10cc0ba92377a2cba9fb35c9943fd2ca/tumblr_inline_n6zpokNxpC1qh9cw7.gif&quot; alt=&quot;twitter bird animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;singlelineshakeanimationhttpsgithubcomhaaakonsinglelineshakeanimation&quot;&gt;&lt;a href=&quot;https://github.com/haaakon/SingleLineShakeAnimation&quot;&gt;SingleLineShakeAnimation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/haaakon/SingleLineShakeAnimation/master/example.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;rqshinelabelhttpsgithubcomzipmerqshinelabel&quot;&gt;&lt;a href=&quot;https://github.com/zipme/RQShineLabel&quot;&gt;RQShineLabel&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zipme/RQShineLabel/master/Screenshots/rqshinelabel.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ltmorphinglabelhttpsgithubcomlexrusltmorphinglabel&quot;&gt;&lt;a href=&quot;https://github.com/lexrus/LTMorphingLabel&quot;&gt;LTMorphingLabel&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491822/96bf5de6-059d-11e4-9826-a6f82025d1af.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491838/ffc5aff2-059d-11e4-970c-6e2d7664785a.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491840/173c2238-059e-11e4-9b33-dcd21edae9e2.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491845/29bb0f8c-059e-11e4-9ef8-de56bec1baba.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3508789/31e9fafe-0690-11e4-9a76-ba3ef45eb53a.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3582586/4fb8c52e-0bfe-11e4-9b6f-f070f7f3ab55.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3594949/815cd3e8-0caa-11e4-9738-278a9c959478.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;wzdraggableswitchheaderviewhttpsgithubcomwongzigiiwzdraggableswitchheaderview&quot;&gt;&lt;a href=&quot;https://github.com/wongzigii/WZDraggableSwitchHeaderView&quot;&gt;WZDraggableSwitchHeaderView&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/wongzigii/WZDraggableSwitchHeaderView/master/GIF/WZAnimatingTransition.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;zlswipeableviewswifthttpsgithubcomzhxnlaizlswipeableviewswift&quot;&gt;&lt;a href=&quot;https://github.com/zhxnlai/ZLSwipeableViewSwift&quot;&gt;ZLSwipeableViewSwift&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/animation.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/swipe.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/direction.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/undo.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;zlswipeableviewhttpsgithubcomzhxnlaizlswipeableview&quot;&gt;&lt;a href=&quot;https://github.com/zhxnlai/ZLSwipeableView/&quot;&gt;ZLSwipeableView&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipe.gif&quot; alt=&quot;swipe&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeCancel.gif&quot; alt=&quot;cancel&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeLeft.gif&quot; alt=&quot;swipeLeft&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeLeftRight.gif&quot; alt=&quot;swipeLeftRight&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ckwavecollectionviewtransitionhttpsgithubcomcezarykopaczckwavecollectionviewtransition&quot;&gt;&lt;a href=&quot;https://github.com/CezaryKopacz/CKWaveCollectionViewTransition&quot;&gt;CKWaveCollectionViewTransition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.giphy.com/3o85xyoYepG177Bhte.gif&quot; alt=&quot;anim.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;liquidfloatingactionbuttonhttpsgithubcomyoavltliquidfloatingactionbutton&quot;&gt;&lt;a href=&quot;https://github.com/yoavlt/LiquidFloatingActionButton&quot;&gt;LiquidFloatingActionButton&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/yoavlt/LiquidFloatingActionButton/master/Demo/top.gif&quot; alt=&quot;anim.gif&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/yoavlt/LiquidFloatingActionButton/master/Demo/customizable.gif&quot; alt=&quot;anim.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;nvactivityindicatorviewhttpsgithubcomninjaproxnvactivityindicatorview&quot;&gt;&lt;a href=&quot;https://github.com/ninjaprox/NVActivityIndicatorView&quot;&gt;NVActivityIndicatorView&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/ninjaprox/NVActivityIndicatorView/master/Demo.gif&quot; alt=&quot;anim.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tksubmittransitionhttpsgithubcomentotsutksubmittransition&quot;&gt;&lt;a href=&quot;https://github.com/entotsu/TKSubmitTransition&quot;&gt;TKSubmitTransition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/entotsu/TKSubmitTransition/blob/master/demo.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;http://download.jikexueyuan.com/detail/id/1301&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://download.jikexueyuan.com/File/image/e224fc4d0c362305fa498b371cfac4c9_318513_189_4c21143928442461801bae5ac596c.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;animationshttpsgithubcomkittenyanganimations&quot;&gt;&lt;a href=&quot;https://github.com/KittenYang/Animations&quot;&gt;Animations&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/KittenYang/Animations/master/GooeySlideMenu.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;kdintroviewhttpsgithubcomlikedankdintroview&quot;&gt;&lt;a href=&quot;https://github.com/likedan/KDIntroView&quot;&gt;KDIntroView&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/likedan/KDIntroView/master/Imgs/showup.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;razzledazzlehttpsgithubcomiftttrazzledazzle&quot;&gt;&lt;a href=&quot;https://github.com/IFTTT/RazzleDazzle&quot;&gt;RazzleDazzle&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/IFTTT/RazzleDazzle/master/Example/Docs/razzledazzle-demo.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;presentationhttpsgithubcomhyperoslopresentation&quot;&gt;&lt;a href=&quot;https://github.com/hyperoslo/Presentation&quot;&gt;Presentation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/hyperoslo/Presentation/master/Example/Parallax/Images/Parallax-v2.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;uicollectionview-reorderinghttpsgithubcomnshintiouicollectionview-reordering&quot;&gt;&lt;a href=&quot;https://github.com/nshintio/uicollectionview-reordering&quot;&gt;uicollectionview-reordering&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/ee5e5999dea79c81a09416a51b1e6cec5de3a193/687474703a2f2f6e7368696e742e696f2f696d616765732f7569636f6c6c656374696f6e766965772d72656f72646572696e672f342e676966&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;uber-video-welcomehttpsgithubcomchinsyouber-video-welcome&quot;&gt;&lt;a href=&quot;https://github.com/chinsyo/uber-video-welcome&quot;&gt;uber-video-welcome&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/chinsyo/uber-video-welcome/master/uber-video-welcome.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;liquidloaderhttpsgithubcomyoavltliquidloader&quot;&gt;&lt;a href=&quot;https://github.com/yoavlt/LiquidLoader&quot;&gt;LiquidLoader&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;GrowCircle&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/yoavlt/LiquidLoader/blob/master/Demo/grow-circle.gif?raw=true&quot; alt=&quot;GrowCircle&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;GrowLine&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/yoavlt/LiquidLoader/blob/master/Demo/grow-line.gif?raw=true&quot; alt=&quot;GrowLine&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;dgelasticpulltorefreshhttpsgithubcomgontovnikdgelasticpulltorefresh&quot;&gt;&lt;a href=&quot;https://github.com/gontovnik/DGElasticPullToRefresh&quot;&gt;DGElasticPullToRefresh&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/gontovnik/DGElasticPullToRefresh/master/DGElasticPullToRefreshPreview1.gif&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;https://raw.githubusercontent.com/gontovnik/DGElasticPullToRefresh/master/DGElasticPullToRefreshPreview2.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;cardanimationhttpsgithubcomseedantecardanimation&quot;&gt;&lt;a href=&quot;https://github.com/seedante/CardAnimation&quot;&gt;CardAnimation&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/32399/screenshots/1265487/attachments/173545/secret-project-animation_2x.gif&quot; alt=&quot;Design from Dribble&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;acanimatedtextfieldhttpsgithubcomalexcatchacanimatedtextfield&quot;&gt;&lt;a href=&quot;https://github.com/AlexCatch/ACAnimatedTextField&quot;&gt;ACAnimatedTextField&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/AlexCatch/ACAnimatedTextField/master/misc/preview.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;instructionshttpsgithubcomephreadinstructions&quot;&gt;&lt;a href=&quot;https://github.com/ephread/Instructions&quot;&gt;Instructions&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/JUlQH9F.gif&quot; alt=&quot;Instructions Demo&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mntpulltoreacthttpsgithubcommentionappmntpulltoreact&quot;&gt;&lt;a href=&quot;https://github.com/mentionapp/mntpulltoreact&quot;&gt;mntpulltoreact&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/mentionapp/mntpulltoreact/master/README/mention-example.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tkrubberindicatorhttpsgithubcomtbxarktkrubberindicator&quot;&gt;&lt;a href=&quot;https://github.com/TBXark/TKRubberIndicator&quot;&gt;TKRubberIndicator&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/TBXark/TKRubberIndicator/master/TKRubberIndicator/rubberindicator.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tyalertcontrollerhttpsgithubcom12207480tyalertcontroller&quot;&gt;&lt;a href=&quot;https://github.com/12207480/TYAlertController&quot;&gt;TYAlertController&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/12207480/TYAlertController/master/screenshot/TYAlertControllerDemo.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;yfstartviewhttpsgithubcomyeziaheheyfstartview&quot;&gt;&lt;a href=&quot;https://github.com/yeziahehe/YFStartView&quot;&gt;YFStartView&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://7xkvt5.com1.z0.glb.clouddn.com/github/YFStartViewbuttom.gif&quot; alt=&quot;GIFImage&quot; /&gt;
+&lt;img src=&quot;http://7xkvt5.com1.z0.glb.clouddn.com/github/YFStartViewcenter.gif&quot; alt=&quot;GIFImage&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ttgemojiratehttpsgithubcomzekunyanttgemojirate&quot;&gt;&lt;a href=&quot;https://github.com/zekunyan/TTGEmojiRate&quot;&gt;TTGEmojiRate&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://7nj2iz.com1.z0.glb.clouddn.com/TTGEmojiRate_screenshot2.gif&quot; alt=&quot;Screenshot&quot; /&gt;
+&lt;img src=&quot;http://7nj2iz.com1.z0.glb.clouddn.com/TTGEmojiRate_IBExample.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;alertonboardinghttpsgithubcomphilippeboisneyalertonboarding&quot;&gt;&lt;a href=&quot;https://github.com/PhilippeBoisney/AlertOnboarding&quot;&gt;AlertOnboarding&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/PhilippeBoisney/AlertOnboarding/blob/master/screenshot.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;htytextfieldhttpsgithubcomhantonhtytextfield&quot;&gt;&lt;a href=&quot;https://github.com/hanton/HTYTextField&quot;&gt;HTYTextField&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/hanton/HTYTextField/blob/master/screenshot/HTYTextField.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mevhorizontalcontactshttpsgithubcommanuelescrigmevhorizontalcontacts&quot;&gt;&lt;a href=&quot;https://github.com/manuelescrig/MEVHorizontalContacts&quot;&gt;MEVHorizontalContacts&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/1849990/15137846/645a0d18-168c-11e6-96e2-651d8f8de3b0.gif&quot; alt=&quot;MEVHorizontalContacts&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;preview-transitionhttpsgithubcomramotionpreview-transition&quot;&gt;&lt;a href=&quot;https://github.com/Ramotion/preview-transition&quot;&gt;preview-transition&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Ramotion/preview-transition/blob/master/preview.gif&quot; alt=&quot;PreviewTransition&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;expanding-collectionhttpsgithubcomramotionexpanding-collection&quot;&gt;&lt;a href=&quot;https://github.com/Ramotion/expanding-collection&quot;&gt;expanding-collection&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Ramotion/expanding-collection/blob/master/preview.gif&quot; alt=&quot;PreviewTransition&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tween-controllerhttpsgithubcomdaltonclaybrooktween-controller&quot;&gt;&lt;a href=&quot;https://github.com/daltonclaybrook/tween-controller&quot;&gt;tween-controller&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/daltonclaybrook/tween-controller/master/example.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mevfloatingbuttonhttpsgithubcommanuelescrigmevfloatingbutton&quot;&gt;&lt;a href=&quot;https://github.com/manuelescrig/MEVFloatingButton&quot;&gt;MEVFloatingButton&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/1849990/13462466/db001be6-e087-11e5-92a1-79c8ecefb715.gif&quot; alt=&quot;MEVFloatingButton&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 12 Jun 2016 17:30:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/12/ios_animation_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/12/ios_animation_introduction/</guid>
+        
+        <category>ios</category>
+        
+        
+      </item>
     
       <item>
         <title>Android 设计模式分析十一</title>
@@ -3302,427 +3739,6 @@ public class BankImpl extends Binder implements IBank {
         <pubDate>Sat, 04 Jun 2016 05:00:00 +0800</pubDate>
         <link>http://DavidWangTM.github.io/2016/06/04/android_facade_introduction/</link>
         <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/04/android_facade_introduction/</guid>
-        
-        <category>Android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Android 设计模式分析二</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;1. 模式介绍&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;模式的定义&lt;/h3&gt;
-&lt;p&gt;将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;模式的使用场景&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;相同的方法，不同的执行顺序，产生不同的事件结果时；&lt;/li&gt;
-  &lt;li&gt;多个部件或零件，都可以装配到一个对象中，但是产生的运行结果又不相同时；&lt;/li&gt;
-  &lt;li&gt;产品类非常复杂，或者产品类中的调用顺序不同产生了不同的效能，这个时候使用建造者模式非常合适；&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;uml&quot;&gt;2. UML类图&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/in-post/android_introduction/android_builder_uml.png&quot; alt=&quot;url&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;角色介绍&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Product 产品类 :  产品的抽象类。&lt;/li&gt;
-  &lt;li&gt;Builder : 抽象类， 规范产品的组建，一般是由子类实现具体的组件过程。&lt;/li&gt;
-  &lt;li&gt;ConcreteBuilder : 具体的构建器.&lt;/li&gt;
-  &lt;li&gt;Director : 统一组装过程(可省略)。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;section-4&quot;&gt;3. 模式的简单实现&lt;/h2&gt;
-&lt;p&gt;###  简单实现的介绍
-电脑的组装过程较为复杂，步骤繁多，但是顺序却是不固定的。下面我们以组装电脑为例来演示一下简单且经典的builder模式。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-5&quot;&gt;实现源码&lt;/h3&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/**
- * Computer产品抽象类, 为了例子简单, 只列出这几个属性
- * 
- * @author mrsimple
- *
- */&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Computer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mCpuCore&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mRamSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mOs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Dos&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-	&lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Computer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;// 设置CPU核心数&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setCPU&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;// 设置内存&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setRAM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;// 设置操作系统&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setOs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Computer [mCpuCore=&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mCpuCore&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;, mRamSize=&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mRamSize&lt;/span&gt;
-				&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;, mOs=&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mOs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;]&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/**
- * Apple电脑
- */&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AppleComputer&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Computer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AppleComputer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setCPU&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mCpuCore&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setRAM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mRamSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setOs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mOs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-
-&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/**
- * builder抽象类
- *
- */&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;// 设置CPU核心数&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buildCPU&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;// 设置内存&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buildRAM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;// 设置操作系统&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buildOs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;// 创建Computer&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Computer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ApplePCBuilder&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Computer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mApplePc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AppleComputer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buildCPU&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mApplePc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCPU&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buildRAM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mApplePc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setRAM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gb&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buildOs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mApplePc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setOs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Computer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mApplePc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Director&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mBuilder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/**
-	 * 
-	 * @param builder
-	 */&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Director&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mBuilder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/**
-	 * 构建对象
-	 * 
-	 * @param cpu
-	 * @param ram
-	 * @param os
-	 */&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cpu&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ram&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mBuilder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildCPU&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cpu&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mBuilder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildRAM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ram&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;mBuilder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildOs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/**
- * 经典实现较为繁琐
- * 
- * @author mrsimple
- *
- */&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;c1&quot;&gt;// 构建器&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ApplePCBuilder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-		&lt;span class=&quot;c1&quot;&gt;// Director&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;Director&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pcDirector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Director&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;c1&quot;&gt;// 封装构建过程, 4核, 内存2GB, Mac系统&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;pcDirector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Mac OS X 10.9.1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;c1&quot;&gt;// 构建电脑, 输出相关信息&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Computer Info : &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;通过Builder来构建产品对象, 而Director封装了构建复杂产品对象对象的过程，不对外隐藏构建细节。&lt;/p&gt;
-
-&lt;h2 id=&quot;android&quot;&gt;Android源码中的模式实现&lt;/h2&gt;
-&lt;p&gt;在Android源码中，我们最常用到的Builder模式就是AlertDialog.Builder， 使用该Builder来构建复杂的AlertDialog对象。简单示例如下 :&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;c1&quot;&gt;//显示基本的AlertDialog  &lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;showDialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;AlertDialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertDialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;drawable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Title&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Message&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setPositiveButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Button1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;  
-                &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;OnClickListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-                    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onClick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;whichButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-                        &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;点击了对话框上的Button1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
-                    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
-                &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setNeutralButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Button2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;  
-                &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;OnClickListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-                    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onClick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;whichButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-                        &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;点击了对话框上的Button2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
-                    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
-                &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setNegativeButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Button3&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;  
-                &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;OnClickListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-                    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onClick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;whichButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
-                        &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;点击了对话框上的Button3&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
-                    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
-                &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;  
-        &lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 构建AlertDialog， 并且显示&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;结果 : 
-&lt;img src=&quot;/img/in-post/android_introduction/android_result.png&quot; alt=&quot;result&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;下面我们看看AlertDialog的相关源码 :&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// AlertDialog&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AlertDialog&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dialog&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Controller, 接受Builder成员变量P中的各个参数&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertController&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mAlert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 构造函数&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertDialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 4 : 构造AlertDialog&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;AlertDialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;createContextWrapper&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resolveDialogTheme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;createContextWrapper&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mWindow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;alwaysReadCloseOnTouchAttr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mAlert&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getWindow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 实际上调用的是mAlert的setTitle方法&lt;/span&gt;
-    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharSequence&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mAlert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 实际上调用的是mAlert的setCustomTitle方法&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setCustomTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;customTitleView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mAlert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCustomTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;customTitleView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharSequence&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mAlert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// AlertDialog其他的代码省略&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;// ************  Builder为AlertDialog的内部类   *******************&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// 1 : 存储AlertDialog的各个参数, 例如title, message, icon等.&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;AlertParams&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// 属性省略&lt;/span&gt;
-        
-        &lt;span class=&quot;cm&quot;&gt;/**
-         * Constructor using a context for this builder and the {@link AlertDialog} it creates.
-         */&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resolveDialogTheme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;AlertParams&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContextThemeWrapper&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resolveDialogTheme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)));&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;mTheme&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        
-        &lt;span class=&quot;c1&quot;&gt;// Builder的其他代码省略 ......&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;// 2 : 设置各种参数&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharSequence&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mTitle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        
-        
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharSequence&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iconId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mIconId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iconId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setPositiveButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CharSequence&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OnClickListener&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;listener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mPositiveButtonText&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mPositiveButtonListener&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;listener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        
-        
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Builder&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mViewSpacingSpecified&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        
-        &lt;span class=&quot;c1&quot;&gt;// 3 : 构建AlertDialog, 传递参数&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertDialog&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// 调用new AlertDialog构造对象， 并且将参数传递个体AlertDialog &lt;/span&gt;
-            &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertDialog&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlertDialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mTheme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// 5 : 将P中的参数应用的dialog中的mAlert对象中&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mAlert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCancelable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mCancelable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mCancelable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCanceledOnTouchOutside&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setOnCancelListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mOnCancelListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mOnKeyListener&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setOnKeyListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mOnKeyListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;可以看到，通过Builder来设置AlertDialog中的title, message, button等参数， 这些参数都存储在类型为AlertController.AlertParams的成员变量P中，AlertController.AlertParams中包含了与之对应的成员变量。在调用Builder类的create函数时才创建AlertDialog, 并且将Builder成员变量P中保存的参数应用到AlertDialog的mAlert对象中，即P.apply(dialog.mAlert)代码段。我们看看apply函数的实现 :&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AlertController&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mCustomTitleView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCustomTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mCustomTitleView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mTitle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mTitle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mIcon&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mIconId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mIconId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mIconAttrId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getIconAttributeResId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mIconAttrId&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mMessage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mMessage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mPositiveButtonText&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;BUTTON_POSITIVE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mPositiveButtonText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                        &lt;span class=&quot;n&quot;&gt;mPositiveButtonListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mNegativeButtonText&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;BUTTON_NEGATIVE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mNegativeButtonText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                        &lt;span class=&quot;n&quot;&gt;mNegativeButtonListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mNeutralButtonText&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setButton&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DialogInterface&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;BUTTON_NEUTRAL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mNeutralButtonText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                        &lt;span class=&quot;n&quot;&gt;mNeutralButtonListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mForceInverseBackground&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setInverseBackgroundForced&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// For a list, the client can either supply an array of items or an&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// adapter or a cursor&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mItems&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mCursor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mAdapter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;createListView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mViewSpacingSpecified&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mViewSpacingLeft&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mViewSpacingTop&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mViewSpacingRight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;mViewSpacingBottom&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;dialog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;实际上就是把P中的参数挨个的设置到AlertController中， 也就是AlertDialog中的mAlert对象。从AlertDialog的各个setter方法中我们也可以看到，实际上也都是调用了mAlert对应的setter方法。在这里，Builder同时扮演了上文中提到的builder、ConcreteBuilder、Director的角色，简化了Builder模式的设计。&lt;/p&gt;
-
-&lt;h2 id=&quot;section-6&quot;&gt;4. 杂谈&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-7&quot;&gt;优点&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;良好的封装性， 使用建造者模式可以使客户端不必知道产品内部组成的细节；&lt;/li&gt;
-  &lt;li&gt;建造者独立，容易扩展；&lt;/li&gt;
-  &lt;li&gt;在对象创建过程中会使用到系统中的一些其它对象，这些对象在产品对象的创建过程中不易得到。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-8&quot;&gt;缺点&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;会产生多余的Builder对象以及Director对象，消耗内存；&lt;/li&gt;
-  &lt;li&gt;对象的构建过程暴露。&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 03 Jun 2016 15:49:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/06/03/android_builder_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/03/android_builder_introduction/</guid>
         
         <category>Android</category>
         

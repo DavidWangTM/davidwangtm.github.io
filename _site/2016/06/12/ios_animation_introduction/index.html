@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 炫酷框架
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/12/ios_animation_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-os-metro.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-os-metro.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                    </div>
+                    <h1>IOS 炫酷框架</h1>
+                    
+                    
+                    <h2 class="subheading">动画框架</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 12, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h3 id="pophttpsgithubcomfacebookpop"><a href="https://github.com/facebook/pop">pop</a></h3>
+
+<p><img src="https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true" alt="pop" /></p>
+
+<h3 id="poppinghttpsgithubcomschneiderandrepopping"><a href="https://github.com/schneiderandre/popping">popping</a></h3>
+
+<p><img src="https://camo.githubusercontent.com/6ab14f37121c61a4b568c38376f0e24984d1aad8/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31393135303330302f4769746875622f506f7070696e672f706f7070696e672e706e67" alt="popping" /></p>
+
+<p><img src="https://camo.githubusercontent.com/a7a98afd238fd3e51d50af8389e6c2dfc3577d45/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31393135303330302f4769746875622f506f7070696e672f706f7070696e672e676966" alt="popping" /></p>
+
+<h3 id="springhttpsgithubcommengtospring"><a href="https://github.com/MengTo/Spring">Spring</a></h3>
+
+<p><img src="http://cl.ly/image/3a1r1d3l3D1j/spring-logo.jpg" alt="" /></p>
+
+<p><img src="http://cl.ly/image/241o0G1G3S36/download/springsetup.jpg" alt="" /></p>
+
+<p><img src="http://cl.ly/image/1n1E2j3W3y24/springscreen.jpg" alt="" /></p>
+
+<h3 id="jnwspringanimationhttpsgithubcomjwillingjnwspringanimation"><a href="https://github.com/jwilling/JNWSpringAnimation">JNWSpringAnimation</a></h3>
+
+<p><img src="http://jwilling.com/serve/github/jnwspringanimation/preview.gif" alt="" /></p>
+
+<h3 id="dcanimationkithttpsgithubcomdaltoniamdcanimationkit"><a href="https://github.com/daltoniam/DCAnimationKit">DCAnimationKit</a></h3>
+
+<p><strong>Tada</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/tada.gif" alt="alt tag" /></p>
+
+<p><strong>Bounce</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/bounce.gif" alt="alt tag" /></p>
+
+<p><strong>Pulse</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/pulse.gif" alt="alt tag" /></p>
+
+<p><strong>Shake</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/shake.gif" alt="alt tag" /></p>
+
+<p><strong>Swing</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/swing.gif" alt="alt tag" /></p>
+
+<p><strong>Snap</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/snapin.gif" alt="alt tag" /></p>
+
+<p><strong>Bounce</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/bouncein.gif" alt="alt tag" /></p>
+
+<p><strong>Expand</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/expandin.gif" alt="alt tag" /></p>
+
+<p><strong>Compress</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/compressin.gif" alt="alt tag" /></p>
+
+<p><strong>Hinge</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/hinge.gif" alt="alt tag" /></p>
+
+<p><strong>Drop</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/drop.gif" alt="alt tag" /></p>
+
+<p><strong>Move</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/slide.gif" alt="alt tag" /></p>
+
+<p><strong>Rotation</strong>
+<img src="https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/rotate.gif" alt="alt tag" /></p>
+
+<h3 id="rbbanimationhttpsgithubcomrobbrbbanimation"><a href="https://github.com/robb/RBBAnimation">RBBAnimation</a></h3>
+
+<p><img src="http://robb.is/img/rbbanimation/rainbow.gif" alt="" />
+<img src="http://robb.is/img/rbbanimation/spring.gif" alt="" />
+<img src="http://robb.is/img/rbbanimation/ease-in-out-back.gif" alt="" />
+<img src="http://robb.is/img/rbbanimation/bounce.gif" alt="" />
+<img src="http://robb.is/img/rbbanimation/sine-wave.gif" alt="" /></p>
+
+<h3 id="pop-mcanimatehttpsgithubcommatthewcheokpop-mcanimate"><a href="https://github.com/matthewcheok/POP-MCAnimate">POP-MCAnimate</a></h3>
+
+<h3 id="jhchainableanimationshttpsgithubcomjhurrayjhchainableanimations"><a href="https://github.com/jhurray/JHChainableAnimations">JHChainableAnimations</a></h3>
+
+<p><img src="https://github.com/jhurray/JHChainableAnimations/raw/master/img/logo.png" alt="" />
+<img src="https://raw.githubusercontent.com/jhurray/JHChainableAnimations/master/img/JHChainableAnimationsExample1.png" alt="" />
+<img src="https://raw.githubusercontent.com/jhurray/JHChainableAnimations/master/Gifs/JHChainableAnimationsExample1.gif" alt="" />
+<img src="https://github.com/jhurray/JHChainableAnimations/raw/master/img/JHChainableAnimationsExample2.png" alt="" />
+<img src="https://github.com/jhurray/JHChainableAnimations/raw/master/Gifs/JHChainableAnimationsExample2.gif" alt="" />
+<img src="https://github.com/jhurray/JHChainableAnimations/raw/master/img/JHChainableAnimationsExample3.png" alt="" />
+<img src="https://github.com/jhurray/JHChainableAnimations/raw/master/Gifs/JHChainableAnimationsExample3.gif" alt="" /></p>
+
+<h3 id="pmtweenhttpsgithubcompoetmountainpmtween"><a href="https://github.com/poetmountain/PMTween">PMTween</a></h3>
+
+<h3 id="jazzhandshttpsgithubcomiftttjazzhands"><a href="https://github.com/IFTTT/JazzHands">JazzHands</a></h3>
+
+<p><img src="https://raw.github.com/IFTTT/JazzHands/screenshots/screenshots/intro.gif" alt="Jazz Hands" /></p>
+
+<h3 id="animatedtransitiongalleryhttpsgithubcomshu223animatedtransitiongallery"><a href="https://github.com/shu223/AnimatedTransitionGallery">AnimatedTransitionGallery</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/gallery.gif" alt="" />
+<img src="https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/coreimage.gif" alt="" />
+<img src="https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/motionblur.gif" alt="" />
+<img src="https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/boxblur.gif" alt="" /></p>
+
+<h3 id="rztransitionshttpsgithubcomraizlabsrztransitions"><a href="https://github.com/Raizlabs/RZTransitions">RZTransitions</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Raizlabs/RZTransitions/master/Web/RZTransitions.png" alt="" />
+<img src="http://raw.github.com/Raizlabs/RZTransitions/master/Web/RZTransitionsDemo.gif" alt="" /></p>
+
+<h3 id="foldingtabbarioshttpsgithubcomyalantisfoldingtabbarios"><a href="https://github.com/Yalantis/FoldingTabBar.iOS">FoldingTabBar.iOS</a></h3>
+
+<p><img src="https://d13yacurqjgara.cloudfront.net/users/495792/screenshots/2003376/tab_bar_animation_fin-02.gif" alt="Preview" /></p>
+
+<h3 id="side-menuioshttpsgithubcomyalantisside-menuios"><a href="https://github.com/Yalantis/Side-Menu.iOS">Side-Menu.iOS</a></h3>
+
+<p><img src="https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1689922/events-menu_1-1-6.gif" alt="" /></p>
+
+<h3 id="context-menuioshttpsgithubcomyalantiscontext-menuios"><a href="https://github.com/Yalantis/Context-Menu.iOS">Context-Menu.iOS</a></h3>
+
+<p><img src="https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1785274/99miles-profile-light_1-1-4.gif" alt="ContextMenu" /></p>
+
+<h3 id="guillotinemenuhttpsgithubcomyalantisguillotinemenu"><a href="https://github.com/Yalantis/GuillotineMenu">GuillotineMenu</a></h3>
+
+<p><img src="https://d13yacurqjgara.cloudfront.net/users/495792/screenshots/2018249/draft_06.gif" alt="Preview" /></p>
+
+<h3 id="perseihttpsgithubcomyalantispersei"><a href="https://github.com/Yalantis/Persei">Persei</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Yalantis/Persei/master/Assets/animation.gif" alt="Preview" /></p>
+
+<h3 id="pull-to-refreshrentals-ioshttpsgithubcomyalantispull-to-refreshrentals-ios"><a href="https://github.com/Yalantis/Pull-to-Refresh.Rentals-iOS">Pull-to-Refresh.Rentals-iOS</a></h3>
+
+<p><img src="https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1650317/realestate-pull_1-2-3.gif" alt="" /></p>
+
+<h3 id="pulltomakesouphttpsgithubcomyalantispulltomakesoup"><a href="https://github.com/Yalantis/PullToMakeSoup">PullToMakeSoup</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Yalantis/PullToMakeSoup/master/PullToMakeSoupDemo/Resouces/recipe-finder.gif" alt="" /></p>
+
+<h3 id="pulltomakeflighthttpsgithubcomyalantispulltomakeflight"><a href="https://github.com/Yalantis/PullToMakeFlight">PullToMakeFlight</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Yalantis/PullToMakeFlight/master/PullToMakeFlightDemo/Resources/tours-pull-airplane.gif" alt="" /></p>
+
+<h3 id="kolodahttpsgithubcomyalantiskoloda"><a href="https://github.com/Yalantis/Koloda">Koloda</a></h3>
+
+<p><img src="https://github.com/Yalantis/Koloda/blob/master/Koloda_v2_example_animation.gif" alt="Preview" />
+<img src="https://github.com/Yalantis/Koloda/blob/master/Koloda_v1_example_animation.gif" alt="Preview" /></p>
+
+<h3 id="starwarsioshttpsgithubcomyalantisstarwarsios"><a href="https://github.com/Yalantis/StarWars.iOS">StarWars.iOS</a></h3>
+
+<p><img src="https://yalantis-com.s3.amazonaws.com/uploads/ckeditor/pictures/49/content_star_wars-shot__1_.gif" alt="" /></p>
+
+<h3 id="eatfithttpsgithubcomyalantiseatfit"><a href="https://github.com/Yalantis/EatFit">EatFit</a></h3>
+
+<p><img src="https://yalantis.com/media/content/ckeditor/2015/09/30/charts-animation.gif" alt="Preview" /></p>
+
+<h3 id="preloaderophiuchushttpsgithubcomyalantispreloaderophiuchus"><a href="https://github.com/Yalantis/Preloader.Ophiuchus">Preloader.Ophiuchus</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/yalantistwodirections.gif" alt="Yalantis" />
+<img src="https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/animation.gif" alt="Preview" />
+<img src="https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/thegreenhorse.gif" alt="The Green Horse" /></p>
+
+<h3 id="animated-tab-barhttpsgithubcomramotionanimated-tab-bar"><a href="https://github.com/Ramotion/animated-tab-bar">animated-tab-bar</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Ramotion/animated-tab-bar/master/Screenshots/tab-bar-icons-iphone-ramotion-animation-interface-design.gif" alt="" /></p>
+
+<h3 id="bubbletransitionhttpsgithubcomandreamazzbubbletransition"><a href="https://github.com/andreamazz/BubbleTransition">BubbleTransition</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/andreamazz/BubbleTransition/master/assets/logo.png" alt="" />
+<img src="https://raw.githubusercontent.com/andreamazz/BubbleTransition/master/assets/screenshot.gif" alt="BubbleTransition" /></p>
+
+<h3 id="ios-bubble-transitionhttpsgithubcomfitomadios-bubble-transition"><a href="https://github.com/fitomad/iOS-Bubble-Transition">iOS-Bubble-Transition</a></h3>
+
+<p><img src="https://github.com/fitomad/iOS-Bubble-Transition/blob/master/Bubble.gif?raw=true" alt="Bubble Transition" /></p>
+
+<h3 id="cnppopupcontrollerhttpsgithubcomcarsonperrotticnppopupcontroller"><a href="https://github.com/carsonperrotti/CNPPopupController">CNPPopupController</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/carsonperrotti/CNPPopupController/master/CNPPopupControllerExample/CNPPopupController.gif" alt="" /></p>
+
+<h3 id="giftcard-implementationhttpsgithubcommartinrgbgiftcard-implementation"><a href="https://github.com/MartinRGB/GiftCard-Implementation">GiftCard-Implementation</a></h3>
+
+<p><img src="https://github.com/MartinRGB/GiftCard-Implementation/blob/master/Gif/Origami.gif?raw=true" alt="origami" />
+<img src="https://github.com/MartinRGB/GiftCard-Implementation/blob/master/Gif/Xcode.gif?raw=true" alt="xcode" /></p>
+
+<h3 id="dkchainableanimationkithttpsgithubcomdravenessdkchainableanimationkit"><a href="https://github.com/Draveness/DKChainableAnimationKit">DKChainableAnimationKit</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/DKChainableAnimationKit.jpg" alt="" />
+<img src="https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Code1.png" alt="" />
+<img src="https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Demo1.gif" alt="" />
+<img src="https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Code2.png" alt="" />
+<img src="https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Demo2.gif" alt="" /></p>
+
+<h3 id="tindersimpleswipecardshttpsgithubcomcwrichardkimtindersimpleswipecards"><a href="https://github.com/cwRichardKim/TinderSimpleSwipeCards">TinderSimpleSwipeCards</a></h3>
+
+<p><img src="http://imgur.com/4bYw12e.gif" alt="alt tag" />
+<img src="http://i.imgur.com/krDNpR0.gif" alt="alt tag" />
+<img src="http://i.imgur.com/W4bIRkc.gif" alt="alt tag" />
+<img src="http://i.imgur.com/3yk6aiS.gif" alt="alt tag" />
+<img src="http://i.imgur.com/IIFVkm4.gif" alt="alt tag" />
+<img src="http://i.imgur.com/j1ISIq5.gif" alt="alt tag" />
+<img src="http://i.imgur.com/PQYs4sH.gif" alt="alt tag" /></p>
+
+<h3 id="jtmaterialtransitionhttpsgithubcomjonathantribouharetjtmaterialtransition"><a href="https://github.com/jonathantribouharet/JTMaterialTransition">JTMaterialTransition</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/jonathantribouharet/JTMaterialTransition/master/Screens/example.gif" alt="" /></p>
+
+<h3 id="watchtransitionhttpsgithubcomkongtomorrowwatchtransition"><a href="https://github.com/kongtomorrow/WatchTransition">WatchTransition</a></h3>
+
+<p><img src="https://github.com/kongtomorrow/WatchTransition/raw/master/WatchFaceTransition.gif" alt="Screenshot" /></p>
+
+<h3 id="kypushtransitionhttpsgithubcomkittenyangkypushtransition"><a href="https://github.com/KittenYang/KYPushTransition">KYPushTransition</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/KittenYang/KYPushTransition/master/demo.gif" alt="" /></p>
+
+<h3 id="uiview-shakehttpsgithubcomandreamazzuiview-shake"><a href="https://github.com/andreamazz/UIView-Shake">UIView-Shake</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/andreamazz/UIView-Shake/master/assets/logo.png" alt="" />
+<img src="https://raw.githubusercontent.com/andreamazz/UIView-Shake/master/assets/screenshot.gif" alt="UIView+Shake" /></p>
+
+<h3 id="uitextfield-shakehttpsgithubcomandreamazzuitextfield-shake"><a href="https://github.com/andreamazz/UITextField-Shake">UITextField-Shake</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/andreamazz/UITextField-Shake/master/assets/logo.png" alt="" />
+<img src="https://raw.githubusercontent.com/andreamazz/UITextField-Shake/master/assets/screenshot.gif" alt="UITextField+Shake" /></p>
+
+<h3 id="rmpzoomtransitionanimatorhttpsgithubcomrecruit-mprmpzoomtransitionanimator"><a href="https://github.com/recruit-mp/RMPZoomTransitionAnimator">RMPZoomTransitionAnimator</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/recruit-mp/RMPZoomTransitionAnimator/master/docs/collectionview.gif" alt="Screen shot" />
+<img src="https://raw.githubusercontent.com/recruit-mp/RMPZoomTransitionAnimator/master/docs/tableview.gif" alt="Screen shot" /></p>
+
+<h3 id="popmenuhttpsgithubcomxhzengaibpopmenu"><a href="https://github.com/xhzengAIB/PopMenu">PopMenu</a></h3>
+
+<p><img src="https://github.com/xhzengAIB/LearnEnglish/raw/master/Screenshots/XHSinaMenuViewExample.gif" alt="image" /></p>
+
+<h3 id="zfdragablemodaltransitionhttpsgithubcomzoonoozzfdragablemodaltransition"><a href="https://github.com/zoonooz/ZFDragableModalTransition">ZFDragableModalTransition</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/zoonooz/ZFDragableModalTransition/master/Screenshot/ss.gif" alt="" /></p>
+
+<h3 id="mcmheaderanimatedhttpsgithubcommathcarignanimcmheaderanimated"><a href="https://github.com/mathcarignani/MCMHeaderAnimated">MCMHeaderAnimated</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/mathcarignani/MCMHeaderAnimated/master/demo.gif" alt="" /></p>
+
+<h3 id="rubberbandeffecthttpsgithubcomproduktrubberbandeffect"><a href="https://github.com/Produkt/RubberBandEffect">RubberBandEffect</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/Produkt/RubberBandEffect/master/Others/RubberBand_01.gif" alt="rubber-band01" /></p>
+
+<p><img src="https://raw.githubusercontent.com/Produkt/RubberBandEffect/master/Others/RubberBand_02.gif" alt="rubber-band02" /></p>
+
+<h3 id="easyanimationhttpsgithubcomicanzilbeasyanimation"><a href="https://github.com/icanzilb/EasyAnimation">EasyAnimation</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/EA.png" alt="" />
+<img src="https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/moveX.gif" alt="" />
+<img src="https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/corners.gif" alt="" />
+<img src="https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/spring.gif" alt="" />
+<img src="https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/chain.gif" alt="" /></p>
+
+<h3 id="mmtweenanimationhttpsgithubcomadad184mmtweenanimation"><a href="https://github.com/adad184/MMTweenAnimation">MMTweenAnimation</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/adad184/MMTweenAnimation/master/Images/demo.gif" alt="" /></p>
+
+<h3 id="gearrefreshcontrolhttpsgithubcomandreamazzgearrefreshcontrol"><a href="https://github.com/andreamazz/GearRefreshControl">GearRefreshControl</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/andreamazz/GearRefreshControl/master/assets/screenshot.gif" alt="" /></p>
+
+<h3 id="dragdropcollectionviewhttpsgithubcomliornndragdropcollectionview"><a href="https://github.com/LiorNn/DragDropCollectionView">DragDropCollectionView</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/LiorNn/DragDropCollectionView/master/demo.gif" alt="" /></p>
+
+<h3 id="twitterbirdanimationhttpsgithubcomrounaktwitterbirdanimation"><a href="https://github.com/rounak/TwitterBirdAnimation">TwitterBirdAnimation</a></h3>
+
+<p><img src="http://media.tumblr.com/10cc0ba92377a2cba9fb35c9943fd2ca/tumblr_inline_n6zpokNxpC1qh9cw7.gif" alt="twitter bird animation" /></p>
+
+<h3 id="singlelineshakeanimationhttpsgithubcomhaaakonsinglelineshakeanimation"><a href="https://github.com/haaakon/SingleLineShakeAnimation">SingleLineShakeAnimation</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/haaakon/SingleLineShakeAnimation/master/example.gif" alt="" /></p>
+
+<h3 id="rqshinelabelhttpsgithubcomzipmerqshinelabel"><a href="https://github.com/zipme/RQShineLabel">RQShineLabel</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/zipme/RQShineLabel/master/Screenshots/rqshinelabel.gif" alt="image" /></p>
+
+<h3 id="ltmorphinglabelhttpsgithubcomlexrusltmorphinglabel"><a href="https://github.com/lexrus/LTMorphingLabel">LTMorphingLabel</a></h3>
+
+<p><img src="https://cloud.githubusercontent.com/assets/219689/3491822/96bf5de6-059d-11e4-9826-a6f82025d1af.gif" alt="" />
+<img src="https://cloud.githubusercontent.com/assets/219689/3491838/ffc5aff2-059d-11e4-970c-6e2d7664785a.gif" alt="" />
+<img src="https://cloud.githubusercontent.com/assets/219689/3491840/173c2238-059e-11e4-9b33-dcd21edae9e2.gif" alt="" />
+<img src="https://cloud.githubusercontent.com/assets/219689/3491845/29bb0f8c-059e-11e4-9ef8-de56bec1baba.gif" alt="" />
+<img src="https://cloud.githubusercontent.com/assets/219689/3508789/31e9fafe-0690-11e4-9a76-ba3ef45eb53a.gif" alt="" />
+<img src="https://cloud.githubusercontent.com/assets/219689/3582586/4fb8c52e-0bfe-11e4-9b6f-f070f7f3ab55.gif" alt="" />
+<img src="https://cloud.githubusercontent.com/assets/219689/3594949/815cd3e8-0caa-11e4-9738-278a9c959478.gif" alt="" /></p>
+
+<h3 id="wzdraggableswitchheaderviewhttpsgithubcomwongzigiiwzdraggableswitchheaderview"><a href="https://github.com/wongzigii/WZDraggableSwitchHeaderView">WZDraggableSwitchHeaderView</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/wongzigii/WZDraggableSwitchHeaderView/master/GIF/WZAnimatingTransition.gif" alt="" /></p>
+
+<h3 id="zlswipeableviewswifthttpsgithubcomzhxnlaizlswipeableviewswift"><a href="https://github.com/zhxnlai/ZLSwipeableViewSwift">ZLSwipeableViewSwift</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/animation.gif" alt="direction" /></p>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/swipe.gif" alt="direction" /></p>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/direction.gif" alt="direction" /></p>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/undo.gif" alt="direction" /></p>
+
+<h3 id="zlswipeableviewhttpsgithubcomzhxnlaizlswipeableview"><a href="https://github.com/zhxnlai/ZLSwipeableView/">ZLSwipeableView</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipe.gif" alt="swipe" /></p>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeCancel.gif" alt="cancel" /></p>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeLeft.gif" alt="swipeLeft" /></p>
+
+<p><img src="https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeLeftRight.gif" alt="swipeLeftRight" /></p>
+
+<h3 id="ckwavecollectionviewtransitionhttpsgithubcomcezarykopaczckwavecollectionviewtransition"><a href="https://github.com/CezaryKopacz/CKWaveCollectionViewTransition">CKWaveCollectionViewTransition</a></h3>
+
+<p><img src="http://i.giphy.com/3o85xyoYepG177Bhte.gif" alt="anim.gif" /></p>
+
+<h3 id="liquidfloatingactionbuttonhttpsgithubcomyoavltliquidfloatingactionbutton"><a href="https://github.com/yoavlt/LiquidFloatingActionButton">LiquidFloatingActionButton</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/yoavlt/LiquidFloatingActionButton/master/Demo/top.gif" alt="anim.gif" />
+<img src="https://raw.githubusercontent.com/yoavlt/LiquidFloatingActionButton/master/Demo/customizable.gif" alt="anim.gif" /></p>
+
+<h3 id="nvactivityindicatorviewhttpsgithubcomninjaproxnvactivityindicatorview"><a href="https://github.com/ninjaprox/NVActivityIndicatorView">NVActivityIndicatorView</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/ninjaprox/NVActivityIndicatorView/master/Demo.gif" alt="anim.gif" /></p>
+
+<h3 id="tksubmittransitionhttpsgithubcomentotsutksubmittransition"><a href="https://github.com/entotsu/TKSubmitTransition">TKSubmitTransition</a></h3>
+
+<p><img src="https://github.com/entotsu/TKSubmitTransition/blob/master/demo.gif" alt="Demo GIF Animation" /></p>
+
+<p>http://download.jikexueyuan.com/detail/id/1301</p>
+
+<p><img src="http://download.jikexueyuan.com/File/image/e224fc4d0c362305fa498b371cfac4c9_318513_189_4c21143928442461801bae5ac596c.gif" alt="Demo GIF Animation" /></p>
+
+<h3 id="animationshttpsgithubcomkittenyanganimations"><a href="https://github.com/KittenYang/Animations">Animations</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/KittenYang/Animations/master/GooeySlideMenu.gif" alt="Demo GIF Animation" /></p>
+
+<h3 id="kdintroviewhttpsgithubcomlikedankdintroview"><a href="https://github.com/likedan/KDIntroView">KDIntroView</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/likedan/KDIntroView/master/Imgs/showup.gif" alt="Demo GIF Animation" /></p>
+
+<h3 id="razzledazzlehttpsgithubcomiftttrazzledazzle"><a href="https://github.com/IFTTT/RazzleDazzle">RazzleDazzle</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/IFTTT/RazzleDazzle/master/Example/Docs/razzledazzle-demo.gif" alt="Demo GIF Animation" /></p>
+
+<h3 id="presentationhttpsgithubcomhyperoslopresentation"><a href="https://github.com/hyperoslo/Presentation">Presentation</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/hyperoslo/Presentation/master/Example/Parallax/Images/Parallax-v2.gif" alt="Demo GIF Animation" /></p>
+
+<h3 id="uicollectionview-reorderinghttpsgithubcomnshintiouicollectionview-reordering"><a href="https://github.com/nshintio/uicollectionview-reordering">uicollectionview-reordering</a></h3>
+
+<p><img src="https://camo.githubusercontent.com/ee5e5999dea79c81a09416a51b1e6cec5de3a193/687474703a2f2f6e7368696e742e696f2f696d616765732f7569636f6c6c656374696f6e766965772d72656f72646572696e672f342e676966" alt="Demo GIF Animation" /></p>
+
+<h3 id="uber-video-welcomehttpsgithubcomchinsyouber-video-welcome"><a href="https://github.com/chinsyo/uber-video-welcome">uber-video-welcome</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/chinsyo/uber-video-welcome/master/uber-video-welcome.gif" alt="Demo GIF Animation" /></p>
+
+<h3 id="liquidloaderhttpsgithubcomyoavltliquidloader"><a href="https://github.com/yoavlt/LiquidLoader">LiquidLoader</a></h3>
+
+<p>GrowCircle</p>
+
+<p><img src="https://github.com/yoavlt/LiquidLoader/blob/master/Demo/grow-circle.gif?raw=true" alt="GrowCircle" /></p>
+
+<p>GrowLine</p>
+
+<p><img src="https://github.com/yoavlt/LiquidLoader/blob/master/Demo/grow-line.gif?raw=true" alt="GrowLine" /></p>
+
+<h3 id="dgelasticpulltorefreshhttpsgithubcomgontovnikdgelasticpulltorefresh"><a href="https://github.com/gontovnik/DGElasticPullToRefresh">DGElasticPullToRefresh</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/gontovnik/DGElasticPullToRefresh/master/DGElasticPullToRefreshPreview1.gif" alt="" />
+<img src="https://raw.githubusercontent.com/gontovnik/DGElasticPullToRefresh/master/DGElasticPullToRefreshPreview2.gif" alt="" /></p>
+
+<h3 id="cardanimationhttpsgithubcomseedantecardanimation"><a href="https://github.com/seedante/CardAnimation">CardAnimation</a></h3>
+
+<p><img src="https://d13yacurqjgara.cloudfront.net/users/32399/screenshots/1265487/attachments/173545/secret-project-animation_2x.gif" alt="Design from Dribble" /></p>
+
+<h3 id="acanimatedtextfieldhttpsgithubcomalexcatchacanimatedtextfield"><a href="https://github.com/AlexCatch/ACAnimatedTextField">ACAnimatedTextField</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/AlexCatch/ACAnimatedTextField/master/misc/preview.gif" alt="Preview" /></p>
+
+<h3 id="instructionshttpsgithubcomephreadinstructions"><a href="https://github.com/ephread/Instructions">Instructions</a></h3>
+
+<p><img src="http://i.imgur.com/JUlQH9F.gif" alt="Instructions Demo" /></p>
+
+<h3 id="mntpulltoreacthttpsgithubcommentionappmntpulltoreact"><a href="https://github.com/mentionapp/mntpulltoreact">mntpulltoreact</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/mentionapp/mntpulltoreact/master/README/mention-example.gif" alt="Preview" /></p>
+
+<h3 id="tkrubberindicatorhttpsgithubcomtbxarktkrubberindicator"><a href="https://github.com/TBXark/TKRubberIndicator">TKRubberIndicator</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/TBXark/TKRubberIndicator/master/TKRubberIndicator/rubberindicator.gif" alt="Preview" /></p>
+
+<h3 id="tyalertcontrollerhttpsgithubcom12207480tyalertcontroller"><a href="https://github.com/12207480/TYAlertController">TYAlertController</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/12207480/TYAlertController/master/screenshot/TYAlertControllerDemo.gif" alt="image" /></p>
+
+<h3 id="yfstartviewhttpsgithubcomyeziaheheyfstartview"><a href="https://github.com/yeziahehe/YFStartView">YFStartView</a></h3>
+
+<p><img src="http://7xkvt5.com1.z0.glb.clouddn.com/github/YFStartViewbuttom.gif" alt="GIFImage" />
+<img src="http://7xkvt5.com1.z0.glb.clouddn.com/github/YFStartViewcenter.gif" alt="GIFImage" /></p>
+
+<h3 id="ttgemojiratehttpsgithubcomzekunyanttgemojirate"><a href="https://github.com/zekunyan/TTGEmojiRate">TTGEmojiRate</a></h3>
+
+<p><img src="http://7nj2iz.com1.z0.glb.clouddn.com/TTGEmojiRate_screenshot2.gif" alt="Screenshot" />
+<img src="http://7nj2iz.com1.z0.glb.clouddn.com/TTGEmojiRate_IBExample.png" alt="Screenshot" /></p>
+
+<h3 id="alertonboardinghttpsgithubcomphilippeboisneyalertonboarding"><a href="https://github.com/PhilippeBoisney/AlertOnboarding">AlertOnboarding</a></h3>
+
+<p><img src="https://github.com/PhilippeBoisney/AlertOnboarding/blob/master/screenshot.png" alt="Screenshot" /></p>
+
+<h3 id="htytextfieldhttpsgithubcomhantonhtytextfield"><a href="https://github.com/hanton/HTYTextField">HTYTextField</a></h3>
+
+<p><img src="https://github.com/hanton/HTYTextField/blob/master/screenshot/HTYTextField.gif" alt="image" /></p>
+
+<h3 id="mevhorizontalcontactshttpsgithubcommanuelescrigmevhorizontalcontacts"><a href="https://github.com/manuelescrig/MEVHorizontalContacts">MEVHorizontalContacts</a></h3>
+
+<p><img src="https://cloud.githubusercontent.com/assets/1849990/15137846/645a0d18-168c-11e6-96e2-651d8f8de3b0.gif" alt="MEVHorizontalContacts" /></p>
+
+<h3 id="preview-transitionhttpsgithubcomramotionpreview-transition"><a href="https://github.com/Ramotion/preview-transition">preview-transition</a></h3>
+
+<p><img src="https://github.com/Ramotion/preview-transition/blob/master/preview.gif" alt="PreviewTransition" /></p>
+
+<h3 id="expanding-collectionhttpsgithubcomramotionexpanding-collection"><a href="https://github.com/Ramotion/expanding-collection">expanding-collection</a></h3>
+
+<p><img src="https://github.com/Ramotion/expanding-collection/blob/master/preview.gif" alt="PreviewTransition" /></p>
+
+<h3 id="tween-controllerhttpsgithubcomdaltonclaybrooktween-controller"><a href="https://github.com/daltonclaybrook/tween-controller">tween-controller</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/daltonclaybrook/tween-controller/master/example.gif" alt="image" /></p>
+
+<h3 id="mevfloatingbuttonhttpsgithubcommanuelescrigmevfloatingbutton"><a href="https://github.com/manuelescrig/MEVFloatingButton">MEVFloatingButton</a></h3>
+
+<p><img src="https://cloud.githubusercontent.com/assets/1849990/13462466/db001be6-e087-11e5-92a1-79c8ecefb715.gif" alt="MEVFloatingButton" /></p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/11/android_prototype_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析十一">
+                        Previous<br>
+                        <span>Android 设计模式分析十一</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="11">
+                                    Android
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/12/ios_animation_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/12/ios_animation_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
