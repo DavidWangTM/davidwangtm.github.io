@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Leetcode Product of Array Except Self
+        Android 快速开发工具
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/13/android_studio_plugins_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -150,13 +150,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-digital-native.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-android.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-digital-native.jpg')
+        background-image: url('/img/post-bg-android.jpg')
     }
 
     
@@ -169,17 +169,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Leetcode" title="Leetcode">Leetcode</a>
-                        
-                        <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
                         
                     </div>
-                    <h1>Leetcode Product of Array Except Self</h1>
+                    <h1>Android 快速开发工具</h1>
                     
                     
-                    <h2 class="subheading">Medium题目 编号238</h2>
+                    <h2 class="subheading">22个Android Studio优秀插件</h2>
                     
-                    <span class="meta">Posted by DavidWang on April 12, 2016</span>
+                    <span class="meta">Posted by DavidWang on June 13, 2016</span>
                 </div>
             </div>
         </div>
@@ -197,80 +195,236 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>“<a href="https://leetcode.com/">Leetcode</a>是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”</p>
-</blockquote>
+				<h3 id="section">第一部分 插件的介绍</h3>
 
-<h4 id="section">题目</h4>
+<p>Google 在2013年5月的I/O开发者大会推出了基于<code class="highlighter-rouge">IntelliJ IDEA java ide</code>上的<code class="highlighter-rouge">Android Studio</code>。<code class="highlighter-rouge">Android Studio</code>是一个功能齐全的开发工具，还提供了第三方插件的支持。让开发人员更快速更好的开发程序。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Given an array of n integers where n &gt; 1, nums, return an array output such that
- output[i] is equal to the product of all the elements of nums except nums[i].
+<h3 id="section-1">第二部分 插件的安装</h3>
 
-Solve it without division and in O(n).
+<p>in Android Studio: <code class="highlighter-rouge">go to File → Settings → Plugins → Browse repositories</code> and search for <code class="highlighter-rouge">插件名</code> or in Android Studio: go to download it jar and install <code class="highlighter-rouge">File → Settings → Plugins → Install plugin from disk</code></p>
 
-For example, given [1,2,3,4], return [24,12,8,6].
+<h3 id="section-2">第三部分 插件的汇总</h3>
 
-Follow up:
-Could you solve it with constant space complexity? (Note: The output array does
-    not count as extra space for the purpose of space complexity analysis.)
-</code></pre>
-</div>
+<h4 id="android-butterknife-zelezny">Android ButterKnife Zelezny</h4>
 
-<h4 id="section-1">翻译</h4>
+<p>ButterKnife是一个专注于Android系统的View注入框架,可以减少大量的findViewById以及setOnClickListener代码，可视化一键生成。PS:效果图就不贴了，打开插件下载地址和源码地址都能看见，而且据多了加载效果图蛮卡的。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>给定一个含有n（n &gt; 1)个整数的nums数组，返回一个output数组，其中output[i]的值等于nums数组中
-除nums[i]的所有数的乘积。
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7369?pr=androidstudio">https://plugins.jetbrains.com/plugin/7369?pr=androidstudio</a></p>
 
-在O(n)时间复杂度内解决问题，不能使用除法。
+<p>插件源码地址： <a href="https://github.com/avast/android-butterknife-zelezny">https://github.com/avast/android-butterknife-zelezny</a></p>
 
-例子：给出数组[1,2,3,4], 返回数组[24,12,8,6]
-</code></pre>
-</div>
+<p>插件教程： <a href="http://blog.csdn.net/dreamlivemeng/article/details/51261170">http://blog.csdn.net/dreamlivemeng/article/details/51261170</a></p>
 
-<h4 id="tags">Tags</h4>
+<p><strong>推荐指数：五星</strong></p>
 
-<p><code class="highlighter-rouge">Array</code></p>
+<h4 id="gsonformat">GsonFormat</h4>
 
-<h4 id="section-2">代码</h4>
+<p>GsonFormat是一个快速格式化json数据,自动生成实体类参数的插件。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Java：
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7654?pr=androidstudio">https://plugins.jetbrains.com/plugin/7654?pr=androidstudio</a></p>
 
-public int[] productExceptSelf(int[] nums) {
-    int length = nums.length;
-    if(length == 0) return new int[0];
-    int[] result = new int[length];
-    int tmp = 1;
-    for(int i = 0; i &lt; length; i++){
-        result[i] = tmp;
-        tmp *= nums[i];
-    }
+<p>插件源码地址：<a href="https://github.com/zzz40500/GsonFormat">https://github.com/zzz40500/GsonFormat</a></p>
 
-    tmp = 1;
-    for(int i = length - 1; i &gt;= 0; i--){
-        result[i] *= tmp;
-        tmp *= nums[i];
-    }
-    return result;
-}
+<p>插件教程：<a href="http://blog.csdn.net/dreamlivemeng/article/details/51262538">http://blog.csdn.net/dreamlivemeng/article/details/51262538</a></p>
 
-</code></pre>
-</div>
+<p><strong>推荐指数：四星</strong></p>
 
-<h4 id="section-3">讲解</h4>
+<h4 id="android-drawable-importer">Android Drawable Importer</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>首先构造一个前乘数组result，result中的每一个值result[i]都是nums中0到i-1的所有数的乘积。
-然后利用前乘数组构造一个后乘数组，result中的每一个值result[i]都是其与nums中length-1到i+1的乘积。
+<p>为了适应所有Android屏幕的大小和密度，每个Android项目都会包含drawable文件夹。任何具备Android开发经验的开发人员都知道，为了支持所有的屏幕尺寸，你必须给每个屏幕类型导入不同的画板。Android Drawable Importer插件能让这项工作变得更容易。它可以减少导入缩放图像到Android项目所需的工作量。Android Drawable Importer添加了一个在不同分辨率导入画板或缩放指定图像到定义分辨率的选项。这个插件加速了开发人员的画板工作。</p>
 
-例子：
-[2, 5, 7, 1]
-前乘数组：[1, 2, 10, 70]
-后乘数组：[35, 14, 10, 70]
-</code></pre>
-</div>
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7658?pr=androidstudio">https://plugins.jetbrains.com/plugin/7658?pr=androidstudio</a></p>
 
-<h4 id="section-4">习题地址</h4>
+<p>插件源码地址：<a href="https://github.com/winterDroid/android-drawable-importer-intellij-plugin">https://github.com/winterDroid/android-drawable-importer-intellij-plugin
+</a></p>
 
-<p><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">Product of Array Except Self</a></p>
+<p>插件教程地址：<a href="http://blog.csdn.net/lee_sire/article/details/49684385">http://blog.csdn.net/lee_sire/article/details/49684385</a></p>
+
+<p><strong>推荐指数：三星</strong></p>
+
+<h4 id="android-selector-chapek--selectorchapek-for-android">android-selector-chapek / SelectorChapek for Android</h4>
+
+<p>根据资源自动生成相应的selector。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7298">https://plugins.jetbrains.com/plugin/7298</a></p>
+
+<p>插件源码地址：<a href="https://github.com/inmite/android-selector-chapek">https://github.com/inmite/android-selector-chapek</a></p>
+
+<p><strong>推荐指数：三星</strong></p>
+
+<h4 id="android-parcelable-code-generator">Android Parcelable code generator</h4>
+
+<p>快速实现Parcelable接口的插件。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7332?pr=">https://plugins.jetbrains.com/plugin/7332?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/mcharmas/android-parcelable-intellij-plugin/">https://github.com/mcharmas/android-parcelable-intellij-plugin/</a></p>
+
+<p>插件教程地址：<a href="http://blog.csdn.net/kroclin/article/details/40902721">http://blog.csdn.net/kroclin/article/details/40902721</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="markdown">Markdown</h4>
+
+<p>Markdown是一种可以使用普通文本编辑器编写的标记语言，通过类似HTML的标记语法，它可以使普通文本内容具有一定的格式。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/5970?pr=">https://plugins.jetbrains.com/plugin/5970?pr=</a></p>
+
+<p>插件文档地址：<a href="https://github.com/nicoulaj/idea-markdown">https://github.com/nicoulaj/idea-markdown</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="android-postfix-completion">Android Postfix completion</h4>
+
+<p>可根据后缀快速完成代码。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7775?pr=">https://plugins.jetbrains.com/plugin/7775?pr=</a></p>
+
+<p>插件教程地址：<a href="http://blog.jetbrains.com/idea/2014/03/postfix-completion/">http://blog.jetbrains.com/idea/2014/03/postfix-completion/</a></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="androidaccessors">AndroidAccessors</h4>
+
+<p>快速实现get和set方法的插件。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7496?pr=">https://plugins.jetbrains.com/plugin/7496?pr=</a></p>
+
+<p>插件文档地址：<a href="https://github.com/jonstaff/AndroidAccessors">https://github.com/jonstaff/AndroidAccessors</a></p>
+
+<p><strong>推荐指数：三星</strong></p>
+
+<h4 id="lifecycle-sorter">Lifecycle Sorter</h4>
+
+<p>可以根据Activity或者fragment的生命周期对其生命周期方法位置进行先后排序。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7742?pr=">https://plugins.jetbrains.com/plugin/7742?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/armandAkop/Lifecycle-Sorter">https://github.com/armandAkop/Lifecycle-Sorter</a></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="adb-wifi-rootwifi">ADB WIFI 无需root就能wifi调试。</h4>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7856?pr=">https://plugins.jetbrains.com/plugin/7856?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/layerlre/ADBWIFI">https://github.com/layerlre/ADBWIFI</a></p>
+
+<p><strong>推荐指数： 五星</strong></p>
+
+<h4 id="adb-idea">ADB Idea</h4>
+
+<p>adb 调试工具,Uninstall App、Kill App、Start App、Restart App、Clear App Data、Clear App Data and Restart</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7380?pr=">https://plugins.jetbrains.com/plugin/7380?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/pbreault/adb-idea/">https://github.com/pbreault/adb-idea/</a></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="codeglance">CodeGlance</h4>
+
+<p>最大的用途：可用于快速定位代码。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7275?pr=">https://plugins.jetbrains.com/plugin/7275?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/Vektah/CodeGlance">https://github.com/Vektah/CodeGlance</a></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="jsononlineviewer">JSONOnlineViewer</h4>
+
+<p>可实现直接在android studio中调试接口数据，可以选择请求类型，自定义请求头及请求体，json数据格式化后展示</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7838?pr=">https://plugins.jetbrains.com/plugin/7838?pr=</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="findbugs-idea">FindBugs-IDEA</h4>
+
+<p>通过FindBugs帮你找到隐藏的bug及不好的做法。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/3847?pr=">https://plugins.jetbrains.com/plugin/3847?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/andrepdo/findbugs-idea/tree/master">https://github.com/andrepdo/findbugs-idea/tree/master</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="jimu-mirror">jimu Mirror</h4>
+
+<p>这是一个可以让你在真实的设备上迅速测试布局的插件。jimu Mirror允许在设备上预览随同编码更新的Android布局。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7517?pr=">https://plugins.jetbrains.com/plugin/7517?pr=</a></p>
+
+<p>插件教程地址：<a href="http://www.itnose.net/detail/6204426.html">http://www.itnose.net/detail/6204426.html</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="javadoc">JavaDoc</h4>
+
+<p>添加注释，可自定义模板。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/?idea_ce&amp;pluginId=7157">https://plugins.jetbrains.com/plugin/?idea_ce&amp;pluginId=7157</a></p>
+
+<p>插件源码地址：<a href="https://github.com/setial/intellij-javadocs">https://github.com/setial/intellij-javadocs</a></p>
+
+<p><strong>推荐指数： 五星</strong></p>
+
+<h4 id="android-stringsxml-tools">Android strings.xml tools</h4>
+
+<p>可以用来管理Android项目中的字符串资源。它提供了排序Android本地文件和添加缺少的字符串的基本操作。虽然这个插件是有限制的，但如果应用程序有大量的字符串资源，那这个插件就非常有用了。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7498?pr=">https://plugins.jetbrains.com/plugin/7498?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/constantine-ivanov/strings-xml-tools">https://github.com/constantine-ivanov/strings-xml-tools</a></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="robotium-recorder">Robotium Recorder</h4>
+
+<p>Robotium Recorder是一个自动化测试框架，用于测试在模拟器和Android设备上原生的和混合的移动应用程序。Robotium Recorder可以让你记录测试案例和用户操作。你也可以查看不同Android活动时的系统功能和用户测试场景。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7513?pr=">https://plugins.jetbrains.com/plugin/7513?pr=</a></p>
+
+<p>插件官方网址：<a href="http://robotium.com/">http://robotium.com/</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="android-holo-colors-generator">Android Holo Colors Generator</h4>
+
+<p>通过自定义Holo主题颜色生成对应的Drawable和布局文件</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7366?pr=">https://plugins.jetbrains.com/plugin/7366?pr=</a></p>
+
+<p>插件源码地址：<a href="https://github.com/jeromevdl/android-holo-colors-idea-plugin">https://github.com/jeromevdl/android-holo-colors-idea-plugin</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="lint-cleaner-plugin">lint-cleaner-plugin</h4>
+
+<p>删除未使用的资源,包括String字符串,颜色和尺寸。 这是一个Gradle插件，所以如何配置可以去github的源码上看。</p>
+
+<p>插件源码地址：<a href="https://github.com/marcoRS/lint-cleaner-plugin">https://github.com/marcoRS/lint-cleaner-plugin</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="codota">codota</h4>
+
+<p>该网站搜集了大量的代码，号称超过700W的代码实例。提供了chrome和as插件。</p>
+
+<p>插件下载地址：<a href="https://plugins.jetbrains.com/plugin/7638?pr=">https://plugins.jetbrains.com/plugin/7638?pr=</a></p>
+
+<p>插件官方网址：<a href="https://www.codota.com/">https://www.codota.com/</a></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="ectranslation">ECTranslation</h4>
+
+<p>一个androidstudio上面的翻译插件（将英文翻译为中文）。 暂时只能以jar的方式安装。jar下载地址以及使用方法在github上的源码地址上都有详细描述。</p>
+
+<p>插件源码地址：<a href="https://github.com/Skykai521/ECTranslation">https://github.com/Skykai521/ECTranslation</a></p>
+
+<p><strong>推荐指数：四星</strong></p>
 
 
                 <hr>
@@ -281,19 +435,12 @@ public int[] productExceptSelf(int[] nums) {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/04/12/leetcode_338_medium_counting_bits/" data-toggle="tooltip" data-placement="top" title="Leetcode Counting Bits">
+                        <a href="/2016/06/12/ios_animation_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 炫酷框架">
                         Previous<br>
-                        <span>Leetcode Counting Bits</span>
+                        <span>IOS 炫酷框架</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/04/13/leetcode_319_medium_bulb_switcher/" data-toggle="tooltip" data-placement="top" title="Leetcode Bulb Switcher">
-                        Next<br>
-                        <span>Leetcode Bulb Switcher</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -424,8 +571,8 @@ public int[] productExceptSelf(int[] nums) {
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/04/12/leetcode_238_medium_product_of_array_except_self";
-    var disqus_url = "http://DavidWangTM.github.io/2016/04/12/leetcode_238_medium_product_of_array_except_self/";
+    var disqus_identifier = "/2016/06/13/android_studio_plugins_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/13/android_studio_plugins_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

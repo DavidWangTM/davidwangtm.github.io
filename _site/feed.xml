@@ -5,9 +5,251 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 12 Jun 2016 23:05:20 +0800</pubDate>
-    <lastBuildDate>Sun, 12 Jun 2016 23:05:20 +0800</lastBuildDate>
+    <pubDate>Mon, 13 Jun 2016 10:46:39 +0800</pubDate>
+    <lastBuildDate>Mon, 13 Jun 2016 10:46:39 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Android 快速开发工具</title>
+        <description>&lt;h3 id=&quot;section&quot;&gt;第一部分 插件的介绍&lt;/h3&gt;
+
+&lt;p&gt;Google 在2013年5月的I/O开发者大会推出了基于&lt;code class=&quot;highlighter-rouge&quot;&gt;IntelliJ IDEA java ide&lt;/code&gt;上的&lt;code class=&quot;highlighter-rouge&quot;&gt;Android Studio&lt;/code&gt;。&lt;code class=&quot;highlighter-rouge&quot;&gt;Android Studio&lt;/code&gt;是一个功能齐全的开发工具，还提供了第三方插件的支持。让开发人员更快速更好的开发程序。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;第二部分 插件的安装&lt;/h3&gt;
+
+&lt;p&gt;in Android Studio: &lt;code class=&quot;highlighter-rouge&quot;&gt;go to File → Settings → Plugins → Browse repositories&lt;/code&gt; and search for &lt;code class=&quot;highlighter-rouge&quot;&gt;插件名&lt;/code&gt; or in Android Studio: go to download it jar and install &lt;code class=&quot;highlighter-rouge&quot;&gt;File → Settings → Plugins → Install plugin from disk&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;第三部分 插件的汇总&lt;/h3&gt;
+
+&lt;h4 id=&quot;android-butterknife-zelezny&quot;&gt;Android ButterKnife Zelezny&lt;/h4&gt;
+
+&lt;p&gt;ButterKnife是一个专注于Android系统的View注入框架,可以减少大量的findViewById以及setOnClickListener代码，可视化一键生成。PS:效果图就不贴了，打开插件下载地址和源码地址都能看见，而且据多了加载效果图蛮卡的。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7369?pr=androidstudio&quot;&gt;https://plugins.jetbrains.com/plugin/7369?pr=androidstudio&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址： &lt;a href=&quot;https://github.com/avast/android-butterknife-zelezny&quot;&gt;https://github.com/avast/android-butterknife-zelezny&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件教程： &lt;a href=&quot;http://blog.csdn.net/dreamlivemeng/article/details/51261170&quot;&gt;http://blog.csdn.net/dreamlivemeng/article/details/51261170&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;gsonformat&quot;&gt;GsonFormat&lt;/h4&gt;
+
+&lt;p&gt;GsonFormat是一个快速格式化json数据,自动生成实体类参数的插件。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7654?pr=androidstudio&quot;&gt;https://plugins.jetbrains.com/plugin/7654?pr=androidstudio&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/zzz40500/GsonFormat&quot;&gt;https://github.com/zzz40500/GsonFormat&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件教程：&lt;a href=&quot;http://blog.csdn.net/dreamlivemeng/article/details/51262538&quot;&gt;http://blog.csdn.net/dreamlivemeng/article/details/51262538&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;android-drawable-importer&quot;&gt;Android Drawable Importer&lt;/h4&gt;
+
+&lt;p&gt;为了适应所有Android屏幕的大小和密度，每个Android项目都会包含drawable文件夹。任何具备Android开发经验的开发人员都知道，为了支持所有的屏幕尺寸，你必须给每个屏幕类型导入不同的画板。Android Drawable Importer插件能让这项工作变得更容易。它可以减少导入缩放图像到Android项目所需的工作量。Android Drawable Importer添加了一个在不同分辨率导入画板或缩放指定图像到定义分辨率的选项。这个插件加速了开发人员的画板工作。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7658?pr=androidstudio&quot;&gt;https://plugins.jetbrains.com/plugin/7658?pr=androidstudio&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/winterDroid/android-drawable-importer-intellij-plugin&quot;&gt;https://github.com/winterDroid/android-drawable-importer-intellij-plugin
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件教程地址：&lt;a href=&quot;http://blog.csdn.net/lee_sire/article/details/49684385&quot;&gt;http://blog.csdn.net/lee_sire/article/details/49684385&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：三星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;android-selector-chapek--selectorchapek-for-android&quot;&gt;android-selector-chapek / SelectorChapek for Android&lt;/h4&gt;
+
+&lt;p&gt;根据资源自动生成相应的selector。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7298&quot;&gt;https://plugins.jetbrains.com/plugin/7298&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/inmite/android-selector-chapek&quot;&gt;https://github.com/inmite/android-selector-chapek&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：三星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;android-parcelable-code-generator&quot;&gt;Android Parcelable code generator&lt;/h4&gt;
+
+&lt;p&gt;快速实现Parcelable接口的插件。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7332?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7332?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/mcharmas/android-parcelable-intellij-plugin/&quot;&gt;https://github.com/mcharmas/android-parcelable-intellij-plugin/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件教程地址：&lt;a href=&quot;http://blog.csdn.net/kroclin/article/details/40902721&quot;&gt;http://blog.csdn.net/kroclin/article/details/40902721&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;markdown&quot;&gt;Markdown&lt;/h4&gt;
+
+&lt;p&gt;Markdown是一种可以使用普通文本编辑器编写的标记语言，通过类似HTML的标记语法，它可以使普通文本内容具有一定的格式。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/5970?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/5970?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件文档地址：&lt;a href=&quot;https://github.com/nicoulaj/idea-markdown&quot;&gt;https://github.com/nicoulaj/idea-markdown&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;android-postfix-completion&quot;&gt;Android Postfix completion&lt;/h4&gt;
+
+&lt;p&gt;可根据后缀快速完成代码。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7775?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7775?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件教程地址：&lt;a href=&quot;http://blog.jetbrains.com/idea/2014/03/postfix-completion/&quot;&gt;http://blog.jetbrains.com/idea/2014/03/postfix-completion/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;androidaccessors&quot;&gt;AndroidAccessors&lt;/h4&gt;
+
+&lt;p&gt;快速实现get和set方法的插件。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7496?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7496?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件文档地址：&lt;a href=&quot;https://github.com/jonstaff/AndroidAccessors&quot;&gt;https://github.com/jonstaff/AndroidAccessors&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：三星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;lifecycle-sorter&quot;&gt;Lifecycle Sorter&lt;/h4&gt;
+
+&lt;p&gt;可以根据Activity或者fragment的生命周期对其生命周期方法位置进行先后排序。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7742?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7742?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/armandAkop/Lifecycle-Sorter&quot;&gt;https://github.com/armandAkop/Lifecycle-Sorter&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;adb-wifi-rootwifi&quot;&gt;ADB WIFI 无需root就能wifi调试。&lt;/h4&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7856?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7856?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/layerlre/ADBWIFI&quot;&gt;https://github.com/layerlre/ADBWIFI&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数： 五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;adb-idea&quot;&gt;ADB Idea&lt;/h4&gt;
+
+&lt;p&gt;adb 调试工具,Uninstall App、Kill App、Start App、Restart App、Clear App Data、Clear App Data and Restart&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7380?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7380?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/pbreault/adb-idea/&quot;&gt;https://github.com/pbreault/adb-idea/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;codeglance&quot;&gt;CodeGlance&lt;/h4&gt;
+
+&lt;p&gt;最大的用途：可用于快速定位代码。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7275?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7275?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/Vektah/CodeGlance&quot;&gt;https://github.com/Vektah/CodeGlance&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;jsononlineviewer&quot;&gt;JSONOnlineViewer&lt;/h4&gt;
+
+&lt;p&gt;可实现直接在android studio中调试接口数据，可以选择请求类型，自定义请求头及请求体，json数据格式化后展示&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7838?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7838?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;findbugs-idea&quot;&gt;FindBugs-IDEA&lt;/h4&gt;
+
+&lt;p&gt;通过FindBugs帮你找到隐藏的bug及不好的做法。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/3847?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/3847?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/andrepdo/findbugs-idea/tree/master&quot;&gt;https://github.com/andrepdo/findbugs-idea/tree/master&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;jimu-mirror&quot;&gt;jimu Mirror&lt;/h4&gt;
+
+&lt;p&gt;这是一个可以让你在真实的设备上迅速测试布局的插件。jimu Mirror允许在设备上预览随同编码更新的Android布局。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7517?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7517?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件教程地址：&lt;a href=&quot;http://www.itnose.net/detail/6204426.html&quot;&gt;http://www.itnose.net/detail/6204426.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;javadoc&quot;&gt;JavaDoc&lt;/h4&gt;
+
+&lt;p&gt;添加注释，可自定义模板。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/?idea_ce&amp;amp;pluginId=7157&quot;&gt;https://plugins.jetbrains.com/plugin/?idea_ce&amp;amp;pluginId=7157&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/setial/intellij-javadocs&quot;&gt;https://github.com/setial/intellij-javadocs&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数： 五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;android-stringsxml-tools&quot;&gt;Android strings.xml tools&lt;/h4&gt;
+
+&lt;p&gt;可以用来管理Android项目中的字符串资源。它提供了排序Android本地文件和添加缺少的字符串的基本操作。虽然这个插件是有限制的，但如果应用程序有大量的字符串资源，那这个插件就非常有用了。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7498?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7498?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/constantine-ivanov/strings-xml-tools&quot;&gt;https://github.com/constantine-ivanov/strings-xml-tools&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;robotium-recorder&quot;&gt;Robotium Recorder&lt;/h4&gt;
+
+&lt;p&gt;Robotium Recorder是一个自动化测试框架，用于测试在模拟器和Android设备上原生的和混合的移动应用程序。Robotium Recorder可以让你记录测试案例和用户操作。你也可以查看不同Android活动时的系统功能和用户测试场景。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7513?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7513?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件官方网址：&lt;a href=&quot;http://robotium.com/&quot;&gt;http://robotium.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;android-holo-colors-generator&quot;&gt;Android Holo Colors Generator&lt;/h4&gt;
+
+&lt;p&gt;通过自定义Holo主题颜色生成对应的Drawable和布局文件&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7366?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7366?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/jeromevdl/android-holo-colors-idea-plugin&quot;&gt;https://github.com/jeromevdl/android-holo-colors-idea-plugin&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;lint-cleaner-plugin&quot;&gt;lint-cleaner-plugin&lt;/h4&gt;
+
+&lt;p&gt;删除未使用的资源,包括String字符串,颜色和尺寸。 这是一个Gradle插件，所以如何配置可以去github的源码上看。&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/marcoRS/lint-cleaner-plugin&quot;&gt;https://github.com/marcoRS/lint-cleaner-plugin&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;codota&quot;&gt;codota&lt;/h4&gt;
+
+&lt;p&gt;该网站搜集了大量的代码，号称超过700W的代码实例。提供了chrome和as插件。&lt;/p&gt;
+
+&lt;p&gt;插件下载地址：&lt;a href=&quot;https://plugins.jetbrains.com/plugin/7638?pr=&quot;&gt;https://plugins.jetbrains.com/plugin/7638?pr=&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;插件官方网址：&lt;a href=&quot;https://www.codota.com/&quot;&gt;https://www.codota.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：五星&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;ectranslation&quot;&gt;ECTranslation&lt;/h4&gt;
+
+&lt;p&gt;一个androidstudio上面的翻译插件（将英文翻译为中文）。 暂时只能以jar的方式安装。jar下载地址以及使用方法在github上的源码地址上都有详细描述。&lt;/p&gt;
+
+&lt;p&gt;插件源码地址：&lt;a href=&quot;https://github.com/Skykai521/ECTranslation&quot;&gt;https://github.com/Skykai521/ECTranslation&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐指数：四星&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 13 Jun 2016 05:30:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/13/android_studio_plugins_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/13/android_studio_plugins_introduction/</guid>
+        
+        <category>Android</category>
+        
+        
+      </item>
     
       <item>
         <title>IOS 炫酷框架</title>
@@ -3332,413 +3574,6 @@ public class BankImpl extends Binder implements IBank {
         <pubDate>Sat, 04 Jun 2016 17:00:00 +0800</pubDate>
         <link>http://DavidWangTM.github.io/2016/06/04/android_model_introduction/</link>
         <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/04/android_model_introduction/</guid>
-        
-        <category>Android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Android 设计模式分析三</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;1. 模式介绍&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;模式的定义&lt;/h3&gt;
-&lt;p&gt;外观模式(也成为门面模式)要求一个子系统的外部与其内部的通信必须通过一个统一的对象进行。它提供一个高层次的接口，使得子系统更易于使用。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;模式的使用场景&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;在设计初期阶段，将不同的两个层分离；&lt;/li&gt;
-  &lt;li&gt;在开发阶段，子系统往往因为不断的重构演化而变得越来越复杂，大多数的模式使用时也都会产生很多很小的类，这本是好事，但也给外部调用它们的用户程序带来了使用上的困难，增加外观Facade可以提供一个简单的接口，减少它们之间的依赖。&lt;/li&gt;
-  &lt;li&gt;在维护一个遗留的大型系统时，可能这个系统已经非常难以维护和扩展了，但因为它包含非常重要的功能，新的需求开发必须依赖于它。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;uml&quot;&gt;2. UML类图&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/in-post/android_introduction/android_facade_uml.png&quot; alt=&quot;url&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;角色介绍&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Client : 客户端程序。&lt;/li&gt;
-  &lt;li&gt;Facade : 对外的统一入口,即外观对象。&lt;/li&gt;
-  &lt;li&gt;SubSystemA : 子系统A。&lt;/li&gt;
-  &lt;li&gt;SubSystemB : 子系统B。&lt;/li&gt;
-  &lt;li&gt;SubSystemC : 子系统C。&lt;/li&gt;
-  &lt;li&gt;SubSystemD : 子系统D。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;section-4&quot;&gt;不使用外观模式&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/in-post/android_introduction/android_no_facade_uml.png&quot; alt=&quot;url&quot; /&gt;   &lt;br /&gt;
-如上述所说，门面模式提供一个高层次的接口，使得子系统更易于使用。因此在不使用该模式的情况下，客户端程序使用相关功能的成本就会比较的复杂，需要和各个子系统进行交互 ( 如上图 )，这样就使得系统的稳定性受到影响，用户的使用成本也相对较高。&lt;/p&gt;
-
-&lt;h2 id=&quot;section-5&quot;&gt;3. 模式的简单实现&lt;/h2&gt;
-&lt;p&gt;###  简单实现的介绍
-电视遥控器是现实生活中一个比较好的外观模式的运用，遥控器可以控制电源的开源、声音的调整、频道的切换等。这个遥控器就是我们这里说的外观或者门面，而电源、声音、频道切换系统就是我们的子系统。遥控器统一对这些子模块的控制，我想你没有用过多个遥控器来分别控制电源开关、声音控制等功能。下面我们就来简单模拟一下这个系统。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-6&quot;&gt;实现源码&lt;/h3&gt;
-&lt;p&gt;TvController.java&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TvController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PowerSystem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mPowerSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PowerSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VoiceSystem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mVoiceSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VoiceSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ChannelSystem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mChannelSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ChannelSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powerOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mPowerSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;powerOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powerOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mPowerSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;powerOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turnUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mVoiceSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turnDown&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mVoiceSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnDown&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nextChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mChannelSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prevChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mChannelSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;prev&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;PowerSystem.java&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
- * 电源控制系统
- */&lt;/span&gt;
- &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PowerSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powerOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;开机&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powerOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;关机&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;VoiceSystem.java&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
- * 声音控制系统
- */&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;VoiceSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turnUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;音量增大&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turnDown&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;音量减小&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;ChannelSystem.java&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/**
- * 频道控制系统
- */&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ChannelSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;下一频道&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prev&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;上一频道&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;测试代码 :&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TvController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PowerSystem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mPowerSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PowerSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VoiceSystem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mVoiceSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VoiceSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ChannelSystem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mChannelSystem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ChannelSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powerOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mPowerSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;powerOn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;powerOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mPowerSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;powerOff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turnUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mVoiceSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;turnDown&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mVoiceSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;turnDown&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nextChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mChannelSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prevChannel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mChannelSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;prev&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;输出结果：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;开机
-下一频道
-音量增大
-关机
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;上面的TvController封装了对电源、声音、频道切换的操作，为用户提供了一个统一的接口。使得用户控制电视机更加的方便、更易于使用。&lt;/p&gt;
-
-&lt;h2 id=&quot;android&quot;&gt;Android源码中的模式实现&lt;/h2&gt;
-&lt;p&gt;在开发过程中，Context是最重要的一个类型。它封装了很多重要的操作，比如startActivity()、sendBroadcast()等，几乎是开发者对应用操作的统一入口。Context是一个抽象类，它只是定义了抽象接口，真正的实现在ContextImpl类中。它就是今天我们要分析的外观类。&lt;/p&gt;
-
-&lt;p&gt;在应用启动时，首先会fork一个子进程，并且调用ActivityThread.main方法启动该进程。ActivityThread又会构建Application对象，然后和Activity、ContextImpl关联起来，然后再调用Activity的onCreate、onStart、onResume函数使Activity运行起来。我们看看下面的相关代码:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private final void handleLaunchActivity(ActivityClientRecord r, Intent customIntent) {
-		// 代码省略
-
-        // 1、创建并且加载Activity，调用其onCreate函数
-        Activity a = performLaunchActivity(r, customIntent);
-
-        if (a != null) {
-            r.createdConfig = new Configuration(mConfiguration);
-            Bundle oldState = r.state;
-            // 2、调用Activity的onResume方法，使Activity变得可见
-            handleResumeActivity(r.token, false, r.isForward);
-
-        }
-    }
-
-
-     private final Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
-        // System.out.println(&quot;##### [&quot; + System.currentTimeMillis() + &quot;] ActivityThread.performLaunchActivity(&quot; + r + &quot;)&quot;);
-		// 代码省略
-
-        Activity activity = null;
-        try {
-            java.lang.ClassLoader cl = r.packageInfo.getClassLoader();
-            // 1、创建Activity
-            activity = mInstrumentation.newActivity(
-                    cl, component.getClassName(), r.intent);
-            r.intent.setExtrasClassLoader(cl);
-            if (r.state != null) {
-                r.state.setClassLoader(cl);
-            }
-        } catch (Exception e) {
-            if (!mInstrumentation.onException(activity, e)) {
-                throw new RuntimeException(
-                    &quot;Unable to instantiate activity &quot; + component
-                    + &quot;: &quot; + e.toString(), e);
-            }
-        }
-
-        try {
-            // 2、创建Application
-            Application app = r.packageInfo.makeApplication(false, mInstrumentation);
-
-            if (activity != null) {
-                // ***** 构建ContextImpl  ****** 
-                ContextImpl appContext = new ContextImpl();
-                appContext.init(r.packageInfo, r.token, this);
-                appContext.setOuterContext(activity);
-                // 获取Activity的title
-                CharSequence title = r.activityInfo.loadLabel(appContext.getPackageManager());
-                Configuration config = new Configuration(mConfiguration);
-            
-                 // 3、Activity与context, Application关联起来
-                activity.attach(appContext, this, getInstrumentation(), r.token,
-                        r.ident, app, r.intent, r.activityInfo, title, r.parent,
-                        r.embeddedID, r.lastNonConfigurationInstance,
-                        r.lastNonConfigurationChildInstances, config);
-				// 代码省略
-
-                // 4、回调Activity的onCreate方法
-                mInstrumentation.callActivityOnCreate(activity, r.state);
-           
-                // 代码省略
-            }
-            r.paused = true;
-
-            mActivities.put(r.token, r);
-
-        } catch (SuperNotCalledException e) {
-            throw e;
-
-        } catch (Exception e) {
-      
-        }
-
-        return activity;
-    }
-
-
-    final void handleResumeActivity(IBinder token, boolean clearHide, boolean isForward) {
-   
-        unscheduleGcIdler();
-
-        // 1、最终调用Activity的onResume方法
-        ActivityClientRecord r = performResumeActivity(token, clearHide);
-        // 代码省略
-        // 2、这里是重点，在这里使DecorView变得可见
-        if (r.window == null &amp;amp;&amp;amp; !a.mFinished &amp;amp;&amp;amp; willBeVisible) {
-                // 获取Window，即PhoneWindow类型
-                r.window = r.activity.getWindow();
-                // 3、获取Window的顶级视图，并且使它可见
-                View decor = r.window.getDecorView();
-                decor.setVisibility(View.INVISIBLE);
-                // 4、获取WindowManager
-                ViewManager wm = a.getWindowManager();
-                // 5、构建LayoutParams参数
-                WindowManager.LayoutParams l = r.window.getAttributes();
-                a.mDecor = decor;
-                l.type = WindowManager.LayoutParams.TYPE_BASE_APPLICATION;
-                l.softInputMode |= forwardBit;
-                if (a.mVisibleFromClient) {
-                    a.mWindowAdded = true;
-                    // 6、将DecorView添加到WindowManager中，最终的操作是通过WindowManagerService的addView来操作
-                    wm.addView(decor, l);
-                }
-            } else if (!willBeVisible) {
-                if (localLOGV) Slog.v(
-                    TAG, &quot;Launch &quot; + r + &quot; mStartedActivity set&quot;);
-                r.hideForNow = true;
-            }
-            // 代码省略
-    }
-
- public final ActivityClientRecord performResumeActivity(IBinder token,
-            boolean clearHide) {
-        ActivityClientRecord r = mActivities.get(token);
-       
-        if (r != null &amp;amp;&amp;amp; !r.activity.mFinished) {
-                try {
-                // 代码省略
-                // 执行onResume
-                r.activity.performResume();
-				// 代码省略
-            } catch (Exception e) {
-   
-            }
-        }
-        return r;
-    }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Activity启动之后，Android给我们提供了操作系统服务的统一入口，也就是Activity本身。这些工作并不是Activity自己实现的，而是将操作委托给Activity父类ContextThemeWrapper的mBase对象，这个对象的实现类就是ContextImpl ( 也就是performLaunchActivity方法中构建的ContextImpl )。&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ContextImpl&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TAG&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ApplicationContext&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DEBUG&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DEBUG_ICONS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sSync&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AlarmManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sAlarmManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PowerManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sPowerManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ConnectivityManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sConnectivityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mAudioManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;LoadedApk&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mPackageInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Resources&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mResources&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PackageManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mPackageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NotificationManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mNotificationManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ActivityManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mActivityManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    
-	&lt;span class=&quot;c1&quot;&gt;// 代码省略&lt;/span&gt;
-    
-        &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sendBroadcast&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Intent&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resolvedType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;resolveTypeIfNeeded&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getContentResolver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;ActivityManagerNative&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getDefault&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;broadcastIntent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;mMainThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getApplicationThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resolvedType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;Activity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;RESULT_OK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RemoteException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    
-        &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;startActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Intent&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;intent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getFlags&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Intent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;FLAG_ACTIVITY_NEW_TASK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AndroidRuntimeException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-                    &lt;span class=&quot;s&quot;&gt;&quot;Calling startActivity() from outside of an Activity &quot;&lt;/span&gt;
-                    &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; context requires the FLAG_ACTIVITY_NEW_TASK flag.&quot;&lt;/span&gt;
-                    &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; Is this really what you want?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mMainThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getInstrumentation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;execStartActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;getOuterContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mMainThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getApplicationThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    
-        &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ComponentName&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;startService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Intent&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;ComponentName&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ActivityManagerNative&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getDefault&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;startService&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;mMainThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getApplicationThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;resolveTypeIfNeeded&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getContentResolver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()));&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPackageName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;!&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SecurityException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-                        &lt;span class=&quot;s&quot;&gt;&quot;Not allowed to start service &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;service&lt;/span&gt;
-                        &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; without permission &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClassName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RemoteException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-        &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getPackageName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mPackageInfo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mPackageInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPackageName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Not supported in system context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;可以看到，ContextImpl内部有很多xxxManager类的对象，也就是我们上文所说的各种子系统的角色。ContextImpl内部封装了一些系统级别的操作，有的子系统功能虽然没有实现，但是也提供了访问该子系统的接口，比如获取ActivityManager的getActivityManager方法。&lt;/p&gt;
-
-&lt;p&gt;比如我们要启动一个Activity的时候，我们调用的是startActivity方法，这个功能的内部实现实际上是Instrumentation完成的。ContextImpl封装了这个功能，使得用户根本不需要知晓Instrumentation相关的信息，直接使用startActivity即可完成相应的工作。其他的子系统功能也是类似的实现，比如启动Service和发送广播内部使用的是ActivityManagerNative等。ContextImpl的结构图如下 :          &lt;br /&gt;
-&lt;img src=&quot;/img/in-post/android_introduction/android_contextimpl.png&quot; alt=&quot;context&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;外观模式非常的简单，只是封装了子系统的操作，并且暴露接口让用户使用，避免了用户需要与多个子系统进行交互，降低了系统的耦合度、复杂度。如果没有外观模式的封装，那么用户就必须知道各个子系统的相关细节，子系统之间的交互必然造成纠缠不清的关系，影响系统的稳定性、复杂度。&lt;/p&gt;
-
-&lt;h2 id=&quot;section-7&quot;&gt;4. 杂谈&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-8&quot;&gt;优点&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;使用方便，使用外观模式客户端完全不需要知道子系统的实现过程；&lt;/li&gt;
-  &lt;li&gt;降低客户端与子系统的耦合；&lt;/li&gt;
-  &lt;li&gt;更好的划分访问层次；&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-9&quot;&gt;缺点&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;减少了可变性和灵活性；&lt;/li&gt;
-  &lt;li&gt;在不引入抽象外观类的情况下，增加新的子系统可能需要修改外观类或客户端的源代码，违背了“开闭原则”；&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Sat, 04 Jun 2016 05:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/06/04/android_facade_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/04/android_facade_introduction/</guid>
         
         <category>Android</category>
         
