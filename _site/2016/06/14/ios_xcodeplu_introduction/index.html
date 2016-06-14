@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Android 设计模式分析七
+        IOS 快速开发工具
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/07/android_iterator_introduction/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/14/ios_xcodeplu_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -150,13 +150,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-universe.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-apple-event-2015.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-universe.jpg')
+        background-image: url('/img/post-bg-apple-event-2015.jpg')
     }
 
     
@@ -169,15 +169,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#Xcode" title="Xcode">Xcode</a>
                         
                     </div>
-                    <h1>Android 设计模式分析七</h1>
+                    <h1>IOS 快速开发工具</h1>
                     
                     
-                    <h2 class="subheading">迭代器模式</h2>
+                    <h2 class="subheading">Xcode 觉得好用的插件库</h2>
                     
-                    <span class="meta">Posted by DavidWang on June 7, 2016</span>
+                    <span class="meta">Posted by DavidWang on June 14, 2016</span>
                 </div>
             </div>
         </div>
@@ -195,199 +197,144 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="section">1. 模式介绍</h2>
+				<h3 id="alcatraz">第一部分 Alcatraz插件的介绍</h3>
 
-<h3 id="section-1">模式的定义</h3>
+<p>Alcatraz 是Xcode管理插件的工具,在上面能找到各种提高效率的插件。</p>
 
-<p>迭代器（Iterator）模式，又叫做游标（Cursor）模式。GOF给出的定义为：提供一种方法访问一个容器（container）对象中各个元素，而又不需暴露该对象的内部细节。</p>
+<p>源码地址：<a href="https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin">https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin</a></p>
 
-<h3 id="section-2">模式的使用场景</h3>
-<p>　　Java JDK 1.2 版开始支持迭代器。每一个迭代器提供next()以及hasNext()方法，同时也支持remove()(1.8的时候remove已经成为default throw new UnsupportedOperationException(“remove”))。对Android来说,集合Collection实现了Iterable接口,就是说,无论是List的一大家子还是Map的一大家子,我们都可以使用Iterator来遍历里面的元素,<a href="http://docs.oracle.com/javase/8/docs/api/java/util/package-tree.html">可以使用Iterator的集合</a></p>
+<p>安装的方法也很简单，如果你以前没有安装过那执行下面指令</p>
 
-<h2 id="uml">2. UML类图</h2>
-<p>　　　
-<img src="/img/in-post/android_introduction/android_Iterator_UML_class_diagram.svg.png" alt="iterator" /></p>
-
-<h3 id="section-3">角色介绍　　</h3>
-
-<ul>
-  <li>迭代器接口Iterator：该接口必须定义实现迭代功能的最小定义方法集比如提供hasNext()和next()方法。</li>
-  <li>迭代器实现类：迭代器接口Iterator的实现类。可以根据具体情况加以实现。</li>
-  <li>容器接口：定义基本功能以及提供类似Iterator iterator()的方法。</li>
-  <li>容器实现类：容器接口的实现类。必须实现Iterator iterator()方法。</li>
-</ul>
-
-<h2 id="section-4">3. 模式的简单实现</h2>
-
-<h3 id="section-5">简单实现的介绍</h3>
-
-<p>我们有一个数组,对其遍历的过程我们希望使用者像ArrayList一样的使用,我们就可以用过iterator来实现.</p>
-
-<h3 id="section-6">实现源码</h3>
-
-<p>下面我们自己实现一个Iterator的集合</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>public Iterator&lt;Mileage&gt; iterator() {
-    return new ArrayIterator();
-}
-
-private class ArrayIterator implements Iterator&lt;Mileage&gt; {
-/**
- * Number of elements remaining in this iteration
- */
-private int remaining = size;
-
-/**
- * Index of element that remove() would remove, or -1 if no such elt
- */
-private int removalIndex = -1;
-
-@Override
-public boolean hasNext() {
-    return remaining != 0;
-}
-
-@Override
-public Mileage next() {
-    Mileage mileage = new Mileage();
-    removalIndex = size-remaining;
-    mileage.name = String.valueOf(versionCodes[removalIndex]);
-    mileage.value = versionMileages[removalIndex];
-    remaining-=1;
-    return mileage;
-}
-
-@Override
-public void remove() {
-    versionCodes[removalIndex]=-1;
-    versionMileages[removalIndex]="It was set null";
-}
-}
-</code></pre>
-</div>
-<p>使用的过程如下,我们特意使用了remove方法,注意这个只是一个示例,和大多数的集合相比,该实现并不严谨</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>AndroidMileage androidMileage = new AndroidMileage();
-Iterator&lt;AndroidMileage.Mileage&gt; iterator =androidMileage.iterator();
-while (iterator.hasNext()){
-    AndroidMileage.Mileage mileage = iterator.next();
-    if(mileage.name.equalsIgnoreCase("16")){
-    	//remove掉的是当前的这个,暂时只是置空,并未真的移掉
-        iterator.remove();
-    }
-    Log.e("mileage",mileage.toString());
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -fsSL https://raw.github.com/alcatraz/Alcatraz/master/Scripts/install.sh | sh
 </code></pre>
 </div>
 
-<p>下面直接写出几种集合的遍历方式,大家可以对比一下</p>
+<p>如果之前安装过但是Xcode最新版本不能用了，那就先卸载旧的再安装下新的。</p>
 
-<ul>
-  <li>HashMap的遍历</li>
-</ul>
+<p>卸载的方法是：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HashMap&lt;String, String&gt; colorMap=new HashMap&lt;&gt;();
-colorMap.put("Color1","Red");
-colorMap.put("Color2","Blue");
-Iterator iterator = colorMap.keySet().iterator();
-while( iterator. hasNext() ){
-    String key = (String) iterator.next();
-    String value = colorMap.get(key);
-}
-</code></pre>
-</div>
-<ul>
-  <li>JSONObject的遍历</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>String paramString = "{menu:{\"1\":\"sql\", \"2\":\"android\", \"3\":\"mvc\"}}";
-JSONObject menuJSONObj  = new JSONObject(paramString);
-JSONObject  menuObj = menuJSONObj.getJSONObject("menu");
-Iterator iter = menuObj.keys();
-while(iter.hasNext()){
-    String key = (String)iter.next();
-    String value = menuObj.getString(key);
-}
-</code></pre>
-</div>
-<p>就目前而言，各种高级语言都有对迭代器的基本实现，没必要自己实现迭代器，使用内置的迭代器即可满足日常需求。</p>
-
-<h2 id="android">Android源码中的模式实现</h2>
-<p>一个集合想要实现Iterator很是很简单的,需要注意的是每次需要重新生成一个Iterator来进行遍历.且遍历过程是单方向的,HashMap是通过一个类似HashIterator来实现的,我们为了解释简单,这里只是研究ArrayList(此处以Android L源码为例,其他版本略有不同)</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>@Override public Iterator&lt;E&gt; iterator() {
-    return new ArrayListIterator();
-}
-
-private class ArrayListIterator implements Iterator&lt;E&gt; {
-    /** Number of elements remaining in this iteration */
-    private int remaining = size;
-
-    /** Index of element that remove() would remove, or -1 if no such elt */
-    private int removalIndex = -1;
-
-    /** The expected modCount value */
-    private int expectedModCount = modCount;
-
-    public boolean hasNext() {
-        return remaining != 0;
-    }
-
-    @SuppressWarnings("unchecked") public E next() {
-        ArrayList&lt;E&gt; ourList = ArrayList.this;
-        int rem = remaining;
-        if (ourList.modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
-        }
-        if (rem == 0) {
-            throw new NoSuchElementException();
-        }
-        remaining = rem - 1;
-        return (E) ourList.array[removalIndex = ourList.size - rem];
-    }
-
-    public void remove() {
-        Object[] a = array;
-        int removalIdx = removalIndex;
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
-        }
-        if (removalIdx &lt; 0) {
-            throw new IllegalStateException();
-        }
-        System.arraycopy(a, removalIdx + 1, a, removalIdx, remaining);
-        a[--size] = null;  // Prevent memory leak
-        removalIndex = -1;
-        expectedModCount = ++modCount;
-    }
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin
+rm -rf ~/Library/Application\ Support/Alcatraz/
 </code></pre>
 </div>
 
-<ul>
-  <li>java中的写法一般都是通过iterator()来生成Iterator,保证iterator()每次生成新的实例</li>
-  <li>remaining初始化使用整个list的size大小,removalIndex表示remove掉的位置,modCount在集合大小发生变化的时候后都会进行一次modCount++操作,避免数据不一致,前面我写的例子这方面没有写,请务必注意这点</li>
-  <li>hasNext方法中,因为remaining是一个size-&gt;0的变化过程,这样只需要判断非0就可以得知当前遍历的是否还有未完成的元素</li>
-  <li>next,第一次调用的时候返回array[0]的元素,这个过程中removalIndex会被设置成当前array的index</li>
-  <li>remove的实现是直接操作的内存中的数据,是能够直接删掉元素的,不展开了</li>
-</ul>
+<h3 id="section">第二部分 插件的安装</h3>
 
-<h2 id="section-7">4. 杂谈</h2>
+<p>in Xcode: <code class="highlighter-rouge">go to Windows → Package Manager</code> and search for <code class="highlighter-rouge">插件名</code>.</p>
 
-<h3 id="section-8">优点</h3>
+<p><img src="https://camo.githubusercontent.com/70505dece9a75af5ca4715fff66271127f7d5b78/687474703a2f2f616c63617472617a2e696f2f696d616765732f6d656e754032782e706e67" alt="URL" /></p>
 
-<ul>
-  <li>面向对象设计原则中的单一职责原则，对于不同的功能,我们要尽可能的把这个功能分解出单一的职责，不同的类去承担不同的职责。Iterator模式就是分离了集合对象的遍历行为，抽象出一个迭代器类来负责，这样不暴露集合的内部结构，又可让外部代码透明的访问集合内部的数据。</li>
-</ul>
+<p><img src="https://camo.githubusercontent.com/919efe4e1e53237df51d7010c862bd5c04fd6a70/687474703a2f2f616c63617472617a2e696f2f696d616765732f73637265656e73686f744032782e706e67" alt="URL" /></p>
 
-<h3 id="section-9">缺点</h3>
+<h3 id="section-1">第三部分 插件的汇总</h3>
 
-<ul>
-  <li>会产生多余的对象，消耗内存；</li>
-  <li>遍历过程是一个单向且不可逆的遍历</li>
-  <li>如果你在遍历的过程中,集合发生改变,变多变少,内容变化都是算,就会抛出来ConcurrentModificationException异常.</li>
-</ul>
+<h4 id="vvdocumenter-xcode">VVDocumenter-Xcode</h4>
 
+<p>VVDocumenter 是一个Xcode的代码注释框架，可以简单的操作三斜杠<code class="highlighter-rouge">///</code>即可生成对应的代码注释，在菜单Window中找到VVDocumenter 可以进行一些个性化的设置。总体来说还是非常实用和好用的。</p>
+
+<p>源码地址：<a href="https://github.com/onevcat/VVDocumenter-Xcode">https://github.com/onevcat/VVDocumenter-Xcode</a></p>
+
+<p><img src="https://camo.githubusercontent.com/ca5518c9872e15b8a95b9d8c5f44bc331977d710/68747470733a2f2f7261772e6769746875622e636f6d2f6f6e65766361742f5656446f63756d656e7465722d58636f64652f6d61737465722f53637265656e53686f742e676966" alt="URL" /></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="ksimagenamed">KSImageNamed</h4>
+
+<p>KSImageNamed 是一款Xcode 图片文件提示工具.当你输入<code class="highlighter-rouge">imageNamed: </code>的时候会弹出所有图片的名称和预览图片选择，。</p>
+
+<p>源码地址：<a href="https://github.com/ksuther/KSImageNamed-Xcode">https://github.com/ksuther/KSImageNamed-Xcode</a></p>
+
+<p><img src="https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966" alt="URL" /></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="scxcodeminimap">SCXcodeMiniMap</h4>
+
+<p>SCXcodeMiniMap 是Xcode中类似于sublime的功能，这是非常好用的。 并且右边的代码迷你地图提供了很多可配置的地方，而且会高亮显示宏和注释部分，小地图中点击任何地方也会自动滚动至此。这在有的类代码特别长时你写着写着都不知道自己在哪里了,会很有用.</p>
+
+<p>源码地址：<a href="https://github.com/stefanceriu/SCXcodeMiniMap">https://github.com/stefanceriu/SCXcodeMiniMap</a></p>
+
+<p><img src="https://camo.githubusercontent.com/202fb6a7e1e1eb580af27ac00a0b3c80ef5b154d/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31323734383230312f5265636f7264696e67732f534358636f64654d696e696d61702f76322e322f73656c656374656453796d626f6c496e7374616e636573486967686c69676874696e672e676966" alt="URL" /></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="bbudebuggertuckaway">BBUDebuggerTuckAway</h4>
+
+<p>BBUDebuggerTuckAway 在Xcode编辑代码的时候，调试框会自动缩回。</p>
+
+<p>源码地址：<a href="https://github.com/neonichu/BBUDebuggerTuckAway">https://github.com/neonichu/BBUDebuggerTuckAway</a></p>
+
+<p><img src="https://github.com/neonichu/BBUDebuggerTuckAway/raw/master/plugin.gif" alt="URL" /></p>
+
+<p><strong>推荐指数：三星</strong></p>
+
+<h4 id="cocoapods-xcode-plugin">cocoapods-xcode-plugin</h4>
+
+<p>cocoapods-xcode-plugin 是一个Xcode上Pod管理工具。</p>
+
+<p>源码地址：<a href="https://github.com/kattrali/cocoapods-xcode-plugin">https://github.com/kattrali/cocoapods-xcode-plugin</a></p>
+
+<p><img src="https://github.com/kattrali/cocoapods-xcode-plugin/raw/master/menu.png" alt="URL" /></p>
+
+<p><strong>推荐指数：三星</strong></p>
+
+<h4 id="scxcodeswitchexpander">SCXcodeSwitchExpander</h4>
+
+<p>SCXcodeSwitchExpander  是Xcode非常方便的创建枚举库，自动生成了所有可能，并且每种里面都包含代码块，可以直接tab切换。  虽然使用率不会特别高但是用到的时候还是非常方便的。</p>
+
+<p>源码地址： <a href="https://github.com/stefanceriu/SCXcodeSwitchExpander">https://github.com/stefanceriu/SCXcodeSwitchExpander</a></p>
+
+<p><img src="https://camo.githubusercontent.com/a544a54d43b6e26c75d56889b7a6a4df8a90b4a5/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31323734383230312f534358636f6465537769746368457870616e6465722f534358636f6465537769746368457870616e646572322e676966" alt="URL" /></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="hostringsense">HOStringSense</h4>
+
+<p>HOStringSense 是Xcode内容编辑工具，会把换行，空格转化成代码片段。</p>
+
+<p>源码地址：<a href="https://github.com/holtwick/HOStringSense-for-Xcode">https://github.com/holtwick/HOStringSense-for-Xcode</a></p>
+
+<p><img src="https://github.com/holtwick/HOStringSense-for-Xcode/raw/master/StringDemoAnimation.gif" alt="URL" /></p>
+
+<p><strong>推荐指数：三星</strong></p>
+
+<h4 id="xalign">XAlign</h4>
+
+<p>XAlign 是Xcode中自动对齐库,可以在 <code class="highlighter-rouge">Xcode -&gt; Edit -&gt; XAlign</code> 设置快捷键。默认为 <code class="highlighter-rouge">Shift + Cmd + X</code>.</p>
+
+<p>源码地址：<a href="https://github.com/qfish/XAlign">https://github.com/qfish/XAlign</a></p>
+
+<p><img src="https://camo.githubusercontent.com/7973c0e352b1f91e3efe5b3550cff5df97f4589a/687474703a2f2f7166692e73682f58416c69676e2f696d616765732f657175616c2e676966" alt="URL" /></p>
+
+<p><strong>推荐指数：五星</strong></p>
+
+<h4 id="dash-plugin-for-xcode">Dash-Plugin-for-Xcode</h4>
+
+<p>Dash-Plugin-for-Xcode 是Bogdan Popescu开发的一款集成了Dash文档查看器应用的Xcode插件，允许开发者在使用Option-Click或作用相同的快捷键操作查看当前文本的相关文档时，用Dash代替Xcode的文档查看器。</p>
+
+<p>源码地址：<a href="https://github.com/omz/Dash-Plugin-for-Xcode">https://github.com/omz/Dash-Plugin-for-Xcode</a></p>
+
+<p><strong>推荐指数：三星</strong></p>
+
+<h4 id="peckham">Peckham</h4>
+
+<p>Peckham 是Xcode快速导入头文件的插件。</p>
+
+<p>源码地址：[https://github.com/markohlebar/Peckham)</p>
+
+<p><img src="https://github.com/markohlebar/Peckham/raw/master/Misc/Peckham.gif" alt="URL" /></p>
+
+<p><strong>推荐指数：四星</strong></p>
+
+<h4 id="xtodo-xcode">XToDo-Xcode</h4>
+
+<p>XToDo-Xcode 是一个注释辅助插件, 可以把项目中的 TODO FIXME等注释列出来.</p>
+
+<p>源码地址：<a href="https://github.com/trawor/XToDo">https://github.com/trawor/XToDo</a></p>
+
+<p><img src="https://github.com/trawor/XToDo/raw/master/screenshots/2.png" alt="URL" /></p>
+
+<p><strong>推荐指数：四星</strong></p>
 
 
                 <hr>
@@ -398,19 +345,12 @@ private class ArrayListIterator implements Iterator&lt;E&gt; {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/06/06/android_binder_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析六">
+                        <a href="/2016/06/13/android_studio_plugins_introduction/" data-toggle="tooltip" data-placement="top" title="Android 快速开发工具">
                         Previous<br>
-                        <span>Android 设计模式分析六</span>
+                        <span>Android 快速开发工具</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/06/08/android_responsibility_introduction/" data-toggle="tooltip" data-placement="top" title="Android 设计模式分析八">
-                        Next<br>
-                        <span>Android 设计模式分析八</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -547,8 +487,8 @@ private class ArrayListIterator implements Iterator&lt;E&gt; {
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/06/07/android_iterator_introduction";
-    var disqus_url = "http://DavidWangTM.github.io/2016/06/07/android_iterator_introduction/";
+    var disqus_identifier = "/2016/06/14/ios_xcodeplu_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/14/ios_xcodeplu_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
