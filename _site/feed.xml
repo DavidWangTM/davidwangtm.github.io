@@ -5,8 +5,8 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 14 Jun 2016 14:11:33 +0800</pubDate>
-    <lastBuildDate>Tue, 14 Jun 2016 14:11:33 +0800</lastBuildDate>
+    <pubDate>Tue, 14 Jun 2016 17:02:24 +0800</pubDate>
+    <lastBuildDate>Tue, 14 Jun 2016 17:02:24 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -132,9 +132,9 @@ rm -rf ~/Library/Application\ Support/Alcatraz/
 
 &lt;h4 id=&quot;peckham&quot;&gt;Peckham&lt;/h4&gt;
 
-&lt;p&gt;Peckham 是Xcode快速导入头文件的插件。&lt;/p&gt;
+&lt;p&gt;Peckham 是Xcode快速导入头文件的插件,默认为 &lt;code class=&quot;highlighter-rouge&quot;&gt;⌘ + ctrl + P&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;源码地址：[https://github.com/markohlebar/Peckham)&lt;/p&gt;
+&lt;p&gt;源码地址：&lt;a href=&quot;https://github.com/markohlebar/Peckham&quot;&gt;https://github.com/markohlebar/Peckham&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://github.com/markohlebar/Peckham/raw/master/Misc/Peckham.gif&quot; alt=&quot;URL&quot; /&gt;&lt;/p&gt;
 
