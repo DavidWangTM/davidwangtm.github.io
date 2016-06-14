@@ -133,9 +133,9 @@ Dash-Plugin-for-Xcode 是Bogdan Popescu开发的一款集成了Dash文档查看�
 
 #### Peckham
 
-Peckham 是Xcode快速导入头文件的插件。
+Peckham 是Xcode快速导入头文件的插件,默认为 `⌘ + ctrl + P`.
 
-源码地址：[https://github.com/markohlebar/Peckham)
+源码地址：[https://github.com/markohlebar/Peckham](https://github.com/markohlebar/Peckham)
 
 ![URL](https://github.com/markohlebar/Peckham/raw/master/Misc/Peckham.gif)
 
