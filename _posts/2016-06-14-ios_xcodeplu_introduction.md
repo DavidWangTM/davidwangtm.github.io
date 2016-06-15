@@ -43,6 +43,27 @@ in Xcode: `go to Windows → Package Manager` and search for `插件名`.
 
 ### 第三部分 插件的汇总
 
+
+#### ESJsonFormat-Xcode
+
+ESJsonFormat-Xcode 是Xcode JSON格式化输出为模型的属性的插件。
+
+源码地址：[https://github.com/EnjoySR/ESJsonFormat-Xcode](https://github.com/EnjoySR/ESJsonFormat-Xcode)
+
+![URL](https://raw.githubusercontent.com/EnjoySR/ESJsonFormat-Xcode/master/ScreenShot/ScreenShot2.gif)
+
+**推荐指数：五星**
+
+#### MLAutoReplace
+
+MLAutoReplace make you write code more quickly.
+
+源码地址：[https://github.com/molon/MLAutoReplace](https://github.com/molon/MLAutoReplace)
+
+![URL](https://raw.githubusercontent.com/molon/MLAutoReplace/master/replaceTS.gif)
+
+**推荐指数：五星**
+
 #### VVDocumenter-Xcode
 
 VVDocumenter 是一个Xcode的代码注释框架，可以简单的操作三斜杠`///`即可生成对应的代码注释，在菜单Window中找到VVDocumenter 可以进行一些个性化的设置。总体来说还是非常实用和好用的。
