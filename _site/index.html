@@ -176,6 +176,38 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/06/16/ios_copy_introduction/">
+        <h2 class="post-title">
+            ios 进阶篇
+        </h2>
+        
+        <h3 class="post-subtitle">
+            iOS 集合的深复制与浅复制
+        </h3>
+        
+        <div class="post-content-preview">
+            概念
+
+对象拷贝有两种方式：浅复制和深复制。顾名思义，浅复制，并不拷贝对象本身，仅仅是拷贝指向对象的指针；深复制是直接拷贝整个对象内存到另一块内存中。
+
+一图以蔽之
+
+
+
+再简单些说：浅复制就是指针拷贝；深复制就是内容拷贝。
+
+集合的浅复制 (shallow copy)
+
+集合的浅复制有非常多种方法。当你进行浅复制时，会向原始的集合发送retain消息，引用计数加1，同时指针被拷贝到新的集合...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 16, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/06/15/ios_pod_introduction/">
         <h2 class="post-title">
             IOS 第三方库管理工具
@@ -497,34 +529,6 @@ ConcreteHandler：具体处理者
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/06/06/android_binder_introduction/">
-        <h2 class="post-title">
-            Android 设计模式分析六
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Binder模式
-        </h3>
-        
-        <div class="post-content-preview">
-            Binder中的代理模式
-
-再说Binder中的代理模式之前，我们需要先看看代理模式的简单实现，这一部分内容采用了《JAVA与模式》之代理模式这篇文章中的代码示例和uml类图。
-
-1. 模式介绍
-代理模式是对象的结构模式。代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的引用。
-
-模式的使用场景
-就是一个人或者机构代表另一个人或者机构采取行动。在一些情况下，一个客户不想或者不能...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 6, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -611,7 +615,7 @@ ConcreteHandler：具体处理者
                             
                         
                             
-                                <a href="/tags/#ios" title="ios" rel="3">
+                                <a href="/tags/#ios" title="ios" rel="4">
                                     ios
                                 </a>
                             

@@ -2,7 +2,7 @@
 layout:     post
 title:      "Android 设计模式分析十"
 subtitle:   "桥接模式"
-date:       2016-06-09 20:30:00
+date:       2016-06-10 11:30:00
 author:     "DavidWang"
 header-img: "img/post-bg-universe.jpg"
 catalog: true
