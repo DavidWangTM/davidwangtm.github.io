@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        ios 进阶篇
+        Android 快速开发库
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/16/ios_copy_introduction/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/17/android_frame_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -150,13 +150,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-rwd.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-2015.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-rwd.jpg')
+        background-image: url('/img/post-bg-2015.jpg')
     }
 
     
@@ -169,15 +169,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        <a class="tag" href="/tags/#Android" title="Android">Android</a>
                         
                     </div>
-                    <h1>ios 进阶篇</h1>
+                    <h1>Android 快速开发库</h1>
                     
                     
-                    <h2 class="subheading">iOS 集合的深复制与浅复制</h2>
+                    <h2 class="subheading">常用的第三方库</h2>
                     
-                    <span class="meta">Posted by DavidWang on June 16, 2016</span>
+                    <span class="meta">Posted by DavidWang on June 17, 2016</span>
                 </div>
             </div>
         </div>
@@ -195,174 +195,399 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h3 id="section">概念</h3>
+				<h3 id="section">1. 缓存</h3>
 
-<p>对象拷贝有两种方式：浅复制和深复制。顾名思义，浅复制，并不拷贝对象本身，仅仅是拷贝指向对象的指针；深复制是直接拷贝整个对象内存到另一块内存中。</p>
+<hr />
 
-<p>一图以蔽之</p>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/JakeWharton/DiskLruCache">DiskLruCache</a></td>
+      <td>Java实现基于LRU的磁盘缓存</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><img src="/img/in-post/ios_introduction/ios_image_note50592_1.png" alt="URL" /></p>
+<h3 id="section-1">2.图片加载</h3>
 
-<p>再简单些说：<strong>浅复制就是指针拷贝；深复制就是内容拷贝</strong>。</p>
+<hr />
 
-<h3 id="shallow-copy">集合的浅复制 (shallow copy)</h3>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/nostra13/Android-Universal-Image-Loader">Android Universal Image Loader</a></td>
+      <td>一个强大的加载，缓存，展示图片的库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/square/picasso">Picasso</a></td>
+      <td>一个强大的图片下载与缓存的库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/facebook/fresco">Fresco</a></td>
+      <td>一个用于管理图像和他们使用的内存的库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/bumptech/glide">Glide</a></td>
+      <td>一个图片加载和缓存的库</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>集合的浅复制有非常多种方法。当你进行浅复制时，会向原始的集合发送retain消息，引用计数加1，同时指针被拷贝到新的集合。</p>
+<h3 id="section-2">3. 图片处理</h3>
 
-<p>现在让我们看一些浅复制的例子：</p>
+<hr />
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSArray *shallowCopyArray = [someArray copyWithZone:nil];
-NSSet *shallowCopySet = [NSSet mutableCopyWithZone:nil];
-NSDictionary *shallowCopyDict = [[NSDictionary alloc] initWithDictionary:someDictionary copyItems:NO];
-</code></pre>
-</div>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/wasabeef/picasso-transformations">Picasso-transformations</a></td>
+      <td>一个为Picasso提供多种图片变换的库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/wasabeef/glide-transformations">Glide-transformations</a></td>
+      <td>一个为Glide提供多种图片变换的库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/CyberAgent/android-gpuimage">Android-gpuimage</a></td>
+      <td>基于OpenGL的Android过滤器</td>
+    </tr>
+  </tbody>
+</table>
 
-<h3 id="deep-copy">集合的深复制 (deep copy)</h3>
+<h3 id="section-3">4. 网络请求</h3>
 
-<p>集合的深复制有两种方法。可以用 initWithArray:copyItems: 将第二个参数设置为YES即可深复制，如</p>
+<hr />
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSDictionary shallowCopyDict = [[NSDictionary alloc] initWithDictionary:someDictionary copyItems:YES];
-</code></pre>
-</div>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/loopj/android-async-http">Android Async HTTP</a></td>
+      <td>Android异步HTTP库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/koush/AndroidAsync">AndroidAsync</a></td>
+      <td>异步Socket，HTTP(客户端+服务器)，WebSocket，和socket.io库。基于NIO而不是线程。</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/square/okhttp">OkHttp</a></td>
+      <td>一个Http与Http/2的客户端</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/square/retrofit">Retrofit</a></td>
+      <td>类型安全的Http客户端</td>
+    </tr>
+    <tr>
+      <td><a href="https://android.googlesource.com/platform/frameworks/volley">Volley</a></td>
+      <td>Google推出的Android异步网络请求框架和图片加载框架</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>如果你用这种方法深复制，集合里的每个对象都会收到 copyWithZone: 消息。如果集合里的对象遵循 NSCopying 协议，那么对象就会被深复制到新的集合。如果对象没有遵循 NSCopying 协议，而尝试用这种方法进行深复制，会在运行时出错。copyWithZone: 这种拷贝方式只能够提供一层内存拷贝(one-level-deep copy)，而非真正的深复制。</p>
+<h3 id="section-4">5. 网络解析</h3>
 
-<p>第二个方法是将集合进行归档(archive)，然后解档(unarchive)，如：</p>
+<hr />
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSArray *trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:oldArray]];
-</code></pre>
-</div>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/google/gson">Gson	</a></td>
+      <td>一个Java序列化/反序列化库，可以将JSON和java对象互相转换</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/codehaus/jackson">Jackson</a></td>
+      <td>Jackson可以轻松地将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/alibaba/fastjson">Fastjson</a></td>
+      <td>Java上一个快速的JSON解析器/生成器</td>
+    </tr>
+    <tr>
+      <td><a href="https://sourceforge.net/projects/htmlparser/">HtmlPaser</a></td>
+      <td>一种用来解析单个独立html或嵌套html的方式</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/jhy/jsoup">Jsoup</a></td>
+      <td>一个以最好的DOM，CSS和jQuery解析html的库</td>
+    </tr>
+  </tbody>
+</table>
 
-<h3 id="one-level-deep-copy">集合的单层深复制 (one-level-deep copy)</h3>
+<h3 id="section-5">6. 数据库</h3>
 
-<p>看到这里，有同学会问：如果在多层数组中，对第一层进行内容拷贝，其它层进行指针拷贝，这种情况是属于深复制，还是浅复制？对此，<a href="https://developer.apple.com/library/mac/documentation/cocoa/conceptual/Collections/Articles/Copying.html#//apple_ref/doc/uid/TP40010162-SW3">苹果官网文档</a>有这样一句话描述</p>
+<hr />
 
-<div class="highlighter-rouge"><pre class="highlight"><code>This kind of copy is only capable of producing a one-level-deep copy. If you only need a one-level-deep copy...
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://sourceforge.net/projects/ormlite/files/releases/com/j256/ormlite/">OrmLite</a></td>
+      <td>JDBC和Android的轻量级ORM java包</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/satyan/sugar">Sugar</a></td>
+      <td>用超级简单的方法处理Android数据库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/greenrobot/greenDAO">GreenDAO</a></td>
+      <td>一种轻快地将对象映射到SQLite数据库的ORM解决方案</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/pardom/ActiveAndroid">ActiveAndroid</a></td>
+      <td>以活动记录方式为Android SQLite提供持久化</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/square/sqlbrite">SQLBrite</a></td>
+      <td>SQLiteOpenHelper 和ContentResolver的轻量级包装</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/jhy/jsoup">Realm</a></td>
+      <td>移动数据库：一个SQLite和ORM的替换品</td>
+    </tr>
+  </tbody>
+</table>
 
-If you need a true deep copy, such as when you have an array of arrays...
-</code></pre>
-</div>
+<h3 id="section-6">7. 依赖注入</h3>
 
-<p>从文中可以看出，苹果认为这种复制不是真正的深复制，而是将其称为<strong>单层深复制(one-level-deep copy)</strong>。因此，网上有人对浅复制、深复制、单层深复制做了概念区分。</p>
+<hr />
 
-<ul>
-  <li>浅复制(shallow copy)：在浅复制操作时，对于被复制对象的每一层都是指针复制。</li>
-  <li>深复制(one-level-deep copy)：在深复制操作时，对于被复制对象，至少有一层是深复制。</li>
-  <li>完全复制(real-deep copy)：在完全复制操作时，对于被复制对象的每一层都是对象复制。</li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/JakeWharton/butterknife">ButterKnife</a></td>
+      <td>将Android视图和回调方法绑定到字段和方法上</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/google/dagger">Dagger2</a></td>
+      <td>一个Android和java快速依赖注射器。</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/excilys/androidannotations">AndroidAnotations</a></td>
+      <td>快速安卓开发。易于维护</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/roboguice/roboguice">RoboGuice</a></td>
+      <td>Android平台的Google Guice</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>当然，这些都是概念性的东西，没有必要纠结于此。只要知道进行拷贝操作时，被拷贝的是指针还是内容即可。</p>
+<h3 id="section-7">8. 图表</h3>
 
-<h3 id="copymutablecopy">系统对象的copy与mutableCopy方法</h3>
+<hr />
 
-<p>不管是集合类对象，还是非集合类对象，接收到copy和mutableCopy消息时，都遵循以下准则：</p>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/diogobernardino/WilliamChart">WilliamChart</a></td>
+      <td>创建图表的Android库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/lecho/hellocharts-android">HelloCharts</a></td>
+      <td>兼容到API8的Android图表库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a></td>
+      <td>一个强大的Android图表视图/图形库</td>
+    </tr>
+  </tbody>
+</table>
 
-<ul>
-  <li>copy返回imutable对象；所以，如果对copy返回值使用mutable对象接口就会crash；</li>
-  <li>mutableCopy返回mutable对象；</li>
-</ul>
+<h3 id="section-8">9. 后台处理</h3>
 
-<p>下面将针对非集合类对象和集合类对象的copy和mutableCopy方法进行具体的阐述</p>
+<hr />
 
-<h4 id="copymutablecopy-1">1、非集合类对象的copy与mutableCopy</h4>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/square/tape">Tape</a></td>
+      <td>一个轻快的，事务性的，基于文件的FIFO的库</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/yigit/android-priority-jobqueue">Android Priority Job Queue</a></td>
+      <td>一个专门为Android轻松调度任务的工作队列</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>系统非集合类对象指的是 NSString, NSNumber … 之类的对象。下面先看个非集合类immutable对象拷贝的例子</p>
+<h3 id="section-9">10. 事件总线</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSString *string = @"origin";
-NSString *stringCopy = [string copy];
-NSMutableString *stringMCopy = [string mutableCopy];
-</code></pre>
-</div>
-<p>通过查看内存，可以看到 stringCopy 和 string 的地址是一样，进行了指针拷贝；而 stringMCopy 的地址和 string 不一样，进行了内容拷贝；</p>
+<hr />
 
-<p>再看mutable对象拷贝例子</p>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/greenrobot/EventBus">EventBus</a></td>
+      <td>安卓优化的事件总线，简化了活动、片段、线程、服务等的通信</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/square/otto">Otto</a></td>
+      <td>一个基于Guava的增强的事件总线</td>
+    </tr>
+  </tbody>
+</table>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSMutableString *string = [NSMutableString stringWithString: @"origin"];
-//copy
-NSString *stringCopy = [string copy];
-NSMutableString *mStringCopy = [string copy];
-NSMutableString *stringMCopy = [string mutableCopy];
-//change value
-[mStringCopy appendString:@"mm"]; //crash
-[string appendString:@" origion!"];
-[stringMCopy appendString:@"!!"];
-</code></pre>
-</div>
+<h3 id="section-10">11. 响应式编程</h3>
 
-<p>运行以上代码，会在第7行crash，原因就是 copy 返回的对象是 immutable 对象。注释第7行后再运行，查看内存，发现 string、stringCopy、mStringCopy、stringMCopy 四个对象的内存地址都不一样，说明此时都是做内容拷贝。</p>
+<hr />
 
-<p>综上两个例子，我们可以得出结论：</p>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/ReactiveX/RxJava">RxJava</a></td>
+      <td>JVM上的响应式扩展</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/ReactiveX/RxJavaJoins">RxJavaJoins</a></td>
+      <td>为RxJava提供Joins操作</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/ReactiveX/RxAndroid">RxAndroid</a></td>
+      <td>Android上的响应式扩展，在RxJava基础上添加了Android线程调度</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/JakeWharton/RxBinding">RxBinding</a></td>
+      <td>提供用RxJava绑定Android UI的API</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/google/agera">Agera</a></td>
+      <td>Android上的响应式编程</td>
+    </tr>
+  </tbody>
+</table>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>在非集合类对象中：对immutable对象进行copy操作，是指针复制，mutableCopy操作时内容复制；对mutable对象进行copy和mutableCopy都是内容复制。用代码简单表示如下：
+<h3 id="log">12. Log框架</h3>
 
-[immutableObject copy] // 浅复制
-[immutableObject mutableCopy] //深复制
-[mutableObject copy] //深复制
-[mutableObject mutableCopy] //深复制
-</code></pre>
-</div>
+<hr />
 
-<h4 id="copymutablecopy-2">2、集合类对象的copy与mutableCopy</h4>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/orhanobut/logger">Logger</a></td>
+      <td>简单，漂亮，强大的Android日志工具</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/JakeWharton/hugo">Hugo</a></td>
+      <td>在调试版本上注解的触发方法进行日志记录</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/JakeWharton/timber">Timber</a></td>
+      <td>一个小的，可扩展的日志工具</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>集合类对象是指NSArray、NSDictionary、NSSet … 之类的对象。下面先看集合类immutable对象使用copy和mutableCopy的一个例子：</p>
+<h3 id="section-11">13. 测试框架</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSArray *array = @[@[@"a", @"b"], @[@"c", @"d"];
-NSArray *copyArray = [array copy];
-NSMutableArray *mCopyArray = [array mutableCopy];
-</code></pre>
-</div>
-<p>查看内容，可以看到copyArray和array的地址是一样的，而mCopyArray和array的地址是不同的。说明copy操作进行了指针拷贝，mutableCopy进行了内容拷贝。但需要强调的是：此处的内容拷贝，仅仅是拷贝array这个对象，array集合内部的元素仍然是指针拷贝。这和上面的非集合immutable对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看mutable对象拷贝的例子：</p>
+<hr />
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString stringWithString:@"a"],@"b",@"c",nil];
-NSArray *copyArray = [array copy];
-NSMutableArray *mCopyArray = [array mutableCopy];
-</code></pre>
-</div>
-<p>查看内存，如我们所料，copyArray、mCopyArray和array的内存地址都不一样，说明copyArray、mCopyArray都对array进行了内容拷贝。同样，我们可以得出结论：</p>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/mockito/mockito">Mockito</a></td>
+      <td>Java编写的Mocking单元测试框架</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/RobotiumTech/robotium">Robotium</a></td>
+      <td>Android UI 测试</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/xtremelabs/robolectric">Robolectric</a></td>
+      <td>Android单元测试框架</td>
+    </tr>
+  </tbody>
+</table>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>在集合类对象中，对immutable对象进行copy，是指针复制，mutableCopy是内容复制；对mutable对象进行copy和mutableCopy都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：
+<p><strong>Android自带很多测试工具：JUnit，Monkeyrunner，UiAutomator，Espresso等</strong></p>
 
-[immutableObject copy] // 浅复制
-[immutableObject mutableCopy] //单层深复制
-[mutableObject copy] //单层深复制
-[mutableObject mutableCopy] //单层深复制
-</code></pre>
-</div>
-<p>这个代码结论和非集合类的非常相似。</p>
+<h3 id="section-12">14. 调试框架</h3>
 
-<p>这时候，是不是有人要问了，如果要对集合对象复制元素怎么办？有这疑问的同学不妨回头看看<strong>集合的深复制</strong>。</p>
+<hr />
 
-<p>好了，深复制与浅复制就讲到这里。</p>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/facebook/stetho">Stetho</a></td>
+      <td>调试Android应用的桥梁，使得可以利用Chrome开发者工具进行调试</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>最后说个题外的东西，在搜集资料的过程中，发现一个有可能犯错的点</p>
+<h3 id="section-13">15. 性能优化</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSString *str = @"string";
-str = @"newString";
-</code></pre>
-</div>
+<hr />
 
-<p>上面这段代码，在执行第二行代码后，内存地址发生了变化。乍一看，有点意外。按照 C 语言的经验，初始化一个字符串之后，字符串的首地址就被确定下来，不管之后如何修改字符串内容，这个地址都不会改变。但此处第二行并不是对 str 指向的内存地址重新赋值，因为赋值操作符左边的 str 是一个指针，也就是说此处修改的是内存地址。</p>
+<table>
+  <tbody>
+    <tr>
+      <td><strong>名称</strong></td>
+      <td><strong>描述</strong></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/square/leakcanary">LeakCanary</a></td>
+      <td>内存泄漏检测工具</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/ACRA/acra">ACRA</a></td>
+      <td>Android应用程序崩溃报告</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>所以第二行应该这样理解：将@”newStirng”当做一个新的对象，将这段对象的内存地址赋值给str。</p>
-
-<p>我有如下的两个方法查看内存地址</p>
-
-<ul>
-  <li><code class="highlighter-rouge">p str</code>会打印对象本身的内存地址和对象内容</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>(lldb) p str
-(NSString *) $0 = 0x000000010c913680 @"a"
-</code></pre>
-</div>
-<ul>
-  <li><code class="highlighter-rouge">po &amp;str</code> 则打印的是引用对象的指针所在的地址</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>(lldb) po &amp;str
-0x00007fff532fb6c0
-</code></pre>
-</div>
 
 
                 <hr>
@@ -373,19 +598,12 @@ str = @"newString";
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/06/15/ios_pod_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 第三方库管理工具">
+                        <a href="/2016/06/16/ios_copy_introduction/" data-toggle="tooltip" data-placement="top" title="ios 进阶篇">
                         Previous<br>
-                        <span>IOS 第三方库管理工具</span>
+                        <span>ios 进阶篇</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/06/17/android_frame_introduction/" data-toggle="tooltip" data-placement="top" title="Android 快速开发库">
-                        Next<br>
-                        <span>Android 快速开发库</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -522,8 +740,8 @@ str = @"newString";
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/06/16/ios_copy_introduction";
-    var disqus_url = "http://DavidWangTM.github.io/2016/06/16/ios_copy_introduction/";
+    var disqus_identifier = "/2016/06/17/android_frame_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/17/android_frame_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

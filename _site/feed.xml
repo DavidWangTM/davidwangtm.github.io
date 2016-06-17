@@ -5,9 +5,414 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 16 Jun 2016 09:55:54 +0800</pubDate>
-    <lastBuildDate>Thu, 16 Jun 2016 09:55:54 +0800</lastBuildDate>
+    <pubDate>Fri, 17 Jun 2016 22:21:33 +0800</pubDate>
+    <lastBuildDate>Fri, 17 Jun 2016 22:21:33 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Android 快速开发库</title>
+        <description>&lt;h3 id=&quot;section&quot;&gt;1. 缓存&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/JakeWharton/DiskLruCache&quot;&gt;DiskLruCache&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Java实现基于LRU的磁盘缓存&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;2.图片加载&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/nostra13/Android-Universal-Image-Loader&quot;&gt;Android Universal Image Loader&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个强大的加载，缓存，展示图片的库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/square/picasso&quot;&gt;Picasso&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个强大的图片下载与缓存的库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/facebook/fresco&quot;&gt;Fresco&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个用于管理图像和他们使用的内存的库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/bumptech/glide&quot;&gt;Glide&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个图片加载和缓存的库&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;3. 图片处理&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/wasabeef/picasso-transformations&quot;&gt;Picasso-transformations&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个为Picasso提供多种图片变换的库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/wasabeef/glide-transformations&quot;&gt;Glide-transformations&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个为Glide提供多种图片变换的库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/CyberAgent/android-gpuimage&quot;&gt;Android-gpuimage&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;基于OpenGL的Android过滤器&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;4. 网络请求&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/loopj/android-async-http&quot;&gt;Android Async HTTP&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Android异步HTTP库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/koush/AndroidAsync&quot;&gt;AndroidAsync&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;异步Socket，HTTP(客户端+服务器)，WebSocket，和socket.io库。基于NIO而不是线程。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/square/okhttp&quot;&gt;OkHttp&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个Http与Http/2的客户端&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/square/retrofit&quot;&gt;Retrofit&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;类型安全的Http客户端&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://android.googlesource.com/platform/frameworks/volley&quot;&gt;Volley&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Google推出的Android异步网络请求框架和图片加载框架&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;5. 网络解析&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/google/gson&quot;&gt;Gson	&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个Java序列化/反序列化库，可以将JSON和java对象互相转换&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/codehaus/jackson&quot;&gt;Jackson&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Jackson可以轻松地将Java对象转换成json对象和xml文档，同样也可以将json、xml转换成Java对象&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/alibaba/fastjson&quot;&gt;Fastjson&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Java上一个快速的JSON解析器/生成器&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://sourceforge.net/projects/htmlparser/&quot;&gt;HtmlPaser&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一种用来解析单个独立html或嵌套html的方式&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/jhy/jsoup&quot;&gt;Jsoup&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个以最好的DOM，CSS和jQuery解析html的库&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;6. 数据库&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://sourceforge.net/projects/ormlite/files/releases/com/j256/ormlite/&quot;&gt;OrmLite&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;JDBC和Android的轻量级ORM java包&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/satyan/sugar&quot;&gt;Sugar&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;用超级简单的方法处理Android数据库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/greenrobot/greenDAO&quot;&gt;GreenDAO&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一种轻快地将对象映射到SQLite数据库的ORM解决方案&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/pardom/ActiveAndroid&quot;&gt;ActiveAndroid&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;以活动记录方式为Android SQLite提供持久化&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/square/sqlbrite&quot;&gt;SQLBrite&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;SQLiteOpenHelper 和ContentResolver的轻量级包装&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/jhy/jsoup&quot;&gt;Realm&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;移动数据库：一个SQLite和ORM的替换品&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;7. 依赖注入&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/JakeWharton/butterknife&quot;&gt;ButterKnife&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;将Android视图和回调方法绑定到字段和方法上&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/google/dagger&quot;&gt;Dagger2&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个Android和java快速依赖注射器。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/excilys/androidannotations&quot;&gt;AndroidAnotations&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;快速安卓开发。易于维护&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/roboguice/roboguice&quot;&gt;RoboGuice&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Android平台的Google Guice&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-7&quot;&gt;8. 图表&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/diogobernardino/WilliamChart&quot;&gt;WilliamChart&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;创建图表的Android库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/lecho/hellocharts-android&quot;&gt;HelloCharts&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;兼容到API8的Android图表库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/PhilJay/MPAndroidChart&quot;&gt;MPAndroidChart&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个强大的Android图表视图/图形库&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-8&quot;&gt;9. 后台处理&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/square/tape&quot;&gt;Tape&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个轻快的，事务性的，基于文件的FIFO的库&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/yigit/android-priority-jobqueue&quot;&gt;Android Priority Job Queue&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个专门为Android轻松调度任务的工作队列&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-9&quot;&gt;10. 事件总线&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/greenrobot/EventBus&quot;&gt;EventBus&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;安卓优化的事件总线，简化了活动、片段、线程、服务等的通信&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/square/otto&quot;&gt;Otto&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个基于Guava的增强的事件总线&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-10&quot;&gt;11. 响应式编程&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/ReactiveX/RxJava&quot;&gt;RxJava&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;JVM上的响应式扩展&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/ReactiveX/RxJavaJoins&quot;&gt;RxJavaJoins&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;为RxJava提供Joins操作&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/ReactiveX/RxAndroid&quot;&gt;RxAndroid&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Android上的响应式扩展，在RxJava基础上添加了Android线程调度&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/JakeWharton/RxBinding&quot;&gt;RxBinding&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;提供用RxJava绑定Android UI的API&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/google/agera&quot;&gt;Agera&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Android上的响应式编程&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;log&quot;&gt;12. Log框架&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/orhanobut/logger&quot;&gt;Logger&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;简单，漂亮，强大的Android日志工具&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/JakeWharton/hugo&quot;&gt;Hugo&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;在调试版本上注解的触发方法进行日志记录&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/JakeWharton/timber&quot;&gt;Timber&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;一个小的，可扩展的日志工具&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-11&quot;&gt;13. 测试框架&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/mockito/mockito&quot;&gt;Mockito&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Java编写的Mocking单元测试框架&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/RobotiumTech/robotium&quot;&gt;Robotium&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Android UI 测试&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/xtremelabs/robolectric&quot;&gt;Robolectric&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Android单元测试框架&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;Android自带很多测试工具：JUnit，Monkeyrunner，UiAutomator，Espresso等&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-12&quot;&gt;14. 调试框架&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/facebook/stetho&quot;&gt;Stetho&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;调试Android应用的桥梁，使得可以利用Chrome开发者工具进行调试&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-13&quot;&gt;15. 性能优化&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;名称&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;strong&gt;描述&lt;/strong&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/square/leakcanary&quot;&gt;LeakCanary&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;内存泄漏检测工具&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/ACRA/acra&quot;&gt;ACRA&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;Android应用程序崩溃报告&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+</description>
+        <pubDate>Fri, 17 Jun 2016 17:30:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/17/android_frame_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/17/android_frame_introduction/</guid>
+        
+        <category>Android</category>
+        
+        
+      </item>
     
       <item>
         <title>ios 进阶篇</title>
@@ -2930,211 +3335,6 @@ public class GroupLeader extends Leader {
         <pubDate>Wed, 08 Jun 2016 15:30:00 +0800</pubDate>
         <link>http://DavidWangTM.github.io/2016/06/08/android_responsibility_introduction/</link>
         <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/08/android_responsibility_introduction/</guid>
-        
-        <category>Android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Android 设计模式分析七</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;1. 模式介绍&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;模式的定义&lt;/h3&gt;
-
-&lt;p&gt;迭代器（Iterator）模式，又叫做游标（Cursor）模式。GOF给出的定义为：提供一种方法访问一个容器（container）对象中各个元素，而又不需暴露该对象的内部细节。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;模式的使用场景&lt;/h3&gt;
-&lt;p&gt;　　Java JDK 1.2 版开始支持迭代器。每一个迭代器提供next()以及hasNext()方法，同时也支持remove()(1.8的时候remove已经成为default throw new UnsupportedOperationException(“remove”))。对Android来说,集合Collection实现了Iterable接口,就是说,无论是List的一大家子还是Map的一大家子,我们都可以使用Iterator来遍历里面的元素,&lt;a href=&quot;http://docs.oracle.com/javase/8/docs/api/java/util/package-tree.html&quot;&gt;可以使用Iterator的集合&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;uml&quot;&gt;2. UML类图&lt;/h2&gt;
-&lt;p&gt;　　　
-&lt;img src=&quot;/img/in-post/android_introduction/android_Iterator_UML_class_diagram.svg.png&quot; alt=&quot;iterator&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;角色介绍　　&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;迭代器接口Iterator：该接口必须定义实现迭代功能的最小定义方法集比如提供hasNext()和next()方法。&lt;/li&gt;
-  &lt;li&gt;迭代器实现类：迭代器接口Iterator的实现类。可以根据具体情况加以实现。&lt;/li&gt;
-  &lt;li&gt;容器接口：定义基本功能以及提供类似Iterator iterator()的方法。&lt;/li&gt;
-  &lt;li&gt;容器实现类：容器接口的实现类。必须实现Iterator iterator()方法。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;section-4&quot;&gt;3. 模式的简单实现&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-5&quot;&gt;简单实现的介绍&lt;/h3&gt;
-
-&lt;p&gt;我们有一个数组,对其遍历的过程我们希望使用者像ArrayList一样的使用,我们就可以用过iterator来实现.&lt;/p&gt;
-
-&lt;h3 id=&quot;section-6&quot;&gt;实现源码&lt;/h3&gt;
-
-&lt;p&gt;下面我们自己实现一个Iterator的集合&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public Iterator&amp;lt;Mileage&amp;gt; iterator() {
-    return new ArrayIterator();
-}
-
-private class ArrayIterator implements Iterator&amp;lt;Mileage&amp;gt; {
-/**
- * Number of elements remaining in this iteration
- */
-private int remaining = size;
-
-/**
- * Index of element that remove() would remove, or -1 if no such elt
- */
-private int removalIndex = -1;
-
-@Override
-public boolean hasNext() {
-    return remaining != 0;
-}
-
-@Override
-public Mileage next() {
-    Mileage mileage = new Mileage();
-    removalIndex = size-remaining;
-    mileage.name = String.valueOf(versionCodes[removalIndex]);
-    mileage.value = versionMileages[removalIndex];
-    remaining-=1;
-    return mileage;
-}
-
-@Override
-public void remove() {
-    versionCodes[removalIndex]=-1;
-    versionMileages[removalIndex]=&quot;It was set null&quot;;
-}
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;使用的过程如下,我们特意使用了remove方法,注意这个只是一个示例,和大多数的集合相比,该实现并不严谨&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AndroidMileage androidMileage = new AndroidMileage();
-Iterator&amp;lt;AndroidMileage.Mileage&amp;gt; iterator =androidMileage.iterator();
-while (iterator.hasNext()){
-    AndroidMileage.Mileage mileage = iterator.next();
-    if(mileage.name.equalsIgnoreCase(&quot;16&quot;)){
-    	//remove掉的是当前的这个,暂时只是置空,并未真的移掉
-        iterator.remove();
-    }
-    Log.e(&quot;mileage&quot;,mileage.toString());
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;下面直接写出几种集合的遍历方式,大家可以对比一下&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;HashMap的遍历&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HashMap&amp;lt;String, String&amp;gt; colorMap=new HashMap&amp;lt;&amp;gt;();
-colorMap.put(&quot;Color1&quot;,&quot;Red&quot;);
-colorMap.put(&quot;Color2&quot;,&quot;Blue&quot;);
-Iterator iterator = colorMap.keySet().iterator();
-while( iterator. hasNext() ){
-    String key = (String) iterator.next();
-    String value = colorMap.get(key);
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;JSONObject的遍历&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;String paramString = &quot;{menu:{\&quot;1\&quot;:\&quot;sql\&quot;, \&quot;2\&quot;:\&quot;android\&quot;, \&quot;3\&quot;:\&quot;mvc\&quot;}}&quot;;
-JSONObject menuJSONObj  = new JSONObject(paramString);
-JSONObject  menuObj = menuJSONObj.getJSONObject(&quot;menu&quot;);
-Iterator iter = menuObj.keys();
-while(iter.hasNext()){
-    String key = (String)iter.next();
-    String value = menuObj.getString(key);
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;就目前而言，各种高级语言都有对迭代器的基本实现，没必要自己实现迭代器，使用内置的迭代器即可满足日常需求。&lt;/p&gt;
-
-&lt;h2 id=&quot;android&quot;&gt;Android源码中的模式实现&lt;/h2&gt;
-&lt;p&gt;一个集合想要实现Iterator很是很简单的,需要注意的是每次需要重新生成一个Iterator来进行遍历.且遍历过程是单方向的,HashMap是通过一个类似HashIterator来实现的,我们为了解释简单,这里只是研究ArrayList(此处以Android L源码为例,其他版本略有不同)&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Override public Iterator&amp;lt;E&amp;gt; iterator() {
-    return new ArrayListIterator();
-}
-
-private class ArrayListIterator implements Iterator&amp;lt;E&amp;gt; {
-    /** Number of elements remaining in this iteration */
-    private int remaining = size;
-
-    /** Index of element that remove() would remove, or -1 if no such elt */
-    private int removalIndex = -1;
-
-    /** The expected modCount value */
-    private int expectedModCount = modCount;
-
-    public boolean hasNext() {
-        return remaining != 0;
-    }
-
-    @SuppressWarnings(&quot;unchecked&quot;) public E next() {
-        ArrayList&amp;lt;E&amp;gt; ourList = ArrayList.this;
-        int rem = remaining;
-        if (ourList.modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
-        }
-        if (rem == 0) {
-            throw new NoSuchElementException();
-        }
-        remaining = rem - 1;
-        return (E) ourList.array[removalIndex = ourList.size - rem];
-    }
-
-    public void remove() {
-        Object[] a = array;
-        int removalIdx = removalIndex;
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
-        }
-        if (removalIdx &amp;lt; 0) {
-            throw new IllegalStateException();
-        }
-        System.arraycopy(a, removalIdx + 1, a, removalIdx, remaining);
-        a[--size] = null;  // Prevent memory leak
-        removalIndex = -1;
-        expectedModCount = ++modCount;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;java中的写法一般都是通过iterator()来生成Iterator,保证iterator()每次生成新的实例&lt;/li&gt;
-  &lt;li&gt;remaining初始化使用整个list的size大小,removalIndex表示remove掉的位置,modCount在集合大小发生变化的时候后都会进行一次modCount++操作,避免数据不一致,前面我写的例子这方面没有写,请务必注意这点&lt;/li&gt;
-  &lt;li&gt;hasNext方法中,因为remaining是一个size-&amp;gt;0的变化过程,这样只需要判断非0就可以得知当前遍历的是否还有未完成的元素&lt;/li&gt;
-  &lt;li&gt;next,第一次调用的时候返回array[0]的元素,这个过程中removalIndex会被设置成当前array的index&lt;/li&gt;
-  &lt;li&gt;remove的实现是直接操作的内存中的数据,是能够直接删掉元素的,不展开了&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;section-7&quot;&gt;4. 杂谈&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-8&quot;&gt;优点&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;面向对象设计原则中的单一职责原则，对于不同的功能,我们要尽可能的把这个功能分解出单一的职责，不同的类去承担不同的职责。Iterator模式就是分离了集合对象的遍历行为，抽象出一个迭代器类来负责，这样不暴露集合的内部结构，又可让外部代码透明的访问集合内部的数据。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-9&quot;&gt;缺点&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;会产生多余的对象，消耗内存；&lt;/li&gt;
-  &lt;li&gt;遍历过程是一个单向且不可逆的遍历&lt;/li&gt;
-  &lt;li&gt;如果你在遍历的过程中,集合发生改变,变多变少,内容变化都是算,就会抛出来ConcurrentModificationException异常.&lt;/li&gt;
-&lt;/ul&gt;
-
-</description>
-        <pubDate>Tue, 07 Jun 2016 15:25:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/06/07/android_iterator_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/07/android_iterator_introduction/</guid>
         
         <category>Android</category>
         
