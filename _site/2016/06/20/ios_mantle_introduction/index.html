@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 开源库讲解篇一
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/20/ios_mantle_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-e2e-ux.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#Xcode" title="Xcode">Xcode</a>
+                        
+                        <a class="tag" href="/tags/#Mantle" title="Mantle">Mantle</a>
+                        
+                    </div>
+                    <h1>IOS 开源库讲解篇一</h1>
+                    
+                    
+                    <h2 class="subheading">Mantle 源码解析</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 20, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h3 id="section">前言</h3>
+
+<p>iOS开发中，不管是哪种设计模式，Model层都是不可或缺的。而Model层的第三方库常用的库有以下几个</p>
+
+<ul>
+  <li>JSONModel</li>
+  <li>Mantle</li>
+  <li>MJExtension</li>
+</ul>
+
+<p>JSON data到对象的转换原理都差不多，一般的顺序如下</p>
+
+<ul>
+  <li>根据Runtime，动态的获取属性的类型和属性的名字，（如果需要，做一次Json的key的Mapping</li>
+  <li>创建对应的对象实例</li>
+  <li>根据KVC（NSKeyValueCoding协议）来为属性设置值</li>
+</ul>
+
+<p>Mantle就是这样的一个库，个人比较喜欢Mantle,而且在Github的Star也是提到的几个库中最多的。Mantle除了提供JSON和对象的相互转化，继承自MTLModel的对象还自动实现了</p>
+
+<ul>
+  <li><code class="highlighter-rouge">NSCopying</code></li>
+  <li><code class="highlighter-rouge">NSCoding</code></li>
+  <li><code class="highlighter-rouge">isEqual</code></li>
+  <li><code class="highlighter-rouge">hash</code></li>
+</ul>
+
+<h3 id="section-1">正文开始啦</h3>
+
+<p>如果要理解JSON到Model转化的原理，需要理解<code class="highlighter-rouge">Runtime</code>.</p>
+
+<p>下面说下<code class="highlighter-rouge">Runtime</code>的几个基础知识,以及Mantle本身</p>
+
+<h4 id="runtime">Runtime动态获取类的属性</h4>
+
+<pre><code class="language-object-c">@interface Base : NSObject
+
+@property (copy,nonatomic) NSString * basemodel;
+
+@end
+
+@interface Demo : Base
+
+@property (nonatomic,copy) NSString * name;
+@property (nonatomic,strong) NSDate * createAt;
+@property (nonatomic,assign) CGFloat num;
+
+@end
+</code></pre>
+
+<p>然后, 写一个方法来Log Model</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(void)logAllModel{
+    uint count;
+    objc_property_t * models = class_copyPropertyList(Demo.class,&amp;count);
+    @try {
+        for (int i = 0; i &lt; count ; i++) {
+            objc_property_t  model = propertys[i];
+            NSLog(@"%@",@(property_getName(model)));
+        }
+    }@finally {
+        free(models);
+    }
+}
+</code></pre>
+</div>
+<p>打印出来是：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>2016-06-20 22:05:25.773 TestModel[3276:203701] name
+2016-06-20 22:05:25.773 TestModel[3276:203701] createAt
+2016-06-20 22:05:25.773 TestModel[3276:203701] num
+</code></pre>
+</div>
+<p>不难发现<code class="highlighter-rouge">class_copyPropertyList</code>仅仅是获取了当前类的属性列表，并没有获取基类的属性对象。所以对上述方法进行修改</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(void)logAllModel{
+    Class cls = Demo.class;
+    while (![cls isEqual:NSObject.class]) {
+        uint count;
+        objc_property_t * models;
+        @try {
+            models = class_copyPropertyList(cls,&amp;count);
+            cls = cls.superclass;
+            for (int i = 0; i &lt; count ; i++) {
+                objc_property_t  model = models[i];
+                NSLog(@"%@",@(property_getName(model)));
+            }
+        }@finally {
+            free(models);
+        }
+    }
+}
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">class_copyPropertyList</code>返回一个数组，这个数字必须要手动释放，所以用<code class="highlighter-rouge">Try-Catch-Finally</code>包裹起来。</p>
+
+<h4 id="runtimeattributes">Runtime来获取属性的attributes</h4>
+
+<p>关键方法property_getAttributes，返回个一个C类型的字符串。</p>
+
+<p>我们先声明一个这样的属性</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">id</span> <span class="n">name</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>然后，打印出它的attributes信息</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSLog(@"%@",@(property_getAttributes(class_getProperty(self.class,@"name".UTF8String))));
+</code></pre>
+</div>
+<p>可以看到Log是</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>2016-06-20 22:07:25.723 TestModel[3276:203701] T@,R,C,N,V_name
+</code></pre>
+</div>
+
+<p>这里的Attributes字符串是编码后的字符串，分为三个部分</p>
+
+<ul>
+  <li><code class="highlighter-rouge">T@,T</code>表示开头，后面跟着属性的类型，<code class="highlighter-rouge">@</code>表示<code class="highlighter-rouge">id</code>类型.</li>
+  <li><code class="highlighter-rouge">Vname，V</code>表示中间部分的结束，后面跟<code class="highlighter-rouge">ivar</code>名字,自动合成呢的情况下前面加下划线.</li>
+  <li>中间R,C,N用逗号隔开，表示属性的描述，<code class="highlighter-rouge">R</code>表示<code class="highlighter-rouge">readonly</code>，<code class="highlighter-rouge">C</code>表示<code class="highlighter-rouge">Copy</code>，<code class="highlighter-rouge">N</code>表示<code class="highlighter-rouge">Nonatomic</code>.</li>
+</ul>
+
+<p><code class="highlighter-rouge">Mantle</code>和<code class="highlighter-rouge">ReactiveCocoa</code>都是采用了<a href="https://github.com/Mantle/Mantle/tree/master/Mantle/extobjc">extobjc</a>这个OC的Runtime工具类将属性的详细信息提取到一个结构体里的，原理都是一样的。提取完成的结构体是<a href="https://github.com/Mantle/Mantle/blob/master/Mantle/extobjc/EXTRuntimeExtensions.h">mtl_propertyAttributes</a></p>
+
+<h4 id="matnle">Matnle的类的组织架构</h4>
+
+<p>按照文件的方式，</p>
+
+<ul>
+  <li><a href="https://github.com/Mantle/Mantle/blob/master/Mantle/MTLJSONAdapter.h">MTLJSONAdapter.h</a>,定义了协议<code class="highlighter-rouge">MTLJSONSerializing</code>和适配器类<code class="highlighter-rouge">MTLJSONAdapter</code>,这两个协议/类定义了接口来实现<code class="highlighter-rouge">JSON-MTLModel</code>的转换。</li>
+  <li><a href="https://github.com/Mantle/Mantle/blob/master/Mantle/MTLModel.h">MTLModel.h</a>，定义了协议MTLModel和基类MTLModel，基类MTLModel实现了<code class="highlighter-rouge">isEqual,NSCopying</code>和<code class="highlighter-rouge">hash</code>几个方法。</li>
+  <li><a href="https://github.com/Mantle/Mantle/blob/master/Mantle/MTLModel%2BNSCoding.h">MTLModel+NSCoding.h</a>,MTLModel的类别，让其支持NSCoding协议</li>
+  <li><a href="https://github.com/Mantle/Mantle/blob/master/Mantle/MTLValueTransformer.h">MTLValueTransformer.h</a>，<code class="highlighter-rouge">NSValueTransformer</code>的子类，定义了将一个value转变成另一个value的接口。例如，返回的一个<code class="highlighter-rouge">2020-01-01T15:33:30</code>字符串，利用转换block转换成<code class="highlighter-rouge">NSDate</code>.</li>
+  <li>其它的都是工具类，提供工具方法，不全列出来了。</li>
+</ul>
+
+<h4 id="json-">JSON-&gt;对象的处理过程</h4>
+
+<p>以下面代码调用为例（为了看起来不那么臃肿，省略不必要的代码）</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Demo * demo = [MTLJSONAdapter modelOfClass:[Demo class] fromJSONDictionary:json error:&amp;error];
+</code></pre>
+</div>
+
+<p>看看这个方法的具体实现，就知道分为两个大的过程</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>+ (id)modelOfClass:(Class)modelClass fromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+    //1.根据modelClass初始化一个adapter
+    MTLJSONAdapter *adapter = [[self alloc] initWithModelClass:modelClass];
+    //2.adapter解析实际的JSON数据
+    return [adapter modelFromJSONDictionary:JSONDictionary error:error];
+}
+</code></pre>
+</div>
+
+<p>现在看看整个第一大步，<a href="https://github.com/Mantle/Mantle/blob/master/Mantle/MTLJSONAdapter.m">initWithModelClass</a>，Mantle做了什么，</p>
+
+<h5 id="modelclass">1.1，断言检查，并保存modelClass</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">NSParameterAssert</span><span class="p">(</span><span class="n">modelClass</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">);</span>
+<span class="n">NSParameterAssert</span><span class="p">([</span><span class="n">modelClass</span> <span class="nf">conformsToProtocol</span><span class="p">:</span><span class="k">@protocol</span><span class="err">(</span><span class="nc">MTLJSONSerializing</span><span class="p">)]);</span>
+    <span class="c1">//...
+</span><span class="n">_modelClass</span> <span class="o">=</span> <span class="n">modelClass</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<h5 id="mtljsonserialingjsonkeypathsbypropertykey-json-key">1.2,获取所有的属性名字，获取MTLJSONSerialing中JSONKeyPathsByPropertyKey方法提供的属性名字-&gt;JSON key的映射，并进行合法性检查</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  //属性名－&gt;JSON key的映射
+    JSONKeyPathsByPropertyKey = [modelClass JSONKeyPathsByPropertyKey];
+    //所有的属性集合
+    NSSet *propertyKeys = [self.modelClass propertyKeys];
+    //每一个属性进行检查
+    for (NSString *mappedPropertyKey in _JSONKeyPathsByPropertyKey) {
+        //检查属性名－&gt;JSON Key映射的属性名是否合法
+        if (![propertyKeys containsObject:mappedPropertyKey]) {
+            NSAssert(NO, @"%@ is not a property of %@.", mappedPropertyKey, modelClass);
+            return nil;
+        }
+        //获取对应的JSON key
+        id value = _JSONKeyPathsByPropertyKey[mappedPropertyKey];
+        //如果是Array（支持JSON key是Array）
+        if ([value isKindOfClass:NSArray.class]) {
+            //Array中的每一个Key必须是String类型
+            for (NSString *keyPath in value) {
+                if ([keyPath isKindOfClass:NSString.class]) continue;
+
+                NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.", mappedPropertyKey, value);
+                return nil;
+            }
+        } else if (![value isKindOfClass:NSString.class]) {
+            //检查JSON key是否时Array类型
+            NSAssert(NO, @"%@ must either map to a JSON key path or a JSON array of key paths, got: %@.",mappedPropertyKey, value);
+            return nil;
+        }
+    }
+</code></pre>
+</div>
+
+<h5 id="nsvaluetransformerjson2015-10-01t131515nsdate">1.3 获取所有的NSValueTransformer,来方便做值转换（例如：服务器JSON返回的是2015-10-01T13:15:15,转换成NSDate）</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>_valueTransformersByPropertyKey = [self.class valueTransformersForModelClass:modelClass];
+</code></pre>
+</div>
+
+<p>用过Mantle的都知道，mantle利用”属性名+JSONTransformer”的方法名字来提供NSValueTransformer, 
+这里Mantle用了一些Runtime稍微高级点的东西，所以这个方法我会详细讲解</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nf">valueTransformersForModelClass</span><span class="p">:(</span><span class="n">Class</span><span class="p">)</span><span class="nv">modelClass</span> <span class="p">{</span>
+    <span class="c1">//...
+</span>    <span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">key</span> <span class="k">in</span> <span class="p">[</span><span class="n">modelClass</span> <span class="nf">propertyKeys</span><span class="p">])</span> <span class="p">{</span><span class="c1">//对每一个key检查NSValueTransformer
+</span>        <span class="c1">//根据属性名字＋JSONTransformer来合成一个Selector
+</span>        <span class="n">SEL</span> <span class="n">selector</span> <span class="o">=</span> <span class="n">MTLSelectorWithKeyPattern</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">"JSONTransformer"</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">modelClass</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="n">selector</span><span class="p">])</span> <span class="p">{</span><span class="c1">//如果提供了Transformer方法
+</span>            <span class="c1">//获取IMP指针，也就是实际方法的执行体
+</span>            <span class="n">IMP</span> <span class="n">imp</span> <span class="o">=</span> <span class="p">[</span><span class="n">modelClass</span> <span class="nf">methodForSelector</span><span class="p">:</span><span class="n">selector</span><span class="p">];</span>
+            <span class="c1">//OC方法转换为C方法的时候，前两个参数是_cmd,和SEL，所以，这里做一个强制转化，方便下一行执行
+</span>            <span class="n">NSValueTransformer</span> <span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">function</span><span class="p">)(</span><span class="n">id</span><span class="p">,</span> <span class="n">SEL</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">__typeof__</span><span class="p">(</span><span class="n">function</span><span class="p">))</span><span class="n">imp</span><span class="p">;</span>
+            <span class="c1">//获取transformer，保存到Dictionary
+</span>            <span class="n">NSValueTransformer</span> <span class="o">*</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">modelClass</span><span class="p">,</span> <span class="n">selector</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">transformer</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="n">result</span><span class="p">[</span><span class="nf">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">;</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">//检查是否通过协议方法JSONTransformerForKey来提供NSValueTransformer
+</span>        <span class="k">if</span> <span class="p">([</span><span class="n">modelClass</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">JSONTransformerForKey</span><span class="p">:)])</span> <span class="p">{</span>
+            <span class="c1">//...
+</span>        <span class="p">}</span>
+        <span class="c1">//把一个属性的类型，关键字，属性名字提取到一个结构体中
+</span>        <span class="n">objc_property_t</span> <span class="n">property</span> <span class="o">=</span> <span class="n">class_getProperty</span><span class="p">(</span><span class="n">modelClass</span><span class="p">,</span> <span class="n">key</span><span class="p">.</span><span class="n">UTF8String</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">property</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+        <span class="n">mtl_propertyAttributes</span> <span class="o">*</span><span class="n">attributes</span> <span class="o">=</span> <span class="n">mtl_copyPropertyAttributes</span><span class="p">(</span><span class="n">property</span><span class="p">);</span>
+        <span class="err">@onExit</span> <span class="p">{</span>
+            <span class="n">free</span><span class="p">(</span><span class="n">attributes</span><span class="p">);</span>
+        <span class="p">};</span>
+        <span class="n">NSValueTransformer</span> <span class="o">*</span><span class="n">transformer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="c1">//如果某一个属性是id类型
+</span>        <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">attributes</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">)</span> <span class="o">==</span> <span class="o">*</span><span class="p">(</span><span class="k">@encode</span><span class="p">(</span><span class="n">id</span><span class="p">)))</span> <span class="p">{</span>
+            <span class="c1">//获得该属性的实际类名
+</span>            <span class="n">Class</span> <span class="n">propertyClass</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">-&gt;</span><span class="n">objectClass</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">propertyClass</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">//获取该类名型提供的NSValueTransformer,即类是否提供了keyJSONTransformer方法
+</span>                <span class="n">transformer</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">transformerForModelPropertiesOfClass</span><span class="p">:</span><span class="n">propertyClass</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="c1">//如果该类型也是一个MTLModel，并且实现了MTLJSONSerializing，获取该对象的NSValueTransformer,也就是保证了在MTLModel的一个属性也是一个MTLModel的时候能够正常工作
+</span>            <span class="k">if</span> <span class="p">(</span><span class="nb">nil</span> <span class="o">==</span> <span class="n">transformer</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">propertyClass</span> <span class="nf">conformsToProtocol</span><span class="p">:</span><span class="k">@protocol</span><span class="err">(</span><span class="nc">MTLJSONSerializing</span><span class="p">)])</span> <span class="p">{</span>
+                <span class="n">transformer</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">dictionaryTransformerWithModelClass</span><span class="p">:</span><span class="n">propertyClass</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="c1">//如果仍然没有获取到transformer，验证对于modalClass是否可转换
+</span>            <span class="k">if</span> <span class="p">(</span><span class="n">transformer</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="n">transformer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSValueTransformer</span> <span class="nf">mtl_validatingTransformerForClass</span><span class="p">:</span><span class="n">propertyClass</span> <span class="p">?:</span> <span class="n">NSObject</span><span class="p">.</span><span class="n">class</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">//不是ID类型，则是值类型的transformer
+</span>            <span class="n">transformer</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">transformerForModelPropertiesOfObjCType</span><span class="p">:</span><span class="n">attributes</span><span class="o">-&gt;</span><span class="n">type</span><span class="p">]</span> <span class="p">?:</span> <span class="p">[</span><span class="n">NSValueTransformer</span> <span class="nf">mtl_validatingTransformerForClass</span><span class="p">:</span><span class="n">NSValue</span><span class="p">.</span><span class="n">class</span><span class="p">];</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">transformer</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">)</span> <span class="n">result</span><span class="p">[</span><span class="nf">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>再看看第二大步，Adapter如何解析JSON 
+即这个方法</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (id)modelFromJSONDictionary:(NSDictionary *)JSONDictionary error:(NSError **)error {
+//...
+}
+</code></pre>
+</div>
+
+<h5 id="jsonjson">2.1，检查是否实现了聚类方式解析JSON，例如解析这样的JSON</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[
+    {
+        "key1":"value1",
+        "key2":"value2"
+    },
+    {
+        "key3":"value3",
+        "key4":"value4"
+
+    }
+]
+</code></pre>
+</div>
+
+<p>对应代码块</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> if ([self.modelClass respondsToSelector:@selector(classForParsingJSONDictionary:)]) {
+        //...
+    }
+</code></pre>
+</div>
+
+<h5 id="propertypropertykeyjson-keyjson-key-mtlvalueforjsonkeypathsuccesserrorhttpsgithubcommantlemantleblobmastermantlensdictionary2bmtljsonkeypathm">2.2，对于每一个Property的名字，即propertyKey，获取对应的JSON key。根据JSON key 来获取对应的值，主要掉用<a href="https://github.com/Mantle/Mantle/blob/master/Mantle/NSDictionary%2BMTLJSONKeyPath.m">mtl_valueForJSONKeyPath:success:error:</a></h5>
+
+<p>这个方法很简单，比如对应json的keyPath是person.name.first 
+先分解成person,name,first,然后一层一层的获取json[person][name][first],只不过Mantle在解析的时候，用了个for循环，来给用户反馈，到底错误在哪里。个人感觉用以下两个KVC的方法更简洁一点</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//验证是否可用KVC
+- validateValue:forKeyPath:error:
+//用KVC来获取值
+- valueForKeyPath:
+</code></pre>
+</div>
+
+<h5 id="nsvaluetransformernsvaluetransformer">2.3，对于2.2种，获取到的值，利用1.3的NSValueTransformer进行转换，这里只知道NSValueTransformer能够把一个值转换成另一个值就行了，后面会详细讲解如何转换的。</h5>
+
+<p><code class="highlighter-rouge">Tips: 
+这里要提到的是，Mantle采用了条件编译方式来处理异常，即debug模式下会抛出异常给开发者，但是release模式下，不会崩溃</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#if DEBUG
+    @throw ex;
+#else
+    //...           
+#endif
+
+</code></pre>
+</div>
+
+<h5 id="keykvckvc">2.4 根据以上三步得到的值字典，对每一个key利用KVC进行设置值，KVC设置值之前，调用</h5>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[obj validateValue:&amp;validatedValue forKey:key error:error]
+</code></pre>
+</div>
+<p>来验证是否可以KVC</p>
+
+<h4 id="nsvaluetransformer">NSValueTransformer</h4>
+
+<p><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSValueTransformer_Class/">官方文档</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSValueTranformer是一个抽象的基类，利用Cocoa Bindings技术来进行值的相互转换
+</code></pre>
+</div>
+
+<p>既然是一个抽象基类，那么使用的时候要继承这个基类，然后实现必要的方法，从而才能进行相应的值转换。</p>
+
+<p>例如,实现一个简单的NSDate&lt;-&gt;NSString转换的Transformer</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">LHValueTransformer</span> <span class="p">:</span> <span class="nc">NSValueTransformer</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">LHValueTransformer</span>
+
+<span class="k">+</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">allowsReverseTransformation</span><span class="p">{</span>
+    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">+</span><span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="n">transformedValueClass</span><span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">class</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="o">-</span><span class="p">(</span><span class="n">NSDateFormatter</span> <span class="o">*</span><span class="p">)</span><span class="n">dateFormatter</span><span class="p">{</span>
+    <span class="n">NSDateFormatter</span> <span class="o">*</span> <span class="n">formatter</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDateFormatter</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">formatter</span><span class="p">.</span><span class="n">dateFormat</span> <span class="o">=</span> <span class="s">@"yyyy-MM-dd HH:mm:ss"</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">formatter</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">-</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">transformedValue</span><span class="o">:</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">value</span><span class="p">{</span>
+    <span class="n">NSAssert</span><span class="p">([</span><span class="n">value</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">NSDate</span> <span class="nf">class</span><span class="p">]],</span> <span class="s">@"Should a NSDate value"</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">[[</span><span class="n">self</span> <span class="nf">dateFormatter</span><span class="p">]</span> <span class="nf">stringFromDate</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="o">-</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">reverseTransformedValue</span><span class="o">:</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">value</span><span class="p">{</span>
+    <span class="n">NSAssert</span><span class="p">([</span><span class="n">value</span> <span class="nf">isKindOfClass</span><span class="p">:[</span><span class="n">NSString</span> <span class="nf">class</span><span class="p">]],</span> <span class="s">@"Should be a NSString value"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="n">self</span> <span class="nf">dateFormatter</span><span class="p">]</span> <span class="nf">dateFromString</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>然后，这样掉用</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSValueTransformer * trans = [[LHValueTransformer alloc] init];
+
+    NSDate * date = [NSDate date];
+    NSString * str = [trans transformedValue:date];
+    NSDate * date2 = [trans reverseTransformedValue:str];
+</code></pre>
+</div>
+
+<p>MTLValueTransformer就是这样的一个子类，只不过它提供了正反两个转换的block作为接口。</p>
+
+<h4 id="isequalnscopyinghash">isEqual，NSCopying，hash</h4>
+
+<p>实现NSCopying和hash很简单，就是基类根据Runtime动态的获取所有的属性，然后对应的进行操作就可以了</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#pragma mark NSCopying
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    MTLModel *copy = [[self.class allocWithZone:zone] init];
+    [copy setValuesForKeysWithDictionary:self.dictionaryValue];
+    return copy;
+}
+
+#pragma mark NSObject
+
+- (NSString *)description {
+    NSDictionary *permanentProperties = [self dictionaryWithValuesForKeys:self.class.permanentPropertyKeys.allObjects];
+
+    return [NSString stringWithFormat:@"&lt;%@: %p&gt; %@", self.class, self, permanentProperties];
+}
+
+- (NSUInteger)hash {
+    NSUInteger value = 0;
+    //每个value取hash值
+    for (NSString *key in self.class.permanentPropertyKeys) {
+        value ^= [[self valueForKey:key] hash];
+    }
+
+    return value;
+}
+
+- (BOOL)isEqual:(MTLModel *)model {
+    if (self == model) return YES;
+    if (![model isMemberOfClass:self.class]) return NO;
+
+    for (NSString *key in self.class.permanentPropertyKeys) {
+        id selfValue = [self valueForKey:key];
+        id modelValue = [model valueForKey:key];
+        //每一个value取isEqual
+        BOOL valuesEqual = ((selfValue == nil &amp;&amp; modelValue == nil) || [selfValue isEqual:modelValue]);
+        if (!valuesEqual) return NO;
+    }
+
+    return YES;
+}
+</code></pre>
+</div>
+
+<h4 id="nscoding">NSCoding</h4>
+
+<p>NSCoding的支持有些复杂，源代码<a href="https://github.com/Mantle/Mantle/blob/master/Mantle/MTLModel%2BNSCoding.m">MTLModel+NSCoding.m</a></p>
+
+<p>对于<code class="highlighter-rouge">initWithCoder:</code></p>
+
+<ul>
+  <li>根据Runtime，获取所有的属性名字.</li>
+  <li>对于每一个属性，检查是否响应<code class="highlighter-rouge">decodeWithCoder:modelVersion:</code>,也就是说，支持属性也是MTLModel对象，如果是，则调用<code class="highlighter-rouge">decodeWithCoder:modelVersion:</code>解析这个MTLModel</li>
+  <li>如果不是MTLModel子类，则调用<code class="highlighter-rouge">decodeObjectForKey</code>来解析，这里的key就是属性的名字</li>
+</ul>
+
+<p>encodeWithCoder类似，不做讲解</p>
+
+<h4 id="section-2">异常处理</h4>
+
+<p>Mantle中，有一些</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@try{}
+@catch{}
+@finally{}
+</code></pre>
+</div>
+
+<p>并且在catch模块中</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#if DEBUG
+    @throw ex;
+#else
+    //其它处理
+#endif
+</code></pre>
+</div>
+
+<p>这样能够方便调试错误，并且在运行时的时候不崩溃。</p>
+
+<p>同时，你还能看到这样的代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mtl_propertyAttributes *attributes = mtl_copyPropertyAttributes(property);
+@onExit {
+    free(attributes);
+};
+</code></pre>
+</div>
+
+<p>这里的<code class="highlighter-rouge">@onExit</code>是一个宏定义，保证代码在在当前域返回（return，break，异常）始终能执行到。其实本质就是把代码放到了finally里</p>
+
+<h4 id="attribute"><strong>attribute</strong></h4>
+
+<p>__attribute__机制能够为方法，变量，类型增加额外的属性。</p>
+
+<p>**增加的额外属性，能够让编译器进行额外的检查，从而提供额外的提示 **</p>
+
+<p>比如</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">MTLJSONSerializing</span><span class="o">&gt;</span> <span class="n">model</span> <span class="n">__attribute__</span><span class="p">((</span><span class="n">unavailable</span><span class="p">(</span><span class="s">"Replaced by -modelFromJSONDictionary:error:"</span><span class="p">)));</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">JSONArrayFromModels</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">models</span> <span class="n">__attribute__</span><span class="p">((</span><span class="n">deprecated</span><span class="p">(</span><span class="s">"Replaced by +JSONArrayFromModels:error:"</span><span class="p">)))</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Replaced by +JSONArrayFromModels:error:"</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>就分别提示model当前不可用unavailable，和<code class="highlighter-rouge">JSONArrayFromModels</code>方法被<code class="highlighter-rouge">deprecated</code>。</p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/17/android_frame_introduction/" data-toggle="tooltip" data-placement="top" title="Android 快速开发库">
+                        Previous<br>
+                        <span>Android 快速开发库</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="13">
+                                    Android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ios" title="ios" rel="5">
+                                    ios
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="2">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/20/ios_mantle_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/20/ios_mantle_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

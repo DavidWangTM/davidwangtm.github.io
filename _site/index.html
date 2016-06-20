@@ -176,6 +176,41 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/06/20/ios_mantle_introduction/">
+        <h2 class="post-title">
+            IOS 开源库讲解篇一
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Mantle 源码解析
+        </h3>
+        
+        <div class="post-content-preview">
+            前言
+
+iOS开发中，不管是哪种设计模式，Model层都是不可或缺的。而Model层的第三方库常用的库有以下几个
+
+
+  JSONModel
+  Mantle
+  MJExtension
+
+
+JSON data到对象的转换原理都差不多，一般的顺序如下
+
+
+  根据Runtime，动态的获取属性的类型和属性的名字，（如果需要，做一次Json的key的Mapping
+  创建对应的对象实例
+  ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 20, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/06/17/android_frame_introduction/">
         <h2 class="post-title">
             Android 快速开发库
@@ -511,46 +546,6 @@ RBBAnimation
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/06/08/android_responsibility_introduction/">
-        <h2 class="post-title">
-            Android 设计模式分析八
-        </h2>
-        
-        <h3 class="post-subtitle">
-            责任链模式
-        </h3>
-        
-        <div class="post-content-preview">
-            1. 模式介绍
-
-模式的定义
-一个请求沿着一条“链”传递，直到该“链”上的某个处理者处理它为止。
-
-模式的使用场景
-一个请求可以被多个处理者处理或处理者未明确指定时。
-
-2. UML类图
-
-
-角色介绍
-Client：客户端
-
-Handler：抽象处理者
-
-ConcreteHandler：具体处理者
-
-3. 模式的简单实现
-###  简单实现的介绍
-责任链模式非常简单异常好理解，相信我它比单例...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 8, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -637,8 +632,14 @@ ConcreteHandler：具体处理者
                             
                         
                             
-                                <a href="/tags/#ios" title="ios" rel="4">
+                                <a href="/tags/#ios" title="ios" rel="5">
                                     ios
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Xcode" title="Xcode" rel="2">
+                                    Xcode
                                 </a>
                             
                         
