@@ -5,9 +5,607 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 21 Jun 2016 11:16:14 +0800</pubDate>
-    <lastBuildDate>Tue, 21 Jun 2016 11:16:14 +0800</lastBuildDate>
+    <pubDate>Tue, 21 Jun 2016 22:46:23 +0800</pubDate>
+    <lastBuildDate>Tue, 21 Jun 2016 22:46:23 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>IOS 开源库讲解篇二</title>
+        <description>&lt;h3 id=&quot;section&quot;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImage&lt;/code&gt;是iOS开发中十分流行的库，大多数的开发者在下载图片或者加载网络图片并且本地缓存的时候，都会用这个框架。这个框架相对来说，源代码还是比较少的。&lt;/p&gt;
+
+&lt;p&gt;先介绍类的整体架构关系，先有一个宏观的认识。然后讲解&lt;code class=&quot;highlighter-rouge&quot;&gt;sd_setImageWithURL&lt;/code&gt;的加载逻辑，因为这是SDWebImage最核心的，也是很多面试会问到的。接下来会介绍Image的解码，然后讲解缓存处理。最后再讲解API设计方式,以及其他我认为有用的。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;整体架构关系&lt;/h3&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;定义通用宏和方法&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageCompat&lt;/code&gt;宏定义和C语言的一些工具方法&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageOperation&lt;/code&gt;，定义通用的Operation协议，主要就是一个方法，cancel。从而在cancel的时候，可以面向协议编程。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;下载&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageDownloader&lt;/code&gt; 实际的下载功能和配置提供者，使用了&lt;strong&gt;单例&lt;/strong&gt;的设计模式.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageDownloaderOperation&lt;/code&gt;，继承自&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperation&lt;/code&gt;，是一个异步的&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperation&lt;/code&gt;,封装了&lt;code class=&quot;highlighter-rouge&quot;&gt;NSURLConnection&lt;/code&gt;进行实际的下载任务.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;section-4&quot;&gt;缓存处理&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AutoPurgeCache,NSCache&lt;/code&gt;的子类，用于内存&lt;code class=&quot;highlighter-rouge&quot;&gt;cache&lt;/code&gt;，会在收到内存警告的时候，自动清空.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDImageCache&lt;/code&gt;，实际处理内存&lt;code class=&quot;highlighter-rouge&quot;&gt;cache&lt;/code&gt;和磁盘&lt;code class=&quot;highlighter-rouge&quot;&gt;cache&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;section-5&quot;&gt;功能类&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageManager&lt;/code&gt;,宏观的从整体上管理整个框架的类.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageDecoder&lt;/code&gt;，图片的解码类，后面会详细的讲解如何解码的.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImagePrefetcher&lt;/code&gt;，图片的预加载管理.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;section-6&quot;&gt;类别&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;类别用来为UIView和UIImageView等”添加”属性来存储必要的信息，同时暴露出接口，进行实际的操作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;tips&quot;&gt;Tips：&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;用类别来提供接口往往是最方便的，因为用户只需要import这个文件，就可以像使用原生SDK那样去开发，不需要修改原有的什么代码&lt;/li&gt;
+  &lt;li&gt;面向对象开发有一个原则是－单一功能原则，所以不管是在开发一个Lib或者开发App的时候，尽量保证各个模块之前功能单一，这样会降低耦合。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sdsetimagewithurl&quot;&gt;sd_setImageWithURL的加载逻辑&lt;/h3&gt;
+
+&lt;h4 id=&quot;section-7&quot;&gt;1. 取消当前正在加载的图片&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[self sd_cancelCurrentImageLoad];&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这个方法的实际调用源代码如下，其中key是UIImageViewImageLoad.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Tips：operationDictionary是通过Runtime为UIView”添加”的属性&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sd_cancelImageLoadOperationWithKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;c1&quot;&gt;//用一个字典来存储当前的加载operation
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;NSMutableDictionary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operationDictionary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;operationDictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operationDictionary&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;objectForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//两种类型，帧类型的的gif是多个operation，静态图是一个operaiton
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isKindOfClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSArray&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SDWebImageOperation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operation&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operation&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cancel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;conformsToProtocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;@protocol&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SDWebImageOperation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]){&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;//这里属于面向协议编程，不关心具体的类，只关心遵守某个协议
+&lt;/span&gt;            &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SDWebImageOperation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cancel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;//删除对应的key
+&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operationDictionary&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;removeObjectForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;placeholderplaceholder&quot;&gt;2. 如果有PlaceHolder，设置placeHolder&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
+   if (!(options &amp;amp; SDWebImageDelayPlaceholder)) {
+        dispatch_main_async_safe(^{
+            self.image = placeholder;
+        });
+    }
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这里的dispatch_main_async_safe是一个宏定义，会检查调用是否在主线程上，如果在主线程就直接调用，后台线程会用gcd切换到主线程&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define dispatch_main_async_safe(block)\
+    if ([NSThread isMainThread]) {\
+        block();\
+    } else {\
+        dispatch_async(dispatch_get_main_queue(), block);\
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;sdimagecache&quot;&gt;3. 根据SDImageCache来查缓存，看看是否有图片&lt;/h4&gt;
+
+&lt;p&gt;查看缓存的是这个方法&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;operation.cacheOperation = [self.imageCache queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType) {//异步返回查询的结果}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这块感觉代码优点难懂，其实这是执行了一个方法queryDiskCacheForKey:key，返回一个NSOperation,之所以这样，是因为从磁盘或者内存查询的过程是异步的，后面可能需要cancel，所以这样做。&lt;/p&gt;
+
+&lt;p&gt;我们再看看queryDiskCacheForKey:key这个方法是怎么实现的？&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- (NSOperation *)queryDiskCacheForKey:(NSString *)key done:(SDWebImageQueryCompletedBlock)doneBlock {
+    //输入检查，这里省略掉
+    //先检查磁盘缓存
+    UIImage *image = [self imageFromMemoryCacheForKey:key];
+    if (image) {
+        doneBlock(image, SDImageCacheTypeMemory);
+        return nil;
+    }
+    //检查磁盘缓存
+    NSOperation *operation = [NSOperation new];
+    dispatch_async(self.ioQueue, ^{//切换到io队列上，进行磁盘操作
+            //省略中间检查代码
+            //回归到主线程行，进行doneBlock操作
+            dispatch_async(dispatch_get_main_queue(), ^{
+                doneBlock(diskImage, SDImageCacheTypeDisk);
+            });
+        }
+    });
+    return operation;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-8&quot;&gt;4. 创建下载任务&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;id &amp;lt;SDWebImageOperation&amp;gt; operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+ //这里是下载完成后的回调，没什么要讲解的，简单来说就是image下载成功，就wself.image = image;[wself setNeedsLayout];,下载失败仍然显示placeHolder。然后调用completion block回调。
+        }];
+//记录下来当前的下载，方便后面取消
+[self sd_setImageLoadOperation:operation forKey:@&quot;UIImageViewImageLoad&quot;];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;接下来，我们来看看实际的下载operation是什么样子的 
+也就是这个方法&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/rs/SDWebImage/blob/master/SDWebImage/SDWebImageDownloader.m&quot;&gt;-(id)downloadImageWithURL:options:progress:completed:&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;block&quot;&gt;5－1,由于有各种各样的block回调，例如下载进度的回调，完成的回调，所以需要一个数据结构来存储这些回调&lt;/h4&gt;
+
+&lt;p&gt;所以，这个方法中，首先调用以下方法来存储回调&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[self addProgressCallback:progressBlock completedBlock:completedBlock forURL:url createCallback:^{
+//...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;其中，用来存储回调的数据结构是一个NSMutableDictionary,其中key是图片的url，value是回调的数组 
+举个例子，存储后应该是这样的，&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@{
+        @&quot;http://iamgeurl&quot;:[
+                            @{
+                                @&quot;progress&quot;:progressBlock1,
+                                @&quot;completed&quot;:completedBlock1,
+                            },
+                            @{
+                                @&quot;progress&quot;:progressBlock2,
+                                @&quot;completed&quot;:completedBlock2,
+                              },
+                           ],
+            //其他
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;** Tips：注意，对于同一个URL，在第二次调用addProgressCallback:progressBlock用的时候，并不会执行createCallback，也就是说，保证一个URL在多次下载的时候，只进行多次回调，而不会进行多次网络请求**&lt;/p&gt;
+
+&lt;p&gt;如果是我，可能更愿意用一个对象来存储这些block回调，觉得这个数据结构有点复杂，很难维护&lt;/p&gt;
+
+&lt;h4 id=&quot;urlsdsetimagesdwebimagedownloaderoperation&quot;&gt;5－2,对于同一个url，在第一次调用sd_setImage的时候进行，创建网络请求&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageDownloaderOperation&lt;/code&gt;。&lt;/h4&gt;
+
+&lt;p&gt;创建的方法是这个&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[[wself.operationClass alloc] initWithRequest:request
+                                      options:options
+                                     progress:^(NSInteger receivedSize, NSInteger expectedSize){//Progress 回调}
+                                     completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished){//Completion回调}
+                                     cancelled:^{//Cancel 回调}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在看看Progress回调&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; //Block中强引用sself（weakself）,保证在执行结束前不会被释放
+ SDWebImageDownloader *sself = wself; 
+ //如果weakself已经为nil，此时已经释放了，所以直接放回
+ if (!sself) return;
+ //用__block来修饰callbacksForURL，保证在能在block中修改这个变量
+ __block NSArray *callbacksForURL;
+ //在队列`barrierQueue`里同步捕获callBack
+ dispatch_sync(sself.barrierQueue, ^{
+     callbacksForURL = [sself.URLCallbacks[url] copy];
+ });
+ for (NSDictionary *callbacks in callbacksForURL) {
+//异步切换到主线程上进行回调
+   dispatch_async(dispatch_get_main_queue(), ^{
+         SDWebImageDownloaderProgressBlock callback = callbacks[kProgressCallbackKey];
+         if (callback) callback(receivedSize, expectedSize);
+     });
+ }                             
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;completion回调和progress类似，不再赘述。 
+再看看cancel block的处理&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;SDWebImageDownloader *sself = wself;
+if (!sself) return;
+//阻碍barrierQueue,
+dispatch_barrier_async(sself.barrierQueue, ^{
+    [sself.URLCallbacks removeObjectForKey:url];
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Tips:这里为什么要用&lt;code class=&quot;highlighter-rouge&quot;&gt;dispatch_barrier_async&lt;/code&gt;呢？因为&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;_barrierQueue = dispatch_queue_create(&quot;com.hackemist.SDWebImageDownloaderBarrierQueue&quot;, DISPATCH_QUEUE_CONCURRENT);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;_barrierQueue是个并行队列，意味着队列上的任务可以并行执行。用&lt;code class=&quot;highlighter-rouge&quot;&gt;dispatch_barrier_async&lt;/code&gt;来保证后续提交的block等待当前的&lt;code class=&quot;highlighter-rouge&quot;&gt;dispatch_barrier_asyncblock&lt;/code&gt;执行完毕后再执行。&lt;/p&gt;
+
+&lt;p&gt;Tips：&lt;/p&gt;
+
+&lt;p&gt;用这么多GCD是为了保证线程安全
+再简单提一下&lt;code class=&quot;highlighter-rouge&quot;&gt;dispatch_barrier_async&lt;/code&gt;的用法&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Calls to this function always return immediately after the block has been submitted and never wait for the block to be invoked. When the barrier block reaches the front of a private concurrent queue, it is not executed immediately. Instead, the queue waits until its currently executing blocks finish executing. At that point, the barrier block executes by itself. Any blocks submitted after the barrier block are not executed until the barrier block completes.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;imageview&quot;&gt;4. 下载图片完成后，根据需要图片解码和处理图片格式，回调给Imageview&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; UIImage *image = [UIImage sd_imageWithData:self.imageData];
+            NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:self.request.URL];
+            image = [self scaledImageForKey:key image:image];
+
+            // Do not force decoding animated GIFs
+            if (!image.images) {
+                if (self.shouldDecompressImages) {
+                    image = [UIImage decodedImageWithImage:image];
+                }
+            }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;总结下整个调用过程&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;取消上一次调用&lt;/li&gt;
+  &lt;li&gt;设置placeHolder&lt;/li&gt;
+  &lt;li&gt;保存回调block&lt;/li&gt;
+  &lt;li&gt;cache查询是否已经下载过了，先检查内存，后检查磁盘&lt;/li&gt;
+  &lt;li&gt;利用NSURLConnection来下载图片，根据需要解码，回调给imageview，存储到缓存&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-9&quot;&gt;线程管理&lt;/h3&gt;
+
+&lt;p&gt;整个SDWebImage一共有四个队列&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Main queue,主队列，在这个队列上进行UIKit对象的更新，发送notification&lt;/li&gt;
+  &lt;li&gt;barrierQueue，并行队列，在这个队列上统一处理3-1中的数据回调，为了保证线程安全，一致使用dispatch_barrier_sync&lt;/li&gt;
+  &lt;li&gt;ioQueue，用在图片的磁盘操作&lt;/li&gt;
+  &lt;li&gt;downloadQueue（NSOperationQueue），用来全局的管理下载的任务&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-10&quot;&gt;图片解码&lt;/h3&gt;
+
+&lt;p&gt;传统的UIImage进行解码都是在主线程上进行的，比如&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;UIImage * image = [UIImage imageNamed:@&quot;123.jpg&quot;]
+self.imageView.image = image;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;在这个时候，图片其实并没有解码。而是，当图片实际需要显示到屏幕上的时候，CPU才会进行解码，绘制成纹理什么的，交给GPU渲染。这其实是很占用主线程CPU时间的，而众所周知，主线程的时间真的很宝贵&lt;/p&gt;
+
+&lt;p&gt;现在，我们看看SDWebImage是如何在后台进行解码的 
+代码来自于这个原文件&lt;a href=&quot;https://github.com/rs/SDWebImage/blob/master/SDWebImage/SDWebImageDecoder.m&quot;&gt;SDWebImageDecoder&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+ (UIImage *)decodedImageWithImage:(UIImage *)image {
+    if (image == nil) { 
+        return nil;
+    }
+
+    @autoreleasepool{
+        //Gif不用解码，直接返回
+        if (image.images != nil) {
+            return image;
+        }
+        CGImageRef imageRef = image.CGImage
+        ;
+        CGImageAlphaInfo alpha = CGImageGetAlphaInfo(imageRef);
+        BOOL anyAlpha = (alpha == kCGImageAlphaFirst ||
+                         alpha == kCGImageAlphaLast ||
+                         alpha == kCGImageAlphaPremultipliedFirst ||
+                         alpha == kCGImageAlphaPremultipliedLast);
+        if (anyAlpha) {
+        //有Alpha通道，直接返回
+            return image;
+        }
+        //获得Color Space
+        CGColorSpaceModel imageColorSpaceModel = CGColorSpaceGetModel(CGImageGetColorSpace(imageRef));
+        CGColorSpaceRef colorspaceRef = CGImageGetColorSpace(imageRef);
+
+        BOOL unsupportedColorSpace = (imageColorSpaceModel == kCGColorSpaceModelUnknown ||
+                                      imageColorSpaceModel == kCGColorSpaceModelMonochrome ||
+                                      imageColorSpaceModel == kCGColorSpaceModelCMYK ||
+                                      imageColorSpaceModel == kCGColorSpaceModelIndexed);
+        if (unsupportedColorSpace) {
+            colorspaceRef = CGColorSpaceCreateDeviceRGB();
+        }
+
+        size_t width = CGImageGetWidth(imageRef);
+        size_t height = CGImageGetHeight(imageRef);
+        NSUInteger bytesPerPixel = 4;
+        NSUInteger bytesPerRow = bytesPerPixel * width;
+        NSUInteger bitsPerComponent = 8;
+        //创建bitmapContext
+        CGContextRef context = CGBitmapContextCreate(NULL,
+                                                     width,
+                                                     height,
+                                                     bitsPerComponent,
+                                                     bytesPerRow,
+                                                     colorspaceRef,
+                                                     kCGBitmapByteOrderDefault|kCGImageAlphaNoneSkipLast);
+
+        // 绘制Image到Context中，强制解码
+        CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+        CGImageRef imageRefWithoutAlpha = CGBitmapContextCreateImage(context);
+        UIImage *imageWithoutAlpha = [UIImage imageWithCGImage:imageRefWithoutAlpha
+                                                         scale:image.scale
+                                                   orientation:image.imageOrientation];
+
+        if (unsupportedColorSpace) {
+            CGColorSpaceRelease(colorspaceRef);
+        }
+
+        CGContextRelease(context);
+        CGImageRelease(imageRefWithoutAlpha);
+
+        return imageWithoutAlpha;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-11&quot;&gt;缓存处理&lt;/h3&gt;
+
+&lt;p&gt;整个缓存处理的类都在&lt;a href=&quot;https://github.com/rs/SDWebImage/blob/master/SDWebImage/SDImageCache.m&quot;&gt;SDImageCache&lt;/a&gt;文件中，其中缓存又包括两个方面，&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;内存缓存&lt;/li&gt;
+  &lt;li&gt;磁盘缓存&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;其中，内存缓存采用了NSCache的子类&lt;code class=&quot;highlighter-rouge&quot;&gt;AutoPurgeCache&lt;/code&gt;，&lt;/p&gt;
+
+&lt;p&gt;AutoPurgeCache 
+只是对NSCache添加了在收到内存警告通知&lt;code class=&quot;highlighter-rouge&quot;&gt;UIApplicationDidReceiveMemoryWarningNotification&lt;/code&gt;的时候自动&lt;code class=&quot;highlighter-rouge&quot;&gt;removeAllObjects&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;再看看磁盘缓存是如何做的？ 
+磁盘缓存是基于文件系统的,也就是说图片是以普通文件的方式存储到沙盒里的。&lt;/p&gt;
+
+&lt;p&gt;缓存的目录是啥？ 
+默认的缓存目录是&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Lbirary/Caches/default/com.hackemist.SDWebImageCache.default/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;缓存的文件名称是对缓存的key求md5&lt;/p&gt;
+
+&lt;p&gt;何时自动清除过期图片？ 
+在App关闭的时候&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[[NSNotificationCenter defaultCenter] addObserver:self
+                                         selector:@selector(cleanDisk)
+                                             name:UIApplicationWillTerminateNotification
+                                           object:nil];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;清除的逻辑很简单，获取文件的modify时间，然后比较下过期时间，如果过期了就删除。当磁盘缓存超过阈值后，根据最后访问的时间排序，删除最老的访问图片。&lt;/p&gt;
+
+&lt;p&gt;存储成什么格式？&lt;/p&gt;
+
+&lt;p&gt;见SDImageCache中，&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//获取Alpha信息
+int alphaInfo = CGImageGetAlphaInfo(image.CGImage);
+BOOL hasAlpha = !(alphaInfo == kCGImageAlphaNone ||
+                  alphaInfo == kCGImageAlphaNoneSkipFirst ||
+                  alphaInfo == kCGImageAlphaNoneSkipLast);
+BOOL imageIsPng = hasAlpha;
+
+//如果又imageData，并且有png的前8个字节，根据NSData前8个字节来检查是否是png
+if ([imageData length] &amp;gt;= [kPNGSignatureData length]) {
+    imageIsPng = ImageDataHasPNGPreffix(imageData);
+}
+//如果是Png，存储成png
+if (imageIsPng) {
+    data = UIImagePNGRepresentation(image);
+}
+else {
+//否则存储称jpg
+    data = UIImageJPEGRepresentation(image, (CGFloat)1.0);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;deprecatedapi&quot;&gt;deprecated一个API&lt;/h3&gt;
+
+&lt;p&gt;只需要在方法后面，添加&lt;code class=&quot;highlighter-rouge&quot;&gt;__deprecated_msg&lt;/code&gt;例如&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+ (NSString *)contentTypeForImageData:(NSData *)data __deprecated_msg(&quot;Use `sd_contentTypeForImageData:`&quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-12&quot;&gt;条件编译&lt;/h3&gt;
+
+&lt;p&gt;这个在之前AsyncDisplayKit解析的文章里也提到过，这里再提一次&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#if TARGET_OS_IPHONE &amp;amp;&amp;amp; __IPHONE_OS_VERSION_MAX_ALLOWED &amp;gt;= __IPHONE_4_0
+//代码
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;又比如&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#if TARGET_OS_IOS 
+//代码for iOS
+#else
+//代码for osx
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;就是条件编译，根据条件是否满足来让编译器编译这段代码。&lt;/p&gt;
+
+&lt;p&gt;**Tips：根据条件编译，可以为不同的版本的iOS做一些适配 **&lt;/p&gt;
+
+&lt;h3 id=&quot;gif&quot;&gt;如何实现Gif动图？&lt;/h3&gt;
+
+&lt;p&gt;本质上，使用这个iOS SDK提供的方法&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//传入一个Image数组，和动画的时间
+animatedImage = [UIImage animatedImageWithImages:images duration:duration];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;那么，如何解析Gif图片呢？ 
+原理也比较简单，源代码在&lt;a href=&quot;https://github.com/rs/SDWebImage/blob/master/SDWebImage/UIImage+GIF.m&quot;&gt;UIImage+GIF&lt;/a&gt;.m中。利用&lt;a href=&quot;https://developer.apple.com/library/mac/documentation/GraphicsImaging/Reference/CGImageSource/&quot;&gt;CGImageSource&lt;/a&gt;的一系列方法依次提取每一帧的图片和每一帧的图片间隔，然后用上文提到的API来实现Gif&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Tips：在ARC开启的时候，Foundation对象（CF开头）和CoreGraphics对象(CG开头）的一些对象仍然需要手动管理，例如&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+//利用完毕
+    CGImageRelease(image);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-13&quot;&gt;获取图片的格式&lt;/h3&gt;
+
+&lt;p&gt;原文件&lt;code class=&quot;highlighter-rouge&quot;&gt;NSData+ImageContentType.m&lt;/code&gt; ,代码不难，不做讲解了&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+ (NSString *)sd_contentTypeForImageData:(NSData *)data {
+    uint8_t c;
+    [data getBytes:&amp;amp;c length:1];
+    switch (c) {
+        case 0xFF:
+            return @&quot;image/jpeg&quot;;
+        case 0x89:
+            return @&quot;image/png&quot;;
+        case 0x47:
+            return @&quot;image/gif&quot;;
+        case 0x49:
+        case 0x4D:
+            return @&quot;image/tiff&quot;;
+        case 0x52:
+            // R as RIFF for WEBP
+            if ([data length] &amp;lt; 12) {
+                return nil;
+            }
+
+            NSString *testString = [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(0, 12)] encoding:NSASCIIStringEncoding];
+            if ([testString hasPrefix:@&quot;RIFF&quot;] &amp;amp;&amp;amp; [testString hasSuffix:@&quot;WEBP&quot;]) {
+                return @&quot;image/webp&quot;;
+            }
+
+            return nil;
+    }
+    return nil;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-14&quot;&gt;预下载&lt;/h3&gt;
+
+&lt;p&gt;原文件&lt;a href=&quot;https://github.com/rs/SDWebImage/blob/master/SDWebImage/SDWebImagePrefetcher.m&quot;&gt;SDWebImagePrefetcher.m&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;可以看到，由于类的功能划分非常清楚，所以SDWebImagePrefetcher 的实现文件很简单，本质上只是用单例的设计模式，并且这个类保存了&lt;code class=&quot;highlighter-rouge&quot;&gt;SDWebImageManager&lt;/code&gt;对象来进行的实际下载操作&lt;/p&gt;
+
+&lt;h3 id=&quot;section-15&quot;&gt;设计方式的一点理解&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;整个框架的处理核心是SDWebImageManager类，而为了让使用者在使用的时候不必实例化这个类的一个对象，整个类采用了单利的设计模式。&lt;/li&gt;
+  &lt;li&gt;用block的方式，处理复杂的异步回调。用block的方式，在这里是要比代理来的简单直接的。如果用代理，那么上文讲解的sd_setImageWithURL的过程，将会有复杂的代理回调方法&lt;/li&gt;
+  &lt;li&gt;每个线程处理自己的独立任务。上文提到了，这个库一共有四个Queue&lt;/li&gt;
+  &lt;li&gt;面向协议编程。这个在SDWebImageOperation协议的体现上十分明显。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;@protocol&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SDWebImageOperation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cancel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;@end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在使用的时候，只需关注协议的本身就可以了&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;conformsToProtocol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;@protocol&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SDWebImageOperation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]){&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SDWebImageOperation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;operations&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cancel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;用Category的方式提供接口,例如UIImageView+WebCache等，这样能最大程度的降低使用者的使用难度。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;单一功能原则,这个在上文提到了，每个类or文件负责单一的功能，方便独立测试和维护&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;最好的例子就是&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;UIImage+GIF.h
+UIImage+MultiFormat
+UIImageView+HighlightedWebCache.h
+UIImageView+WebCache.h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;线程安全的保证。很明显，SDWebImage不能强求用户在某一个线程上调用，然后自己切换回主线程。所以你会看到类似这样的代码来保证线程安全&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@synchronized (self) {}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_barrier_sync(sself.barrierQueue, ^{
+                                                                callbacksForURL = [sself.URLCallbacks[url] copy];
+                                                                if (finished) {
+                                                                    [sself.URLCallbacks removeObjectForKey:url];
+                                                                }
+                                                            });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-16&quot;&gt;总结&lt;/h3&gt;
+
+&lt;p&gt;SDWebImage相对来说，源代码没有那么多，建议大家好好研究下源代码。对图片的基础知识巩固，各种线程的处理方式，类的架构和API设计等都很有帮助。&lt;/p&gt;
+</description>
+        <pubDate>Tue, 21 Jun 2016 17:30:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/21/ios_sdwebimage_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/21/ios_sdwebimage_introduction/</guid>
+        
+        <category>ios</category>
+        
+        <category>Xcode</category>
+        
+        <category>SDWebImage</category>
+        
+        
+      </item>
     
       <item>
         <title>IOS 开源库讲解篇一</title>
@@ -2602,517 +3200,6 @@ rm -rf ~/Library/Application\ Support/Alcatraz/
         <pubDate>Fri, 10 Jun 2016 19:30:00 +0800</pubDate>
         <link>http://DavidWangTM.github.io/2016/06/10/android_bridging_introduction/</link>
         <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/10/android_bridging_introduction/</guid>
-        
-        <category>Android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Android 设计模式分析九</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;1. 模式介绍&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;模式的定义&lt;/h3&gt;
-&lt;p&gt;将一个请求封装成一个对象，从而使你可用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;模式的使用场景&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;系统需要将请求调用者和请求接收者解耦，使得调用者和接收者不直接交互。&lt;/li&gt;
-  &lt;li&gt;系统需要在不同的时间指定请求、将请求排队和执行请求。&lt;/li&gt;
-  &lt;li&gt;系统需要支持命令的撤销(Undo)操作和恢复(Redo)操作。&lt;/li&gt;
-  &lt;li&gt;系统需要将一组操作组合在一起，即支持宏命令。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;uml&quot;&gt;2. UML类图&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/img/in-post/android_introduction/android_lijunhuayc_uml.png&quot; alt=&quot;UML类图&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;角色介绍&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;命令角色（Command）：定义命令的接口，声明具体命令类需要执行的方法。这是一个抽象角色。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;具体命令角色（ConcreteCommand）：命令接口的具体实现对象，通常会持有接收者，并调用接收者的功能来完成命令要执行的操作。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;调用者角色（Invoker）：负责调用命令对象执行请求，通常会持有命令对象（可以持有多个命令对象）。Invoker是Client真正触发命令并要求命令执行相应操作的地方（使用命令对象的入口）。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;接受者角色（Receiver）：Receiver是真正执行命令的对象。任何类都可能成为一个接收者，只要它能够实现命令要求实现的相应功能。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;客户角色（Client）：Client可以创建具体的命令对象，并且设置命令对象的接收者。Tips：不能把Clinet理解为我们平常说的客户端，这里的Client是一个组装命令对象和接受者对象的角色，或者你把它理解为一个装配者。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;section-4&quot;&gt;3. 模式的简单实现&lt;/h2&gt;
-&lt;p&gt;###  简单实现的介绍
-命令模式其实就是对命令进行封装，将命令请求者和命令执行者的责任分离开来实现松耦合。
-这里我们通过一个简单的实例来剖析一下命令模式：命令接收者ReceiverRole拥有一个PeopleBean类型成员，通过Invoker发出不同的命令来修改PeopleBean的相对应的属性，具体命令实现类ConcreteCommandImpl1执行修改年龄命令，ConcreteCommandImpl2执行修改姓名的命令等等，ClientRole负责组装各个部分。
-例子代码如下（resource目录下也可以查看）。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-5&quot;&gt;实现源码&lt;/h3&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/**
-     * 命令接口    [命令角色]
-     */&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;undo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;ConcreteCommandImpl1.java类.&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/**
-     * 更新年龄的命令类  [ 具体命令角色 ]
-     */&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ConcreteCommandImpl1&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ConcreteCommandImpl1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;receiverRole1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	
-    	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;cm&quot;&gt;/*
-    		 * 可以加入命令排队等等，未执行的命令支持redo操作
-    		 */&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;opActionUpdateAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1001&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//执行具体的命令操作&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;undo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;rollBackAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//执行具体的撤销回滚操作&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;c1&quot;&gt;//在命令执行前可以修改命令的执行&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;ConcreteCommandImpl2.java类.&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/**
-     * 更新姓名的命令类[具体命令角色]
-     */&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ConcreteCommandImpl2&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ConcreteCommandImpl2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;receiverRole1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	
-    	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;cm&quot;&gt;/*
-    		 * 可以加入命令排队等等，未执行的命令支持redo操作
-    		 */&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;opActionUpdateName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;lijunhuayc&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//执行具体的命令操作&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;undo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;rollBackName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//执行具体的撤销回滚操作&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    
-    	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;c1&quot;&gt;//在命令执行前可以修改命令的执行&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;InvokerRole.java.&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/**
-     * 命令调用[调用者角色]
-     */&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;InvokerRole&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;c1&quot;&gt;//持有多个命令对象[实际的情况也可能是一个命令对象的集合来保存命令对象]&lt;/span&gt;
-    	
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setCommand1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setCommand2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	
-    	&lt;span class=&quot;cm&quot;&gt;/**
-    	 * 执行正常命令，1执行回滚命令
-    	 */&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;invoke&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;c1&quot;&gt;//可以根据具体情况选择执行某些命令&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-    			&lt;span class=&quot;n&quot;&gt;command1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    			&lt;span class=&quot;n&quot;&gt;command2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    		&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
-    			&lt;span class=&quot;n&quot;&gt;command1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;undo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    			&lt;span class=&quot;n&quot;&gt;command2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;undo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    		&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;ReceiverRole.java.&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/**
-     * 命令的具体执行类[接收者角色], 命令接收者可以是任意的类，只要实现了命令要求实现的相应功能即可。
-     */&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ReceiverRole&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;c1&quot;&gt;//具体命令操作的缓存栈，用于回滚。这里为了方便就用一个PeopleBean来代替    &lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;peopleCache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;     	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;people&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;NULL&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//初始化年龄为-1，姓名为NULL&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;people&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-	
-	&lt;span class=&quot;cm&quot;&gt;/**
-	 * 具体操作方法[修改年龄和姓名]
-	 */&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;opActionUpdateAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;执行命令前：&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;执行命令后：&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;\n&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-	
-	&lt;span class=&quot;c1&quot;&gt;//修改姓名&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;opActionUpdateName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;执行命令前：&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;执行命令后：&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;\n&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-	
-	&lt;span class=&quot;cm&quot;&gt;/**
-	 * 回滚操作，用于撤销opAction执行的改变
-	 */&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rollBackAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;peopleCache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;命令回滚后：&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;\n&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rollBackName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;peopleCache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;命令回滚后：&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;\n&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;PeopleBean.java&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/**
-     * @Desc: 辅助类，作为接收者Receiver的成员，包含两个属性，用来观察命令的执行情况
-     * @author ljh
-     * @date 2015-3-16 上午11:29:11
-     */&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PeopleBean&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//年龄&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;NULL&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;	&lt;span class=&quot;c1&quot;&gt;//姓名&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;cm&quot;&gt;/**
-    	 * @return 返回一个PeopleBean的克隆对象
-    	 */&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PeopleBean&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; 【年龄：&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;\t姓名：&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;】&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    	&lt;span class=&quot;c1&quot;&gt;// setter and getter &lt;/span&gt;
-    	
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;ClientRole.java&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;cm&quot;&gt;/**
-     * 命令对象和接受者对象的组装类[客户角色].
-     * 我这把类名定义成ClientRole更方便读者理解这只是命令模式中的一个客户角色，而不是我们常规意义上说的客户端
-     */&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ClientRole&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;cm&quot;&gt;/**
-    	 * 组装操作
-    	 */&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;assembleAction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;c1&quot;&gt;//创建一个命令接收者&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ReceiverRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;    			&lt;span class=&quot;c1&quot;&gt;//创建一个命令的具体实现对象，并指定命令接收者&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ConcreteCommandImpl1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;           		    &lt;span class=&quot;n&quot;&gt;Command&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;command2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ConcreteCommandImpl2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;receiverRole1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    
-    		&lt;span class=&quot;n&quot;&gt;InvokerRole&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;invokerRole&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;InvokerRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//创建一个命令调用者&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;invokerRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCommand1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;command1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//为调用者指定命令对象1&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;invokerRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCommand2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;command2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//为调用者指定命令对象2&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;invokerRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;invoke&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;				&lt;span class=&quot;c1&quot;&gt;//发起调用命令请求&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;invokerRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;invoke&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;				&lt;span class=&quot;c1&quot;&gt;//发起调用命令请求&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;测试类.&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MainTest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    	&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;ClientRole&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClientRole&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    		&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;assembleAction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    	&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;输出结果如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/android_introduction/android_lijunhuayc_result.png&quot; alt=&quot;运行结果图&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-6&quot;&gt;总结&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;每一个命令都是一个操作：请求的一方发出请求，要求执行一个操作；接收的一方收到请求，并执行操作。&lt;/li&gt;
-  &lt;li&gt;命令模式允许请求的一方和接收的一方独立开来，使得请求的一方不必知道接收请求的一方的接口，更不必知道请求是怎么被接收，以及操作是否被执行、何时被执行，以及是怎么被执行的。&lt;/li&gt;
-  &lt;li&gt;命令模式使请求本身成为一个对象，这个对象和其他对象一样可以被存储和传递。&lt;/li&gt;
-  &lt;li&gt;命令模式的关键在于引入了抽象命令接口，且发送者针对抽象命令接口编程，只有实现了抽象命令接口的具体命令才能与接收者相关联。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;android&quot;&gt;Android源码中的模式实现&lt;/h2&gt;
-&lt;p&gt;Command接口中定义了一个execute方法，客户端通过Invoker调用命令操作再来调用Recriver执行命令；把对Receiver的操作请求封装在具体的命令中，使得命令发起者和命令接收者解耦。
-以Android中大家常见的Runnable为例：客户端只需要new Thread(new Runnable(){}).start()就开始执行一系列相关的请求，这些请求大部分都是实现Runnable接口的匿名类。
-【O_o 模式就在我们身边~】&lt;/p&gt;
-
-&lt;p&gt;命令接口Runnable接口定义如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package java.lang;
-/**
- * Represents a command that can be executed. Often used to run code in a
- * different {@link Thread}.
- */
-public interface Runnable {
-
-    /**
-     * Starts executing the active part of the class&#39; code. This method is
-     * called when a thread is started that has been created with a class which
-     * implements {@code Runnable}.
-     */
-    public void run();
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;调用者Thread源码如下（省略部分代码）：
-Tips：命令模式在这里本来不需要继承Runnable接口，但为了方便性等，继承了Runnable接口实现了run方法，这个run是Thread自身的运行run的方法，而不是命令Runnable的run。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Thread implements Runnable {
-    //省略部分无关代码...
-    /* some of these are accessed directly by the VM; do not rename them */
-    volatile VMThread vmThread;
-    volatile ThreadGroup group;
-    volatile boolean daemon;
-    volatile String name;
-    volatile int priority;
-    volatile long stackSize;
-    Runnable target;
-    private static int count = 0;
-    
-    public synchronized void start() {
-        if (hasBeenStarted) {
-            throw new IllegalThreadStateException(&quot;Thread already started.&quot;); // TODO Externalize?
-        }
-
-        hasBeenStarted = true;
-
-        VMThread.create(this, stackSize);
-    }
-    //省略部分代码...
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;上面可以看到执行start()方法的时候实际执行了VMThread.create(this, stackSize)方法；create是VMThread的本地方法，其JNI实现在 android/dalvik/vm/native/java_lang_VMThread.cpp 中的 Dalvik_java_lang_VMThread_create方法，如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;static void Dalvik_java_lang_VMThread_create(const u4* args, JValue* pResult)
-{
-    Object* threadObj = (Object*) args[0];
-    s8 stackSize = GET_ARG_LONG(args, 1);
-
-    /* copying collector will pin threadObj for us since it was an argument */
-    dvmCreateInterpThread(threadObj, (int) stackSize);
-    RETURN_VOID();
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;而dvmCreateInterpThread的实现在Thread.app中，如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bool dvmCreateInterpThread(Object* threadObj, int reqStackSize){
-    Thread* self = dvmThreadSelf();
-    
-    Thread* newThread = allocThread(stackSize); 
-    newThread-&amp;gt;threadObj = threadObj;
-    
-    Object* vmThreadObj = dvmAllocObject(gDvm.classJavaLangVMThread, ALLOC_DEFAULT);
-    dvmSetFieldInt(vmThreadObj, gDvm.offJavaLangVMThread_vmData, (u4)newThread);
-    dvmSetFieldObject(threadObj, gDvm.offJavaLangThread_vmThread, vmThreadObj);
-    
-    pthread_t threadHandle;
-    int cc = pthread_create(&amp;amp;threadHandle, &amp;amp;threadAttr, interpThreadStart, newThread);
-
-    dvmLockThreadList(self);
-
-    assert(newThread-&amp;gt;status == THREAD_STARTING);
-    newThread-&amp;gt;status = THREAD_VMWAIT;
-    pthread_cond_broadcast(&amp;amp;gDvm.threadStartCond);
-
-    dvmUnlockThreadList();
-    
-}
-
-static Thread* allocThread(int interpStackSize)
-{
-    Thread* thread;
-    thread = (Thread*) calloc(1, sizeof(Thread));
-    
-    thread-&amp;gt;status = THREAD_INITIALIZING;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;这里是底层代码，简单介绍下就行了：
-第4行通过调用 allocThread 创建一个名为newThread的dalvik Thread并设置一些属性，第5行设置其成员变量threadObj为传入的Android Thread，这样dalvik Thread就与Android Thread对象关联起来了；第7行然后创建一个名为vmThreadObj的VMThread对象，设置其成员变量vmData为前面创建的newThread，设置 Android Thread threadObj的成员变量vmThread为这个vmThreadObj，这样Android Thread通过VMThread的成员变量vmData就和dalvik Thread关联起来了。&lt;/p&gt;
-
-&lt;p&gt;接下来在12行通过pthread_create创建pthread线程，并让这个线程start，这样就会进入该线程的thread entry运行，下来我们来看新线程的thread entry方法 interpThreadStart，同样只列出关键的地方：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//pthread entry function for threads started from interpreted code.
-static void* interpThreadStart(void* arg){
-    Thread* self = (Thread*) arg;
-    std::string threadName(dvmGetThreadName(self));
-    setThreadName(threadName.c_str());
-
-    //Finish initializing the Thread struct.
-    dvmLockThreadList(self);
-    prepareThread(self);
-
-    while (self-&amp;gt;status != THREAD_VMWAIT)
-        pthread_cond_wait(&amp;amp;gDvm.threadStartCond, &amp;amp;gDvm.threadListLock);
-
-    dvmUnlockThreadList();
-
-    /*
-     * Add a JNI context.
-     */
-    self-&amp;gt;jniEnv = dvmCreateJNIEnv(self);
-
-    //修改状态为THREAD_RUNNING
-    dvmChangeStatus(self, THREAD_RUNNING);
-    
-    //执行run方法
-    Method* run = self-&amp;gt;threadObj-&amp;gt;clazz-&amp;gt;vtable[gDvm.voffJavaLangThread_run];
-
-    JValue unused;
-    ALOGV(&quot;threadid=%d: calling run()&quot;, self-&amp;gt;threadId);
-    assert(strcmp(run-&amp;gt;name, &quot;run&quot;) == 0);
-    dvmCallMethod(self, run, self-&amp;gt;threadObj, &amp;amp;unused);
-    ALOGV(&quot;threadid=%d: exiting&quot;, self-&amp;gt;threadId);
-    
-    //移出线程并释放资源
-    dvmDetachCurrentThread();
-    return NULL;
-}
-
-//Finish initialization of a Thread struct.
-static bool prepareThread(Thread* thread){
-    assignThreadId(thread);
-    thread-&amp;gt;handle = pthread_self();
-    thread-&amp;gt;systemTid = dvmGetSysThreadId();
-    setThreadSelf(thread);
-    return true;
-}
-
-//Explore our sense of self.  Stuffs the thread pointer into TLS.
-static void setThreadSelf(Thread* thread){
-    int cc;
-    cc = pthread_setspecific(gDvm.pthreadKeySelf, thread);
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;在新线程的interpThreadStart方法中，首先设置线程的名字，然后调用prepareThread设置线程id以及其它一些属性，其中调用了setThreadSelf将新dalvik Thread自身保存在TLS中，这样之后就能通过dvmThreadSelf方法从TLS中获取它。然后在29行处修改状态为THREAD_RUNNING，并在36行调用对应Android Thread的run()方法，其中调用了Runnable的run方法，运行我们自己的代码。
-绕这么深才执行到我们的run方法，累不累？ v_v&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    /**
-     * Calls the &amp;lt;code&amp;gt;run()&amp;lt;/code&amp;gt; method of the Runnable object the receiver
-     * holds. If no Runnable is set, does nothing.
-     * @see Thread#start
-     */
-    public void run() {
-        if (target != null) {
-            target.run();
-        }
-    }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;到此我们已经完成一次命令调用，至于底层run调用完毕后续执行代码，读者可以自行跟进看看~~~&lt;/p&gt;
-
-&lt;h2 id=&quot;section-7&quot;&gt;4. 杂谈&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-8&quot;&gt;优点&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;降低对象之间的耦合度。&lt;/li&gt;
-  &lt;li&gt;新的命令可以很容易地加入到系统中。&lt;/li&gt;
-  &lt;li&gt;可以比较容易地设计一个组合命令。&lt;/li&gt;
-  &lt;li&gt;调用同一方法实现不同的功能&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;section-9&quot;&gt;缺点&lt;/h3&gt;
-
-&lt;p&gt;使用命令模式可能会导致某些系统有过多的具体命令类。因为针对每一个命令都需要设计一个具体命令类，因此某些系统可能需要大量具体命令类，这将影响命令模式的使用。     &lt;br /&gt;
-比如上面的PeopleBean的属性增加，Receiver针对PeopleBean一个属性一个执行方法，一个Command的实现可以调用Receiver的一个执行方法，由此得需要设计多少个具体命令类呀！！&lt;/p&gt;
-</description>
-        <pubDate>Thu, 09 Jun 2016 17:30:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/06/09/android_command_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/09/android_command_introduction/</guid>
         
         <category>Android</category>
         
