@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 动画讲解二
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/23/ios_core_animation2_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-e2e-ux.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#core-animation" title="core-animation">core-animation</a>
+                        
+                    </div>
+                    <h1>IOS 动画讲解二</h1>
+                    
+                    
+                    <h2 class="subheading">寄宿图</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 23, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h1 id="section">寄宿图</h1>
+<blockquote>
+  <p>图片胜过千言万语，界面抵得上千图片  ——Ben Shneiderman</p>
+</blockquote>
+
+<p>我们在第一章『图层树』中介绍了CALayer类并创建了一个简单的有蓝色背景的图层。背景颜色还好啦，但是如果它仅仅是展现了一个单调的颜色未免也太无聊了。事实上CALayer类能够包含一张你喜欢的图片，这一章节我们将来探索CALayer的寄宿图（即图层中包含的图）。</p>
+
+<h2 id="contents">contents属性</h2>
+<p>CALayer 有一个属性叫做<code class="highlighter-rouge">contents</code>，这个属性的类型被定义为id，意味着它可以是任何类型的对象。在这种情况下，你可以给<code class="highlighter-rouge">contents</code>属性赋任何值，你的app仍然能够编译通过。但是，在实践中，如果你给<code class="highlighter-rouge">contents</code>赋的不是CGImage，那么你得到的图层将是空白的。</p>
+
+<p><code class="highlighter-rouge">contents</code>这个奇怪的表现是由Mac OS的历史原因造成的。它之所以被定义为id类型，是因为在Mac OS系统上，这个属性对CGImage和NSImage类型的值都起作用。如果你试图在iOS平台上将UIImage的值赋给它，只能得到一个空白的图层。一些初识Core Animation的iOS开发者可能会对这个感到困惑。</p>
+
+<p>头疼的不仅仅是我们刚才提到的这个问题。事实上，你真正要赋值的类型应该是CGImageRef，它是一个指向CGImage结构的指针。UIImage有一个CGImage属性，它返回一个”CGImageRef”,如果你想把这个值直接赋值给CALayer的<code class="highlighter-rouge">contents</code>，那你将会得到一个编译错误。因为CGImageRef并不是一个真正的Cocoa对象，而是一个Core Foundation类型。</p>
+
+<p>尽管Core Foundation类型跟Cocoa对象在运行时貌似很像（被称作toll-free bridging），它们并不是类型兼容的，不过你可以通过bridged关键字转换。如果要给图层的寄宿图赋值，你可以按照以下这个方法：</p>
+
+<pre><code class="language-objective-c">layer.contents = (__bridge id)image.CGImage;
+</code></pre>
+
+<p>如果你没有使用ARC（自动引用计数），你就不需要__bridge这部分。但是，你干嘛不用ARC？！</p>
+
+<p>让我们来继续修改我们在第一章新建的工程，以便能够展示一张图片而不仅仅是一个背景色。我们已经用代码的方式建立一个图层，那我们就不需要额外的图层了。那么我们就直接把layerView的宿主图层的<code class="highlighter-rouge">contents</code>属性设置成图片。</p>
+
+<p>清单2.1 更新后的代码。</p>
+
+<pre><code class="language-objective-c">@implementation ViewController
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad]; //load an image
+  UIImage *image = [UIImage imageNamed:@"Snowman.png"];
+
+  //add it directly to our view's layer
+  self.layerView.layer.contents = (__bridge id)image.CGImage;
+}
+@end
+</code></pre>
+
+<p>图表2.1 在UIView的宿主图层中显示一张图片</p>
+
+<p><img src="/img/in-post/ios_introduction/2.1.png" alt="IMG" /></p>
+
+<p>我们用这些简单的代码做了一件很有趣的事情：我们利用CALayer在一个普通的UIView中显示了一张图片。这不是一个UIImageView，它不是我们通常用来展示图片的方法。通过直接操作图层，我们使用了一些新的函数，使得UIView更加有趣了。</p>
+
+<p><strong>contentGravity</strong></p>
+
+<p>你可能已经注意到了我们的雪人看起来有点。。。胖 ＝＝！ 我们加载的图片并不刚好是一个方的，为了适应这个视图，它有一点点被拉伸了。在使用UIImageView的时候遇到过同样的问题，解决方法就是把<code class="highlighter-rouge">contentMode</code>属性设置成更合适的值，像这样：</p>
+
+<pre><code class="language-objective-c">view.contentMode = UIViewContentModeScaleAspectFit;
+</code></pre>
+<p>这个方法基本和我们遇到的情况的解决方法已经接近了（你可以试一下 :) ），不过UIView大多数视觉相关的属性比如<code class="highlighter-rouge">contentMode</code>，对这些属性的操作其实是对对应图层的操作。</p>
+
+<p>CALayer与<code class="highlighter-rouge">contentMode</code>对应的属性叫做<code class="highlighter-rouge">contentsGravity</code>，但是它是一个NSString类型，而不是像对应的UIKit部分，那里面的值是枚举。<code class="highlighter-rouge">contentsGravity</code>可选的常量值有以下一些：</p>
+
+<ul>
+  <li>kCAGravityCenter</li>
+  <li>kCAGravityTop</li>
+  <li>kCAGravityBottom</li>
+  <li>kCAGravityLeft</li>
+  <li>kCAGravityRight</li>
+  <li>kCAGravityTopLeft</li>
+  <li>kCAGravityTopRight</li>
+  <li>kCAGravityBottomLeft</li>
+  <li>kCAGravityBottomRight</li>
+  <li>kCAGravityResize</li>
+  <li>kCAGravityResizeAspect</li>
+  <li>kCAGravityResizeAspectFill</li>
+</ul>
+
+<p>和<code class="highlighter-rouge">cotentMode</code>一样，<code class="highlighter-rouge">contentsGravity</code>的目的是为了决定内容在图层的边界中怎么对齐，我们将使用kCAGravityResizeAspect，它的效果等同于UIViewContentModeScaleAspectFit， 同时它还能在图层中等比例拉伸以适应图层的边界。</p>
+
+<pre><code class="language-objective-c">self.layerView.layer.contentsGravity = kCAGravityResizeAspect;
+</code></pre>
+
+<p>图2.2 可以看到结果</p>
+
+<p><img src="/img/in-post/ios_introduction/2.2.png" alt="IMG" /></p>
+
+<p>图2.2 正确地设置<code class="highlighter-rouge">contentsGravity</code>的值</p>
+
+<h2 id="contentsscale">contentsScale</h2>
+
+<p><code class="highlighter-rouge">contentsScale</code>属性定义了寄宿图的像素尺寸和视图大小的比例，默认情况下它是一个值为1.0的浮点数。</p>
+
+<p><code class="highlighter-rouge">contentsScale</code>的目的并不是那么明显。它并不是总会对屏幕上的寄宿图有影响。如果你尝试对我们的例子设置不同的值，你就会发现根本没任何影响。因为<code class="highlighter-rouge">contents</code>由于设置了<code class="highlighter-rouge">contentsGravity</code>属性，所以它已经被拉伸以适应图层的边界。</p>
+
+<p>如果你只是单纯地想放大图层的<code class="highlighter-rouge">contents</code>图片，你可以通过使用图层的<code class="highlighter-rouge">transform</code>和<code class="highlighter-rouge">affineTransform</code>属性来达到这个目的（见第五章『Transforms』，里面对此有解释），这(指放大)也不是<code class="highlighter-rouge">contentsScale</code>的目的所在.</p>
+
+<p><code class="highlighter-rouge">contentsScale</code>属性其实属于支持高分辨率（又称Hi-DPI或Retina）屏幕机制的一部分。它用来判断在绘制图层的时候应该为寄宿图创建的空间大小，和需要显示的图片的拉伸度（假设并没有设置<code class="highlighter-rouge">contentsGravity</code>属性）。UIView有一个类似功能但是非常少用到的<code class="highlighter-rouge">contentScaleFactor</code>属性。</p>
+
+<p>如果<code class="highlighter-rouge">contentsScale</code>设置为1.0，将会以每个点1个像素绘制图片，如果设置为2.0，则会以每个点2个像素绘制图片，这就是我们熟知的Retina屏幕。（如果你对像素和点的概念不是很清楚的话，这个章节的后面部分将会对此做出解释）。</p>
+
+<p>这并不会对我们在使用kCAGravityResizeAspect时产生任何影响，因为它就是拉伸图片以适应图层而已，根本不会考虑到分辨率问题。但是如果我们把<code class="highlighter-rouge">contentsGravity</code>设置为kCAGravityCenter（这个值并不会拉伸图片），那将会有很明显的变化（如图2.3）</p>
+
+<p><img src="/img/in-post/ios_introduction/2.3.png" alt="IMG" /></p>
+
+<p>图2.3 用错误的<code class="highlighter-rouge">contentsScale</code>属性显示Retina图片</p>
+
+<p>如你所见，我们的雪人不仅有点大还有点像素的颗粒感。那是因为和UIImage不同，CGImage没有拉伸的概念。当我们使用UIImage类去读取我们的雪人图片的时候，它读取了高质量的Retina版本的图片。但是当我们用CGImage来设置我们的图层的内容时，拉伸这个因素在转换的时候就丢失了。不过我们可以通过手动设置<code class="highlighter-rouge">contentsScale</code>来修复这个问题（如2.2清单），图2.4是结果</p>
+
+<pre><code class="language-objective-c">@implementation ViewController
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad]; //load an image
+  UIImage *image = [UIImage imageNamed:@"Snowman.png"]; //add it directly to our view's layer
+  self.layerView.layer.contents = (__bridge id)image.CGImage; //center the image
+  self.layerView.layer.contentsGravity = kCAGravityCenter;
+
+  //set the contentsScale to match image
+  self.layerView.layer.contentsScale = image.scale;
+}
+
+@end
+</code></pre>
+
+<p><img src="/img/in-post/ios_introduction/2.4.png" alt="IMG" /></p>
+
+<p>图2.4 同样的Retina图片设置了正确的<code class="highlighter-rouge">contentsScale</code>之后</p>
+
+<p>当用代码的方式来处理寄宿图的时候，一定要记住要手动的设置图层的<code class="highlighter-rouge">contentsScale</code>属性，否则，你的图片在Retina设备上就显示得不正确啦。代码如下：</p>
+
+<pre><code class="language-objective-c">layer.contentsScale = [UIScreen mainScreen].scale;
+</code></pre>
+
+<h2 id="masktobounds">maskToBounds</h2>
+
+<p>现在我们的雪人总算是显示了正确的大小，不过你也许已经发现了另外一些事情：它超出了视图的边界。默认情况下，UIView仍然会绘制超过边界的内容或是子视图，在CALayer下也是这样的。</p>
+
+<p>UIView有一个叫做<code class="highlighter-rouge">clipsToBounds</code>的属性可以用来决定是否显示超出边界的内容，CALayer对应的属性叫做<code class="highlighter-rouge">masksToBounds</code>，把它设置为YES，雪人就在边界里啦～（如图2.5）</p>
+
+<p><img src="/img/in-post/ios_introduction/2.5.png" alt="IMG" /></p>
+
+<p>图2.5 使用<code class="highlighter-rouge">masksToBounds</code>来修建图层内容</p>
+
+<h2 id="contentsrect">contentsRect</h2>
+
+<p>CALayer的<code class="highlighter-rouge">contentsRect</code>属性允许我们在图层边框里显示寄宿图的一个子域。这涉及到图片是如何显示和拉伸的，所以要比<code class="highlighter-rouge">contentsGravity</code>灵活多了</p>
+
+<p>和<code class="highlighter-rouge">bounds</code>，<code class="highlighter-rouge">frame</code>不同，<code class="highlighter-rouge">contentsRect</code>不是按点来计算的，它使用了<em>单位坐标</em>，单位坐标指定在0到1之间，是一个相对值（像素和点就是绝对值）。所以它们是相对与寄宿图的尺寸的。iOS使用了以下的坐标系统：</p>
+
+<ul>
+  <li>点 —— 在iOS和Mac OS中最常见的坐标体系。点就像是虚拟的像素，也被称作逻辑像素。在标准设备上，一个点就是一个像素，但是在Retina设备上，一个点等于2*2个像素。iOS用点作为屏幕的坐标测算体系就是为了在Retina设备和普通设备上能有一致的视觉效果。</li>
+  <li>像素 —— 物理像素坐标并不会用来屏幕布局，但是仍然与图片有相对关系。UIImage是一个屏幕分辨率解决方案，所以指定点来度量大小。但是一些底层的图片表示如CGImage就会使用像素，所以你要清楚在Retina设备和普通设备上，它们表现出来了不同的大小。</li>
+  <li>单位 —— 对于与图片大小或是图层边界相关的显示，单位坐标是一个方便的度量方式， 当大小改变的时候，也不需要再次调整。单位坐标在OpenGL这种纹理坐标系统中用得很多，Core Animation中也用到了单位坐标。</li>
+</ul>
+
+<p>默认的<code class="highlighter-rouge">contentsRect</code>是{0, 0, 1, 1}，这意味着整个寄宿图默认都是可见的，如果我们指定一个小一点的矩形，图片就会被裁剪（如图2.6）</p>
+
+<p><img src="/img/in-post/ios_introduction/2.6.png" alt="IMG" /></p>
+
+<p>图2.6 一个自定义的<code class="highlighter-rouge">contentsRect</code>（左）和之前显示的内容（右）</p>
+
+<p>事实上给<code class="highlighter-rouge">contentsRect</code>设置一个负数的原点或是大于{1, 1}的尺寸也是可以的。这种情况下，最外面的像素会被拉伸以填充剩下的区域。</p>
+
+<p><code class="highlighter-rouge">contentsRect</code>在app中最有趣的地方在于一个叫做<em>image sprites</em>（图片拼合）的用法。如果你有游戏编程的经验，那么你一定对图片拼合的概念很熟悉，图片能够在屏幕上独立地变更位置。抛开游戏编程不谈，这个技术常用来指代载入拼合的图片，跟移动图片一点关系也没有。</p>
+
+<p>典型地，图片拼合后可以打包整合到一张大图上一次性载入。相比多次载入不同的图片，这样做能够带来很多方面的好处：内存使用，载入时间，渲染性能等等</p>
+
+<p>2D游戏引擎入Cocos2D使用了拼合技术，它使用OpenGL来显示图片。不过我们可以使用拼合在一个普通的UIKit应用中，对！就是使用<code class="highlighter-rouge">contentsRect</code></p>
+
+<p>首先，我们需要一个拼合后的图表 —— 一个包含小一些的拼合图的大图片。如图2.7所示：</p>
+
+<p><img src="/img/in-post/ios_introduction/2.7.png" alt="IMG" /></p>
+
+<p>接下来，我们要在app中载入并显示这些拼合图。规则很简单：像平常一样载入我们的大图，然后把它赋值给四个独立的图层的<code class="highlighter-rouge">contents</code>，然后设置每个图层的<code class="highlighter-rouge">contentsRect</code>来去掉我们不想显示的部分。</p>
+
+<p>我们的工程中需要一些额外的视图。（为了避免太多代码。我们将使用Interface Builder来访问它们的位置，如果你愿意还是可以用代码的方式来实现的）。清单2.3有需要的代码，图2.8展示了结果</p>
+
+<pre><code class="language-objective-c">
+@interface ViewController ()
+@property (nonatomic, weak) IBOutlet UIView *coneView;
+@property (nonatomic, weak) IBOutlet UIView *shipView;
+@property (nonatomic, weak) IBOutlet UIView *iglooView;
+@property (nonatomic, weak) IBOutlet UIView *anchorView;
+@end
+
+@implementation ViewController
+
+- (void)addSpriteImage:(UIImage *)image withContentRect:(CGRect)rect ￼toLayer:(CALayer *)layer //set image
+{
+  layer.contents = (__bridge id)image.CGImage;
+
+  //scale contents to fit
+  layer.contentsGravity = kCAGravityResizeAspect;
+
+  //set contentsRect
+  layer.contentsRect = rect;
+}
+
+- (void)viewDidLoad 
+{
+  [super viewDidLoad]; //load sprite sheet
+  UIImage *image = [UIImage imageNamed:@"Sprites.png"];
+  //set igloo sprite
+  [self addSpriteImage:image withContentRect:CGRectMake(0, 0, 0.5, 0.5) toLayer:self.iglooView.layer];
+  //set cone sprite
+  [self addSpriteImage:image withContentRect:CGRectMake(0.5, 0, 0.5, 0.5) toLayer:self.coneView.layer];
+  //set anchor sprite
+  [self addSpriteImage:image withContentRect:CGRectMake(0, 0.5, 0.5, 0.5) toLayer:self.anchorView.layer];
+  //set spaceship sprite
+  [self addSpriteImage:image withContentRect:CGRectMake(0.5, 0.5, 0.5, 0.5) toLayer:self.shipView.layer];
+}
+@end
+</code></pre>
+<p><img src="/img/in-post/ios_introduction/2.8.png" alt="IMG" /></p>
+
+<p>拼合不仅给app提供了一个整洁的载入方式，还有效地提高了载入性能（单张大图比多张小图载入得更快），但是如果有手动安排的话，它们还是有一些不方便的，如果你需要在一个已经创建好的拼合图上做一些尺寸上的修改或者其他变动，无疑是比较麻烦的。</p>
+
+<p>Mac上有一些商业软件可以为你自动拼合图片，这些工具自动生成一个包含拼合后的坐标的XML或者plist文件，拼合图片的使用大大简化。这个文件可以和图片一同载入，并给每个拼合的图层设置<code class="highlighter-rouge">contentsRect</code>，这样开发者就不用手动写代码来摆放位置了。</p>
+
+<p>这些文件通常在OpenGL游戏中使用，不过呢，你要是有兴趣在一些常见的app中使用拼合技术，那么一个叫做LayerSprites的开源库（<a href="https://github.com/nicklockwood/LayerSprites">https://github.com/nicklockwood/LayerSprites</a>)，它能够读取Cocos2D格式中的拼合图并在普通的Core Animation层中显示出来。</p>
+
+<h2 id="contentscenter">contentsCenter</h2>
+
+<p>本章我们介绍的最后一个和内容有关的属性是<code class="highlighter-rouge">contentsCenter</code>，看名字你可能会以为它可能跟图片的位置有关，不过这名字着实误导了你。<code class="highlighter-rouge">contentsCenter</code>其实是一个CGRect，它定义了一个固定的边框和一个在图层上可拉伸的区域。 改变<code class="highlighter-rouge">contentsCenter</code>的值并不会影响到寄宿图的显示，除非这个图层的大小改变了，你才看得到效果。</p>
+
+<p>默认情况下，<code class="highlighter-rouge">contentsCenter</code>是{0, 0, 1, 1}，这意味着如果大小（由<code class="highlighter-rouge">conttensGravity</code>决定）改变了,那么寄宿图将会均匀地拉伸开。但是如果我们增加原点的值并减小尺寸。我们会在图片的周围创造一个边框。图2.9展示了<code class="highlighter-rouge">contentsCenter</code>设置为{0.25, 0.25, 0.5, 0.5}的效果。</p>
+
+<p><img src="/img/in-post/ios_introduction/2.9.png" alt="IMG" /></p>
+
+<p>图2.9 <code class="highlighter-rouge">contentsCenter</code>的例子</p>
+
+<p>这意味着我们可以随意重设尺寸，边框仍然会是连续的。它工作起来的效果和UIImage里的-resizableImageWithCapInsets: 方法效果非常类似，只是它可以运用到任何寄宿图，甚至包括在Core Graphics运行时绘制的图形（本章稍后会讲到）。</p>
+
+<p><img src="/img/in-post/ios_introduction/2.10.png" alt="IMG" /></p>
+
+<p>图2.10 同一图片使用不同的<code class="highlighter-rouge">contentsCenter</code></p>
+
+<p>清单2.4 演示了如何编写这些可拉伸视图。不过，contentsCenter的另一个很酷的特性就是，它可以在Interface Builder里面配置，根本不用写代码。如图2.11</p>
+
+<p>清单2.4 用<code class="highlighter-rouge">contentsCenter</code>设置可拉伸视图</p>
+
+<pre><code class="language-objective-c">@interface ViewController ()
+
+@property (nonatomic, weak) IBOutlet UIView *button1;
+@property (nonatomic, weak) IBOutlet UIView *button2;
+
+@end
+
+@implementation ViewController
+
+- (void)addStretchableImage:(UIImage *)image withContentCenter:(CGRect)rect toLayer:(CALayer *)layer
+{  
+  //set image
+  layer.contents = (__bridge id)image.CGImage;
+
+  //set contentsCenter
+  layer.contentsCenter = rect;
+}
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad]; //load button image
+  UIImage *image = [UIImage imageNamed:@"Button.png"];
+
+  //set button 1
+  [self addStretchableImage:image withContentCenter:CGRectMake(0.25, 0.25, 0.5, 0.5) toLayer:self.button1.layer];
+
+  //set button 2
+  [self addStretchableImage:image withContentCenter:CGRectMake(0.25, 0.25, 0.5, 0.5) toLayer:self.button2.layer];
+}
+
+@end
+</code></pre>
+<p><img src="/img/in-post/ios_introduction/2.11.png" alt="IMG" /></p>
+
+<p>图2.11 用Interface Builder 探测窗口控制<code class="highlighter-rouge">contentsCenter</code>属性</p>
+
+<h2 id="custome-drawing">Custome Drawing</h2>
+
+<p>给<code class="highlighter-rouge">contents</code>赋CGImage的值不是唯一的设置寄宿图的方法。我们也可以直接用Core Graphics直接绘制寄宿图。能够通过继承UIView并实现<code class="highlighter-rouge">-drawRect:</code>方法来自定义绘制。</p>
+
+<p><code class="highlighter-rouge">-drawRect:</code> 方法没有默认的实现，因为对UIView来说，寄宿图并不是必须的，它不在意那到底是单调的颜色还是有一个图片的实例。如果UIView检测到<code class="highlighter-rouge">-drawRect:</code> 方法被调用了，它就会为视图分配一个寄宿图，这个寄宿图的像素尺寸等于视图大小乘以 <code class="highlighter-rouge">contentsScale</code>的值。</p>
+
+<p>如果你不需要寄宿图，那就不要创建这个方法了，这会造成CPU资源和内存的浪费，这也是为什么苹果建议：如果没有自定义绘制的任务就不要在子类中写一个空的-drawRect:方法。</p>
+
+<p>当视图在屏幕上出现的时候 <code class="highlighter-rouge">-drawRect:</code>方法就会被自动调用。<code class="highlighter-rouge">-drawRect:</code>方法里面的代码利用Core Graphics去绘制一个寄宿图，然后内容就会被缓存起来直到它需要被更新（通常是因为开发者调用了<code class="highlighter-rouge">-setNeedsDisplay</code>方法，尽管影响到表现效果的属性值被更改时，一些视图类型会被自动重绘，如<code class="highlighter-rouge">bounds</code>属性）。虽然<code class="highlighter-rouge">-drawRect:</code>方法是一个UIView方法，事实上都是底层的CALayer安排了重绘工作和保存了因此产生的图片。</p>
+
+<p>CALayer有一个可选的<code class="highlighter-rouge">delegate</code>属性，实现了<code class="highlighter-rouge">CALayerDelegate</code>协议，当CALayer需要一个内容特定的信息时，就会从协议中请求。CALayerDelegate是一个非正式协议，其实就是说没有CALayerDelegate @protocol可以让你在类里面引用啦。你只需要调用你想调用的方法，CALayer会帮你做剩下的。（<code class="highlighter-rouge">delegate</code>属性被声明为id类型，所有的代理方法都是可选的）。</p>
+
+<p>当需要被重绘时，CALayer会请求它的代理给它一个寄宿图来显示。它通过调用下面这个方法做到的:</p>
+
+<pre><code class="language-objective-c">(void)displayLayer:(CALayer *)layer;
+</code></pre>
+
+<p>趁着这个机会，如果代理想直接设置<code class="highlighter-rouge">contents</code>属性的话，它就可以这么做，不然没有别的方法可以调用了。如果代理不实现<code class="highlighter-rouge">-displayLayer:</code>方法，CALayer就会转而尝试调用下面这个方法：</p>
+
+<pre><code class="language-objective-c">- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx;
+</code></pre>
+
+<p>在调用这个方法之前，CALayer创建了一个合适尺寸的空寄宿图（尺寸由<code class="highlighter-rouge">bounds</code>和<code class="highlighter-rouge">contentsScale</code>决定）和一个Core Graphics的绘制上下文环境，为绘制寄宿图做准备，它作为ctx参数传入。</p>
+
+<p>让我们来继续第一章的项目让它实现CALayerDelegate并做一些绘图工作吧（见清单2.5）.图2.12是它的结果</p>
+
+<p>清单2.5 实现CALayerDelegate</p>
+
+<pre><code class="language-objective-c">@implementation ViewController
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+  ￼
+  //create sublayer
+  CALayer *blueLayer = [CALayer layer];
+  blueLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);
+  blueLayer.backgroundColor = [UIColor blueColor].CGColor;
+
+  //set controller as layer delegate
+  blueLayer.delegate = self;
+
+  //ensure that layer backing image uses correct scale
+  blueLayer.contentsScale = [UIScreen mainScreen].scale; //add layer to our view
+  [self.layerView.layer addSublayer:blueLayer];
+
+  //force layer to redraw
+  [blueLayer display];
+}
+
+- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
+{
+  //draw a thick red circle
+  CGContextSetLineWidth(ctx, 10.0f); 
+  CGContextSetStrokeColorWithColor(ctx, [UIColor redColor].CGColor);
+  CGContextStrokeEllipseInRect(ctx, layer.bounds);
+}
+@end
+</code></pre>
+
+<p><img src="/img/in-post/ios_introduction/2.12.png" alt="IMG" /></p>
+
+<p>图2.12 实现CALayerDelegate来绘制图层</p>
+
+<p>注意一下一些有趣的事情：</p>
+
+<ul>
+  <li>我们在blueLayer上显式地调用了<code class="highlighter-rouge">-display</code>。不同于UIView，当图层显示在屏幕上时，CALayer不会自动重绘它的内容。它把重绘的决定权交给了开发者。</li>
+  <li>尽管我们没有用<code class="highlighter-rouge">masksToBounds</code>属性，绘制的那个圆仍然沿边界被裁剪了。这是因为当你使用CALayerDelegate绘制寄宿图的时候，并没有对超出边界外的内容提供绘制支持。</li>
+</ul>
+
+<p>现在你理解了CALayerDelegate，并知道怎么使用它。但是除非你创建了一个单独的图层，你几乎没有机会用到CALayerDelegate协议。因为当UIView创建了它的宿主图层时，它就会自动地把图层的delegate设置为它自己，并提供了一个<code class="highlighter-rouge">-displayLayer:</code>的实现，那所有的问题就都没了。</p>
+
+<p>当使用寄宿了视图的图层的时候，你也不必实现<code class="highlighter-rouge">-displayLayer:</code>和<code class="highlighter-rouge">-drawLayer:inContext:</code>方法来绘制你的寄宿图。通常做法是实现UIView的<code class="highlighter-rouge">-drawRect:</code>方法，UIView就会帮你做完剩下的工作，包括在需要重绘的时候调用<code class="highlighter-rouge">-display</code>方法。</p>
+
+<h2 id="section-1">总结</h2>
+
+<p>本章介绍了寄宿图和一些相关的属性。你学到了如何显示和放置图片， 使用拼合技术来显示， 以及用CALayerDelegate和Core Graphics来绘制图层内容。</p>
+
+<p>在第三章，”图层几何学”中，我们将会探讨一下图层的几何，观察它们是如何放置和改变相互的尺寸的。</p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/22/ios_core_animation1_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解一">
+                        Previous<br>
+                        <span>IOS 动画讲解一</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="13">
+                                    Android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ios" title="ios" rel="8">
+                                    ios
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="3">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#core-animation" title="core-animation" rel="2">
+                                    core-animation
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/23/ios_core_animation2_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/23/ios_core_animation2_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
