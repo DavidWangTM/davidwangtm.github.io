@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 动画讲解三
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/24/ios_core_animation3_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-e2e-ux.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#core-animation" title="core-animation">core-animation</a>
+                        
+                    </div>
+                    <h1>IOS 动画讲解三</h1>
+                    
+                    
+                    <h2 class="subheading">图层几何学</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 24, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h1 id="section">图层几何学</h1>
+<blockquote>
+  <p><em>不熟悉几何学的人就不要来这里了</em> –柏拉图学院入口的签名</p>
+</blockquote>
+
+<p>在第二章里面，我们介绍了图层背后的图片，和一些控制图层坐标和旋转的属性。在这一章中，我们将要看一看图层内部是如何根据父图层和兄弟图层来控制位置和尺寸的。另外我们也会涉及如何管理图层的几何结构，以及它是如何被自动调整和自动布局影响的。</p>
+
+<h2 id="section-1">布局</h2>
+<p><code class="highlighter-rouge">UIView</code>有三个比较重要的布局属性：<code class="highlighter-rouge">frame</code>，<code class="highlighter-rouge">bounds</code>和<code class="highlighter-rouge">center</code>，<code class="highlighter-rouge">CALayer</code>对应地叫做<code class="highlighter-rouge">frame</code>，<code class="highlighter-rouge">bounds</code>和<code class="highlighter-rouge">position</code>。为了能清楚区分，图层用了“position”，视图用了“center”，但是他们都代表同样的值。</p>
+
+<p><code class="highlighter-rouge">frame</code>代表了图层的外部坐标（也就是在父图层上占据的空间），<code class="highlighter-rouge">bounds</code>是内部坐标（{0, 0}通常是图层的左上角），<code class="highlighter-rouge">center</code>和<code class="highlighter-rouge">position</code>都代表了相对于父图层<code class="highlighter-rouge">anchorPoint</code>所在的位置。<code class="highlighter-rouge">anchorPoint</code>的属性将会在后续介绍到，现在把它想成图层的中心点就好了。图3.1显示了这些属性是如何相互依赖的。</p>
+
+<p><img src="/img/in-post/ios_introduction/3.1.jpeg" alt="IMG" /></p>
+
+<p>图3.1 <code class="highlighter-rouge">UIView</code>和<code class="highlighter-rouge">CALayer</code>的坐标系</p>
+
+<p>视图的<code class="highlighter-rouge">frame</code>，<code class="highlighter-rouge">bounds</code>和<code class="highlighter-rouge">center</code>属性仅仅是<em>存取方法</em>，当操纵视图的<code class="highlighter-rouge">frame</code>，实际上是在改变位于视图下方<code class="highlighter-rouge">CALayer</code>的<code class="highlighter-rouge">frame</code>，不能够独立于图层之外改变视图的<code class="highlighter-rouge">frame</code>。</p>
+
+<p>对于视图或者图层来说，<code class="highlighter-rouge">frame</code>并不是一个非常清晰的属性，它其实是一个虚拟属性，是根据<code class="highlighter-rouge">bounds</code>，<code class="highlighter-rouge">position</code>和<code class="highlighter-rouge">transform</code>计算而来，所以当其中任何一个值发生改变，frame都会变化。相反，改变frame的值同样会影响到他们当中的值</p>
+
+<p>记住当对图层做变换的时候，比如旋转或者缩放，<code class="highlighter-rouge">frame</code>实际上代表了覆盖在图层旋转之后的整个轴对齐的矩形区域，也就是说<code class="highlighter-rouge">frame</code>的宽高可能和<code class="highlighter-rouge">bounds</code>的宽高不再一致了（图3.2）</p>
+
+<p><img src="/img/in-post/ios_introduction/3.2.jpeg" alt="IMG" /></p>
+
+<p>图3.2 旋转一个视图或者图层之后的<code class="highlighter-rouge">frame</code>属性</p>
+
+<h2 id="section-2">锚点</h2>
+<p>之前提到过，视图的<code class="highlighter-rouge">center</code>属性和图层的<code class="highlighter-rouge">position</code>属性都指定了<code class="highlighter-rouge">anchorPoint</code>相对于父图层的位置。图层的<code class="highlighter-rouge">anchorPoint</code>通过<code class="highlighter-rouge">position</code>来控制它的<code class="highlighter-rouge">frame</code>的位置，你可以认为<code class="highlighter-rouge">anchorPoint</code>是用来移动图层的<em>把柄</em>。</p>
+
+<p>默认来说，<code class="highlighter-rouge">anchorPoint</code>位于图层的中点，所以图层的将会以这个点为中心放置。<code class="highlighter-rouge">anchorPoint</code>属性并没有被<code class="highlighter-rouge">UIView</code>接口暴露出来，这也是视图的position属性被叫做“center”的原因。但是图层的<code class="highlighter-rouge">anchorPoint</code>可以被移动，比如你可以把它置于图层<code class="highlighter-rouge">frame</code>的左上角，于是图层的内容将会向右下角的<code class="highlighter-rouge">position</code>方向移动（图3.3），而不是居中了。</p>
+
+<p><img src="/img/in-post/ios_introduction/3.3.jpeg" alt="IMG" /></p>
+
+<p>图3.3 改变<code class="highlighter-rouge">anchorPoint</code>的效果</p>
+
+<p>和第二章提到的<code class="highlighter-rouge">contentsRect</code>和<code class="highlighter-rouge">contentsCenter</code>属性类似，<code class="highlighter-rouge">anchorPoint</code>用<em>单位坐标</em>来描述，也就是图层的相对坐标，图层左上角是{0, 0}，右下角是{1, 1}，因此默认坐标是{0.5, 0.5}。<code class="highlighter-rouge">anchorPoint</code>可以通过指定x和y值小于0或者大于1，使它放置在图层范围之外。</p>
+
+<p>注意在图3.3中，当改变了<code class="highlighter-rouge">anchorPoint</code>，<code class="highlighter-rouge">position</code>属性保持固定的值并没有发生改变，但是<code class="highlighter-rouge">frame</code>却移动了。</p>
+
+<p>那在什么场合需要改变<code class="highlighter-rouge">anchorPoint</code>呢？既然我们可以随意改变图层位置，那改变<code class="highlighter-rouge">anchorPoint</code>不会造成困惑么？为了举例说明，我们来举一个实用的例子，创建一个模拟闹钟的项目。</p>
+
+<p>钟面和钟表由四张图片组成（图3.4），为了简单说明，我们还是用传统的方式来装载和加载图片，使用四个<code class="highlighter-rouge">UIImageView</code>实例（当然你也可以用正常的视图，设置他们图层的<code class="highlighter-rouge">contents</code>图片）。</p>
+
+<p><img src="/img/in-post/ios_introduction/3.4.jpeg" alt="IMG" /></p>
+
+<p>图3.4 组成钟面和钟表的四张图片</p>
+
+<p>闹钟的组件通过IB来排列（图3.5），这些图片视图嵌套在一个容器视图之内，并且自动调整和自动布局都被禁用了。这是因为自动调整会影响到视图的<code class="highlighter-rouge">frame</code>，而根据图3.2的演示，当视图旋转的时候，<code class="highlighter-rouge">frame</code>是会发生改变的，这将会导致一些布局上的失灵。</p>
+
+<p>我们用<code class="highlighter-rouge">NSTimer</code>来更新闹钟，使用视图的<code class="highlighter-rouge">transform</code>属性来旋转钟表（如果你对这个属性不太熟悉，不要着急，我们将会在第5章“变换”当中详细说明），具体代码见清单3.1</p>
+
+<p><img src="/img/in-post/ios_introduction/3.5.jpeg" alt="IMG" /></p>
+
+<p>图3.5 在Interface Builder中布局闹钟视图</p>
+
+<p>清单3.1 <strong>Clock</strong>
+```objective-c
+@interface ViewController ()</p>
+
+<p>@property (nonatomic, weak) IBOutlet UIImageView *hourHand;
+@property (nonatomic, weak) IBOutlet UIImageView *minuteHand;
+@property (nonatomic, weak) IBOutlet UIImageView *secondHand;
+@property (nonatomic, weak) NSTimer *timer;</p>
+
+<p>@end</p>
+
+<p>@implementation ViewController</p>
+
+<ul>
+  <li>
+    <p>(void)viewDidLoad
+{
+  [super viewDidLoad];
+  //start timer
+  self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick) userInfo:nil repeats:YES];
+                ￼
+  //set initial hand positions
+  [self tick];
+}</p>
+  </li>
+  <li>
+    <p>(void)tick
+{
+  //convert time to hours, minutes and seconds
+  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  NSUInteger units = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+  NSDateComponents *components = [calendar components:units fromDate:[NSDate date]];
+  CGFloat hoursAngle = (components.hour / 12.0) * M_PI * 2.0;
+  //calculate hour hand angle //calculate minute hand angle
+  CGFloat minsAngle = (components.minute / 60.0) * M_PI * 2.0;
+  //calculate second hand angle
+  CGFloat secsAngle = (components.second / 60.0) * M_PI * 2.0;
+  //rotate hands
+  self.hourHand.transform = CGAffineTransformMakeRotation(hoursAngle);
+  self.minuteHand.transform = CGAffineTransformMakeRotation(minsAngle);
+  self.secondHand.transform = CGAffineTransformMakeRotation(secsAngle);
+}</p>
+  </li>
+</ul>
+
+<p>@end
+```</p>
+
+<p>运行项目，看起来有点奇怪（图3.6），因为钟表的图片在围绕着中心旋转，这并不是我们期待的一个支点。</p>
+
+<p><img src="/img/in-post/ios_introduction/3.6.jpeg" alt="IMG" /></p>
+
+<p>图3.6 钟面，和不对齐的钟指针</p>
+
+<p>你也许会认为可以在Interface Builder当中调整指针图片的位置来解决，但其实并不能达到目的，因为如果不放在钟面中间的话，同样不能正确的旋转。</p>
+
+<p>也许在图片末尾添加一个透明空间也是个解决方案，但这样会让图片变大，也会消耗更多的内存，这样并不优雅。</p>
+
+<p>更好的方案是使用<code class="highlighter-rouge">anchorPoint</code>属性，我们来在<code class="highlighter-rouge">-viewDidLoad</code>方法中添加几行代码来给每个钟指针的<code class="highlighter-rouge">anchorPoint</code>做一些平移（清单3.2），图3.7显示了正确的结果。</p>
+
+<p>清单3.2
+```objective-c
+- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    // adjust anchor points</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>self.secondHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); 
+self.minuteHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); 
+self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
+
+
+// start timer }  ```
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/3.7.jpeg" alt="IMG" /></p>
+
+<p>图3.7 钟面，和正确对齐的钟指针</p>
+
+<h2 id="section-3">坐标系</h2>
+<p>和视图一样，图层在图层树当中也是相对于父图层按层级关系放置，一个图层的<code class="highlighter-rouge">position</code>依赖于它父图层的<code class="highlighter-rouge">bounds</code>，如果父图层发生了移动，它的所有子图层也会跟着移动。</p>
+
+<p>这样对于放置图层会更加方便，因为你可以通过移动根图层来将它的子图层作为一个整体来移动，但是有时候你需要知道一个图层的<em>绝对</em>位置，或者是相对于另一个图层的位置，而不是它当前父图层的位置。</p>
+
+<p><code class="highlighter-rouge">CALayer</code>给不同坐标系之间的图层转换提供了一些工具类方法：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (CGPoint)convertPoint:(CGPoint)point fromLayer:(CALayer *)layer; 
+- (CGPoint)convertPoint:(CGPoint)point toLayer:(CALayer *)layer; 
+- (CGRect)convertRect:(CGRect)rect fromLayer:(CALayer *)layer;   - (CGRect)convertRect:(CGRect)rect toLayer:(CALayer *)layer;
+</code></pre>
+</div>
+
+<p>这些方法可以把定义在一个图层坐标系下的点或者矩形转换成另一个图层坐标系下的点或者矩形</p>
+
+<h3 id="section-4">翻转的几何结构</h3>
+
+<p>常规说来，在iOS上，一个图层的<code class="highlighter-rouge">position</code>位于父图层的左上角，但是在Mac OS上，通常是位于左下角。Core Animation可以通过<code class="highlighter-rouge">geometryFlipped</code>属性来适配这两种情况，它决定了一个图层的坐标是否相对于父图层垂直翻转，是一个<code class="highlighter-rouge">BOOL</code>类型。在iOS上通过设置它为<code class="highlighter-rouge">YES</code>意味着它的子图层将会被垂直翻转，也就是将会沿着底部排版而不是通常的顶部（它的所有子图层也同理，除非把它们的<code class="highlighter-rouge">geometryFlipped</code>属性也设为<code class="highlighter-rouge">YES</code>）。</p>
+
+<h3 id="z">Z坐标轴</h3>
+
+<p>和<code class="highlighter-rouge">UIView</code>严格的二维坐标系不同，<code class="highlighter-rouge">CALayer</code>存在于一个三维空间当中。除了我们已经讨论过的<code class="highlighter-rouge">position</code>和<code class="highlighter-rouge">anchorPoint</code>属性之外，<code class="highlighter-rouge">CALayer</code>还有另外两个属性，<code class="highlighter-rouge">zPosition</code>和<code class="highlighter-rouge">anchorPointZ</code>，二者都是在Z轴上描述图层位置的浮点类型。</p>
+
+<p>注意这里并没有更<em>深</em>的属性来描述由宽和高做成的<code class="highlighter-rouge">bounds</code>了，图层是一个完全扁平的对象，你可以把它们想象成类似于一页二维的坚硬的纸片，用胶水粘成一个空洞，就像三维结构的折纸一样。</p>
+
+<p><code class="highlighter-rouge">zPosition</code>属性在大多数情况下其实并不常用。在第五章，我们将会涉及<code class="highlighter-rouge">CATransform3D</code>，你会知道如何在三维空间移动和旋转图层，除了做变换之外，<code class="highlighter-rouge">zPosition</code>最实用的功能就是改变图层的<em>显示顺序</em>了。</p>
+
+<p>通常，图层是根据它们子图层的<code class="highlighter-rouge">sublayers</code>出现的顺序来类绘制的，这就是所谓的<em>画家的算法</em>–就像一个画家在墙上作画–后被绘制上的图层将会遮盖住之前的图层，但是通过增加图层的<code class="highlighter-rouge">zPosition</code>，就可以把图层向相机方向<em>前置</em>，于是它就在所有其他图层的<em>前面</em>了（或者至少是小于它的<code class="highlighter-rouge">zPosition</code>值的图层的前面）。</p>
+
+<p>这里所谓的“相机”实际上是相对于用户是视角，这里和iPhone背后的内置相机没任何关系。</p>
+
+<p>图3.8显示了在Interface Builder内的一对视图，正如你所见，首先出现在视图层级绿色的视图被绘制在红色视图的后面。</p>
+
+<p><img src="/img/in-post/ios_introduction/3.8.jpeg" alt="IMG" /></p>
+
+<p>图3.8 在视图层级中绿色视图被绘制在红色视图的后面</p>
+
+<p>我们希望在真实的应用中也能显示出绘图的顺序，同样地，如果我们提高绿色视图的<code class="highlighter-rouge">zPosition</code>（清单3.3），我们会发现顺序就反了（图3.9）。其实并不需要增加太多，视图都非常地薄，所以给<code class="highlighter-rouge">zPosition</code>提高一个像素就可以让绿色视图前置，当然0.1或者0.0001也能够做到，但是最好不要这样，因为浮点类型四舍五入的计算可能会造成一些不便的麻烦。</p>
+
+<p>清单3.3</p>
+
+<pre><code class="language-objective-c">@interface ViewController ()
+
+@property (nonatomic, weak) IBOutlet UIView *greenView;
+@property (nonatomic, weak) IBOutlet UIView *redView;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    ￼
+    //move the green view zPosition nearer to the camera
+    self.greenView.layer.zPosition = 1.0f;
+}
+@end
+</code></pre>
+
+<p><img src="/img/in-post/ios_introduction/3.9.jpeg" alt="IMG" /></p>
+
+<p>图3.9 绿色视图被绘制在红色视图的前面</p>
+
+<h2 id="hit-testing">Hit Testing</h2>
+<p>第一章“图层树”证实了最好使用图层相关视图，而不是创建独立的图层关系。其中一个原因就是要处理额外复杂的触摸事件。</p>
+
+<p><code class="highlighter-rouge">CALayer</code>并不关心任何响应链事件，所以不能直接处理触摸事件或者手势。但是它有一系列的方法帮你处理事件：<code class="highlighter-rouge">-containsPoint:</code>和<code class="highlighter-rouge">-hitTest:</code>。</p>
+
+<p><code class="highlighter-rouge"> -containsPoint: </code>接受一个在本图层坐标系下的<code class="highlighter-rouge">CGPoint</code>，如果这个点在图层<code class="highlighter-rouge">frame</code>范围内就返回<code class="highlighter-rouge">YES</code>。如清单3.4所示第一章的项目的另一个合适的版本，也就是使用<code class="highlighter-rouge">-containsPoint:</code>方法来判断到底是白色还是蓝色的图层被触摸了
+（图3.10）。这需要把触摸坐标转换成每个图层坐标系下的坐标，结果很不方便。</p>
+
+<p>清单3.4 使用containsPoint判断被点击的图层</p>
+
+<pre><code class="language-objective-c">@interface ViewController ()
+
+@property (nonatomic, weak) IBOutlet UIView *layerView;
+@property (nonatomic, weak) CALayer *blueLayer;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    //create sublayer
+    self.blueLayer = [CALayer layer];
+    self.blueLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);
+    self.blueLayer.backgroundColor = [UIColor blueColor].CGColor;
+    //add it to our view
+    [self.layerView.layer addSublayer:self.blueLayer];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //get touch position relative to main view
+    CGPoint point = [[touches anyObject] locationInView:self.view];
+    //convert point to the white layer's coordinates
+    point = [self.layerView.layer convertPoint:point fromLayer:self.view.layer];
+    //get layer using containsPoint:
+    if ([self.layerView.layer containsPoint:point]) {
+        //convert point to blueLayer’s coordinates
+        point = [self.blueLayer convertPoint:point fromLayer:self.layerView.layer];
+        if ([self.blueLayer containsPoint:point]) {
+            [[[UIAlertView alloc] initWithTitle:@"Inside Blue Layer" 
+                                        message:nil
+                                       delegate:nil 
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil] show];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Inside White Layer"
+                                        message:nil 
+                                       delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil] show];
+        }
+    }
+}
+
+@end
+</code></pre>
+
+<p><img src="/img/in-post/ios_introduction/3.10.jpeg" alt="IMG" /></p>
+
+<p>图3.10 点击图层被正确标识</p>
+
+<p><code class="highlighter-rouge">-hitTest:</code>方法同样接受一个<code class="highlighter-rouge">CGPoint</code>类型参数，而不是<code class="highlighter-rouge">BOOL</code>类型，它返回图层本身，或者包含这个坐标点的叶子节点图层。这意味着不再需要像使用<code class="highlighter-rouge">-containsPoint:</code>那样，人工地在每个子图层变换或者测试点击的坐标。如果这个点在最外面图层的范围之外，则返回nil。具体使用<code class="highlighter-rouge">-hitTest:</code>方法被点击图层的代码如清单3.5所示。</p>
+
+<p>清单3.5 使用hitTest判断被点击的图层</p>
+
+<pre><code class="language-objective-c">- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //get touch position
+    CGPoint point = [[touches anyObject] locationInView:self.view];
+    //get touched layer
+    CALayer *layer = [self.layerView.layer hitTest:point];
+    //get layer using hitTest
+    if (layer == self.blueLayer) {
+        [[[UIAlertView alloc] initWithTitle:@"Inside Blue Layer"
+                                    message:nil
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    } else if (layer == self.layerView.layer) {
+        [[[UIAlertView alloc] initWithTitle:@"Inside White Layer"
+                                    message:nil
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    }
+}
+</code></pre>
+
+<p>注意当调用图层的<code class="highlighter-rouge">-hitTest:</code>方法时，测算的顺序严格依赖于图层树当中的图层顺序（和UIView处理事件类似）。之前提到的<code class="highlighter-rouge">zPosition</code>属性可以明显改变屏幕上图层的顺序，但不能改变事件传递的顺序。</p>
+
+<p>这意味着如果改变了图层的z轴顺序，你会发现将不能够检测到最前方的视图点击事件，这是因为被另一个图层遮盖住了，虽然它的<code class="highlighter-rouge">zPosition</code>值较小，但是在图层树中的顺序靠前。我们将在第五章详细讨论这个问题。</p>
+
+<h2 id="section-5">自动布局</h2>
+
+<p>你可能用过<code class="highlighter-rouge">UIViewAutoresizingMask</code>类型的一些常量，应用于当父视图改变尺寸的时候，相应<code class="highlighter-rouge">UIView</code>的<code class="highlighter-rouge">frame</code>也跟着更新的场景（通常用于横竖屏切换）。</p>
+
+<p>在iOS6中，苹果介绍了<em>自动排版</em>机制，它和自动调整不同，并且更加复杂。</p>
+
+<p>在Mac OS平台，<code class="highlighter-rouge">CALayer</code>有一个叫做<code class="highlighter-rouge">layoutManager</code>的属性可以通过<code class="highlighter-rouge">CALayoutManager</code>协议和<code class="highlighter-rouge">CAConstraintLayoutManager</code>类来实现自动排版的机制。但由于某些原因，这在iOS上并不适用。</p>
+
+<p>当使用视图的时候，可以充分利用<code class="highlighter-rouge">UIView</code>类接口暴露出来的<code class="highlighter-rouge">UIViewAutoresizingMask</code>和<code class="highlighter-rouge">NSLayoutConstraint</code>API，但如果想随意控制<code class="highlighter-rouge">CALayer</code>的布局，就需要手工操作。最简单的方法就是使用<code class="highlighter-rouge">CALayerDelegate</code>如下函数：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)layoutSublayersOfLayer:(CALayer *)layer;
+</code></pre>
+</div>
+
+<p>当图层的<code class="highlighter-rouge">bounds</code>发生改变，或者图层的<code class="highlighter-rouge">-setNeedsLayout</code>方法被调用的时候，这个函数将会被执行。这使得你可以手动地重新摆放或者重新调整子图层的大小，但是不能像<code class="highlighter-rouge">UIView</code>的<code class="highlighter-rouge">autoresizingMask</code>和<code class="highlighter-rouge">constraints</code>属性做到自适应屏幕旋转。</p>
+
+<p>这也是为什么最好使用视图而不是单独的图层来构建应用程序的另一个重要原因之一。</p>
+
+<h2 id="section-6">总结</h2>
+
+<p>本章涉及了<code class="highlighter-rouge">CALayer</code>的集合结构，包括它的<code class="highlighter-rouge">frame</code>，<code class="highlighter-rouge">position</code>和<code class="highlighter-rouge">bounds</code>，介绍了三维空间内图层的概念，以及如何在独立的图层内响应事件，最后简单说明了在iOS平台，Core Animation对自动调整和自动布局支持的缺乏。</p>
+
+<p>在第四章“视觉效果”当中，我们接着介绍一些图层外表的特性。</p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/23/ios_core_animation2_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解二">
+                        Previous<br>
+                        <span>IOS 动画讲解二</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="13">
+                                    Android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ios" title="ios" rel="9">
+                                    ios
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="3">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#core-animation" title="core-animation" rel="3">
+                                    core-animation
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/24/ios_core_animation3_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/24/ios_core_animation3_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -5,9 +5,340 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Jun 2016 11:42:02 +0800</pubDate>
-    <lastBuildDate>Thu, 23 Jun 2016 11:42:02 +0800</lastBuildDate>
+    <pubDate>Fri, 24 Jun 2016 11:47:47 +0800</pubDate>
+    <lastBuildDate>Fri, 24 Jun 2016 11:47:47 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>IOS 动画讲解三</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;图层几何学&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;不熟悉几何学的人就不要来这里了&lt;/em&gt; –柏拉图学院入口的签名&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在第二章里面，我们介绍了图层背后的图片，和一些控制图层坐标和旋转的属性。在这一章中，我们将要看一看图层内部是如何根据父图层和兄弟图层来控制位置和尺寸的。另外我们也会涉及如何管理图层的几何结构，以及它是如何被自动调整和自动布局影响的。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;布局&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;有三个比较重要的布局属性：&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;center&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;对应地叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;。为了能清楚区分，图层用了“position”，视图用了“center”，但是他们都代表同样的值。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;代表了图层的外部坐标（也就是在父图层上占据的空间），&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;是内部坐标（{0, 0}通常是图层的左上角），&lt;code class=&quot;highlighter-rouge&quot;&gt;center&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;都代表了相对于父图层&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;所在的位置。&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;的属性将会在后续介绍到，现在把它想成图层的中心点就好了。图3.1显示了这些属性是如何相互依赖的。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.1.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.1 &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;的坐标系&lt;/p&gt;
+
+&lt;p&gt;视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;center&lt;/code&gt;属性仅仅是&lt;em&gt;存取方法&lt;/em&gt;，当操纵视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;，实际上是在改变位于视图下方&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;，不能够独立于图层之外改变视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;对于视图或者图层来说，&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;并不是一个非常清晰的属性，它其实是一个虚拟属性，是根据&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;transform&lt;/code&gt;计算而来，所以当其中任何一个值发生改变，frame都会变化。相反，改变frame的值同样会影响到他们当中的值&lt;/p&gt;
+
+&lt;p&gt;记住当对图层做变换的时候，比如旋转或者缩放，&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;实际上代表了覆盖在图层旋转之后的整个轴对齐的矩形区域，也就是说&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;的宽高可能和&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;的宽高不再一致了（图3.2）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.2.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.2 旋转一个视图或者图层之后的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;属性&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;锚点&lt;/h2&gt;
+&lt;p&gt;之前提到过，视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;center&lt;/code&gt;属性和图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;属性都指定了&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;相对于父图层的位置。图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;来控制它的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;的位置，你可以认为&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;是用来移动图层的&lt;em&gt;把柄&lt;/em&gt;。&lt;/p&gt;
+
+&lt;p&gt;默认来说，&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;位于图层的中点，所以图层的将会以这个点为中心放置。&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;属性并没有被&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;接口暴露出来，这也是视图的position属性被叫做“center”的原因。但是图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;可以被移动，比如你可以把它置于图层&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;的左上角，于是图层的内容将会向右下角的&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;方向移动（图3.3），而不是居中了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.3.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.3 改变&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;的效果&lt;/p&gt;
+
+&lt;p&gt;和第二章提到的&lt;code class=&quot;highlighter-rouge&quot;&gt;contentsRect&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;contentsCenter&lt;/code&gt;属性类似，&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;用&lt;em&gt;单位坐标&lt;/em&gt;来描述，也就是图层的相对坐标，图层左上角是{0, 0}，右下角是{1, 1}，因此默认坐标是{0.5, 0.5}。&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;可以通过指定x和y值小于0或者大于1，使它放置在图层范围之外。&lt;/p&gt;
+
+&lt;p&gt;注意在图3.3中，当改变了&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;属性保持固定的值并没有发生改变，但是&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;却移动了。&lt;/p&gt;
+
+&lt;p&gt;那在什么场合需要改变&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;呢？既然我们可以随意改变图层位置，那改变&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;不会造成困惑么？为了举例说明，我们来举一个实用的例子，创建一个模拟闹钟的项目。&lt;/p&gt;
+
+&lt;p&gt;钟面和钟表由四张图片组成（图3.4），为了简单说明，我们还是用传统的方式来装载和加载图片，使用四个&lt;code class=&quot;highlighter-rouge&quot;&gt;UIImageView&lt;/code&gt;实例（当然你也可以用正常的视图，设置他们图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;contents&lt;/code&gt;图片）。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.4.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.4 组成钟面和钟表的四张图片&lt;/p&gt;
+
+&lt;p&gt;闹钟的组件通过IB来排列（图3.5），这些图片视图嵌套在一个容器视图之内，并且自动调整和自动布局都被禁用了。这是因为自动调整会影响到视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;，而根据图3.2的演示，当视图旋转的时候，&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;是会发生改变的，这将会导致一些布局上的失灵。&lt;/p&gt;
+
+&lt;p&gt;我们用&lt;code class=&quot;highlighter-rouge&quot;&gt;NSTimer&lt;/code&gt;来更新闹钟，使用视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;transform&lt;/code&gt;属性来旋转钟表（如果你对这个属性不太熟悉，不要着急，我们将会在第5章“变换”当中详细说明），具体代码见清单3.1&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.5.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.5 在Interface Builder中布局闹钟视图&lt;/p&gt;
+
+&lt;p&gt;清单3.1 &lt;strong&gt;Clock&lt;/strong&gt;
+```objective-c
+@interface ViewController ()&lt;/p&gt;
+
+&lt;p&gt;@property (nonatomic, weak) IBOutlet UIImageView *hourHand;
+@property (nonatomic, weak) IBOutlet UIImageView *minuteHand;
+@property (nonatomic, weak) IBOutlet UIImageView *secondHand;
+@property (nonatomic, weak) NSTimer *timer;&lt;/p&gt;
+
+&lt;p&gt;@end&lt;/p&gt;
+
+&lt;p&gt;@implementation ViewController&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;(void)viewDidLoad
+{
+  [super viewDidLoad];
+  //start timer
+  self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick) userInfo:nil repeats:YES];
+                ￼
+  //set initial hand positions
+  [self tick];
+}&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;(void)tick
+{
+  //convert time to hours, minutes and seconds
+  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  NSUInteger units = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+  NSDateComponents *components = [calendar components:units fromDate:[NSDate date]];
+  CGFloat hoursAngle = (components.hour / 12.0) * M_PI * 2.0;
+  //calculate hour hand angle //calculate minute hand angle
+  CGFloat minsAngle = (components.minute / 60.0) * M_PI * 2.0;
+  //calculate second hand angle
+  CGFloat secsAngle = (components.second / 60.0) * M_PI * 2.0;
+  //rotate hands
+  self.hourHand.transform = CGAffineTransformMakeRotation(hoursAngle);
+  self.minuteHand.transform = CGAffineTransformMakeRotation(minsAngle);
+  self.secondHand.transform = CGAffineTransformMakeRotation(secsAngle);
+}&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;@end
+```&lt;/p&gt;
+
+&lt;p&gt;运行项目，看起来有点奇怪（图3.6），因为钟表的图片在围绕着中心旋转，这并不是我们期待的一个支点。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.6.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.6 钟面，和不对齐的钟指针&lt;/p&gt;
+
+&lt;p&gt;你也许会认为可以在Interface Builder当中调整指针图片的位置来解决，但其实并不能达到目的，因为如果不放在钟面中间的话，同样不能正确的旋转。&lt;/p&gt;
+
+&lt;p&gt;也许在图片末尾添加一个透明空间也是个解决方案，但这样会让图片变大，也会消耗更多的内存，这样并不优雅。&lt;/p&gt;
+
+&lt;p&gt;更好的方案是使用&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;属性，我们来在&lt;code class=&quot;highlighter-rouge&quot;&gt;-viewDidLoad&lt;/code&gt;方法中添加几行代码来给每个钟指针的&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;做一些平移（清单3.2），图3.7显示了正确的结果。&lt;/p&gt;
+
+&lt;p&gt;清单3.2
+```objective-c
+- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    // adjust anchor points&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;self.secondHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); 
+self.minuteHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f); 
+self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
+
+
+// start timer }  ```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.7.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.7 钟面，和正确对齐的钟指针&lt;/p&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;坐标系&lt;/h2&gt;
+&lt;p&gt;和视图一样，图层在图层树当中也是相对于父图层按层级关系放置，一个图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;依赖于它父图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;，如果父图层发生了移动，它的所有子图层也会跟着移动。&lt;/p&gt;
+
+&lt;p&gt;这样对于放置图层会更加方便，因为你可以通过移动根图层来将它的子图层作为一个整体来移动，但是有时候你需要知道一个图层的&lt;em&gt;绝对&lt;/em&gt;位置，或者是相对于另一个图层的位置，而不是它当前父图层的位置。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;给不同坐标系之间的图层转换提供了一些工具类方法：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- (CGPoint)convertPoint:(CGPoint)point fromLayer:(CALayer *)layer; 
+- (CGPoint)convertPoint:(CGPoint)point toLayer:(CALayer *)layer; 
+- (CGRect)convertRect:(CGRect)rect fromLayer:(CALayer *)layer;   - (CGRect)convertRect:(CGRect)rect toLayer:(CALayer *)layer;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这些方法可以把定义在一个图层坐标系下的点或者矩形转换成另一个图层坐标系下的点或者矩形&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;翻转的几何结构&lt;/h3&gt;
+
+&lt;p&gt;常规说来，在iOS上，一个图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;位于父图层的左上角，但是在Mac OS上，通常是位于左下角。Core Animation可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;geometryFlipped&lt;/code&gt;属性来适配这两种情况，它决定了一个图层的坐标是否相对于父图层垂直翻转，是一个&lt;code class=&quot;highlighter-rouge&quot;&gt;BOOL&lt;/code&gt;类型。在iOS上通过设置它为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;意味着它的子图层将会被垂直翻转，也就是将会沿着底部排版而不是通常的顶部（它的所有子图层也同理，除非把它们的&lt;code class=&quot;highlighter-rouge&quot;&gt;geometryFlipped&lt;/code&gt;属性也设为&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;）。&lt;/p&gt;
+
+&lt;h3 id=&quot;z&quot;&gt;Z坐标轴&lt;/h3&gt;
+
+&lt;p&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;严格的二维坐标系不同，&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;存在于一个三维空间当中。除了我们已经讨论过的&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPoint&lt;/code&gt;属性之外，&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;还有另外两个属性，&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;anchorPointZ&lt;/code&gt;，二者都是在Z轴上描述图层位置的浮点类型。&lt;/p&gt;
+
+&lt;p&gt;注意这里并没有更&lt;em&gt;深&lt;/em&gt;的属性来描述由宽和高做成的&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;了，图层是一个完全扁平的对象，你可以把它们想象成类似于一页二维的坚硬的纸片，用胶水粘成一个空洞，就像三维结构的折纸一样。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;属性在大多数情况下其实并不常用。在第五章，我们将会涉及&lt;code class=&quot;highlighter-rouge&quot;&gt;CATransform3D&lt;/code&gt;，你会知道如何在三维空间移动和旋转图层，除了做变换之外，&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;最实用的功能就是改变图层的&lt;em&gt;显示顺序&lt;/em&gt;了。&lt;/p&gt;
+
+&lt;p&gt;通常，图层是根据它们子图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;sublayers&lt;/code&gt;出现的顺序来类绘制的，这就是所谓的&lt;em&gt;画家的算法&lt;/em&gt;–就像一个画家在墙上作画–后被绘制上的图层将会遮盖住之前的图层，但是通过增加图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;，就可以把图层向相机方向&lt;em&gt;前置&lt;/em&gt;，于是它就在所有其他图层的&lt;em&gt;前面&lt;/em&gt;了（或者至少是小于它的&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;值的图层的前面）。&lt;/p&gt;
+
+&lt;p&gt;这里所谓的“相机”实际上是相对于用户是视角，这里和iPhone背后的内置相机没任何关系。&lt;/p&gt;
+
+&lt;p&gt;图3.8显示了在Interface Builder内的一对视图，正如你所见，首先出现在视图层级绿色的视图被绘制在红色视图的后面。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.8.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.8 在视图层级中绿色视图被绘制在红色视图的后面&lt;/p&gt;
+
+&lt;p&gt;我们希望在真实的应用中也能显示出绘图的顺序，同样地，如果我们提高绿色视图的&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;（清单3.3），我们会发现顺序就反了（图3.9）。其实并不需要增加太多，视图都非常地薄，所以给&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;提高一个像素就可以让绿色视图前置，当然0.1或者0.0001也能够做到，但是最好不要这样，因为浮点类型四舍五入的计算可能会造成一些不便的麻烦。&lt;/p&gt;
+
+&lt;p&gt;清单3.3&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;@interface ViewController ()
+
+@property (nonatomic, weak) IBOutlet UIView *greenView;
+@property (nonatomic, weak) IBOutlet UIView *redView;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    ￼
+    //move the green view zPosition nearer to the camera
+    self.greenView.layer.zPosition = 1.0f;
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.9.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.9 绿色视图被绘制在红色视图的前面&lt;/p&gt;
+
+&lt;h2 id=&quot;hit-testing&quot;&gt;Hit Testing&lt;/h2&gt;
+&lt;p&gt;第一章“图层树”证实了最好使用图层相关视图，而不是创建独立的图层关系。其中一个原因就是要处理额外复杂的触摸事件。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;并不关心任何响应链事件，所以不能直接处理触摸事件或者手势。但是它有一系列的方法帮你处理事件：&lt;code class=&quot;highlighter-rouge&quot;&gt;-containsPoint:&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;-hitTest:&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt; -containsPoint: &lt;/code&gt;接受一个在本图层坐标系下的&lt;code class=&quot;highlighter-rouge&quot;&gt;CGPoint&lt;/code&gt;，如果这个点在图层&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;范围内就返回&lt;code class=&quot;highlighter-rouge&quot;&gt;YES&lt;/code&gt;。如清单3.4所示第一章的项目的另一个合适的版本，也就是使用&lt;code class=&quot;highlighter-rouge&quot;&gt;-containsPoint:&lt;/code&gt;方法来判断到底是白色还是蓝色的图层被触摸了
+（图3.10）。这需要把触摸坐标转换成每个图层坐标系下的坐标，结果很不方便。&lt;/p&gt;
+
+&lt;p&gt;清单3.4 使用containsPoint判断被点击的图层&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;@interface ViewController ()
+
+@property (nonatomic, weak) IBOutlet UIView *layerView;
+@property (nonatomic, weak) CALayer *blueLayer;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    //create sublayer
+    self.blueLayer = [CALayer layer];
+    self.blueLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);
+    self.blueLayer.backgroundColor = [UIColor blueColor].CGColor;
+    //add it to our view
+    [self.layerView.layer addSublayer:self.blueLayer];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //get touch position relative to main view
+    CGPoint point = [[touches anyObject] locationInView:self.view];
+    //convert point to the white layer&#39;s coordinates
+    point = [self.layerView.layer convertPoint:point fromLayer:self.view.layer];
+    //get layer using containsPoint:
+    if ([self.layerView.layer containsPoint:point]) {
+        //convert point to blueLayer’s coordinates
+        point = [self.blueLayer convertPoint:point fromLayer:self.layerView.layer];
+        if ([self.blueLayer containsPoint:point]) {
+            [[[UIAlertView alloc] initWithTitle:@&quot;Inside Blue Layer&quot; 
+                                        message:nil
+                                       delegate:nil 
+                              cancelButtonTitle:@&quot;OK&quot;
+                              otherButtonTitles:nil] show];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@&quot;Inside White Layer&quot;
+                                        message:nil 
+                                       delegate:nil
+                              cancelButtonTitle:@&quot;OK&quot;
+                              otherButtonTitles:nil] show];
+        }
+    }
+}
+
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/3.10.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;图3.10 点击图层被正确标识&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-hitTest:&lt;/code&gt;方法同样接受一个&lt;code class=&quot;highlighter-rouge&quot;&gt;CGPoint&lt;/code&gt;类型参数，而不是&lt;code class=&quot;highlighter-rouge&quot;&gt;BOOL&lt;/code&gt;类型，它返回图层本身，或者包含这个坐标点的叶子节点图层。这意味着不再需要像使用&lt;code class=&quot;highlighter-rouge&quot;&gt;-containsPoint:&lt;/code&gt;那样，人工地在每个子图层变换或者测试点击的坐标。如果这个点在最外面图层的范围之外，则返回nil。具体使用&lt;code class=&quot;highlighter-rouge&quot;&gt;-hitTest:&lt;/code&gt;方法被点击图层的代码如清单3.5所示。&lt;/p&gt;
+
+&lt;p&gt;清单3.5 使用hitTest判断被点击的图层&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot;&gt;- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //get touch position
+    CGPoint point = [[touches anyObject] locationInView:self.view];
+    //get touched layer
+    CALayer *layer = [self.layerView.layer hitTest:point];
+    //get layer using hitTest
+    if (layer == self.blueLayer) {
+        [[[UIAlertView alloc] initWithTitle:@&quot;Inside Blue Layer&quot;
+                                    message:nil
+                                   delegate:nil
+                          cancelButtonTitle:@&quot;OK&quot;
+                          otherButtonTitles:nil] show];
+    } else if (layer == self.layerView.layer) {
+        [[[UIAlertView alloc] initWithTitle:@&quot;Inside White Layer&quot;
+                                    message:nil
+                                   delegate:nil
+                          cancelButtonTitle:@&quot;OK&quot;
+                          otherButtonTitles:nil] show];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意当调用图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;-hitTest:&lt;/code&gt;方法时，测算的顺序严格依赖于图层树当中的图层顺序（和UIView处理事件类似）。之前提到的&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;属性可以明显改变屏幕上图层的顺序，但不能改变事件传递的顺序。&lt;/p&gt;
+
+&lt;p&gt;这意味着如果改变了图层的z轴顺序，你会发现将不能够检测到最前方的视图点击事件，这是因为被另一个图层遮盖住了，虽然它的&lt;code class=&quot;highlighter-rouge&quot;&gt;zPosition&lt;/code&gt;值较小，但是在图层树中的顺序靠前。我们将在第五章详细讨论这个问题。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;自动布局&lt;/h2&gt;
+
+&lt;p&gt;你可能用过&lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewAutoresizingMask&lt;/code&gt;类型的一些常量，应用于当父视图改变尺寸的时候，相应&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;也跟着更新的场景（通常用于横竖屏切换）。&lt;/p&gt;
+
+&lt;p&gt;在iOS6中，苹果介绍了&lt;em&gt;自动排版&lt;/em&gt;机制，它和自动调整不同，并且更加复杂。&lt;/p&gt;
+
+&lt;p&gt;在Mac OS平台，&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;有一个叫做&lt;code class=&quot;highlighter-rouge&quot;&gt;layoutManager&lt;/code&gt;的属性可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayoutManager&lt;/code&gt;协议和&lt;code class=&quot;highlighter-rouge&quot;&gt;CAConstraintLayoutManager&lt;/code&gt;类来实现自动排版的机制。但由于某些原因，这在iOS上并不适用。&lt;/p&gt;
+
+&lt;p&gt;当使用视图的时候，可以充分利用&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;类接口暴露出来的&lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewAutoresizingMask&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;NSLayoutConstraint&lt;/code&gt;API，但如果想随意控制&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;的布局，就需要手工操作。最简单的方法就是使用&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayerDelegate&lt;/code&gt;如下函数：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- (void)layoutSublayersOfLayer:(CALayer *)layer;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;当图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;发生改变，或者图层的&lt;code class=&quot;highlighter-rouge&quot;&gt;-setNeedsLayout&lt;/code&gt;方法被调用的时候，这个函数将会被执行。这使得你可以手动地重新摆放或者重新调整子图层的大小，但是不能像&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;autoresizingMask&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;constraints&lt;/code&gt;属性做到自适应屏幕旋转。&lt;/p&gt;
+
+&lt;p&gt;这也是为什么最好使用视图而不是单独的图层来构建应用程序的另一个重要原因之一。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;本章涉及了&lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;的集合结构，包括它的&lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;position&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt;，介绍了三维空间内图层的概念，以及如何在独立的图层内响应事件，最后简单说明了在iOS平台，Core Animation对自动调整和自动布局支持的缺乏。&lt;/p&gt;
+
+&lt;p&gt;在第四章“视觉效果”当中，我们接着介绍一些图层外表的特性。&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 24 Jun 2016 08:30:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/24/ios_core_animation3_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/24/ios_core_animation3_introduction/</guid>
+        
+        <category>ios</category>
+        
+        <category>core-animation</category>
+        
+        
+      </item>
     
       <item>
         <title>IOS 动画讲解二</title>
@@ -2740,443 +3071,6 @@ rm -rf ~/Library/Application\ Support/Alcatraz/
         <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/13/android_studio_plugins_introduction/</guid>
         
         <category>Android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>IOS 炫酷框架</title>
-        <description>&lt;h3 id=&quot;pophttpsgithubcomfacebookpop&quot;&gt;&lt;a href=&quot;https://github.com/facebook/pop&quot;&gt;pop&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/facebook/pop/blob/master/Images/pop.gif?raw=true&quot; alt=&quot;pop&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;poppinghttpsgithubcomschneiderandrepopping&quot;&gt;&lt;a href=&quot;https://github.com/schneiderandre/popping&quot;&gt;popping&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/6ab14f37121c61a4b568c38376f0e24984d1aad8/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31393135303330302f4769746875622f506f7070696e672f706f7070696e672e706e67&quot; alt=&quot;popping&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/a7a98afd238fd3e51d50af8389e6c2dfc3577d45/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31393135303330302f4769746875622f506f7070696e672f706f7070696e672e676966&quot; alt=&quot;popping&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;springhttpsgithubcommengtospring&quot;&gt;&lt;a href=&quot;https://github.com/MengTo/Spring&quot;&gt;Spring&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://cl.ly/image/3a1r1d3l3D1j/spring-logo.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://cl.ly/image/241o0G1G3S36/download/springsetup.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://cl.ly/image/1n1E2j3W3y24/springscreen.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;jnwspringanimationhttpsgithubcomjwillingjnwspringanimation&quot;&gt;&lt;a href=&quot;https://github.com/jwilling/JNWSpringAnimation&quot;&gt;JNWSpringAnimation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://jwilling.com/serve/github/jnwspringanimation/preview.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;dcanimationkithttpsgithubcomdaltoniamdcanimationkit&quot;&gt;&lt;a href=&quot;https://github.com/daltoniam/DCAnimationKit&quot;&gt;DCAnimationKit&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;Tada&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/tada.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Bounce&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/bounce.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Pulse&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/pulse.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Shake&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/shake.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Swing&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/swing.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Snap&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/snapin.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Bounce&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/bouncein.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Expand&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/expandin.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Compress&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/compressin.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Hinge&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/hinge.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Drop&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/drop.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Move&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/slide.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Rotation&lt;/strong&gt;
-&lt;img src=&quot;https://raw.github.com/daltoniam/DCAnimationKit/master/gifs/rotate.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;rbbanimationhttpsgithubcomrobbrbbanimation&quot;&gt;&lt;a href=&quot;https://github.com/robb/RBBAnimation&quot;&gt;RBBAnimation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://robb.is/img/rbbanimation/rainbow.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://robb.is/img/rbbanimation/spring.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://robb.is/img/rbbanimation/ease-in-out-back.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://robb.is/img/rbbanimation/bounce.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://robb.is/img/rbbanimation/sine-wave.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;pop-mcanimatehttpsgithubcommatthewcheokpop-mcanimate&quot;&gt;&lt;a href=&quot;https://github.com/matthewcheok/POP-MCAnimate&quot;&gt;POP-MCAnimate&lt;/a&gt;&lt;/h3&gt;
-
-&lt;h3 id=&quot;jhchainableanimationshttpsgithubcomjhurrayjhchainableanimations&quot;&gt;&lt;a href=&quot;https://github.com/jhurray/JHChainableAnimations&quot;&gt;JHChainableAnimations&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/img/logo.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jhurray/JHChainableAnimations/master/img/JHChainableAnimationsExample1.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/jhurray/JHChainableAnimations/master/Gifs/JHChainableAnimationsExample1.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/img/JHChainableAnimationsExample2.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/Gifs/JHChainableAnimationsExample2.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/img/JHChainableAnimationsExample3.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://github.com/jhurray/JHChainableAnimations/raw/master/Gifs/JHChainableAnimationsExample3.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;pmtweenhttpsgithubcompoetmountainpmtween&quot;&gt;&lt;a href=&quot;https://github.com/poetmountain/PMTween&quot;&gt;PMTween&lt;/a&gt;&lt;/h3&gt;
-
-&lt;h3 id=&quot;jazzhandshttpsgithubcomiftttjazzhands&quot;&gt;&lt;a href=&quot;https://github.com/IFTTT/JazzHands&quot;&gt;JazzHands&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.github.com/IFTTT/JazzHands/screenshots/screenshots/intro.gif&quot; alt=&quot;Jazz Hands&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;animatedtransitiongalleryhttpsgithubcomshu223animatedtransitiongallery&quot;&gt;&lt;a href=&quot;https://github.com/shu223/AnimatedTransitionGallery&quot;&gt;AnimatedTransitionGallery&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/gallery.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/coreimage.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/motionblur.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/shu223/AnimatedTransitionGallery/master/gif/boxblur.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;rztransitionshttpsgithubcomraizlabsrztransitions&quot;&gt;&lt;a href=&quot;https://github.com/Raizlabs/RZTransitions&quot;&gt;RZTransitions&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Raizlabs/RZTransitions/master/Web/RZTransitions.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;http://raw.github.com/Raizlabs/RZTransitions/master/Web/RZTransitionsDemo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;foldingtabbarioshttpsgithubcomyalantisfoldingtabbarios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/FoldingTabBar.iOS&quot;&gt;FoldingTabBar.iOS&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/495792/screenshots/2003376/tab_bar_animation_fin-02.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;side-menuioshttpsgithubcomyalantisside-menuios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Side-Menu.iOS&quot;&gt;Side-Menu.iOS&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1689922/events-menu_1-1-6.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;context-menuioshttpsgithubcomyalantiscontext-menuios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Context-Menu.iOS&quot;&gt;Context-Menu.iOS&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1785274/99miles-profile-light_1-1-4.gif&quot; alt=&quot;ContextMenu&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;guillotinemenuhttpsgithubcomyalantisguillotinemenu&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/GuillotineMenu&quot;&gt;GuillotineMenu&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/495792/screenshots/2018249/draft_06.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;perseihttpsgithubcomyalantispersei&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Persei&quot;&gt;Persei&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Persei/master/Assets/animation.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;pull-to-refreshrentals-ioshttpsgithubcomyalantispull-to-refreshrentals-ios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Pull-to-Refresh.Rentals-iOS&quot;&gt;Pull-to-Refresh.Rentals-iOS&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1650317/realestate-pull_1-2-3.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;pulltomakesouphttpsgithubcomyalantispulltomakesoup&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/PullToMakeSoup&quot;&gt;PullToMakeSoup&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/PullToMakeSoup/master/PullToMakeSoupDemo/Resouces/recipe-finder.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;pulltomakeflighthttpsgithubcomyalantispulltomakeflight&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/PullToMakeFlight&quot;&gt;PullToMakeFlight&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/PullToMakeFlight/master/PullToMakeFlightDemo/Resources/tours-pull-airplane.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;kolodahttpsgithubcomyalantiskoloda&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Koloda&quot;&gt;Koloda&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/Yalantis/Koloda/blob/master/Koloda_v2_example_animation.gif&quot; alt=&quot;Preview&quot; /&gt;
-&lt;img src=&quot;https://github.com/Yalantis/Koloda/blob/master/Koloda_v1_example_animation.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;starwarsioshttpsgithubcomyalantisstarwarsios&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/StarWars.iOS&quot;&gt;StarWars.iOS&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://yalantis-com.s3.amazonaws.com/uploads/ckeditor/pictures/49/content_star_wars-shot__1_.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;eatfithttpsgithubcomyalantiseatfit&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/EatFit&quot;&gt;EatFit&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://yalantis.com/media/content/ckeditor/2015/09/30/charts-animation.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;preloaderophiuchushttpsgithubcomyalantispreloaderophiuchus&quot;&gt;&lt;a href=&quot;https://github.com/Yalantis/Preloader.Ophiuchus&quot;&gt;Preloader.Ophiuchus&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/yalantistwodirections.gif&quot; alt=&quot;Yalantis&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/animation.gif&quot; alt=&quot;Preview&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/Yalantis/Ophiuchus/master/Example/Ophiuchus/Resources/thegreenhorse.gif&quot; alt=&quot;The Green Horse&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;animated-tab-barhttpsgithubcomramotionanimated-tab-bar&quot;&gt;&lt;a href=&quot;https://github.com/Ramotion/animated-tab-bar&quot;&gt;animated-tab-bar&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Ramotion/animated-tab-bar/master/Screenshots/tab-bar-icons-iphone-ramotion-animation-interface-design.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;bubbletransitionhttpsgithubcomandreamazzbubbletransition&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/BubbleTransition&quot;&gt;BubbleTransition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/BubbleTransition/master/assets/logo.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/BubbleTransition/master/assets/screenshot.gif&quot; alt=&quot;BubbleTransition&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;ios-bubble-transitionhttpsgithubcomfitomadios-bubble-transition&quot;&gt;&lt;a href=&quot;https://github.com/fitomad/iOS-Bubble-Transition&quot;&gt;iOS-Bubble-Transition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/fitomad/iOS-Bubble-Transition/blob/master/Bubble.gif?raw=true&quot; alt=&quot;Bubble Transition&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;cnppopupcontrollerhttpsgithubcomcarsonperrotticnppopupcontroller&quot;&gt;&lt;a href=&quot;https://github.com/carsonperrotti/CNPPopupController&quot;&gt;CNPPopupController&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/carsonperrotti/CNPPopupController/master/CNPPopupControllerExample/CNPPopupController.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;giftcard-implementationhttpsgithubcommartinrgbgiftcard-implementation&quot;&gt;&lt;a href=&quot;https://github.com/MartinRGB/GiftCard-Implementation&quot;&gt;GiftCard-Implementation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/MartinRGB/GiftCard-Implementation/blob/master/Gif/Origami.gif?raw=true&quot; alt=&quot;origami&quot; /&gt;
-&lt;img src=&quot;https://github.com/MartinRGB/GiftCard-Implementation/blob/master/Gif/Xcode.gif?raw=true&quot; alt=&quot;xcode&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;dkchainableanimationkithttpsgithubcomdravenessdkchainableanimationkit&quot;&gt;&lt;a href=&quot;https://github.com/Draveness/DKChainableAnimationKit&quot;&gt;DKChainableAnimationKit&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/DKChainableAnimationKit.jpg&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Code1.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Demo1.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Code2.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/Draveness/DKChainableAnimationKit/master/Gifs/Demo2.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;tindersimpleswipecardshttpsgithubcomcwrichardkimtindersimpleswipecards&quot;&gt;&lt;a href=&quot;https://github.com/cwRichardKim/TinderSimpleSwipeCards&quot;&gt;TinderSimpleSwipeCards&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://imgur.com/4bYw12e.gif&quot; alt=&quot;alt tag&quot; /&gt;
-&lt;img src=&quot;http://i.imgur.com/krDNpR0.gif&quot; alt=&quot;alt tag&quot; /&gt;
-&lt;img src=&quot;http://i.imgur.com/W4bIRkc.gif&quot; alt=&quot;alt tag&quot; /&gt;
-&lt;img src=&quot;http://i.imgur.com/3yk6aiS.gif&quot; alt=&quot;alt tag&quot; /&gt;
-&lt;img src=&quot;http://i.imgur.com/IIFVkm4.gif&quot; alt=&quot;alt tag&quot; /&gt;
-&lt;img src=&quot;http://i.imgur.com/j1ISIq5.gif&quot; alt=&quot;alt tag&quot; /&gt;
-&lt;img src=&quot;http://i.imgur.com/PQYs4sH.gif&quot; alt=&quot;alt tag&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;jtmaterialtransitionhttpsgithubcomjonathantribouharetjtmaterialtransition&quot;&gt;&lt;a href=&quot;https://github.com/jonathantribouharet/JTMaterialTransition&quot;&gt;JTMaterialTransition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jonathantribouharet/JTMaterialTransition/master/Screens/example.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;watchtransitionhttpsgithubcomkongtomorrowwatchtransition&quot;&gt;&lt;a href=&quot;https://github.com/kongtomorrow/WatchTransition&quot;&gt;WatchTransition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/kongtomorrow/WatchTransition/raw/master/WatchFaceTransition.gif&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;kypushtransitionhttpsgithubcomkittenyangkypushtransition&quot;&gt;&lt;a href=&quot;https://github.com/KittenYang/KYPushTransition&quot;&gt;KYPushTransition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/KittenYang/KYPushTransition/master/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;uiview-shakehttpsgithubcomandreamazzuiview-shake&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/UIView-Shake&quot;&gt;UIView-Shake&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UIView-Shake/master/assets/logo.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UIView-Shake/master/assets/screenshot.gif&quot; alt=&quot;UIView+Shake&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;uitextfield-shakehttpsgithubcomandreamazzuitextfield-shake&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/UITextField-Shake&quot;&gt;UITextField-Shake&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UITextField-Shake/master/assets/logo.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/UITextField-Shake/master/assets/screenshot.gif&quot; alt=&quot;UITextField+Shake&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;rmpzoomtransitionanimatorhttpsgithubcomrecruit-mprmpzoomtransitionanimator&quot;&gt;&lt;a href=&quot;https://github.com/recruit-mp/RMPZoomTransitionAnimator&quot;&gt;RMPZoomTransitionAnimator&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/recruit-mp/RMPZoomTransitionAnimator/master/docs/collectionview.gif&quot; alt=&quot;Screen shot&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/recruit-mp/RMPZoomTransitionAnimator/master/docs/tableview.gif&quot; alt=&quot;Screen shot&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;popmenuhttpsgithubcomxhzengaibpopmenu&quot;&gt;&lt;a href=&quot;https://github.com/xhzengAIB/PopMenu&quot;&gt;PopMenu&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/xhzengAIB/LearnEnglish/raw/master/Screenshots/XHSinaMenuViewExample.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;zfdragablemodaltransitionhttpsgithubcomzoonoozzfdragablemodaltransition&quot;&gt;&lt;a href=&quot;https://github.com/zoonooz/ZFDragableModalTransition&quot;&gt;ZFDragableModalTransition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zoonooz/ZFDragableModalTransition/master/Screenshot/ss.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mcmheaderanimatedhttpsgithubcommathcarignanimcmheaderanimated&quot;&gt;&lt;a href=&quot;https://github.com/mathcarignani/MCMHeaderAnimated&quot;&gt;MCMHeaderAnimated&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/mathcarignani/MCMHeaderAnimated/master/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;rubberbandeffecthttpsgithubcomproduktrubberbandeffect&quot;&gt;&lt;a href=&quot;https://github.com/Produkt/RubberBandEffect&quot;&gt;RubberBandEffect&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Produkt/RubberBandEffect/master/Others/RubberBand_01.gif&quot; alt=&quot;rubber-band01&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/Produkt/RubberBandEffect/master/Others/RubberBand_02.gif&quot; alt=&quot;rubber-band02&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;easyanimationhttpsgithubcomicanzilbeasyanimation&quot;&gt;&lt;a href=&quot;https://github.com/icanzilb/EasyAnimation&quot;&gt;EasyAnimation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/EA.png&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/moveX.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/corners.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/spring.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/icanzilb/EasyAnimation/master/etc/chain.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mmtweenanimationhttpsgithubcomadad184mmtweenanimation&quot;&gt;&lt;a href=&quot;https://github.com/adad184/MMTweenAnimation&quot;&gt;MMTweenAnimation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/adad184/MMTweenAnimation/master/Images/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;gearrefreshcontrolhttpsgithubcomandreamazzgearrefreshcontrol&quot;&gt;&lt;a href=&quot;https://github.com/andreamazz/GearRefreshControl&quot;&gt;GearRefreshControl&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/andreamazz/GearRefreshControl/master/assets/screenshot.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;dragdropcollectionviewhttpsgithubcomliornndragdropcollectionview&quot;&gt;&lt;a href=&quot;https://github.com/LiorNn/DragDropCollectionView&quot;&gt;DragDropCollectionView&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/LiorNn/DragDropCollectionView/master/demo.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;twitterbirdanimationhttpsgithubcomrounaktwitterbirdanimation&quot;&gt;&lt;a href=&quot;https://github.com/rounak/TwitterBirdAnimation&quot;&gt;TwitterBirdAnimation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://media.tumblr.com/10cc0ba92377a2cba9fb35c9943fd2ca/tumblr_inline_n6zpokNxpC1qh9cw7.gif&quot; alt=&quot;twitter bird animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;singlelineshakeanimationhttpsgithubcomhaaakonsinglelineshakeanimation&quot;&gt;&lt;a href=&quot;https://github.com/haaakon/SingleLineShakeAnimation&quot;&gt;SingleLineShakeAnimation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/haaakon/SingleLineShakeAnimation/master/example.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;rqshinelabelhttpsgithubcomzipmerqshinelabel&quot;&gt;&lt;a href=&quot;https://github.com/zipme/RQShineLabel&quot;&gt;RQShineLabel&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zipme/RQShineLabel/master/Screenshots/rqshinelabel.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;ltmorphinglabelhttpsgithubcomlexrusltmorphinglabel&quot;&gt;&lt;a href=&quot;https://github.com/lexrus/LTMorphingLabel&quot;&gt;LTMorphingLabel&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491822/96bf5de6-059d-11e4-9826-a6f82025d1af.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491838/ffc5aff2-059d-11e4-970c-6e2d7664785a.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491840/173c2238-059e-11e4-9b33-dcd21edae9e2.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3491845/29bb0f8c-059e-11e4-9ef8-de56bec1baba.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3508789/31e9fafe-0690-11e4-9a76-ba3ef45eb53a.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3582586/4fb8c52e-0bfe-11e4-9b6f-f070f7f3ab55.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://cloud.githubusercontent.com/assets/219689/3594949/815cd3e8-0caa-11e4-9738-278a9c959478.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;wzdraggableswitchheaderviewhttpsgithubcomwongzigiiwzdraggableswitchheaderview&quot;&gt;&lt;a href=&quot;https://github.com/wongzigii/WZDraggableSwitchHeaderView&quot;&gt;WZDraggableSwitchHeaderView&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/wongzigii/WZDraggableSwitchHeaderView/master/GIF/WZAnimatingTransition.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;zlswipeableviewswifthttpsgithubcomzhxnlaizlswipeableviewswift&quot;&gt;&lt;a href=&quot;https://github.com/zhxnlai/ZLSwipeableViewSwift&quot;&gt;ZLSwipeableViewSwift&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/animation.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/swipe.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/direction.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableViewSwift/master/Previews/undo.gif&quot; alt=&quot;direction&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;zlswipeableviewhttpsgithubcomzhxnlaizlswipeableview&quot;&gt;&lt;a href=&quot;https://github.com/zhxnlai/ZLSwipeableView/&quot;&gt;ZLSwipeableView&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipe.gif&quot; alt=&quot;swipe&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeCancel.gif&quot; alt=&quot;cancel&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeLeft.gif&quot; alt=&quot;swipeLeft&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zhxnlai/ZLSwipeableView/master/Previews/swipeLeftRight.gif&quot; alt=&quot;swipeLeftRight&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;ckwavecollectionviewtransitionhttpsgithubcomcezarykopaczckwavecollectionviewtransition&quot;&gt;&lt;a href=&quot;https://github.com/CezaryKopacz/CKWaveCollectionViewTransition&quot;&gt;CKWaveCollectionViewTransition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.giphy.com/3o85xyoYepG177Bhte.gif&quot; alt=&quot;anim.gif&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;liquidfloatingactionbuttonhttpsgithubcomyoavltliquidfloatingactionbutton&quot;&gt;&lt;a href=&quot;https://github.com/yoavlt/LiquidFloatingActionButton&quot;&gt;LiquidFloatingActionButton&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/yoavlt/LiquidFloatingActionButton/master/Demo/top.gif&quot; alt=&quot;anim.gif&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/yoavlt/LiquidFloatingActionButton/master/Demo/customizable.gif&quot; alt=&quot;anim.gif&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;nvactivityindicatorviewhttpsgithubcomninjaproxnvactivityindicatorview&quot;&gt;&lt;a href=&quot;https://github.com/ninjaprox/NVActivityIndicatorView&quot;&gt;NVActivityIndicatorView&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/ninjaprox/NVActivityIndicatorView/master/Demo.gif&quot; alt=&quot;anim.gif&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;tksubmittransitionhttpsgithubcomentotsutksubmittransition&quot;&gt;&lt;a href=&quot;https://github.com/entotsu/TKSubmitTransition&quot;&gt;TKSubmitTransition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/entotsu/TKSubmitTransition/blob/master/demo.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;http://download.jikexueyuan.com/detail/id/1301&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://download.jikexueyuan.com/File/image/e224fc4d0c362305fa498b371cfac4c9_318513_189_4c21143928442461801bae5ac596c.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;animationshttpsgithubcomkittenyanganimations&quot;&gt;&lt;a href=&quot;https://github.com/KittenYang/Animations&quot;&gt;Animations&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/KittenYang/Animations/master/GooeySlideMenu.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;kdintroviewhttpsgithubcomlikedankdintroview&quot;&gt;&lt;a href=&quot;https://github.com/likedan/KDIntroView&quot;&gt;KDIntroView&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/likedan/KDIntroView/master/Imgs/showup.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;razzledazzlehttpsgithubcomiftttrazzledazzle&quot;&gt;&lt;a href=&quot;https://github.com/IFTTT/RazzleDazzle&quot;&gt;RazzleDazzle&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/IFTTT/RazzleDazzle/master/Example/Docs/razzledazzle-demo.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;presentationhttpsgithubcomhyperoslopresentation&quot;&gt;&lt;a href=&quot;https://github.com/hyperoslo/Presentation&quot;&gt;Presentation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/hyperoslo/Presentation/master/Example/Parallax/Images/Parallax-v2.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;uicollectionview-reorderinghttpsgithubcomnshintiouicollectionview-reordering&quot;&gt;&lt;a href=&quot;https://github.com/nshintio/uicollectionview-reordering&quot;&gt;uicollectionview-reordering&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://camo.githubusercontent.com/ee5e5999dea79c81a09416a51b1e6cec5de3a193/687474703a2f2f6e7368696e742e696f2f696d616765732f7569636f6c6c656374696f6e766965772d72656f72646572696e672f342e676966&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;uber-video-welcomehttpsgithubcomchinsyouber-video-welcome&quot;&gt;&lt;a href=&quot;https://github.com/chinsyo/uber-video-welcome&quot;&gt;uber-video-welcome&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/chinsyo/uber-video-welcome/master/uber-video-welcome.gif&quot; alt=&quot;Demo GIF Animation&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;liquidloaderhttpsgithubcomyoavltliquidloader&quot;&gt;&lt;a href=&quot;https://github.com/yoavlt/LiquidLoader&quot;&gt;LiquidLoader&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;GrowCircle&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/yoavlt/LiquidLoader/blob/master/Demo/grow-circle.gif?raw=true&quot; alt=&quot;GrowCircle&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;GrowLine&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/yoavlt/LiquidLoader/blob/master/Demo/grow-line.gif?raw=true&quot; alt=&quot;GrowLine&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;dgelasticpulltorefreshhttpsgithubcomgontovnikdgelasticpulltorefresh&quot;&gt;&lt;a href=&quot;https://github.com/gontovnik/DGElasticPullToRefresh&quot;&gt;DGElasticPullToRefresh&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/gontovnik/DGElasticPullToRefresh/master/DGElasticPullToRefreshPreview1.gif&quot; alt=&quot;&quot; /&gt;
-&lt;img src=&quot;https://raw.githubusercontent.com/gontovnik/DGElasticPullToRefresh/master/DGElasticPullToRefreshPreview2.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;cardanimationhttpsgithubcomseedantecardanimation&quot;&gt;&lt;a href=&quot;https://github.com/seedante/CardAnimation&quot;&gt;CardAnimation&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://d13yacurqjgara.cloudfront.net/users/32399/screenshots/1265487/attachments/173545/secret-project-animation_2x.gif&quot; alt=&quot;Design from Dribble&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;acanimatedtextfieldhttpsgithubcomalexcatchacanimatedtextfield&quot;&gt;&lt;a href=&quot;https://github.com/AlexCatch/ACAnimatedTextField&quot;&gt;ACAnimatedTextField&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/AlexCatch/ACAnimatedTextField/master/misc/preview.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;instructionshttpsgithubcomephreadinstructions&quot;&gt;&lt;a href=&quot;https://github.com/ephread/Instructions&quot;&gt;Instructions&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/JUlQH9F.gif&quot; alt=&quot;Instructions Demo&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mntpulltoreacthttpsgithubcommentionappmntpulltoreact&quot;&gt;&lt;a href=&quot;https://github.com/mentionapp/mntpulltoreact&quot;&gt;mntpulltoreact&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/mentionapp/mntpulltoreact/master/README/mention-example.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;tkrubberindicatorhttpsgithubcomtbxarktkrubberindicator&quot;&gt;&lt;a href=&quot;https://github.com/TBXark/TKRubberIndicator&quot;&gt;TKRubberIndicator&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/TBXark/TKRubberIndicator/master/TKRubberIndicator/rubberindicator.gif&quot; alt=&quot;Preview&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;tyalertcontrollerhttpsgithubcom12207480tyalertcontroller&quot;&gt;&lt;a href=&quot;https://github.com/12207480/TYAlertController&quot;&gt;TYAlertController&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/12207480/TYAlertController/master/screenshot/TYAlertControllerDemo.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;yfstartviewhttpsgithubcomyeziaheheyfstartview&quot;&gt;&lt;a href=&quot;https://github.com/yeziahehe/YFStartView&quot;&gt;YFStartView&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://7xkvt5.com1.z0.glb.clouddn.com/github/YFStartViewbuttom.gif&quot; alt=&quot;GIFImage&quot; /&gt;
-&lt;img src=&quot;http://7xkvt5.com1.z0.glb.clouddn.com/github/YFStartViewcenter.gif&quot; alt=&quot;GIFImage&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;ttgemojiratehttpsgithubcomzekunyanttgemojirate&quot;&gt;&lt;a href=&quot;https://github.com/zekunyan/TTGEmojiRate&quot;&gt;TTGEmojiRate&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://7nj2iz.com1.z0.glb.clouddn.com/TTGEmojiRate_screenshot2.gif&quot; alt=&quot;Screenshot&quot; /&gt;
-&lt;img src=&quot;http://7nj2iz.com1.z0.glb.clouddn.com/TTGEmojiRate_IBExample.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;alertonboardinghttpsgithubcomphilippeboisneyalertonboarding&quot;&gt;&lt;a href=&quot;https://github.com/PhilippeBoisney/AlertOnboarding&quot;&gt;AlertOnboarding&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/PhilippeBoisney/AlertOnboarding/blob/master/screenshot.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;htytextfieldhttpsgithubcomhantonhtytextfield&quot;&gt;&lt;a href=&quot;https://github.com/hanton/HTYTextField&quot;&gt;HTYTextField&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/hanton/HTYTextField/blob/master/screenshot/HTYTextField.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mevhorizontalcontactshttpsgithubcommanuelescrigmevhorizontalcontacts&quot;&gt;&lt;a href=&quot;https://github.com/manuelescrig/MEVHorizontalContacts&quot;&gt;MEVHorizontalContacts&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/1849990/15137846/645a0d18-168c-11e6-96e2-651d8f8de3b0.gif&quot; alt=&quot;MEVHorizontalContacts&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;preview-transitionhttpsgithubcomramotionpreview-transition&quot;&gt;&lt;a href=&quot;https://github.com/Ramotion/preview-transition&quot;&gt;preview-transition&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/Ramotion/preview-transition/blob/master/preview.gif&quot; alt=&quot;PreviewTransition&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;expanding-collectionhttpsgithubcomramotionexpanding-collection&quot;&gt;&lt;a href=&quot;https://github.com/Ramotion/expanding-collection&quot;&gt;expanding-collection&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://github.com/Ramotion/expanding-collection/blob/master/preview.gif&quot; alt=&quot;PreviewTransition&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;tween-controllerhttpsgithubcomdaltonclaybrooktween-controller&quot;&gt;&lt;a href=&quot;https://github.com/daltonclaybrook/tween-controller&quot;&gt;tween-controller&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/daltonclaybrook/tween-controller/master/example.gif&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mevfloatingbuttonhttpsgithubcommanuelescrigmevfloatingbutton&quot;&gt;&lt;a href=&quot;https://github.com/manuelescrig/MEVFloatingButton&quot;&gt;MEVFloatingButton&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/1849990/13462466/db001be6-e087-11e5-92a1-79c8ecefb715.gif&quot; alt=&quot;MEVFloatingButton&quot; /&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 12 Jun 2016 17:30:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/06/12/ios_animation_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/12/ios_animation_introduction/</guid>
-        
-        <category>ios</category>
         
         
       </item>
