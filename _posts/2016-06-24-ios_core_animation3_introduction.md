@@ -66,7 +66,8 @@ tags:
 图3.5 在Interface Builder中布局闹钟视图
 
 清单3.1 **Clock**
-```objective-c
+
+```
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *hourHand;
@@ -121,7 +122,7 @@ tags:
 更好的方案是使用`anchorPoint`属性，我们来在`-viewDidLoad`方法中添加几行代码来给每个钟指针的`anchorPoint`做一些平移（清单3.2），图3.7显示了正确的结果。
 
 清单3.2
-```objective-c
+```
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
@@ -180,7 +181,7 @@ tags:
 
 清单3.3
 
-```objective-c
+```
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UIView *greenView;
@@ -214,7 +215,7 @@ tags:
 
 清单3.4 使用containsPoint判断被点击的图层
 
-```objective-c
+```
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UIView *layerView;
@@ -272,7 +273,7 @@ tags:
 
 清单3.5 使用hitTest判断被点击的图层
 
-```objective-c
+```
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     //get touch position

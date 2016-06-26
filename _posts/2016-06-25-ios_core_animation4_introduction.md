@@ -37,7 +37,7 @@ CALayer有一个叫做`conrnerRadius`的属性控制着图层角的曲率。它�
 
 清单4.1 设置`cornerRadius`和`masksToBounds`
 
-```objective-c
+```
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UIView *layerView1;
@@ -68,7 +68,7 @@ CALayer有一个叫做`conrnerRadius`的属性控制着图层角的曲率。它�
 
 单独控制每个层的圆角曲率也不是不可能的。如果想创建有些圆角有些直角的图层或视图时，你可能需要一些不同的方法。比如使用一个图层蒙板（本章稍后会讲到）或者是CAShapeLayer（见第六章『专用图层』）。
 
-##图层边框
+## 图层边框
 
 CALayer另外两个非常有用属性就是`borderWidth`和`borderColor`。二者共同定义了图层边的绘制样式。这条线（也被称作stroke）沿着图层的`bounds`绘制，同时也包含图层的角。
 
@@ -80,7 +80,7 @@ CALayer另外两个非常有用属性就是`borderWidth`和`borderColor`。二�
 
 清单4.2 加上边框
 
-```objective-c
+```
 @implementation ViewController
 
 - (void)viewDidLoad
@@ -112,7 +112,7 @@ CALayer另外两个非常有用属性就是`borderWidth`和`borderColor`。二�
 
 图4.4 边框是跟随图层的边界变化的，而不是图层里面的内容
 
-##阴影
+## 阴影
 
 iOS的另一个常见特性呢，就是阴影。阴影往往可以达到图层深度暗示的效果。也能够用来强调正在显示的图层和优先级（比如说一个在其他视图之前的弹出框），不过有时候他们只是单纯的装饰目的。
 
@@ -134,11 +134,11 @@ iOS的另一个常见特性呢，就是阴影。阴影往往可以达到图层�
 
 通常来讲，如果你想让视图或控件非常醒目独立于背景之外（比如弹出框遮罩层），你就应该给`shadowRadius`设置一个稍大的值。阴影越模糊，图层的深度看上去就会更明显（如图4.6）.
 
-![IMG](/img/in-post/ios_introduction/4.png)
+![IMG](/img/in-post/ios_introduction/4.6.png)
 
 图4.6 大一些的阴影位移和角半径会增加图层的深度即视感
 
-##阴影裁剪
+## 阴影裁剪
 
 和图层边框不同，图层的阴影继承自内容的外形，而不是根据边界和角半径来确定。为了计算出阴影的形状，Core Animation会将寄宿图（包括子视图，如果有的话）考虑在内，然后通过这些来完美搭配图层形状从而创建一个阴影（见图4.7）。
 
@@ -164,7 +164,7 @@ iOS的另一个常见特性呢，就是阴影。阴影往往可以达到图层�
 
 清单4.3 用一个额外的视图来解决阴影裁切的问题
 
-```objective-c
+```
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UIView *layerView1;
@@ -222,7 +222,7 @@ iOS的另一个常见特性呢，就是阴影。阴影往往可以达到图层�
 
 清单4.4 创建简单的阴影形状
 
-```objective-c
+```
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UIView *layerView1;
@@ -254,7 +254,7 @@ iOS的另一个常见特性呢，就是阴影。阴影往往可以达到图层�
 
 如果是一个矩形或者是圆，用`CGPath`会相当简单明了。但是如果是更加复杂一点的图形，`UIBezierPath`类会更合适，它是一个由UIKit提供的在CGPath基础上的Objective-C包装类。
 
-##图层蒙板
+## 图层蒙板
 
 通过`masksToBounds`属性，我们可以沿边界裁剪图形；通过`cornerRadius`属性，我们还可以设定一个圆角。但是有时候你希望展现的内容不是在一个矩形或圆角矩形。比如，你想展示一个有星形框架的图片，又或者想让一些古卷文字慢慢渐变成背景色，而不是一个突兀的边界。
 
@@ -274,7 +274,7 @@ CALayer有一个属性叫做`mask`可以解决这个问题。这个属性本身�
 
 清单4.5 应用蒙板图层
 
-```objective-c
+```
 @interface ViewController ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
@@ -304,7 +304,7 @@ CALayer有一个属性叫做`mask`可以解决这个问题。这个属性本身�
 
 CALayer蒙板图层真正厉害的地方在于蒙板图不局限于静态图。任何有图层构成的都可以作为`mask`属性，这意味着你的蒙板可以通过代码甚至是动画实时生成。
 
-##拉伸过滤
+## 拉伸过滤
 
 最后我们再来谈谈`minificationFilter`和`magnificationFilter`属性。总得来讲，当我们视图显示一个图片的时候，都应该正确地显示这个图片（意即：以正确的比例和正确的1：1像素显示在屏幕上）。原因如下：
 
@@ -355,7 +355,7 @@ minification（缩小图片）和magnification（放大图片）默认的过滤�
 
 清单4.6 显示一个LCD风格的时钟
 
-```objective-c
+```
 @interface ViewController ()
 
 @property (nonatomic, strong) IBOutletCollection(UIView) NSArray *digitViews;
@@ -422,7 +422,7 @@ minification（缩小图片）和magnification（放大图片）默认的过滤�
 
 为了能像图4.19中那样，我们需要在for循环中加入如下代码：
 
-```objective-c
+```
 view.layer.magnificationFilter = kCAFilterNearest;
 ```
 
@@ -430,7 +430,7 @@ view.layer.magnificationFilter = kCAFilterNearest;
 
 图4.19 设置了最近过滤之后的清晰显示
 
-##组透明
+## 组透明
 
 UIView有一个叫做`alpha`的属性来确定视图的透明度。CALayer有一个等同的属性叫做`opacity`，这两个属性都是影响子层级的。也就是说，如果你给一个图层设置了`opacity`属性，那它的子图层都会受此影响。
 
@@ -454,7 +454,7 @@ iOS常见的做法是把一个空间的alpha值设置为0.5（50%）以使其看
 
 清单4.7 使用`shouldRasterize`属性解决组透明问题
 
-```objective-c
+```
 @interface ViewController ()
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 @end
@@ -505,7 +505,7 @@ iOS常见的做法是把一个空间的alpha值设置为0.5（50%）以使其看
 
 图4.21 修正后的图
 
-##总结
+## 总结
 
 这一章介绍了一些可以通过代码应用到图层上的视觉效果，比如圆角，阴影和蒙板。我们也了解了拉伸过滤器和组透明。
 

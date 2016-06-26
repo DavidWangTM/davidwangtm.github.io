@@ -252,53 +252,49 @@
 
 <p>图3.5 在Interface Builder中布局闹钟视图</p>
 
-<p>清单3.1 <strong>Clock</strong>
-```objective-c
-@interface ViewController ()</p>
+<p>清单3.1 <strong>Clock</strong></p>
 
-<p>@property (nonatomic, weak) IBOutlet UIImageView *hourHand;
-@property (nonatomic, weak) IBOutlet UIImageView *minuteHand;
-@property (nonatomic, weak) IBOutlet UIImageView *secondHand;
-@property (nonatomic, weak) NSTimer *timer;</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
 
-<p>@end</p>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">hourHand</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">minuteHand</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">secondHand</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">NSTimer</span> <span class="o">*</span><span class="n">timer</span><span class="p">;</span>
 
-<p>@implementation ViewController</p>
+<span class="k">@end</span>
 
-<ul>
-  <li>
-    <p>(void)viewDidLoad
-{
-  [super viewDidLoad];
-  //start timer
-  self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick) userInfo:nil repeats:YES];
-                ￼
-  //set initial hand positions
-  [self tick];
-}</p>
-  </li>
-  <li>
-    <p>(void)tick
-{
-  //convert time to hours, minutes and seconds
-  NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-  NSUInteger units = NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-  NSDateComponents *components = [calendar components:units fromDate:[NSDate date]];
-  CGFloat hoursAngle = (components.hour / 12.0) * M_PI * 2.0;
-  //calculate hour hand angle //calculate minute hand angle
-  CGFloat minsAngle = (components.minute / 60.0) * M_PI * 2.0;
-  //calculate second hand angle
-  CGFloat secsAngle = (components.second / 60.0) * M_PI * 2.0;
-  //rotate hands
-  self.hourHand.transform = CGAffineTransformMakeRotation(hoursAngle);
-  self.minuteHand.transform = CGAffineTransformMakeRotation(minsAngle);
-  self.secondHand.transform = CGAffineTransformMakeRotation(secsAngle);
-}</p>
-  </li>
-</ul>
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
 
-<p>@end
-```</p>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//start timer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimer</span> <span class="nf">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span> <span class="nf">userInfo</span><span class="p">:</span><span class="nb">nil</span> <span class="nf">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+                  <span class="err">￼</span>
+    <span class="c1">//set initial hand positions
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">tick</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">tick</span>
+<span class="p">{</span>
+    <span class="c1">//convert time to hours, minutes and seconds
+</span>    <span class="n">NSCalendar</span> <span class="o">*</span><span class="n">calendar</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSCalendar</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithCalendarIdentifier</span><span class="p">:</span><span class="n">NSGregorianCalendar</span><span class="p">];</span>
+    <span class="n">NSUInteger</span> <span class="n">units</span> <span class="o">=</span> <span class="n">NSHourCalendarUnit</span> <span class="o">|</span> <span class="n">NSMinuteCalendarUnit</span> <span class="o">|</span> <span class="n">NSSecondCalendarUnit</span><span class="p">;</span>
+    <span class="n">NSDateComponents</span> <span class="o">*</span><span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">calendar</span> <span class="nf">components</span><span class="p">:</span><span class="n">units</span> <span class="nf">fromDate</span><span class="p">:[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">]];</span>
+    <span class="n">CGFloat</span> <span class="n">hoursAngle</span> <span class="o">=</span> <span class="p">(</span><span class="n">components</span><span class="p">.</span><span class="n">hour</span> <span class="o">/</span> <span class="mi">12</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//calculate hour hand angle //calculate minute hand angle
+</span>    <span class="n">CGFloat</span> <span class="n">minsAngle</span> <span class="o">=</span> <span class="p">(</span><span class="n">components</span><span class="p">.</span><span class="n">minute</span> <span class="o">/</span> <span class="mi">60</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//calculate second hand angle
+</span>    <span class="n">CGFloat</span> <span class="n">secsAngle</span> <span class="o">=</span> <span class="p">(</span><span class="n">components</span><span class="p">.</span><span class="n">second</span> <span class="o">/</span> <span class="mi">60</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//rotate hands
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">hourHand</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeRotation</span><span class="p">(</span><span class="n">hoursAngle</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">minuteHand</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeRotation</span><span class="p">(</span><span class="n">minsAngle</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">secondHand</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeRotation</span><span class="p">(</span><span class="n">secsAngle</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
 
 <p>运行项目，看起来有点奇怪（图3.6），因为钟表的图片在围绕着中心旋转，这并不是我们期待的一个支点。</p>
 
@@ -313,7 +309,7 @@
 <p>更好的方案是使用<code class="highlighter-rouge">anchorPoint</code>属性，我们来在<code class="highlighter-rouge">-viewDidLoad</code>方法中添加几行代码来给每个钟指针的<code class="highlighter-rouge">anchorPoint</code>做一些平移（清单3.2），图3.7显示了正确的结果。</p>
 
 <p>清单3.2
-```objective-c
+```
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
@@ -373,24 +369,25 @@ self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
 
 <p>清单3.3</p>
 
-<pre><code class="language-objective-c">@interface ViewController ()
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
 
-@property (nonatomic, weak) IBOutlet UIView *greenView;
-@property (nonatomic, weak) IBOutlet UIView *redView;
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">greenView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">redView</span><span class="p">;</span>
 
-@end
+<span class="k">@end</span>
 
-@implementation ViewController
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    ￼
-    //move the green view zPosition nearer to the camera
-    self.greenView.layer.zPosition = 1.0f;
-}
-@end
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="err">￼</span>
+    <span class="c1">//move the green view zPosition nearer to the camera
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">greenView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">zPosition</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
 </code></pre>
+</div>
 
 <p><img src="/img/in-post/ios_introduction/3.9.jpeg" alt="IMG" /></p>
 
@@ -406,54 +403,55 @@ self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
 
 <p>清单3.4 使用containsPoint判断被点击的图层</p>
 
-<pre><code class="language-objective-c">@interface ViewController ()
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
 
-@property (nonatomic, weak) IBOutlet UIView *layerView;
-@property (nonatomic, weak) CALayer *blueLayer;
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">layerView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">CALayer</span> <span class="o">*</span><span class="n">blueLayer</span><span class="p">;</span>
 
-@end
+<span class="k">@end</span>
 
-@implementation ViewController
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    //create sublayer
-    self.blueLayer = [CALayer layer];
-    self.blueLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);
-    self.blueLayer.backgroundColor = [UIColor blueColor].CGColor;
-    //add it to our view
-    [self.layerView.layer addSublayer:self.blueLayer];
-}
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create sublayer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">blueLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">blueLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">50</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">blueLayer</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">blueColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="c1">//add it to our view
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">blueLayer</span><span class="p">];</span>
+<span class="p">}</span>
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //get touch position relative to main view
-    CGPoint point = [[touches anyObject] locationInView:self.view];
-    //convert point to the white layer's coordinates
-    point = [self.layerView.layer convertPoint:point fromLayer:self.view.layer];
-    //get layer using containsPoint:
-    if ([self.layerView.layer containsPoint:point]) {
-        //convert point to blueLayer’s coordinates
-        point = [self.blueLayer convertPoint:point fromLayer:self.layerView.layer];
-        if ([self.blueLayer containsPoint:point]) {
-            [[[UIAlertView alloc] initWithTitle:@"Inside Blue Layer" 
-                                        message:nil
-                                       delegate:nil 
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil] show];
-        } else {
-            [[[UIAlertView alloc] initWithTitle:@"Inside White Layer"
-                                        message:nil 
-                                       delegate:nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil] show];
-        }
-    }
-}
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchesBegan</span><span class="o">:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span>
+<span class="p">{</span>
+    <span class="c1">//get touch position relative to main view
+</span>    <span class="n">CGPoint</span> <span class="n">point</span> <span class="o">=</span> <span class="p">[[</span><span class="n">touches</span> <span class="nf">anyObject</span><span class="p">]</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+    <span class="c1">//convert point to the white layer's coordinates
+</span>    <span class="n">point</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">convertPoint</span><span class="p">:</span><span class="n">point</span> <span class="nf">fromLayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">layer</span><span class="p">];</span>
+    <span class="c1">//get layer using containsPoint:
+</span>    <span class="k">if</span> <span class="p">([</span><span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">containsPoint</span><span class="p">:</span><span class="n">point</span><span class="p">])</span> <span class="p">{</span>
+        <span class="c1">//convert point to blueLayer’s coordinates
+</span>        <span class="n">point</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">blueLayer</span> <span class="nf">convertPoint</span><span class="p">:</span><span class="n">point</span> <span class="nf">fromLayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">self</span><span class="p">.</span><span class="n">blueLayer</span> <span class="nf">containsPoint</span><span class="p">:</span><span class="n">point</span><span class="p">])</span> <span class="p">{</span>
+            <span class="p">[[[</span><span class="n">UIAlertView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTitle</span><span class="p">:</span><span class="s">@"Inside Blue Layer"</span> 
+                                        <span class="nf">message</span><span class="p">:</span><span class="nb">nil</span>
+                                       <span class="nf">delegate</span><span class="p">:</span><span class="nb">nil</span> 
+                              <span class="nf">cancelButtonTitle</span><span class="p">:</span><span class="s">@"OK"</span>
+                              <span class="nf">otherButtonTitles</span><span class="p">:</span><span class="nb">nil</span><span class="p">]</span> <span class="nf">show</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="p">[[[</span><span class="n">UIAlertView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTitle</span><span class="p">:</span><span class="s">@"Inside White Layer"</span>
+                                        <span class="nf">message</span><span class="p">:</span><span class="nb">nil</span> 
+                                       <span class="nf">delegate</span><span class="p">:</span><span class="nb">nil</span>
+                              <span class="nf">cancelButtonTitle</span><span class="p">:</span><span class="s">@"OK"</span>
+                              <span class="nf">otherButtonTitles</span><span class="p">:</span><span class="nb">nil</span><span class="p">]</span> <span class="nf">show</span><span class="p">];</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-@end
+<span class="k">@end</span>
 </code></pre>
+</div>
 
 <p><img src="/img/in-post/ios_introduction/3.10.jpeg" alt="IMG" /></p>
 
@@ -463,7 +461,7 @@ self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
 
 <p>清单3.5 使用hitTest判断被点击的图层</p>
 
-<pre><code class="language-objective-c">- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     //get touch position
     CGPoint point = [[touches anyObject] locationInView:self.view];
@@ -485,6 +483,7 @@ self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
     }
 }
 </code></pre>
+</div>
 
 <p>注意当调用图层的<code class="highlighter-rouge">-hitTest:</code>方法时，测算的顺序严格依赖于图层树当中的图层顺序（和UIView处理事件类似）。之前提到的<code class="highlighter-rouge">zPosition</code>属性可以明显改变屏幕上图层的顺序，但不能改变事件传递的顺序。</p>
 
@@ -640,7 +639,7 @@ self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="10">
+                				<a href="/tags/#ios" title="ios" rel="11">
                                     ios
                                 </a>
                             
@@ -656,7 +655,7 @@ self.hourHand.layer.anchorPoint = CGPointMake(0.5f, 0.9f);
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="4">
+                				<a href="/tags/#core-animation" title="core-animation" rel="5">
                                     core-animation
                                 </a>
                             

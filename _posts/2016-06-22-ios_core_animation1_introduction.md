@@ -92,7 +92,7 @@ Core Animation是一个*复合引擎*，它的职责就是尽可能快地组合�
 
 清单1.1 给视图添加一个蓝色子图层
 
-``` objective-c	
+```
 #import "ViewController.h"
 #import <QuartzCore/QuartzCore.h>
 @interface ViewController ()
