@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 动画讲解六
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/27/ios_core_animation6_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-e2e-ux.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#core-animation" title="core-animation">core-animation</a>
+                        
+                    </div>
+                    <h1>IOS 动画讲解六</h1>
+                    
+                    
+                    <h2 class="subheading">专有图层</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 27, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">专用图层</h2>
+
+<blockquote>
+  <p>复杂的组织都是专门化的</p>
+</blockquote>
+
+<blockquote>
+  <p>Catharine R. Stimpson</p>
+</blockquote>
+
+<p>到目前为止，我们已经探讨过<code class="highlighter-rouge">CALayer</code>类了，同时我们也了解到了一些非常有用的绘图和动画功能。但是Core Animation图层不仅仅能作用于图片和颜色而已。本章就会学习其他的一些图层类，进一步扩展使用Core Animation绘图的能力。</p>
+
+<h2 id="cashapelayer">CAShapeLayer</h2>
+
+<p>在第四章『视觉效果』我们学习到了不使用图片的情况下用<code class="highlighter-rouge">CGPath</code>去构造任意形状的阴影。如果我们能用同样的方式创建相同形状的图层就好了。</p>
+
+<p><code class="highlighter-rouge">CAShapeLayer</code>是一个通过矢量图形而不是bitmap来绘制的图层子类。你指定诸如颜色和线宽等属性，用<code class="highlighter-rouge">CGPath</code>来定义想要绘制的图形，最后<code class="highlighter-rouge">CAShapeLayer</code>就自动渲染出来了。当然，你也可以用Core Graphics直接向原始的<code class="highlighter-rouge">CALyer</code>的内容中绘制一个路径，相比直下，使用<code class="highlighter-rouge">CAShapeLayer</code>有以下一些优点：</p>
+
+<ul>
+  <li>渲染快速。<code class="highlighter-rouge">CAShapeLayer</code>使用了硬件加速，绘制同一图形会比用Core Graphics快很多。</li>
+  <li>高效使用内存。一个<code class="highlighter-rouge">CAShapeLayer</code>不需要像普通<code class="highlighter-rouge">CALayer</code>一样创建一个寄宿图形，所以无论有多大，都不会占用太多的内存。</li>
+  <li>不会被图层边界剪裁掉。一个<code class="highlighter-rouge">CAShapeLayer</code>可以在边界之外绘制。你的图层路径不会像在使用Core Graphics的普通<code class="highlighter-rouge">CALayer</code>一样被剪裁掉（如我们在第二章所见）。</li>
+  <li>不会出现像素化。当你给<code class="highlighter-rouge">CAShapeLayer</code>做3D变换时，它不像一个有寄宿图的普通图层一样变得像素化。</li>
+</ul>
+
+<h3 id="cgpath">创建一个<code class="highlighter-rouge">CGPath</code></h3>
+
+<p><code class="highlighter-rouge">CAShapeLayer</code>可以用来绘制所有能够通过<code class="highlighter-rouge">CGPath</code>来表示的形状。这个形状不一定要闭合，图层路径也不一定要不可破，事实上你可以在一个图层上绘制好几个不同的形状。你可以控制一些属性比如<code class="highlighter-rouge">lineWith</code>（线宽，用点表示单位），<code class="highlighter-rouge">lineCap</code>（线条结尾的样子），和<code class="highlighter-rouge">lineJoin</code>（线条之间的结合点的样子）；但是在图层层面你只有一次机会设置这些属性。如果你想用不同颜色或风格来绘制多个形状，就不得不为每个形状准备一个图层了。</p>
+
+<p>清单6.1 的代码用一个<code class="highlighter-rouge">CAShapeLayer</code>渲染一个简单的火柴人。<code class="highlighter-rouge">CAShapeLayer</code>属性是<code class="highlighter-rouge">CGPathRef</code>类型，但是我们用<code class="highlighter-rouge">UIBezierPath</code>帮助类创建了图层路径，这样我们就不用考虑人工释放<code class="highlighter-rouge">CGPath</code>了。图6.1是代码运行的结果。虽然还不是很完美，但是总算知道了大意对吧！</p>
+
+<p>清单6.1 用<code class="highlighter-rouge">CAShapeLayer</code>绘制一个火柴人</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "DrawingView.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+  <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+  <span class="c1">//create path
+</span>  <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBezierPath</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span> <span class="mi">100</span><span class="p">)];</span>
+  <span class="err">￼</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">addArcWithCenter</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="nf">radius</span><span class="p">:</span><span class="mi">25</span> <span class="nf">startAngle</span><span class="p">:</span><span class="mi">0</span> <span class="nf">endAngle</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">M_PI</span> <span class="nf">clockwise</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">125</span><span class="p">)];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">175</span><span class="p">)];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">125</span><span class="p">,</span> <span class="mi">225</span><span class="p">)];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">175</span><span class="p">)];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span> <span class="mi">225</span><span class="p">)];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">)];</span>
+  <span class="p">[</span><span class="n">path</span> <span class="nf">addLineToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">)];</span>
+
+  <span class="c1">//create shape layer
+</span>  <span class="n">CAShapeLayer</span> <span class="o">*</span><span class="n">shapeLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAShapeLayer</span> <span class="nf">layer</span><span class="p">];</span>
+  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">clearColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineJoin</span> <span class="o">=</span> <span class="n">kCALineJoinRound</span><span class="p">;</span>
+  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineCap</span> <span class="o">=</span> <span class="n">kCALineCapRound</span><span class="p">;</span>
+  <span class="n">shapeLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">.</span><span class="n">CGPath</span><span class="p">;</span>
+  <span class="c1">//add it to our view
+</span>  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">shapeLayer</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.1.png" alt="IMG" /></p>
+
+<p>图6.1 用<code class="highlighter-rouge">CAShapeLayer</code>绘制一个简单的火柴人</p>
+
+<h3 id="section-1">圆角</h3>
+
+<p>第二章里面提到了<code class="highlighter-rouge">CAShapeLayer</code>为创建圆角视图提供了一个方法，就是<code class="highlighter-rouge">CALayer</code>的<code class="highlighter-rouge">cornerRadius</code>属性（译者注：其实是在第四章提到的）。虽然使用<code class="highlighter-rouge">CAShapeLayer</code>类需要更多的工作，但是它有一个优势就是可以单独指定每个角。</p>
+
+<p>我们创建圆角矩形其实就是人工绘制单独的直线和弧度，但是事实上<code class="highlighter-rouge">UIBezierPath</code>有自动绘制圆角矩形的构造方法，下面这段代码绘制了一个有三个圆角一个直角的矩形：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//define path parameters
+CGRect rect = CGRectMake(50, 50, 100, 100);
+CGSize radii = CGSizeMake(20, 20);
+UIRectCorner corners = UIRectCornerTopRight | UIRectCornerBottomRight | UIRectCornerBottomLeft;
+//create path
+UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:radii];
+</code></pre>
+</div>
+
+<p>我们可以通过这个图层路径绘制一个既有直角又有圆角的视图。如果我们想依照此图形来剪裁视图内容，我们可以把<code class="highlighter-rouge">CAShapeLayer</code>作为视图的宿主图层，而不是添加一个子视图（图层蒙板的详细解释见第四章『视觉效果』）。</p>
+
+<h2 id="catextlayer">CATextLayer</h2>
+
+<p>用户界面是无法从一个单独的图片里面构建的。一个设计良好的图标能够很好地表现一个按钮或控件的意图，不过你迟早都要需要一个不错的老式风格的文本标签。</p>
+
+<p>如果你想在一个图层里面显示文字，完全可以借助图层代理直接将字符串使用Core Graphics写入图层的内容（这就是UILabel的精髓）。如果越过寄宿于图层的视图，直接在图层上操作，那其实相当繁琐。你要为每一个显示文字的图层创建一个能像图层代理一样工作的类，还要逻辑上判断哪个图层需要显示哪个字符串，更别提还要记录不同的字体，颜色等一系列乱七八糟的东西。</p>
+
+<p>万幸的是这些都是不必要的，Core Animation提供了一个<code class="highlighter-rouge">CALayer</code>的子类<code class="highlighter-rouge">CATextLayer</code>，它以图层的形式包含了<code class="highlighter-rouge">UILabel</code>几乎所有的绘制特性，并且额外提供了一些新的特性。</p>
+
+<p>同样，<code class="highlighter-rouge">CATextLayer</code>也要比<code class="highlighter-rouge">UILabel</code>渲染得快得多。很少有人知道在iOS 6及之前的版本，<code class="highlighter-rouge">UILabel</code>其实是通过WebKit来实现绘制的，这样就造成了当有很多文字的时候就会有极大的性能压力。而<code class="highlighter-rouge">CATextLayer</code>使用了Core text，并且渲染得非常快。</p>
+
+<p>让我们来尝试用<code class="highlighter-rouge">CATextLayer</code>来显示一些文字。清单6.2的代码实现了这一功能，结果如图6.2所示。</p>
+
+<p>清单6.2 用<code class="highlighter-rouge">CATextLayer</code>来实现一个<code class="highlighter-rouge">UILabel</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">labelView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+  <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+
+  <span class="c1">//create a text layer
+</span>  <span class="n">CATextLayer</span> <span class="o">*</span><span class="n">textLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CATextLayer</span> <span class="nf">layer</span><span class="p">];</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">labelView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">labelView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">textLayer</span><span class="p">];</span>
+
+  <span class="c1">//set text attributes
+</span>  <span class="n">textLayer</span><span class="p">.</span><span class="n">foregroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">blackColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">alignmentMode</span> <span class="o">=</span> <span class="n">kCAAlignmentJustified</span><span class="p">;</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">wrapped</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+
+  <span class="c1">//choose a font
+</span>  <span class="n">UIFont</span> <span class="o">*</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIFont</span> <span class="nf">systemFontOfSize</span><span class="p">:</span><span class="mi">15</span><span class="p">];</span>
+
+  <span class="c1">//set layer font
+</span>  <span class="n">CFStringRef</span> <span class="n">fontName</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">CFStringRef</span><span class="p">)</span><span class="n">font</span><span class="p">.</span><span class="n">fontName</span><span class="p">;</span>
+  <span class="n">CGFontRef</span> <span class="n">fontRef</span> <span class="o">=</span> <span class="n">CGFontCreateWithFontName</span><span class="p">(</span><span class="n">fontName</span><span class="p">);</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">fontRef</span><span class="p">;</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">fontSize</span> <span class="o">=</span> <span class="n">font</span><span class="p">.</span><span class="n">pointSize</span><span class="p">;</span>
+  <span class="n">CGFontRelease</span><span class="p">(</span><span class="n">fontRef</span><span class="p">);</span>
+
+  <span class="c1">//choose some text
+</span>  <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span> <span class="o">=</span> <span class="s">@"Lorem ipsum dolor sit amet, consectetur adipiscing \ elit. Quisque massa arcu, eleifend vel varius in, facilisis pulvinar \ leo. Nunc quis nunc at mauris pharetra condimentum ut ac neque. Nunc elementum, libero ut porttitor dictum, diam odio congue lacus, vel \ fringilla sapien diam at purus. Etiam suscipit pretium nunc sit amet \ lobortis"</span><span class="p">;</span>
+
+  <span class="c1">//set layer text
+</span>  <span class="n">textLayer</span><span class="p">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">text</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.2.png" alt="IMG" /></p>
+
+<p>图6.2 用<code class="highlighter-rouge">CATextLayer</code>来显示一个纯文本标签</p>
+
+<p>如果你仔细看这个文本，你会发现一个奇怪的地方：这些文本有一些像素化了。这是因为并没有以Retina的方式渲染，第二章提到了这个<code class="highlighter-rouge">contentScale</code>属性，用来决定图层内容应该以怎样的分辨率来渲染。<code class="highlighter-rouge">contentsScale</code>并不关心屏幕的拉伸因素而总是默认为1.0。如果我们想以Retina的质量来显示文字，我们就得手动地设置<code class="highlighter-rouge">CATextLayer</code>的<code class="highlighter-rouge">contentsScale</code>属性，如下：</p>
+
+<pre><code class="language-objective-c">textLayer.contentsScale = [UIScreen mainScreen].scale;
+</code></pre>
+
+<p>这样就解决了这个问题（如图6.3）</p>
+
+<p><img src="/img/in-post/ios_introduction/6.3.png" alt="IMG" /></p>
+
+<p>图6.3 设置<code class="highlighter-rouge">contentsScale</code>来匹配屏幕</p>
+
+<p><code class="highlighter-rouge">CATextLayer</code>的<code class="highlighter-rouge">font</code>属性不是一个<code class="highlighter-rouge">UIFont</code>类型，而是一个<code class="highlighter-rouge">CFTypeRef</code>类型。这样可以根据你的具体需要来决定字体属性应该是用<code class="highlighter-rouge">CGFontRef</code>类型还是<code class="highlighter-rouge">CTFontRef</code>类型（Core Text字体）。同时字体大小也是用<code class="highlighter-rouge">fontSize</code>属性单独设置的，因为<code class="highlighter-rouge">CTFontRef</code>和<code class="highlighter-rouge">CGFontRef</code>并不像UIFont一样包含点大小。这个例子会告诉你如何将<code class="highlighter-rouge">UIFont</code>转换成<code class="highlighter-rouge">CGFontRef</code>。</p>
+
+<p>另外，<code class="highlighter-rouge">CATextLayer</code>的<code class="highlighter-rouge">string</code>属性并不是你想象的<code class="highlighter-rouge">NSString</code>类型，而是<code class="highlighter-rouge">id</code>类型。这样你既可以用<code class="highlighter-rouge">NSString</code>也可以用<code class="highlighter-rouge">NSAttributedString</code>来指定文本了（注意，<code class="highlighter-rouge">NSAttributedString</code>并不是<code class="highlighter-rouge">NSString</code>的子类）。属性化字符串是iOS用来渲染字体风格的机制，它以特定的方式来决定指定范围内的字符串的原始信息，比如字体，颜色，字重，斜体等。</p>
+
+<h3 id="section-2">富文本</h3>
+
+<p>iOS 6中，Apple给<code class="highlighter-rouge">UILabel</code>和其他UIKit文本视图添加了直接的属性化字符串的支持，应该说这是一个很方便的特性。不过事实上从iOS3.2开始<code class="highlighter-rouge">CATextLayer</code>就已经支持属性化字符串了。这样的话，如果你想要支持更低版本的iOS系统，<code class="highlighter-rouge">CATextLayer</code>无疑是你向界面中增加富文本的好办法，而且也不用去跟复杂的Core Text打交道，也省了用<code class="highlighter-rouge">UIWebView</code>的麻烦。</p>
+
+<p>让我们编辑一下示例使用到<code class="highlighter-rouge">NSAttributedString</code>（见清单6.3）.iOS 6及以上我们可以用新的<code class="highlighter-rouge">NSTextAttributeName</code>实例来设置我们的字符串属性，但是练习的目的是为了演示在iOS 5及以下，所以我们用了Core Text，也就是说你需要把Core Text framework添加到你的项目中。否则，编译器是无法识别属性常量的。</p>
+
+<p>图6.4是代码运行结果（注意那个红色的下划线文本）</p>
+
+<p>清单6.3 用NSAttributedString实现一个富文本标签。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "DrawingView.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+#import &lt;CoreText/CoreText.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">labelView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+  <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+
+  <span class="c1">//create a text layer
+</span>  <span class="n">CATextLayer</span> <span class="o">*</span><span class="n">textLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CATextLayer</span> <span class="nf">layer</span><span class="p">];</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">labelView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">contentsScale</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">].</span><span class="n">scale</span><span class="p">;</span>
+  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">labelView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">textLayer</span><span class="p">];</span>
+
+  <span class="c1">//set text attributes
+</span>  <span class="n">textLayer</span><span class="p">.</span><span class="n">alignmentMode</span> <span class="o">=</span> <span class="n">kCAAlignmentJustified</span><span class="p">;</span>
+  <span class="n">textLayer</span><span class="p">.</span><span class="n">wrapped</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+
+  <span class="c1">//choose a font
+</span>  <span class="n">UIFont</span> <span class="o">*</span><span class="n">font</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIFont</span> <span class="nf">systemFontOfSize</span><span class="p">:</span><span class="mi">15</span><span class="p">];</span>
+
+  <span class="c1">//choose some text
+</span>  <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span> <span class="o">=</span> <span class="s">@"Lorem ipsum dolor sit amet, consectetur adipiscing \ elit. Quisque massa arcu, eleifend vel varius in, facilisis pulvinar \ leo. Nunc quis nunc at mauris pharetra condimentum ut ac neque. Nunc \ elementum, libero ut porttitor dictum, diam odio congue lacus, vel \ fringilla sapien diam at purus. Etiam suscipit pretium nunc sit amet \ lobortis"</span><span class="p">;</span>
+  <span class="err">￼</span>
+  <span class="c1">//create attributed string
+</span>  <span class="n">NSMutableAttributedString</span> <span class="o">*</span><span class="n">string</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+  <span class="n">string</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableAttributedString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithString</span><span class="p">:</span><span class="n">text</span><span class="p">];</span>
+
+  <span class="c1">//convert UIFont to a CTFont
+</span>  <span class="n">CFStringRef</span> <span class="n">fontName</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">CFStringRef</span><span class="p">)</span><span class="n">font</span><span class="p">.</span><span class="n">fontName</span><span class="p">;</span>
+  <span class="n">CGFloat</span> <span class="n">fontSize</span> <span class="o">=</span> <span class="n">font</span><span class="p">.</span><span class="n">pointSize</span><span class="p">;</span>
+  <span class="n">CTFontRef</span> <span class="n">fontRef</span> <span class="o">=</span> <span class="n">CTFontCreateWithName</span><span class="p">(</span><span class="n">fontName</span><span class="p">,</span> <span class="n">fontSize</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+  <span class="c1">//set text attributes
+</span>  <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">attribs</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
+    <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">kCTForegroundColorAttributeName</span><span class="o">:</span><span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">blackColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">kCTFontAttributeName</span><span class="o">:</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">fontRef</span>
+  <span class="p">};</span>
+
+  <span class="p">[</span><span class="n">string</span> <span class="nf">setAttributes</span><span class="p">:</span><span class="n">attribs</span> <span class="nf">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">text</span> <span class="nf">length</span><span class="p">])];</span>
+  <span class="n">attribs</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span>
+    <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">kCTForegroundColorAttributeName</span><span class="o">:</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">kCTUnderlineStyleAttributeName</span><span class="o">:</span> <span class="err">@</span><span class="p">(</span><span class="n">kCTUnderlineStyleSingle</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">kCTFontAttributeName</span><span class="o">:</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">fontRef</span>
+  <span class="p">};</span>
+  <span class="p">[</span><span class="n">string</span> <span class="nf">setAttributes</span><span class="p">:</span><span class="n">attribs</span> <span class="nf">range</span><span class="p">:</span><span class="n">NSMakeRange</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)];</span>
+
+  <span class="c1">//release the CTFont we created earlier
+</span>  <span class="n">CFRelease</span><span class="p">(</span><span class="n">fontRef</span><span class="p">);</span>
+
+  <span class="c1">//set layer text
+</span>  <span class="n">textLayer</span><span class="p">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.4.png" alt="IMG" /></p>
+
+<p>图6.4 用CATextLayer实现一个富文本标签。</p>
+
+<h3 id="section-3">行距和字距</h3>
+
+<p>有必要提一下的是，由于绘制的实现机制不同（Core Text和WebKit），用<code class="highlighter-rouge">CATextLayer</code>渲染和用<code class="highlighter-rouge">UILabel</code>渲染出的文本行距和字距也不是不尽相同的。</p>
+
+<p>二者的差异程度（由使用的字体和字符决定）总的来说挺小，但是如果你想正确的显示普通便签和<code class="highlighter-rouge">CATextLayer</code>就一定要记住这一点。</p>
+
+<h3 id="uilabel"><code class="highlighter-rouge">UILabel</code>的替代品</h3>
+
+<p>我们已经证实了<code class="highlighter-rouge">CATextLayer</code>比<code class="highlighter-rouge">UILabel</code>有着更好的性能表现，同时还有额外的布局选项并且在iOS 5上支持富文本。但是与一般的标签比较而言会更加繁琐一些。如果我们真的在需求一个<code class="highlighter-rouge">UILabel</code>的可用替代品，最好是能够在Interface Builder上创建我们的标签，而且尽可能地像一般的视图一样正常工作。</p>
+
+<p>我们应该继承<code class="highlighter-rouge">UILabel</code>，然后添加一个子图层<code class="highlighter-rouge">CATextLayer</code>并重写显示文本的方法。但是仍然会有由<code class="highlighter-rouge">UILabel</code>的<code class="highlighter-rouge">-drawRect:</code>方法创建的空寄宿图。而且由于<code class="highlighter-rouge">CALayer</code>不支持自动缩放和自动布局，子视图并不是主动跟踪视图边界的大小，所以每次视图大小被更改，我们不得不手动更新子图层的边界。</p>
+
+<p>我们真正想要的是一个用<code class="highlighter-rouge">CATextLayer</code>作为宿主图层的<code class="highlighter-rouge">UILabel</code>子类，这样就可以随着视图自动调整大小而且也没有冗余的寄宿图啦。</p>
+
+<p>就像我们在第一章『图层树』讨论的一样，每一个<code class="highlighter-rouge">UIView</code>都是寄宿在一个<code class="highlighter-rouge">CALayer</code>的示例上。这个图层是由视图自动创建和管理的，那我们可以用别的图层类型替代它么？一旦被创建，我们就无法代替这个图层了。但是如果我们继承了<code class="highlighter-rouge">UIView</code>，那我们就可以重写<code class="highlighter-rouge">+layerClass</code>方法使得在创建的时候能返回一个不同的图层子类。<code class="highlighter-rouge">UIView</code>会在初始化的时候调用<code class="highlighter-rouge">+layerClass</code>方法，然后用它的返回类型来创建宿主图层。</p>
+
+<p>清单6.4 演示了一个<code class="highlighter-rouge">UILabel</code>子类<code class="highlighter-rouge">LayerLabel</code>用<code class="highlighter-rouge">CATextLayer</code>绘制它的问题，而不是调用一般的<code class="highlighter-rouge">UILabel</code>使用的较慢的<code class="highlighter-rouge">-drawRect：</code>方法。<code class="highlighter-rouge">LayerLabel</code>示例既可以用代码实现，也可以在Interface Builder实现，只要把普通的标签拖入视图之中，然后设置它的类是LayerLabel就可以了。</p>
+
+<p>清单6.4 使用<code class="highlighter-rouge">CATextLayer</code>的<code class="highlighter-rouge">UILabel</code>子类：<code class="highlighter-rouge">LayerLabel</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "LayerLabel.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+</span>
+<span class="k">@implementation</span> <span class="nc">LayerLabel</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="n">layerClass</span>
+<span class="p">{</span>
+  <span class="c1">//this makes our label create a CATextLayer //instead of a regular CALayer for its backing layer
+</span>  <span class="k">return</span> <span class="p">[</span><span class="n">CATextLayer</span> <span class="nf">class</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">CATextLayer</span> <span class="o">*</span><span class="p">)</span><span class="n">textLayer</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">CATextLayer</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setUp</span>
+<span class="p">{</span>
+  <span class="c1">//set defaults from UILabel settings
+</span>  <span class="n">self</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">text</span><span class="p">;</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">textColor</span><span class="p">;</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">font</span><span class="p">;</span>
+
+  <span class="c1">//we should really derive these from the UILabel settings too
+</span>  <span class="c1">//but that's complicated, so for now we'll just hard-code them
+</span>  <span class="p">[</span><span class="n">self</span> <span class="nf">textLayer</span><span class="p">].</span><span class="n">alignmentMode</span> <span class="o">=</span> <span class="n">kCAAlignmentJustified</span><span class="p">;</span>
+  <span class="err">￼</span>
+  <span class="p">[</span><span class="n">self</span> <span class="nf">textLayer</span><span class="p">].</span><span class="n">wrapped</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">layer</span> <span class="nf">display</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithFrame</span><span class="o">:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
+<span class="p">{</span>
+  <span class="c1">//called when creating label programmatically
+</span>  <span class="k">if</span> <span class="p">(</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">])</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">setUp</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">awakeFromNib</span>
+<span class="p">{</span>
+  <span class="c1">//called when creating label using Interface Builder
+</span>  <span class="p">[</span><span class="n">self</span> <span class="nf">setUp</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setText</span><span class="o">:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">text</span>
+<span class="p">{</span>
+  <span class="n">super</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">;</span>
+  <span class="c1">//set layer text
+</span>  <span class="p">[</span><span class="n">self</span> <span class="nf">textLayer</span><span class="p">].</span><span class="n">string</span> <span class="o">=</span> <span class="n">text</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setTextColor</span><span class="o">:</span><span class="p">(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="n">textColor</span>
+<span class="p">{</span>
+  <span class="n">super</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="n">textColor</span><span class="p">;</span>
+  <span class="c1">//set layer text color
+</span>  <span class="p">[</span><span class="n">self</span> <span class="nf">textLayer</span><span class="p">].</span><span class="n">foregroundColor</span> <span class="o">=</span> <span class="n">textColor</span><span class="p">.</span><span class="n">CGColor</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setFont</span><span class="o">:</span><span class="p">(</span><span class="n">UIFont</span> <span class="o">*</span><span class="p">)</span><span class="n">font</span>
+<span class="p">{</span>
+  <span class="n">super</span><span class="p">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">font</span><span class="p">;</span>
+  <span class="c1">//set layer font
+</span>  <span class="n">CFStringRef</span> <span class="n">fontName</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">CFStringRef</span><span class="p">)</span><span class="n">font</span><span class="p">.</span><span class="n">fontName</span><span class="p">;</span>
+  <span class="n">CGFontRef</span> <span class="n">fontRef</span> <span class="o">=</span> <span class="n">CGFontCreateWithFontName</span><span class="p">(</span><span class="n">fontName</span><span class="p">);</span>
+  <span class="p">[</span><span class="n">self</span> <span class="nf">textLayer</span><span class="p">].</span><span class="n">font</span> <span class="o">=</span> <span class="n">fontRef</span><span class="p">;</span>
+  <span class="p">[</span><span class="n">self</span> <span class="nf">textLayer</span><span class="p">].</span><span class="n">fontSize</span> <span class="o">=</span> <span class="n">font</span><span class="p">.</span><span class="n">pointSize</span><span class="p">;</span>
+  <span class="err">￼</span>
+  <span class="n">CGFontRelease</span><span class="p">(</span><span class="n">fontRef</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>如果你运行代码，你会发现文本并没有像素化，而我们也没有设置<code class="highlighter-rouge">contentsScale</code>属性。把<code class="highlighter-rouge">CATextLayer</code>作为宿主图层的另一好处就是视图自动设置了<code class="highlighter-rouge">contentsScale</code>属性。</p>
+
+<p>在这个简单的例子中，我们只是实现了<code class="highlighter-rouge">UILabel</code>的一部分风格和布局属性，不过稍微再改进一下我们就可以创建一个支持<code class="highlighter-rouge">UILabel</code>所有功能甚至更多功能的<code class="highlighter-rouge">LayerLabel</code>类（你可以在一些线上的开源项目中找到）。</p>
+
+<p>如果你打算支持iOS 6及以上，基于<code class="highlighter-rouge">CATextLayer</code>的标签可能就有有些局限性。但是总得来说，如果想在app里面充分利用<code class="highlighter-rouge">CALayer</code>子类，用<code class="highlighter-rouge">+layerClass</code>来创建基于不同图层的视图是一个简单可复用的方法。</p>
+
+<h3 id="catransformlayer">CATransformLayer</h3>
+
+<p>当我们在构造复杂的3D事物的时候，如果能够组织独立元素就太方便了。比如说，你想创造一个孩子的手臂：你就需要确定哪一部分是孩子的手腕，哪一部分是孩子的前臂，哪一部分是孩子的肘，哪一部分是孩子的上臂，哪一部分是孩子的肩膀等等。</p>
+
+<p>当然是允许独立地移动每个区域的啦。以肘为指点会移动前臂和手，而不是肩膀。Core Animation图层很容易就可以让你在2D环境下做出这样的层级体系下的变换，但是3D情况下就不太可能，因为所有的图层都把他的孩子都平面化到一个场景中（第五章『变换』有提到）。</p>
+
+<p><code class="highlighter-rouge">CATransformLayer</code>解决了这个问题，<code class="highlighter-rouge">CATransformLayer</code>不同于普通的<code class="highlighter-rouge">CALayer</code>，因为它不能显示它自己的内容。只有当存在了一个能作用于子图层的变换它才真正存在。<code class="highlighter-rouge">CATransformLayer</code>并不平面化它的子图层，所以它能够用于构造一个层级的3D结构，比如我的手臂示例。</p>
+
+<p>用代码创建一个手臂需要相当多的代码，所以我就演示得更简单一些吧：在第五章的立方体示例，我们将通过旋转<code class="highlighter-rouge">camara</code>来解决图层平面化问题而不是像立方体示例代码中用的<code class="highlighter-rouge">sublayerTransform</code>。这是一个非常不错的技巧，但是只能作用域单个对象上，如果你的场景包含两个立方体，那我们就不能用这个技巧单独旋转他们了。</p>
+
+<p>那么，就让我们来试一试<code class="highlighter-rouge">CATransformLayer</code>吧，第一个问题就来了：在第五章，我们是用多个视图来构造了我们的立方体，而不是单独的图层。我们不能在不打乱已有的视图层次的前提下在一个本身不是有寄宿图的图层中放置一个寄宿图图层。我们可以创建一个新的<code class="highlighter-rouge">UIView</code>子类寄宿在<code class="highlighter-rouge">CATransformLayer</code>（用<code class="highlighter-rouge">+layerClass</code>方法）之上。但是，为了简化案例，我们仅仅重建了一个单独的图层，而不是使用视图。这意味着我们不能像第五章一样在立方体表面显示按钮和标签，不过我们现在也用不到这个特性。</p>
+
+<p>清单6.5就是代码。我们以我们在第五章使用过的相同基本逻辑放置立方体。但是并不像以前那样直接将立方面添加到容器视图的宿主图层，我们将他们放置到一个<code class="highlighter-rouge">CATransformLayer</code>中创建一个独立的立方体对象，然后将两个这样的立方体放进容器中。我们随机地给立方面染色以将他们区分开来，这样就不用靠标签或是光亮来区分他们。图6.5是运行结果。</p>
+
+<p>清单6.5 用<code class="highlighter-rouge">CATransformLayer</code>装配一个3D图层体系</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">CALayer</span> <span class="o">*</span><span class="p">)</span><span class="nf">faceWithTransform</span><span class="p">:(</span><span class="n">CATransform3D</span><span class="p">)</span><span class="nv">transform</span>
+<span class="p">{</span>
+  <span class="c1">//create cube face layer
+</span>  <span class="n">CALayer</span> <span class="o">*</span><span class="n">face</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+  <span class="n">face</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+
+  <span class="c1">//apply a random color
+</span>  <span class="n">CGFloat</span> <span class="n">red</span> <span class="o">=</span> <span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">);</span>
+  <span class="n">CGFloat</span> <span class="n">green</span> <span class="o">=</span> <span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">);</span>
+  <span class="n">CGFloat</span> <span class="n">blue</span> <span class="o">=</span> <span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">);</span>
+  <span class="n">face</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithRed</span><span class="p">:</span><span class="n">red</span> <span class="nf">green</span><span class="p">:</span><span class="n">green</span> <span class="nf">blue</span><span class="p">:</span><span class="n">blue</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+
+  <span class="err">￼</span><span class="c1">//apply the transform and return
+</span>  <span class="n">face</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">face</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">CALayer</span> <span class="o">*</span><span class="p">)</span><span class="nf">cubeWithTransform</span><span class="p">:(</span><span class="n">CATransform3D</span><span class="p">)</span><span class="nv">transform</span>
+<span class="p">{</span>
+  <span class="c1">//create cube layer
+</span>  <span class="n">CATransformLayer</span> <span class="o">*</span><span class="n">cube</span> <span class="o">=</span> <span class="p">[</span><span class="n">CATransformLayer</span> <span class="nf">layer</span><span class="p">];</span>
+
+  <span class="c1">//add cube face 1
+</span>  <span class="n">CATransform3D</span> <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DMakeTranslation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+  <span class="p">[</span><span class="n">cube</span> <span class="nf">addSublayer</span><span class="p">:[</span><span class="n">self</span> <span class="nf">faceWithTransform</span><span class="p">:</span><span class="n">ct</span><span class="p">]];</span>
+
+  <span class="c1">//add cube face 2
+</span>  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DMakeTranslation</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">M_PI_2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">[</span><span class="n">cube</span> <span class="nf">addSublayer</span><span class="p">:[</span><span class="n">self</span> <span class="nf">faceWithTransform</span><span class="p">:</span><span class="n">ct</span><span class="p">]];</span>
+
+  <span class="c1">//add cube face 3
+</span>  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DMakeTranslation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">M_PI_2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">[</span><span class="n">cube</span> <span class="nf">addSublayer</span><span class="p">:[</span><span class="n">self</span> <span class="nf">faceWithTransform</span><span class="p">:</span><span class="n">ct</span><span class="p">]];</span>
+
+  <span class="c1">//add cube face 4
+</span>  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DMakeTranslation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="o">-</span><span class="n">M_PI_2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">[</span><span class="n">cube</span> <span class="nf">addSublayer</span><span class="p">:[</span><span class="n">self</span> <span class="nf">faceWithTransform</span><span class="p">:</span><span class="n">ct</span><span class="p">]];</span>
+
+  <span class="c1">//add cube face 5
+</span>  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DMakeTranslation</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="o">-</span><span class="n">M_PI_2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">[</span><span class="n">cube</span> <span class="nf">addSublayer</span><span class="p">:[</span><span class="n">self</span> <span class="nf">faceWithTransform</span><span class="p">:</span><span class="n">ct</span><span class="p">]];</span>
+
+  <span class="c1">//add cube face 6
+</span>  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DMakeTranslation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">);</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">M_PI</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">[</span><span class="n">cube</span> <span class="nf">addSublayer</span><span class="p">:[</span><span class="n">self</span> <span class="nf">faceWithTransform</span><span class="p">:</span><span class="n">ct</span><span class="p">]];</span>
+
+  <span class="c1">//center the cube layer within the container
+</span>  <span class="n">CGSize</span> <span class="n">containerSize</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+  <span class="n">cube</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">containerSize</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">containerSize</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+  <span class="c1">//apply the transform and return
+</span>  <span class="n">cube</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">cube</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span><span class="err">￼</span>
+  <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+
+  <span class="c1">//set up the perspective transform
+</span>  <span class="n">CATransform3D</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">CATransform3DIdentity</span><span class="p">;</span>
+  <span class="n">pt</span><span class="p">.</span><span class="n">m34</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="mi">500</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">sublayerTransform</span> <span class="o">=</span> <span class="n">pt</span><span class="p">;</span>
+
+  <span class="c1">//set up the transform for cube 1 and add it
+</span>  <span class="n">CATransform3D</span> <span class="n">c1t</span> <span class="o">=</span> <span class="n">CATransform3DIdentity</span><span class="p">;</span>
+  <span class="n">c1t</span> <span class="o">=</span> <span class="n">CATransform3DTranslate</span><span class="p">(</span><span class="n">c1t</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">CALayer</span> <span class="o">*</span><span class="n">cube1</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">cubeWithTransform</span><span class="p">:</span><span class="n">c1t</span><span class="p">];</span>
+  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">cube1</span><span class="p">];</span>
+
+  <span class="c1">//set up the transform for cube 2 and add it
+</span>  <span class="n">CATransform3D</span> <span class="n">c2t</span> <span class="o">=</span> <span class="n">CATransform3DIdentity</span><span class="p">;</span>
+  <span class="n">c2t</span> <span class="o">=</span> <span class="n">CATransform3DTranslate</span><span class="p">(</span><span class="n">c2t</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">c2t</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">c2t</span><span class="p">,</span> <span class="o">-</span><span class="n">M_PI_4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">c2t</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">c2t</span><span class="p">,</span> <span class="o">-</span><span class="n">M_PI_4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">CALayer</span> <span class="o">*</span><span class="n">cube2</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">cubeWithTransform</span><span class="p">:</span><span class="n">c2t</span><span class="p">];</span>
+  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">cube2</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.5.png" alt="IMG" /></p>
+
+<p>图6.5 同一视角下的俩不同变换的立方体</p>
+
+<h2 id="cagradientlayer">CAGradientLayer</h2>
+
+<p><code class="highlighter-rouge">CAGradientLayer</code>是用来生成两种或更多颜色平滑渐变的。用Core Graphics复制一个<code class="highlighter-rouge">CAGradientLayer</code>并将内容绘制到一个普通图层的寄宿图也是有可能的，但是<code class="highlighter-rouge">CAGradientLayer</code>的真正好处在于绘制使用了硬件加速。</p>
+
+<h3 id="section-4">基础渐变</h3>
+
+<p>我们将从一个简单的红变蓝的对角线渐变开始（见清单6.6）.这些渐变色彩放在一个数组中，并赋给<code class="highlighter-rouge">colors</code>属性。这个数组成员接受<code class="highlighter-rouge">CGColorRef</code>类型的值（并不是从<code class="highlighter-rouge">NSObject</code>派生而来），所以我们要用通过bridge转换以确保编译正常。</p>
+
+<p><code class="highlighter-rouge">CAGradientLayer</code>也有<code class="highlighter-rouge">startPoint</code>和<code class="highlighter-rouge">endPoint</code>属性，他们决定了渐变的方向。这两个参数是以单位坐标系进行的定义，所以左上角坐标是{0, 0}，右下角坐标是{1, 1}。代码运行结果如图6.6</p>
+
+<p>清单6.6 简单的两种颜色的对角线渐变</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+  <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+  <span class="c1">//create gradient layer and add it to our container view
+</span>  <span class="n">CAGradientLayer</span> <span class="o">*</span><span class="n">gradientLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAGradientLayer</span> <span class="nf">layer</span><span class="p">];</span>
+  <span class="n">gradientLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+  <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">gradientLayer</span><span class="p">];</span>
+
+  <span class="c1">//set gradient colors
+</span>  <span class="n">gradientLayer</span><span class="p">.</span><span class="n">colors</span> <span class="o">=</span> <span class="p">@[(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">,</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">blueColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">];</span>
+
+  <span class="c1">//set gradient start and end points
+</span>  <span class="n">gradientLayer</span><span class="p">.</span><span class="n">startPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">gradientLayer</span><span class="p">.</span><span class="n">endPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.6.png" alt="IMG" /></p>
+
+<p>图6.6 用<code class="highlighter-rouge">CAGradientLayer</code>实现简单的两种颜色的对角线渐变</p>
+
+<h3 id="section-5">多重渐变</h3>
+
+<p>如果你愿意，<code class="highlighter-rouge">colors</code>属性可以包含很多颜色，所以创建一个彩虹一样的多重渐变也是很简单的。默认情况下，这些颜色在空间上均匀地被渲染，但是我们可以用<code class="highlighter-rouge">locations</code>属性来调整空间。<code class="highlighter-rouge">locations</code>属性是一个浮点数值的数组（以<code class="highlighter-rouge">NSNumber</code>包装）。这些浮点数定义了<code class="highlighter-rouge">colors</code>属性中每个不同颜色的位置，同样的，也是以单位坐标系进行标定。0.0代表着渐变的开始，1.0代表着结束。</p>
+
+<p><code class="highlighter-rouge">locations</code>数组并不是强制要求的，但是如果你给它赋值了就一定要确保<code class="highlighter-rouge">locations</code>的数组大小和<code class="highlighter-rouge">colors</code>数组大小一定要相同，否则你将会得到一个空白的渐变。</p>
+
+<p>清单6.7展示了一个基于清单6.6的对角线渐变的代码改造。现在变成了从红到黄最后到绿色的渐变。<code class="highlighter-rouge">locations</code>数组指定了0.0，0.25和0.5三个数值，这样这三个渐变就有点像挤在了左上角。（如图6.7）.</p>
+
+<p>清单6.7 在渐变上使用<code class="highlighter-rouge">locations</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    //create gradient layer and add it to our container view
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.frame = self.containerView.bounds;
+    [self.containerView.layer addSublayer:gradientLayer];
+
+    //set gradient colors
+    gradientLayer.colors = @[(__bridge id)[UIColor redColor].CGColor, (__bridge id) [UIColor yellowColor].CGColor, (__bridge id)[UIColor greenColor].CGColor];
+
+    //set locations
+    gradientLayer.locations = @[@0.0, @0.25, @0.5];
+
+    //set gradient start and end points
+    gradientLayer.startPoint = CGPointMake(0, 0);
+    gradientLayer.endPoint = CGPointMake(1, 1);
+}
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.7.png" alt="IMG" /></p>
+
+<p>图6.7 用<code class="highlighter-rouge">locations</code>构造偏移至左上角的三色渐变</p>
+
+<h2 id="careplicatorlayer">CAReplicatorLayer</h2>
+
+<p><code class="highlighter-rouge">CAReplicatorLayer</code>的目的是为了高效生成许多相似的图层。它会绘制一个或多个图层的子图层，并在每个复制体上应用不同的变换。看上去演示能够更加解释这些，我们来写个例子吧。</p>
+
+<h3 id="repeating-layers">重复图层（Repeating Layers）</h3>
+
+<p>清单6.8中，我们在屏幕的中间创建了一个小白色方块图层，然后用<code class="highlighter-rouge">CAReplicatorLayer</code>生成十个图层组成一个圆圈。<code class="highlighter-rouge">instanceCount</code>属性指定了图层需要重复多少次。<code class="highlighter-rouge">instanceTransform</code>指定了一个<code class="highlighter-rouge">CATransform3D</code>3D变换（这种情况下，下一图层的位移和旋转将会移动到圆圈的下一个点）。</p>
+
+<p>变换是逐步增加的，每个实例都是相对于前一实例布局。这就是为什么这些复制体最终不会出现在同意位置上，图6.8是代码运行结果。</p>
+
+<p>清单6.8 用<code class="highlighter-rouge">CAReplicatorLayer</code>重复图层</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create a replicator layer and add it to our view
+</span>    <span class="n">CAReplicatorLayer</span> <span class="o">*</span><span class="n">replicator</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAReplicatorLayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">replicator</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">replicator</span><span class="p">];</span>
+
+    <span class="c1">//configure the replicator
+</span>    <span class="n">replicator</span><span class="p">.</span><span class="n">instanceCount</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="c1">//apply a transform for each instance
+</span>    <span class="n">CATransform3D</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DIdentity</span><span class="p">;</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DTranslate</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DRotate</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">M_PI</span> <span class="o">/</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DTranslate</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">replicator</span><span class="p">.</span><span class="n">instanceTransform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">;</span>
+
+    <span class="c1">//apply a color shift for each instance
+</span>    <span class="n">replicator</span><span class="p">.</span><span class="n">instanceBlueOffset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">replicator</span><span class="p">.</span><span class="n">instanceGreenOffset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+
+    <span class="c1">//create a sublayer and place it inside the replicator
+</span>    <span class="n">CALayer</span> <span class="o">*</span><span class="n">layer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">layer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">layer</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">whiteColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">replicator</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">layer</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.8.png" alt="IMG" /></p>
+
+<p>图6.8 用<code class="highlighter-rouge">CAReplicatorLayer</code>创建一圈图层</p>
+
+<p>注意到当图层在重复的时候，他们的颜色也在变化：这是用<code class="highlighter-rouge">instanceBlueOffset</code>和<code class="highlighter-rouge">instanceGreenOffset</code>属性实现的。通过逐步减少蓝色和绿色通道，我们逐渐将图层颜色转换成了红色。这个复制效果看起来很酷，但是<code class="highlighter-rouge">CAReplicatorLayer</code>真正应用到实际程序上的场景比如：一个游戏中导弹的轨迹云，或者粒子爆炸（尽管iOS 5已经引入了<code class="highlighter-rouge">CAEmitterLayer</code>，它更适合创建任意的粒子效果）。除此之外，还有一个实际应用是：反射。</p>
+
+<h3 id="section-6">反射</h3>
+
+<p>使用<code class="highlighter-rouge">CAReplicatorLayer</code>并应用一个负比例变换于一个复制图层，你就可以创建指定视图（或整个视图层次）内容的镜像图片，这样就创建了一个实时的『反射』效果。让我们来尝试实现这个创意：指定一个继承于<code class="highlighter-rouge">UIView</code>的<code class="highlighter-rouge">ReflectionView</code>，它会自动产生内容的反射效果。实现这个效果的代码很简单（见清单6.9），实际上用<code class="highlighter-rouge">ReflectionView</code>实现这个效果会更简单，我们只需要把<code class="highlighter-rouge">ReflectionView</code>的实例放置于Interface Builder（见图6.9），它就会实时生成子视图的反射，而不需要别的代码（见图6.10）.</p>
+
+<p>清单6.9 用<code class="highlighter-rouge">CAReplicatorLayer</code>自动绘制反射</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "ReflectionView.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+</span>
+<span class="k">@implementation</span> <span class="nc">ReflectionView</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="n">layerClass</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">CAReplicatorLayer</span> <span class="nf">class</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setUp</span>
+<span class="p">{</span>
+    <span class="c1">//configure replicator
+</span>    <span class="n">CAReplicatorLayer</span> <span class="o">*</span><span class="n">layer</span> <span class="o">=</span> <span class="p">(</span><span class="n">CAReplicatorLayer</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">;</span>
+    <span class="n">layer</span><span class="p">.</span><span class="n">instanceCount</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+    <span class="c1">//move reflection instance below original and flip vertically
+</span>    <span class="n">CATransform3D</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DIdentity</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">verticalOffset</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DTranslate</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">verticalOffset</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DScale</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">layer</span><span class="p">.</span><span class="n">instanceTransform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">;</span>
+
+    <span class="c1">//reduce alpha of reflection layer
+</span>    <span class="n">layer</span><span class="p">.</span><span class="n">instanceAlphaOffset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">6</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="err">￼</span>
+<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithFrame</span><span class="o">:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
+<span class="p">{</span>
+    <span class="c1">//this is called when view is created in code
+</span>    <span class="k">if</span> <span class="p">((</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">]))</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">setUp</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">awakeFromNib</span>
+<span class="p">{</span>
+    <span class="c1">//this is called when view is created from a nib
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">setUp</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.9.png" alt="IMG" /></p>
+
+<p>图6.9 在Interface Builder中使用<code class="highlighter-rouge">ReflectionView</code></p>
+
+<p><img src="/img/in-post/ios_introduction/6.10.png" alt="IMG" /></p>
+
+<p>图6.10 <code class="highlighter-rouge">ReflectionView</code>自动实时产生反射效果。</p>
+
+<p>开源代码<code class="highlighter-rouge">ReflectionView</code>完成了一个自适应的渐变淡出效果（用<code class="highlighter-rouge">CAGradientLayer</code>和图层蒙板实现），代码见 https://github.com/nicklockwood/ReflectionView</p>
+
+<h2 id="cascrolllayer">CAScrollLayer</h2>
+
+<p>对于一个未转换的图层，它的<code class="highlighter-rouge">bounds</code>和它的<code class="highlighter-rouge">frame</code>是一样的，<code class="highlighter-rouge">frame</code>属性是由<code class="highlighter-rouge">bounds</code>属性自动计算而出的，所以更改任意一个值都会更新其他值。</p>
+
+<p>但是如果你只想显示一个大图层里面的一小部分呢。比如说，你可能有一个很大的图片，你希望用户能够随意滑动，或者是一个数据或文本的长列表。在一个典型的iOS应用中，你可能会用到<code class="highlighter-rouge">UITableView</code>或是<code class="highlighter-rouge">UIScrollView</code>，但是对于独立的图层来说，什么会等价于刚刚提到的<code class="highlighter-rouge">UITableView</code>和<code class="highlighter-rouge">UIScrollView</code>呢？</p>
+
+<p>在第二章中，我们探索了图层的<code class="highlighter-rouge">contentsRect</code>属性的用法，它的确是能够解决在图层中小地方显示大图片的解决方法。但是如果你的图层包含子图层那它就不是一个非常好的解决方案，因为，这样做的话每次你想『滑动』可视区域的时候，你就需要手工重新计算并更新所有的子图层位置。</p>
+
+<p>这个时候就需要<code class="highlighter-rouge">CAScrollLayer</code>了。<code class="highlighter-rouge">CAScrollLayer</code>有一个<code class="highlighter-rouge">-scrollToPoint:</code>方法，它自动适应<code class="highlighter-rouge">bounds</code>的原点以便图层内容出现在滑动的地方。注意，这就是它做的所有事情。前面提到过，Core Animation并不处理用户输入，所以<code class="highlighter-rouge">CAScrollLayer</code>并不负责将触摸事件转换为滑动事件，既不渲染滚动条，也不实现任何iOS指定行为例如滑动反弹（当视图滑动超多了它的边界的将会反弹回正确的地方）。</p>
+
+<p>让我们来用<code class="highlighter-rouge">CAScrollLayer</code>来常见一个基本的<code class="highlighter-rouge">UIScrollView</code>替代品。我们将会用<code class="highlighter-rouge">CAScrollLayer</code>作为视图的宿主图层，并创建一个自定义的<code class="highlighter-rouge">UIView</code>，然后用<code class="highlighter-rouge">UIPanGestureRecognizer</code>实现触摸事件响应。这段代码见清单6.10. 图6.11是运行效果：<code class="highlighter-rouge">ScrollView</code>显示了一个大于它的<code class="highlighter-rouge">frame</code>的<code class="highlighter-rouge">UIImageView</code>。</p>
+
+<p>清单6.10 用<code class="highlighter-rouge">CAScrollLayer</code>实现滑动视图</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "ScrollView.h"
+#import &lt;QuartzCore/QuartzCore.h&gt; @implementation ScrollView
+</span><span class="k">+</span> <span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="n">layerClass</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">CAScrollLayer</span> <span class="nf">class</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setUp</span>
+<span class="p">{</span>
+    <span class="c1">//enable clipping
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+
+    <span class="c1">//attach pan gesture recognizer
+</span>    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">recognizer</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithTarget</span><span class="p">:</span><span class="n">self</span> <span class="nf">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">pan</span><span class="p">:)];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span><span class="n">recognizer</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">initWithFrame</span><span class="o">:</span><span class="p">(</span><span class="n">CGRect</span><span class="p">)</span><span class="n">frame</span>
+<span class="p">{</span>
+    <span class="c1">//this is called when view is created in code
+</span>    <span class="k">if</span> <span class="p">((</span><span class="n">self</span> <span class="o">=</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithFrame</span><span class="p">:</span><span class="n">frame</span><span class="p">]))</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">setUp</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">awakeFromNib</span> <span class="p">{</span>
+    <span class="c1">//this is called when view is created from a nib
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">setUp</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">pan</span><span class="o">:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">recognizer</span>
+<span class="p">{</span>
+    <span class="c1">//get the offset by subtracting the pan gesture
+</span>    <span class="c1">//translation from the current bounds origin
+</span>    <span class="n">CGPoint</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">origin</span><span class="p">;</span>
+    <span class="n">offset</span><span class="p">.</span><span class="n">x</span> <span class="o">-=</span> <span class="p">[</span><span class="n">recognizer</span> <span class="nf">translationInView</span><span class="p">:</span><span class="n">self</span><span class="p">].</span><span class="n">x</span><span class="p">;</span>
+    <span class="n">offset</span><span class="p">.</span><span class="n">y</span> <span class="o">-=</span> <span class="p">[</span><span class="n">recognizer</span> <span class="nf">translationInView</span><span class="p">:</span><span class="n">self</span><span class="p">].</span><span class="n">y</span><span class="p">;</span>
+
+    <span class="c1">//scroll the layer
+</span>    <span class="p">[(</span><span class="n">CAScrollLayer</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">layer</span> <span class="nf">scrollToPoint</span><span class="p">:</span><span class="n">offset</span><span class="p">];</span>
+
+    <span class="c1">//reset the pan gesture translation
+</span>    <span class="p">[</span><span class="n">recognizer</span> <span class="nf">setTranslation</span><span class="p">:</span><span class="n">CGPointZero</span> <span class="nf">inView</span><span class="p">:</span><span class="n">self</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>图6.11 用<code class="highlighter-rouge">UIScrollView</code>创建一个凑合的滑动视图</p>
+
+<p>不同于<code class="highlighter-rouge">UIScrollView</code>，我们定制的滑动视图类并没有实现任何形式的边界检查（bounds checking）。图层内容极有可能滑出视图的边界并无限滑下去。<code class="highlighter-rouge">CAScrollLayer</code>并没有等同于<code class="highlighter-rouge">UIScrollView</code>中<code class="highlighter-rouge">contentSize</code>的属性，所以当<code class="highlighter-rouge">CAScrollLayer</code>滑动的时候完全没有一个全局的可滑动区域的概念，也无法自适应它的边界原点至你指定的值。它之所以不能自适应边界大小是因为它不需要，内容完全可以超过边界。</p>
+
+<p>那你一定会奇怪用<code class="highlighter-rouge">CAScrollLayer</code>的意义到底何在，因为你可以简单地用一个普通的<code class="highlighter-rouge">CALayer</code>然后手动适应边界原点啊。真相其实并不复杂，<code class="highlighter-rouge">UIScrollView</code>并没有用<code class="highlighter-rouge">CAScrollLayer</code>，事实上，就是简单的通过直接操作图层边界来实现滑动。</p>
+
+<p><code class="highlighter-rouge">CAScrollLayer</code>有一个潜在的有用特性。如果你查看<code class="highlighter-rouge">CAScrollLayer</code>的头文件，你就会注意到有一个扩展分类实现了一些方法和属性：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">scrollPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">p</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">scrollRectToVisible</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">r</span><span class="p">;</span>
+<span class="k">@property</span><span class="p">(</span><span class="n">readonly</span><span class="p">)</span> <span class="n">CGRect</span> <span class="n">visibleRect</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>看到这些方法和属性名，你也许会以为这些方法给每个<code class="highlighter-rouge">CALayer</code>实例增加了滑动功能。但是事实上他们只是放置在<code class="highlighter-rouge">CAScrollLayer</code>中的图层的实用方法。<code class="highlighter-rouge">scrollPoint:</code>方法从图层树中查找并找到第一个可用的<code class="highlighter-rouge">CAScrollLayer</code>，然后滑动它使得指定点成为可视的。<code class="highlighter-rouge">scrollRectToVisible:</code>方法实现了同样的事情只不过是作用在一个矩形上的。<code class="highlighter-rouge">visibleRect</code>属性决定图层（如果存在的话）的哪部分是当前的可视区域。如果你自己实现这些方法就会相对容易明白一点，但是<code class="highlighter-rouge">CAScrollLayer</code>帮你省了这些麻烦，所以当涉及到实现图层滑动的时候就可以用上了。</p>
+
+<h2 id="catiledlayer">CATiledLayer</h2>
+
+<p>有些时候你可能需要绘制一个很大的图片，常见的例子就是一个高像素的照片或者是地球表面的详细地图。iOS应用通畅运行在内存受限的设备上，所以读取整个图片到内存中是不明智的。载入大图可能会相当地慢，那些对你看上去比较方便的做法（在主线程调用<code class="highlighter-rouge">UIImage</code>的<code class="highlighter-rouge">-imageNamed:</code>方法或者<code class="highlighter-rouge">-imageWithContentsOfFile:</code>方法）将会阻塞你的用户界面，至少会引起动画卡顿现象。</p>
+
+<p>能高效绘制在iOS上的图片也有一个大小限制。所有显示在屏幕上的图片最终都会被转化为OpenGL纹理，同时OpenGL有一个最大的纹理尺寸（通常是2048*2048，或4096*4096，这个取决于设备型号）。如果你想在单个纹理中显示一个比这大的图，即便图片已经存在于内存中了，你仍然会遇到很大的性能问题，因为Core Animation强制用CPU处理图片而不是更快的GPU（见第12章『速度的曲调』，和第13章『高效绘图』，它更加详细地解释了软件绘制和硬件绘制）。</p>
+
+<p><code class="highlighter-rouge">CATiledLayer</code>为载入大图造成的性能问题提供了一个解决方案：将大图分解成小片然后将他们单独按需载入。让我们用实验来证明一下。</p>
+
+<h3 id="section-7">小片裁剪</h3>
+
+<p>这个示例中，我们将会从一个2048*2048分辨率的雪人图片入手。为了能够从<code class="highlighter-rouge">CATiledLayer</code>中获益，我们需要把这个图片裁切成许多小一些的图片。你可以通过代码来完成这件事情，但是如果你在运行时读入整个图片并裁切，那<code class="highlighter-rouge">CATiledLayer</code>这些所有的性能优点就损失殆尽了。理想情况下来说，最好能够逐个步骤来实现。</p>
+
+<p>清单6.11 演示了一个简单的Mac OS命令行程序，它用<code class="highlighter-rouge">CATiledLayer</code>将一个图片裁剪成小图并存储到不同的文件中。</p>
+
+<p>清单6.11 裁剪图片成小图的终端程序</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#import &lt;AppKit/AppKit.h&gt;
+
+int main(int argc, const char * argv[])
+{
+    @autoreleasepool{
+        ￼//handle incorrect arguments
+        if (argc &lt; 2) {
+            NSLog(@"TileCutter arguments: inputfile");
+            return 0;
+        }
+
+        //input file
+        NSString *inputFile = [NSString stringWithCString:argv[1] encoding:NSUTF8StringEncoding];
+
+        //tile size
+        CGFloat tileSize = 256; //output path
+        NSString *outputPath = [inputFile stringByDeletingPathExtension];
+
+        //load image
+        NSImage *image = [[NSImage alloc] initWithContentsOfFile:inputFile];
+        NSSize size = [image size];
+        NSArray *representations = [image representations];
+        if ([representations count]){
+            NSBitmapImageRep *representation = representations[0];
+            size.width = [representation pixelsWide];
+            size.height = [representation pixelsHigh];
+        }
+        NSRect rect = NSMakeRect(0.0, 0.0, size.width, size.height);
+        CGImageRef imageRef = [image CGImageForProposedRect:&amp;rect context:NULL hints:nil];
+
+        //calculate rows and columns
+        NSInteger rows = ceil(size.height / tileSize);
+        NSInteger cols = ceil(size.width / tileSize);
+
+        //generate tiles
+        for (int y = 0; y &lt; rows; ++y) {
+            for (int x = 0; x &lt; cols; ++x) {
+            //extract tile image
+            CGRect tileRect = CGRectMake(x*tileSize, y*tileSize, tileSize, tileSize);
+            CGImageRef tileImage = CGImageCreateWithImageInRect(imageRef, tileRect);
+
+            //convert to jpeg data
+            NSBitmapImageRep *imageRep = [[NSBitmapImageRep alloc] initWithCGImage:tileImage];
+            NSData *data = [imageRep representationUsingType: NSJPEGFileType properties:nil];
+            CGImageRelease(tileImage);
+
+            //save file
+            NSString *path = [outputPath stringByAppendingFormat: @"_%02i_%02i.jpg", x, y];
+            [data writeToFile:path atomically:NO];
+            }
+        }
+    }
+    return 0;
+}
+</code></pre>
+</div>
+
+<p>这个程序将2048*2048分辨率的雪人图案裁剪成了64个不同的256*256的小图。（256*256是<code class="highlighter-rouge">CATiledLayer</code>的默认小图大小，默认大小可以通过<code class="highlighter-rouge">tileSize</code>属性更改）。程序接受一个图片路径作为命令行的第一个参数。我们可以在编译的scheme将路径参数硬编码然后就可以在Xcode中运行了，但是以后作用在另一个图片上就不方便了。所以，我们编译了这个程序并把它保存到敏感的地方，然后从终端调用，如下面所示：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; path/to/TileCutterApp path/to/Snowman.jpg
+</code></pre>
+</div>
+
+<p>The app is very basic, but could easily be extended to support additional arguments such as tile size, or to export images in formats other than JPEG. The result of running it is a sequence of 64 new images, named as follows:</p>
+
+<p>这个程序相当基础，但是能够轻易地扩展支持额外的参数比如小图大小，或者导出格式等等。运行结果是64个新图的序列，如下面命名：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Snowman_00_00.jpg
+Snowman_00_01.jpg
+Snowman_00_02.jpg
+...
+Snowman_07_07.jpg
+</code></pre>
+</div>
+
+<p>既然我们有了裁切后的小图，我们就要让iOS程序用到他们。<code class="highlighter-rouge">CATiledLayer</code>很好地和<code class="highlighter-rouge">UIScrollView</code>集成在一起。除了设置图层和滑动视图边界以适配整个图片大小，我们真正要做的就是实现<code class="highlighter-rouge">-drawLayer:inContext:</code>方法，当需要载入新的小图时，<code class="highlighter-rouge">CATiledLayer</code>就会调用到这个方法。</p>
+
+<p>清单6.12演示了代码。图6.12是代码运行结果。</p>
+
+<p>清单6.12 一个简单的滚动<code class="highlighter-rouge">CATiledLayer</code>实现</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "ViewController.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIScrollView</span> <span class="o">*</span><span class="n">scrollView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add the tiled layer
+</span>    <span class="n">CATiledLayer</span> <span class="o">*</span><span class="n">tileLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CATiledLayer</span> <span class="nf">layer</span><span class="p">];</span><span class="err">￼</span>
+    <span class="n">tileLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2048</span><span class="p">,</span> <span class="mi">2048</span><span class="p">);</span>
+    <span class="n">tileLayer</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">scrollView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">tileLayer</span><span class="p">];</span>
+
+    <span class="c1">//configure the scroll view
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">scrollView</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">tileLayer</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+
+    <span class="c1">//draw layer
+</span>    <span class="p">[</span><span class="n">tileLayer</span> <span class="nf">setNeedsDisplay</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">drawLayer</span><span class="o">:</span><span class="p">(</span><span class="n">CATiledLayer</span> <span class="o">*</span><span class="p">)</span><span class="n">layer</span> <span class="n">inContext</span><span class="o">:</span><span class="p">(</span><span class="n">CGContextRef</span><span class="p">)</span><span class="n">ctx</span>
+<span class="p">{</span>
+    <span class="c1">//determine tile coordinate
+</span>    <span class="n">CGRect</span> <span class="n">bounds</span> <span class="o">=</span> <span class="n">CGContextGetClipBoundingBox</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+    <span class="n">NSInteger</span> <span class="n">x</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">layer</span><span class="p">.</span><span class="n">tileSize</span><span class="p">.</span><span class="n">width</span><span class="p">);</span>
+    <span class="n">NSInteger</span> <span class="n">y</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">bounds</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">layer</span><span class="p">.</span><span class="n">tileSize</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+
+    <span class="c1">//load tile image
+</span>    <span class="n">NSString</span> <span class="o">*</span><span class="n">imageName</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span> <span class="s">@"Snowman_%02i_%02i"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">];</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="n">imageName</span> <span class="nf">ofType</span><span class="p">:</span><span class="s">@"jpg"</span><span class="p">];</span>
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">tileImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageWithContentsOfFile</span><span class="p">:</span><span class="n">imagePath</span><span class="p">];</span>
+
+    <span class="c1">//draw tile
+</span>    <span class="n">UIGraphicsPushContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">tileImage</span> <span class="nf">drawInRect</span><span class="p">:</span><span class="n">bounds</span><span class="p">];</span>
+    <span class="n">UIGraphicsPopContext</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.12.png" alt="IMG" /></p>
+
+<p>图6.12 用<code class="highlighter-rouge">UIScrollView</code>滚动<code class="highlighter-rouge">CATiledLayer</code></p>
+
+<p>当你滑动这个图片，你会发现当<code class="highlighter-rouge">CATiledLayer</code>载入小图的时候，他们会淡入到界面中。这是<code class="highlighter-rouge">CATiledLayer</code>的默认行为。（你可能已经在iOS 6之前的苹果地图程序中见过这个效果）你可以用<code class="highlighter-rouge">fadeDuration</code>属性改变淡入时长或直接禁用掉。<code class="highlighter-rouge">CATiledLayer</code>（不同于大部分的<code class="highlighter-rouge">UIKit</code>和Core Animation方法）支持多线程绘制，<code class="highlighter-rouge">-drawLayer:inContext:</code>方法可以在多个线程中同时地并发调用，所以请小心谨慎地确保你在这个方法中实现的绘制代码是线程安全的。</p>
+
+<h3 id="retina">Retina小图</h3>
+
+<p>你也许已经注意到了这些小图并不是以Retina的分辨率显示的。为了以屏幕的原生分辨率来渲染<code class="highlighter-rouge">CATiledLayer</code>，我们需要设置图层的<code class="highlighter-rouge">contentsScale</code>来匹配<code class="highlighter-rouge">UIScreen</code>的<code class="highlighter-rouge">scale</code>属性：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>tileLayer.contentsScale = [UIScreen mainScreen].scale;
+</code></pre>
+</div>
+
+<p>有趣的是，<code class="highlighter-rouge">tileSize</code>是以像素为单位，而不是点，所以增大了<code class="highlighter-rouge">contentsScale</code>就自动有了默认的小图尺寸（现在它是128*128的点而不是256*256）.所以，我们不需要手工更新小图的尺寸或是在Retina分辨率下指定一个不同的小图。我们需要做的是适应小图渲染代码以对应安排<code class="highlighter-rouge">scale</code>的变化，然而：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//determine tile coordinate
+CGRect bounds = CGContextGetClipBoundingBox(ctx);
+CGFloat scale = [UIScreen mainScreen].scale;
+NSInteger x = floor(bounds.origin.x / layer.tileSize.width * scale);
+NSInteger y = floor(bounds.origin.y / layer.tileSize.height * scale);
+</code></pre>
+</div>
+
+<p>通过这个方法纠正<code class="highlighter-rouge">scale</code>也意味着我们的雪人图将以一半的大小渲染在Retina设备上（总尺寸是1024*1024，而不是2048*2048）。这个通常都不会影响到用<code class="highlighter-rouge">CATiledLayer</code>正常显示的图片类型（比如照片和地图，他们在设计上就是要支持放大缩小，能够在不同的缩放条件下显示），但是也需要在心里明白。</p>
+
+<h2 id="caemitterlayer">CAEmitterLayer</h2>
+
+<p>在iOS 5中，苹果引入了一个新的<code class="highlighter-rouge">CALayer</code>子类叫做<code class="highlighter-rouge">CAEmitterLayer</code>。<code class="highlighter-rouge">CAEmitterLayer</code>是一个高性能的粒子引擎，被用来创建实时例子动画如：烟雾，火，雨等等这些效果。</p>
+
+<p><code class="highlighter-rouge">CAEmitterLayer</code>看上去像是许多<code class="highlighter-rouge">CAEmitterCell</code>的容器，这些<code class="highlighter-rouge">CAEmitierCell</code>定义了一个例子效果。你将会为不同的例子效果定义一个或多个<code class="highlighter-rouge">CAEmitterCell</code>作为模版，同时<code class="highlighter-rouge">CAEmitterLayer</code>负责基于这些模版实例化一个粒子流。一个<code class="highlighter-rouge">CAEmitterCell</code>类似于一个<code class="highlighter-rouge">CALayer</code>：它有一个<code class="highlighter-rouge">contents</code>属性可以定义为一个<code class="highlighter-rouge">CGImage</code>，另外还有一些可设置属性控制着表现和行为。我们不会对这些属性逐一进行详细的描述，你们可以在<code class="highlighter-rouge">CAEmitterCell</code>类的头文件中找到。</p>
+
+<p>我们来举个例子。我们将利用在一圆中发射不同速度和透明度的粒子创建一个火爆炸的效果。清单6.13包含了生成爆炸的代码。图6.13是运行结果</p>
+
+<p>清单6.13 用<code class="highlighter-rouge">CAEmitterLayer</code>创建爆炸效果</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "ViewController.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="err">￼</span>
+    <span class="c1">//create particle emitter layer
+</span>    <span class="n">CAEmitterLayer</span> <span class="o">*</span><span class="n">emitter</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAEmitterLayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">emitter</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">emitter</span><span class="p">];</span>
+
+    <span class="c1">//configure emitter
+</span>    <span class="n">emitter</span><span class="p">.</span><span class="n">renderMode</span> <span class="o">=</span> <span class="n">kCAEmitterLayerAdditive</span><span class="p">;</span>
+    <span class="n">emitter</span><span class="p">.</span><span class="n">emitterPosition</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">emitter</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">emitter</span><span class="p">.</span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">//create a particle template
+</span>    <span class="n">CAEmitterCell</span> <span class="o">*</span><span class="n">cell</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CAEmitterCell</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Spark.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">birthRate</span> <span class="o">=</span> <span class="mi">150</span><span class="p">;</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">lifetime</span> <span class="o">=</span> <span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithRed</span><span class="p">:</span><span class="mi">1</span> <span class="nf">green</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span> <span class="nf">blue</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">1</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">alphaSpeed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">4</span><span class="p">;</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">velocityRange</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+    <span class="n">cell</span><span class="p">.</span><span class="n">emissionRange</span> <span class="o">=</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="c1">//add particle template to emitter
+</span>    <span class="n">emitter</span><span class="p">.</span><span class="n">emitterCells</span> <span class="o">=</span> <span class="p">@[</span><span class="n">cell</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>图6.13 火焰爆炸效果</p>
+
+<p><code class="highlighter-rouge">CAEMitterCell</code>的属性基本上可以分为三种：</p>
+
+<ul>
+  <li>这种粒子的某一属性的初始值。比如，<code class="highlighter-rouge">color</code>属性指定了一个可以混合图片内容颜色的混合色。在示例中，我们将它设置为桔色。</li>
+  <li>粒子某一属性的变化范围。比如<code class="highlighter-rouge">emissionRange</code>属性的值是2π，这意味着粒子可以从360度任意位置反射出来。如果指定一个小一些的值，就可以创造出一个圆锥形。</li>
+  <li>指定值在时间线上的变化。比如，在示例中，我们将<code class="highlighter-rouge">alphaSpeed</code>设置为-0.4，就是说粒子的透明度每过一秒就是减少0.4，这样就有发射出去之后逐渐消失的效果。</li>
+</ul>
+
+<p><code class="highlighter-rouge">CAEmitterLayer</code>的属性它自己控制着整个粒子系统的位置和形状。一些属性比如<code class="highlighter-rouge">birthRate</code>，<code class="highlighter-rouge">lifetime</code>和<code class="highlighter-rouge">celocity</code>，这些属性在<code class="highlighter-rouge">CAEmitterCell</code>中也有。这些属性会以相乘的方式作用在一起，这样你就可以用一个值来加速或者扩大整个粒子系统。其他值得提到的属性有以下这些：</p>
+
+<ul>
+  <li><code class="highlighter-rouge">preservesDepth</code>，是否将3D粒子系统平面化到一个图层（默认值）或者可以在3D空间中混合其他的图层。</li>
+  <li><code class="highlighter-rouge">renderMode</code>，控制着在视觉上粒子图片是如何混合的。你可能已经注意到了示例中我们把它设置为<code class="highlighter-rouge">kCAEmitterLayerAdditive</code>，它实现了这样一个效果：合并粒子重叠部分的亮度使得看上去更亮。如果我们把它设置为默认的<code class="highlighter-rouge">kCAEmitterLayerUnordered</code>，效果就没那么好看了（见图6.14）。</li>
+</ul>
+
+<p><img src="/img/in-post/ios_introduction/6.14.png" alt="IMG" /></p>
+
+<p>图6.14 禁止混色之后的火焰粒子</p>
+
+<h2 id="caeagllayer">CAEAGLLayer</h2>
+
+<p>当iOS要处理高性能图形绘制，必要时就是OpenGL。应该说它应该是最后的杀手锏，至少对于非游戏的应用来说是的。因为相比Core Animation和UIkit框架，它不可思议地复杂。</p>
+
+<p>OpenGL提供了Core Animation的基础，它是底层的C接口，直接和iPhone，iPad的硬件通信，极少地抽象出来的方法。OpenGL没有对象或是图层的继承概念。它只是简单地处理三角形。OpenGL中所有东西都是3D空间中有颜色和纹理的三角形。用起来非常复杂和强大，但是用OpenGL绘制iOS用户界面就需要很多很多的工作了。</p>
+
+<p>为了能够以高性能使用Core Animation，你需要判断你需要绘制哪种内容（矢量图形，例子，文本，等等），但后选择合适的图层去呈现这些内容，Core Animation中只有一些类型的内容是被高度优化的；所以如果你想绘制的东西并不能找到标准的图层类，想要得到高性能就比较费事情了。</p>
+
+<p>因为OpenGL根本不会对你的内容进行假设，它能够绘制得相当快。利用OpenGL，你可以绘制任何你知道必要的集合信息和形状逻辑的内容。所以很多游戏都喜欢用OpenGL（这些情况下，Core Animation的限制就明显了：它优化过的内容类型并不一定能满足需求），但是这样依赖，方便的高度抽象接口就没了。</p>
+
+<p>在iOS 5中，苹果引入了一个新的框架叫做GLKit，它去掉了一些设置OpenGL的复杂性，提供了一个叫做<code class="highlighter-rouge">CLKView</code>的<code class="highlighter-rouge">UIView</code>的子类，帮你处理大部分的设置和绘制工作。前提是各种各样的OpenGL绘图缓冲的底层可配置项仍然需要你用<code class="highlighter-rouge">CAEAGLLayer</code>完成，它是<code class="highlighter-rouge">CALayer</code>的一个子类，用来显示任意的OpenGL图形。</p>
+
+<p>大部分情况下你都不需要手动设置<code class="highlighter-rouge">CAEAGLLayer</code>（假设用GLKView），过去的日子就不要再提了。特别的，我们将设置一个OpenGL ES 2.0的上下文，它是现代的iOS设备的标准做法。</p>
+
+<p>尽管不需要GLKit也可以做到这一切，但是GLKit囊括了很多额外的工作，比如设置顶点和片段着色器，这些都以类C语言叫做GLSL自包含在程序中，同时在运行时载入到图形硬件中。编写GLSL代码和设置<code class="highlighter-rouge">EAGLayer</code>没有什么关系，所以我们将用<code class="highlighter-rouge">GLKBaseEffect</code>类将着色逻辑抽象出来。其他的事情，我们还是会有以往的方式。</p>
+
+<p>在开始之前，你需要将GLKit和OpenGLES框架加入到你的项目中，然后就可以实现清单6.14中的代码，里面是设置一个<code class="highlighter-rouge">GAEAGLLayer</code>的最少工作，它使用了OpenGL ES 2.0 的绘图上下文，并渲染了一个有色三角（见图6.15）.</p>
+
+<p>清单6.14 用<code class="highlighter-rouge">CAEAGLLayer</code>绘制一个三角形</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "ViewController.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+#import &lt;GLKit/GLKit.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">glView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">EAGLContext</span> <span class="o">*</span><span class="n">glContext</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">CAEAGLLayer</span> <span class="o">*</span><span class="n">glLayer</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">GLuint</span> <span class="n">framebuffer</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">GLuint</span> <span class="n">colorRenderbuffer</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">GLint</span> <span class="n">framebufferWidth</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">GLint</span> <span class="n">framebufferHeight</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">GLKBaseEffect</span> <span class="o">*</span><span class="n">effect</span><span class="p">;</span>
+<span class="err">￼</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setUpBuffers</span>
+<span class="p">{</span>
+    <span class="c1">//set up frame buffer
+</span>    <span class="n">glGenFramebuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">_framebuffer</span><span class="p">);</span>
+    <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">_framebuffer</span><span class="p">);</span>
+
+    <span class="c1">//set up color render buffer
+</span>    <span class="n">glGenRenderbuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">_colorRenderbuffer</span><span class="p">);</span>
+    <span class="n">glBindRenderbuffer</span><span class="p">(</span><span class="n">GL_RENDERBUFFER</span><span class="p">,</span> <span class="n">_colorRenderbuffer</span><span class="p">);</span>
+    <span class="n">glFramebufferRenderbuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">GL_COLOR_ATTACHMENT0</span><span class="p">,</span> <span class="n">GL_RENDERBUFFER</span><span class="p">,</span> <span class="n">_colorRenderbuffer</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">glContext</span> <span class="nf">renderbufferStorage</span><span class="p">:</span><span class="n">GL_RENDERBUFFER</span> <span class="nf">fromDrawable</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">glLayer</span><span class="p">];</span>
+    <span class="n">glGetRenderbufferParameteriv</span><span class="p">(</span><span class="n">GL_RENDERBUFFER</span><span class="p">,</span> <span class="n">GL_RENDERBUFFER_WIDTH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">_framebufferWidth</span><span class="p">);</span>
+    <span class="n">glGetRenderbufferParameteriv</span><span class="p">(</span><span class="n">GL_RENDERBUFFER</span><span class="p">,</span> <span class="n">GL_RENDERBUFFER_HEIGHT</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">_framebufferHeight</span><span class="p">);</span>
+
+    <span class="c1">//check success
+</span>    <span class="k">if</span> <span class="p">(</span><span class="n">glCheckFramebufferStatus</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">)</span> <span class="o">!=</span> <span class="n">GL_FRAMEBUFFER_COMPLETE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Failed to make complete framebuffer object: %i"</span><span class="p">,</span> <span class="n">glCheckFramebufferStatus</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">tearDownBuffers</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_framebuffer</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//delete framebuffer
+</span>        <span class="n">glDeleteFramebuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">_framebuffer</span><span class="p">);</span>
+        <span class="n">_framebuffer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">_colorRenderbuffer</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//delete color render buffer
+</span>        <span class="n">glDeleteRenderbuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">_colorRenderbuffer</span><span class="p">);</span>
+        <span class="n">_colorRenderbuffer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">drawFrame</span> <span class="p">{</span>
+    <span class="c1">//bind framebuffer &amp; set viewport
+</span>    <span class="n">glBindFramebuffer</span><span class="p">(</span><span class="n">GL_FRAMEBUFFER</span><span class="p">,</span> <span class="n">_framebuffer</span><span class="p">);</span>
+    <span class="n">glViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_framebufferWidth</span><span class="p">,</span> <span class="n">_framebufferHeight</span><span class="p">);</span>
+
+    <span class="c1">//bind shader program
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">effect</span> <span class="nf">prepareToDraw</span><span class="p">];</span>
+
+    <span class="c1">//clear the screen
+</span>    <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span> <span class="n">glClearColor</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+
+    <span class="c1">//set up vertices
+</span>    <span class="n">GLfloat</span> <span class="n">vertices</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span>
+    <span class="p">};</span>
+
+    <span class="c1">//set up colors
+</span>    <span class="n">GLfloat</span> <span class="n">colors</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span>
+    <span class="p">};</span>
+
+    <span class="c1">//draw triangle
+</span>    <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">GLKVertexAttribPosition</span><span class="p">);</span>
+    <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">GLKVertexAttribColor</span><span class="p">);</span>
+    <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">GLKVertexAttribPosition</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vertices</span><span class="p">);</span>
+    <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">GLKVertexAttribColor</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="n">GL_FALSE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">colors</span><span class="p">);</span>
+    <span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+
+    <span class="c1">//present render buffer
+</span>    <span class="n">glBindRenderbuffer</span><span class="p">(</span><span class="n">GL_RENDERBUFFER</span><span class="p">,</span> <span class="n">_colorRenderbuffer</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">glContext</span> <span class="nf">presentRenderbuffer</span><span class="p">:</span><span class="n">GL_RENDERBUFFER</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//set up context
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">glContext</span> <span class="o">=</span> <span class="p">[[</span><span class="n">EAGLContext</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithAPI</span><span class="p">:</span> <span class="n">kEAGLRenderingAPIOpenGLES2</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">EAGLContext</span> <span class="nf">setCurrentContext</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">glContext</span><span class="p">];</span>
+
+    <span class="c1">//set up layer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">glLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAEAGLLayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">glLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">glView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">glLayer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">glLayer</span><span class="p">.</span><span class="n">drawableProperties</span> <span class="o">=</span> <span class="err">@</span><span class="p">{</span><span class="n">kEAGLDrawablePropertyRetainedBacking</span><span class="o">:</span><span class="nb">@NO</span><span class="p">,</span> <span class="n">kEAGLDrawablePropertyColorFormat</span><span class="o">:</span> <span class="n">kEAGLColorFormatRGBA8</span><span class="p">};</span>
+
+    <span class="c1">//set up base effect
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">effect</span> <span class="o">=</span> <span class="p">[[</span><span class="n">GLKBaseEffect</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+
+    <span class="c1">//set up buffers
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">setUpBuffers</span><span class="p">];</span>
+
+    <span class="c1">//draw frame
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">drawFrame</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidUnload</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">tearDownBuffers</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidUnload</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">tearDownBuffers</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">EAGLContext</span> <span class="nf">setCurrentContext</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.15.png" alt="IMG" /></p>
+
+<p>图6.15 用OpenGL渲染的<code class="highlighter-rouge">CAEAGLLayer</code>图层</p>
+
+<p>在一个真正的OpenGL应用中，我们可能会用<code class="highlighter-rouge">NSTimer</code>或<code class="highlighter-rouge">CADisplayLink</code>周期性地每秒钟调用<code class="highlighter-rouge">-drawRrame</code>方法60次，同时会将几何图形生成和绘制分开以便不会每次都重新生成三角形的顶点（这样也可以让我们绘制其他的一些东西而不是一个三角形而已），不过上面这个例子已经足够演示了绘图原则了。</p>
+
+<h2 id="avplayerlayer">AVPlayerLayer</h2>
+
+<p>最后一个图层类型是<code class="highlighter-rouge">AVPlayerLayer</code>。尽管它不是Core Animation框架的一部分（AV前缀看上去像），<code class="highlighter-rouge">AVPlayerLayer</code>是有别的框架（AVFoundation）提供的，它和Core Animation紧密地结合在一起，提供了一个<code class="highlighter-rouge">CALayer</code>子类来显示自定义的内容类型。</p>
+
+<p><code class="highlighter-rouge">AVPlayerLayer</code>是用来在iOS上播放视频的。他是高级接口例如<code class="highlighter-rouge">MPMoivePlayer</code>的底层实现，提供了显示视频的底层控制。<code class="highlighter-rouge">AVPlayerLayer</code>的使用相当简单：你可以用<code class="highlighter-rouge">+playerLayerWithPlayer:</code>方法创建一个已经绑定了视频播放器的图层，或者你可以先创建一个图层，然后用<code class="highlighter-rouge">player</code>属性绑定一个<code class="highlighter-rouge">AVPlayer</code>实例。</p>
+
+<p>在我们开始之前，我们需要添加AVFoundation到我们的项目中。然后，清单6.15创建了一个简单的电影播放器，图6.16是代码运行结果。</p>
+
+<p>清单6.15 用<code class="highlighter-rouge">AVPlayerLayer</code>播放视频</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "ViewController.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+#import &lt;AVFoundation/AVFoundation.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span> <span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//get video URL
+</span>    <span class="n">NSURL</span> <span class="o">*</span><span class="n">URL</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">URLForResource</span><span class="p">:</span><span class="s">@"Ship"</span> <span class="nf">withExtension</span><span class="p">:</span><span class="s">@"mp4"</span><span class="p">];</span>
+
+    <span class="c1">//create player and player layer
+</span>    <span class="n">AVPlayer</span> <span class="o">*</span><span class="n">player</span> <span class="o">=</span> <span class="p">[</span><span class="n">AVPlayer</span> <span class="nf">playerWithURL</span><span class="p">:</span><span class="n">URL</span><span class="p">];</span>
+    <span class="n">AVPlayerLayer</span> <span class="o">*</span><span class="n">playerLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AVPlayerLayer</span> <span class="nf">playerLayerWithPlayer</span><span class="p">:</span><span class="n">player</span><span class="p">];</span>
+
+    <span class="c1">//set player layer frame and attach it to our view
+</span>    <span class="n">playerLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">playerLayer</span><span class="p">];</span>
+
+    <span class="c1">//play the video
+</span>    <span class="p">[</span><span class="n">player</span> <span class="nf">play</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="./6.16.png" alt="" /></p>
+
+<p>图6.16 用<code class="highlighter-rouge">AVPlayerLayer</code>图层播放视频的截图</p>
+
+<p>我们用代码创建了一个<code class="highlighter-rouge">AVPlayerLayer</code>，但是我们仍然把它添加到了一个容器视图中，而不是直接在controller中的主视图上添加。这样其实是为了可以使用自动布局限制使得图层在最中间；否则，一旦设备被旋转了我们就要手动重新放置位置，因为Core Animation并不支持自动大小和自动布局（见第三章『图层几何学』）。</p>
+
+<p>当然，因为<code class="highlighter-rouge">AVPlayerLayer</code>是<code class="highlighter-rouge">CALayer</code>的子类，它继承了父类的所有特性。我们并不会受限于要在一个矩形中播放视频；清单6.16演示了在3D，圆角，有色边框，蒙板，阴影等效果（见图6.17）.</p>
+
+<p>清单6.16 给视频增加变换，边框和圆角</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)viewDidLoad
+{
+    ...
+    //set player layer frame and attach it to our view
+    playerLayer.frame = self.containerView.bounds;
+    [self.containerView.layer addSublayer:playerLayer];
+
+    //transform layer
+    CATransform3D transform = CATransform3DIdentity;
+    transform.m34 = -1.0 / 500.0;
+    transform = CATransform3DRotate(transform, M_PI_4, 1, 1, 0);
+    playerLayer.transform = transform;
+    ￼
+    //add rounded corners and border
+    playerLayer.masksToBounds = YES;
+    playerLayer.cornerRadius = 20.0;
+    playerLayer.borderColor = [UIColor redColor].CGColor;
+    playerLayer.borderWidth = 5.0;
+
+    //play the video
+    [player play];
+}
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/6.17.png" alt="IMG" /></p>
+
+<p>图6.17 3D视角下的边框和圆角<code class="highlighter-rouge">AVPlayerLayer</code></p>
+
+<h2 id="section-8">总结</h2>
+
+<p>这一章我们简要概述了一些专用图层以及用他们实现的一些效果，我们只是了解到这些图层的皮毛，像<code class="highlighter-rouge">CATiledLayer</code>和<code class="highlighter-rouge">CAEMitterLayer</code>这些类可以单独写一章的。但是，重点是记住<code class="highlighter-rouge">CALayer</code>是用处很大的，而且它并没有为所有可能的场景进行优化。为了获得Core Animation最好的性能，你需要为你的工作选对正确的工具，希望你能够挖掘这些不同的<code class="highlighter-rouge">CALayer</code>子类的功能。
+这一章我们通过<code class="highlighter-rouge">CAEmitterLayer</code>和<code class="highlighter-rouge">AVPlayerLayer</code>类简单地接触到了一些动画，在第二章，我们将继续深入研究动画，就从隐式动画开始。</p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/26/ios_core_animation5_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解五">
+                        Previous<br>
+                        <span>IOS 动画讲解五</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="13">
+                                    Android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ios" title="ios" rel="12">
+                                    ios
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="3">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#core-animation" title="core-animation" rel="6">
+                                    core-animation
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/27/ios_core_animation6_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/27/ios_core_animation6_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
