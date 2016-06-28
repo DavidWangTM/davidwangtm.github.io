@@ -5,8 +5,8 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 27 Jun 2016 23:13:05 +0800</pubDate>
-    <lastBuildDate>Mon, 27 Jun 2016 23:13:05 +0800</lastBuildDate>
+    <pubDate>Tue, 28 Jun 2016 17:17:58 +0800</pubDate>
+    <lastBuildDate>Tue, 28 Jun 2016 17:17:58 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -4387,6 +4387,207 @@ UIImageView+WebCache.h
       </item>
     
       <item>
+        <title>制作Mac OS X EL Capotan U盘引导安装</title>
+        <description>&lt;h2 id=&quot;mac-os-x-el-capitan-u&quot;&gt;制作 Mac OS X El Capitan 的U盘引导安装&lt;/h2&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;一、准备工作：&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;准备一个 8GB 或者 8G 以上容量的 U 盘。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;确保里面的数据已经妥善备份好（该过程会抹掉 U 盘全部数据）
+最好使用3.0的U盘、速度快 (本人比较苦逼，没有U盘，直接使用的硬盘~ 都是一样的啦)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;打开 &lt;code class=&quot;highlighter-rouge&quot;&gt;App store&lt;/code&gt; 下载 &lt;code class=&quot;highlighter-rouge&quot;&gt;OS X El Capitan&lt;/code&gt; 系统&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;下载 OS X 系统 这个就没啥可说的了，直接看图吧..
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;os&quot;&gt;二、下载OS系统&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;搜索系统&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_1.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;点击下载&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_2.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;点击继续&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_3.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;当你下载完成以后, 打开你的 launchpad&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_4.jpeg&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;找到刚才下载的这个 OS X El Capitan&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_5.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;三、格式化优盘&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;插入你的 U 盘，然后在「应用程序」-&amp;gt;「实用工具」里面找到并打开「磁盘工具」&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_6.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在左方列表中找到 外置 -&amp;gt; U盘的名称并点击&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_7.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;右边顶部选择 抹掉 并且在 名称 输入 DavidWang
+由于后面的命令中会用到此名称，如果你要修改成其他(英文)，
+请务必对应修改后面的命令, (如果不清楚、请按照我的步骤来，包你不会碰壁！）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_8.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;开始格式化 (抹掉U盘)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;四、输入终端命令开始制作启动盘&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;请再次确保名为 “安装 OS X El Capitan” 的文件是保存在 应用程序的目录中&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在应用程序-&amp;gt;实用工具里面找到终端&lt;code class=&quot;highlighter-rouge&quot;&gt;并打开, 也可以直接通过Spotlight&lt;/code&gt;`搜索终端打开&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;复制下面的命令，并粘贴到终端里，按回车运行! (指令有点长！请复制完全哦~)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume /Volumes/DavidWang --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;命令说明：Install\ OS\ X\ El\ Capitan.app 这个是正式版的“安装OS X El Capitan
+Mac OS X EI Capitan 这个是U盘的名字 终端上的如果有空格需要加上 (空格)
+在终端上U盘的名字是这样的 Volumes/Mac\ OS\ X\ EI\ Capitan&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;接回车之后，系统会提示你输入电脑的管理员密码 (如果没有设置密码直接再按一次回车)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_9.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;接下来就是等待系统开始制作启动盘了
+这时，命令执行中你会&lt;code class=&quot;highlighter-rouge&quot;&gt;陆续&lt;/code&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;陆续&lt;/code&gt;`陆续看到类似以下的信息:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Erasing Disk: 0%... 10%... 20%... 30%...100%...
+Copying installer files to disk...
+Copy complete.
+Making disk bootable...
+Copying boot files...
+Copy complete.
+Done.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;当你看到最后有Copy complete 和Done字样出现就是表示启动盘已经制作完成了!!!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_10.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;6.当你制作完成的OS X El Capitan启动盘之后,优盘就会显示
+Install OS X El Capitan的盘符那么就表示启动盘是正常的了。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;u-os-x-el-capitan-&quot;&gt;五、U盘启动安装 OS X El Capitan 的方法&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1.先在目标电脑上插上 U盘，然后重启你的Mac
+然后一直按住键盘option 或者是(alt) 按键不放，
+直到屏幕显示多出一个 USB 启动盘的选项，如下图所示&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_11.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2.这时，你可以直接覆盖安装系统(升级)，也可以在磁盘工具里面格式化抹掉整个硬盘，或者重新分区等实现全新的干净的安装。&lt;/li&gt;
+  &lt;li&gt;3.选择磁盘工具…..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_12.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;选择电脑内置磁盘….&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_13.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;抹掉….(磁盘名称 Macintosh HD)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_14.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;安装…..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_15.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;继续….&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_16.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;继续….&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_17.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;继续….&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_18.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;选择电脑内置磁盘进行安装…..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/u_19.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Jun 2016 17:30:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/06/18/mac_core_os_upan_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/18/mac_core_os_upan_introduction/</guid>
+        
+        <category>Mac</category>
+        
+        
+      </item>
+    
+      <item>
         <title>Android 快速开发库</title>
         <description>&lt;h3 id=&quot;section&quot;&gt;1. 缓存&lt;/h3&gt;
 
@@ -4787,186 +4988,6 @@ UIImageView+WebCache.h
         <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/17/android_frame_introduction/</guid>
         
         <category>Android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ios 进阶篇</title>
-        <description>&lt;h3 id=&quot;section&quot;&gt;概念&lt;/h3&gt;
-
-&lt;p&gt;对象拷贝有两种方式：浅复制和深复制。顾名思义，浅复制，并不拷贝对象本身，仅仅是拷贝指向对象的指针；深复制是直接拷贝整个对象内存到另一块内存中。&lt;/p&gt;
-
-&lt;p&gt;一图以蔽之&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/ios_introduction/ios_image_note50592_1.png&quot; alt=&quot;URL&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;再简单些说：&lt;strong&gt;浅复制就是指针拷贝；深复制就是内容拷贝&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;h3 id=&quot;shallow-copy&quot;&gt;集合的浅复制 (shallow copy)&lt;/h3&gt;
-
-&lt;p&gt;集合的浅复制有非常多种方法。当你进行浅复制时，会向原始的集合发送retain消息，引用计数加1，同时指针被拷贝到新的集合。&lt;/p&gt;
-
-&lt;p&gt;现在让我们看一些浅复制的例子：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSArray *shallowCopyArray = [someArray copyWithZone:nil];
-NSSet *shallowCopySet = [NSSet mutableCopyWithZone:nil];
-NSDictionary *shallowCopyDict = [[NSDictionary alloc] initWithDictionary:someDictionary copyItems:NO];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;deep-copy&quot;&gt;集合的深复制 (deep copy)&lt;/h3&gt;
-
-&lt;p&gt;集合的深复制有两种方法。可以用 initWithArray:copyItems: 将第二个参数设置为YES即可深复制，如&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSDictionary shallowCopyDict = [[NSDictionary alloc] initWithDictionary:someDictionary copyItems:YES];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;如果你用这种方法深复制，集合里的每个对象都会收到 copyWithZone: 消息。如果集合里的对象遵循 NSCopying 协议，那么对象就会被深复制到新的集合。如果对象没有遵循 NSCopying 协议，而尝试用这种方法进行深复制，会在运行时出错。copyWithZone: 这种拷贝方式只能够提供一层内存拷贝(one-level-deep copy)，而非真正的深复制。&lt;/p&gt;
-
-&lt;p&gt;第二个方法是将集合进行归档(archive)，然后解档(unarchive)，如：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSArray *trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:oldArray]];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;one-level-deep-copy&quot;&gt;集合的单层深复制 (one-level-deep copy)&lt;/h3&gt;
-
-&lt;p&gt;看到这里，有同学会问：如果在多层数组中，对第一层进行内容拷贝，其它层进行指针拷贝，这种情况是属于深复制，还是浅复制？对此，&lt;a href=&quot;https://developer.apple.com/library/mac/documentation/cocoa/conceptual/Collections/Articles/Copying.html#//apple_ref/doc/uid/TP40010162-SW3&quot;&gt;苹果官网文档&lt;/a&gt;有这样一句话描述&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;This kind of copy is only capable of producing a one-level-deep copy. If you only need a one-level-deep copy...
-
-If you need a true deep copy, such as when you have an array of arrays...
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;从文中可以看出，苹果认为这种复制不是真正的深复制，而是将其称为&lt;strong&gt;单层深复制(one-level-deep copy)&lt;/strong&gt;。因此，网上有人对浅复制、深复制、单层深复制做了概念区分。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;浅复制(shallow copy)：在浅复制操作时，对于被复制对象的每一层都是指针复制。&lt;/li&gt;
-  &lt;li&gt;深复制(one-level-deep copy)：在深复制操作时，对于被复制对象，至少有一层是深复制。&lt;/li&gt;
-  &lt;li&gt;完全复制(real-deep copy)：在完全复制操作时，对于被复制对象的每一层都是对象复制。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;当然，这些都是概念性的东西，没有必要纠结于此。只要知道进行拷贝操作时，被拷贝的是指针还是内容即可。&lt;/p&gt;
-
-&lt;h3 id=&quot;copymutablecopy&quot;&gt;系统对象的copy与mutableCopy方法&lt;/h3&gt;
-
-&lt;p&gt;不管是集合类对象，还是非集合类对象，接收到copy和mutableCopy消息时，都遵循以下准则：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;copy返回imutable对象；所以，如果对copy返回值使用mutable对象接口就会crash；&lt;/li&gt;
-  &lt;li&gt;mutableCopy返回mutable对象；&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;下面将针对非集合类对象和集合类对象的copy和mutableCopy方法进行具体的阐述&lt;/p&gt;
-
-&lt;h4 id=&quot;copymutablecopy-1&quot;&gt;1、非集合类对象的copy与mutableCopy&lt;/h4&gt;
-
-&lt;p&gt;系统非集合类对象指的是 NSString, NSNumber … 之类的对象。下面先看个非集合类immutable对象拷贝的例子&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSString *string = @&quot;origin&quot;;
-NSString *stringCopy = [string copy];
-NSMutableString *stringMCopy = [string mutableCopy];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;通过查看内存，可以看到 stringCopy 和 string 的地址是一样，进行了指针拷贝；而 stringMCopy 的地址和 string 不一样，进行了内容拷贝；&lt;/p&gt;
-
-&lt;p&gt;再看mutable对象拷贝例子&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSMutableString *string = [NSMutableString stringWithString: @&quot;origin&quot;];
-//copy
-NSString *stringCopy = [string copy];
-NSMutableString *mStringCopy = [string copy];
-NSMutableString *stringMCopy = [string mutableCopy];
-//change value
-[mStringCopy appendString:@&quot;mm&quot;]; //crash
-[string appendString:@&quot; origion!&quot;];
-[stringMCopy appendString:@&quot;!!&quot;];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;运行以上代码，会在第7行crash，原因就是 copy 返回的对象是 immutable 对象。注释第7行后再运行，查看内存，发现 string、stringCopy、mStringCopy、stringMCopy 四个对象的内存地址都不一样，说明此时都是做内容拷贝。&lt;/p&gt;
-
-&lt;p&gt;综上两个例子，我们可以得出结论：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;在非集合类对象中：对immutable对象进行copy操作，是指针复制，mutableCopy操作时内容复制；对mutable对象进行copy和mutableCopy都是内容复制。用代码简单表示如下：
-
-[immutableObject copy] // 浅复制
-[immutableObject mutableCopy] //深复制
-[mutableObject copy] //深复制
-[mutableObject mutableCopy] //深复制
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h4 id=&quot;copymutablecopy-2&quot;&gt;2、集合类对象的copy与mutableCopy&lt;/h4&gt;
-
-&lt;p&gt;集合类对象是指NSArray、NSDictionary、NSSet … 之类的对象。下面先看集合类immutable对象使用copy和mutableCopy的一个例子：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSArray *array = @[@[@&quot;a&quot;, @&quot;b&quot;], @[@&quot;c&quot;, @&quot;d&quot;];
-NSArray *copyArray = [array copy];
-NSMutableArray *mCopyArray = [array mutableCopy];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;查看内容，可以看到copyArray和array的地址是一样的，而mCopyArray和array的地址是不同的。说明copy操作进行了指针拷贝，mutableCopy进行了内容拷贝。但需要强调的是：此处的内容拷贝，仅仅是拷贝array这个对象，array集合内部的元素仍然是指针拷贝。这和上面的非集合immutable对象的拷贝还是挺相似的，那么mutable对象的拷贝会不会类似呢？我们继续往下，看mutable对象拷贝的例子：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSMutableArray *array = [NSMutableArray arrayWithObjects:[NSMutableString stringWithString:@&quot;a&quot;],@&quot;b&quot;,@&quot;c&quot;,nil];
-NSArray *copyArray = [array copy];
-NSMutableArray *mCopyArray = [array mutableCopy];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;查看内存，如我们所料，copyArray、mCopyArray和array的内存地址都不一样，说明copyArray、mCopyArray都对array进行了内容拷贝。同样，我们可以得出结论：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;在集合类对象中，对immutable对象进行copy，是指针复制，mutableCopy是内容复制；对mutable对象进行copy和mutableCopy都是内容复制。但是：集合对象的内容复制仅限于对象本身，对象元素仍然是指针复制。用代码简单表示如下：
-
-[immutableObject copy] // 浅复制
-[immutableObject mutableCopy] //单层深复制
-[mutableObject copy] //单层深复制
-[mutableObject mutableCopy] //单层深复制
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;这个代码结论和非集合类的非常相似。&lt;/p&gt;
-
-&lt;p&gt;这时候，是不是有人要问了，如果要对集合对象复制元素怎么办？有这疑问的同学不妨回头看看&lt;strong&gt;集合的深复制&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;p&gt;好了，深复制与浅复制就讲到这里。&lt;/p&gt;
-
-&lt;p&gt;最后说个题外的东西，在搜集资料的过程中，发现一个有可能犯错的点&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NSString *str = @&quot;string&quot;;
-str = @&quot;newString&quot;;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;上面这段代码，在执行第二行代码后，内存地址发生了变化。乍一看，有点意外。按照 C 语言的经验，初始化一个字符串之后，字符串的首地址就被确定下来，不管之后如何修改字符串内容，这个地址都不会改变。但此处第二行并不是对 str 指向的内存地址重新赋值，因为赋值操作符左边的 str 是一个指针，也就是说此处修改的是内存地址。&lt;/p&gt;
-
-&lt;p&gt;所以第二行应该这样理解：将@”newStirng”当做一个新的对象，将这段对象的内存地址赋值给str。&lt;/p&gt;
-
-&lt;p&gt;我有如下的两个方法查看内存地址&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;p str&lt;/code&gt;会打印对象本身的内存地址和对象内容&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(lldb) p str
-(NSString *) $0 = 0x000000010c913680 @&quot;a&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;po &amp;amp;str&lt;/code&gt; 则打印的是引用对象的指针所在的地址&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(lldb) po &amp;amp;str
-0x00007fff532fb6c0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Thu, 16 Jun 2016 17:30:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/06/16/ios_copy_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/06/16/ios_copy_introduction/</guid>
-        
-        <category>ios</category>
         
         
       </item>
