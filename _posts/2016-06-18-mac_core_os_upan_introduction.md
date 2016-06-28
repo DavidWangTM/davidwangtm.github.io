@@ -41,7 +41,7 @@ tags:
 
 - 点击继续
 
-![IMG](/img/in-post/ios_introduction/u_3.jpeg)
+![IMG](/img/in-post/ios_introduction/u_3.png)
 
 - 当你下载完成以后, 打开你的 launchpad
 
@@ -78,7 +78,10 @@ tags:
 - 复制下面的命令，并粘贴到终端里，按回车运行! (指令有点长！请复制完全哦~)
 
 ```
-sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume /Volumes/DavidWang --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
+sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume 
+
+/Volumes/DavidWang --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
+
 ```
 
 命令说明：Install\ OS\ X\ El\ Capitan.app 这个是正式版的“安装OS X El Capitan
