@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 动画讲解八
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/29/ios_core_animation8_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-e2e-ux.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#core-animation" title="core-animation">core-animation</a>
+                        
+                    </div>
+                    <h1>IOS 动画讲解八</h1>
+                    
+                    
+                    <h2 class="subheading">显式动画</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 29, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h1 id="section">显式动画</h1>
+
+<blockquote>
+  <p>如果想让事情变得顺利，只有靠自己 – 夏尔·纪尧姆</p>
+</blockquote>
+
+<p>上一章介绍了隐式动画的概念。隐式动画是iOS平台上创建动态用户界面的一种简单方式，也是UIKit动画机制的基础，不过它并不能涵盖所有的动画类型。在这一章中，我们将要研究一下<em>显式动画</em>，它能够对一些属性做指定的自定义动画，或者创建非线性动画，比如沿着任意一条曲线移动。</p>
+
+<h2 id="section-1">属性动画</h2>
+
+<p>首先我们来探讨一下<em>属性动画</em>。属性动画作用于图层的某个单一属性，并指定了它的一个目标值，或者一连串将要做动画的值。属性动画分为两种：<em>基础</em>和<em>关键帧</em>。</p>
+
+<h3 id="section-2">基础动画</h3>
+
+<p>动画其实就是一段时间内发生的改变，最简单的形式就是从一个值改变到另一个值，这也是<code class="highlighter-rouge">CABasicAnimation</code>最主要的功能。<code class="highlighter-rouge">CABasicAnimation</code>是<code class="highlighter-rouge">CAPropertyAnimation</code>的一个子类，而<code class="highlighter-rouge">CAPropertyAnimation</code>的父类是<code class="highlighter-rouge">CAAnimation</code>，<code class="highlighter-rouge">CAAnimation</code>同时也是Core Animation所有动画类型的抽象基类。作为一个抽象类，<code class="highlighter-rouge">CAAnimation</code>本身并没有做多少工作，它提供了一个计时函数（见第十章“缓冲”），一个委托（用于反馈动画状态）以及一个<code class="highlighter-rouge">removedOnCompletion</code>，用于标识动画是否该在结束后自动释放（默认<code class="highlighter-rouge">YES</code>，为了防止内存泄露）。<code class="highlighter-rouge">CAAnimation</code>同时实现了一些协议，包括<code class="highlighter-rouge">CAAction</code>（允许<code class="highlighter-rouge">CAAnimation</code>的子类可以提供图层行为），以及<code class="highlighter-rouge">CAMediaTiming</code>（第九章“图层时间”将会详细解释）。</p>
+
+<p><code class="highlighter-rouge">CAPropertyAnimation</code>通过指定动画的<code class="highlighter-rouge">keyPath</code>作用于一个单一属性，<code class="highlighter-rouge">CAAnimation</code>通常应用于一个指定的<code class="highlighter-rouge">CALayer</code>，于是这里指的也就是一个图层的<code class="highlighter-rouge">keyPath</code>了。实际上它是一个关键<em>路径</em>（一些用点表示法可以在层级关系中指向任意嵌套的对象），而不仅仅是一个属性的名称，因为这意味着动画不仅可以作用于图层本身的属性，而且还包含了它的子成员的属性，甚至是一些<em>虚拟</em>的属性（后面会详细解释）。</p>
+
+<p><code class="highlighter-rouge">CABasicAnimation</code>继承于<code class="highlighter-rouge">CAPropertyAnimation</code>，并添加了如下属性：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>id fromValue 
+id toValue 
+id byValue
+</code></pre>
+</div>
+
+<p>从命名就可以得到很好的解释：<code class="highlighter-rouge">fromValue</code>代表了动画开始之前属性的值，<code class="highlighter-rouge">toValue</code>代表了动画结束之后的值，<code class="highlighter-rouge">byValue</code>代表了动画执行过程中改变的值。</p>
+
+<p>通过组合这三个属性就可以有很多种方式来指定一个动画的过程。它们被定义成<code class="highlighter-rouge">id</code>类型而不是一些具体的类型是因为属性动画可以用作很多不同种的属性类型，包括数字类型，矢量，变换矩阵，甚至是颜色或者图片。</p>
+
+<p><code class="highlighter-rouge">id</code>类型可以包含任意由<code class="highlighter-rouge">NSObject</code>派生的对象，但有时候你会希望对一些不直接从<code class="highlighter-rouge">NSObject</code>继承的属性类型做动画，这意味着你需要把这些值用一个对象来封装，或者强转成一个对象，就像某些功能和Objective-C对象类似的Core Foundation类型。但是如何从一个具体的数据类型转换成id看起来并不明显，一些普通的例子见表8.1。</p>
+
+<p>表8.1 用于<code class="highlighter-rouge">CAPropertyAnimation</code>的一些类型转换</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Object Type</th>
+      <th>Code Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CGFloat</td>
+      <td>NSNumber</td>
+      <td>id obj = @(float);</td>
+    </tr>
+    <tr>
+      <td>CGPoint</td>
+      <td>NSValue</td>
+      <td>id obj = [NSValue valueWithCGPoint:point);</td>
+    </tr>
+    <tr>
+      <td>CGSize</td>
+      <td>NSValue</td>
+      <td>id obj = [NSValue valueWithCGSize:size);</td>
+    </tr>
+    <tr>
+      <td>CGRect</td>
+      <td>NSValue</td>
+      <td>id obj = [NSValue valueWithCGRect:rect);</td>
+    </tr>
+    <tr>
+      <td>CATransform3D</td>
+      <td>NSValue</td>
+      <td>id obj = [NSValue valueWithCATransform3D:transform);</td>
+    </tr>
+    <tr>
+      <td>CGImageRef</td>
+      <td>id</td>
+      <td>id obj = (__bridge id)imageRef;</td>
+    </tr>
+    <tr>
+      <td>CGColorRef</td>
+      <td>id</td>
+      <td>id obj = (__bridge id)colorRef;</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="highlighter-rouge">fromValue</code>，<code class="highlighter-rouge">toValue</code>和<code class="highlighter-rouge">byValue</code>属性可以用很多种方式来组合，但为了防止冲突，不能一次性同时指定这三个值。例如，如果指定了<code class="highlighter-rouge">fromValue</code>等于2，<code class="highlighter-rouge">toValue</code>等于4，<code class="highlighter-rouge">byValue</code>等于3，那么Core Animation就不知道结果到底是4（<code class="highlighter-rouge">toValue</code>）还是5（<code class="highlighter-rouge">fromValue + byValue</code>）了。他们的用法在<code class="highlighter-rouge">CABasicAnimation</code>头文件中已经描述的很清楚了，所以在这里就不重复了。总的说来，就是只需要指定<code class="highlighter-rouge">toValue</code>或者<code class="highlighter-rouge">byValue</code>，剩下的值都可以通过上下文自动计算出来。</p>
+
+<p>举个例子：我们修改一下第七章中的颜色渐变的动画，用显式的<code class="highlighter-rouge">CABasicAnimation</code>来取代之前的隐式动画，代码见清单8.1。</p>
+
+<p>清单8.1 通过<code class="highlighter-rouge">CABasicAnimation</code>来设置图层背景色</p>
+
+<pre><code class="language-objective-c">@interface ViewController ()
+
+@property (nonatomic, weak) IBOutlet UIView *layerView;
+@property (nonatomic, strong) IBOutlet CALayer *colorLayer;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    //create sublayer
+    self.colorLayer = [CALayer layer];
+    self.colorLayer.frame = CGRectMake(50.0f, 50.0f, 100.0f, 100.0f);
+    self.colorLayer.backgroundColor = [UIColor blueColor].CGColor;
+    //add it to our view
+    [self.layerView.layer addSublayer:self.colorLayer];
+}
+
+- (IBAction)changeColor
+{
+    ￼//create a new random color
+    CGFloat red = arc4random() / (CGFloat)INT_MAX;
+    CGFloat green = arc4random() / (CGFloat)INT_MAX;
+    CGFloat blue = arc4random() / (CGFloat)INT_MAX;
+    UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+    //create a basic animation
+    CABasicAnimation *animation = [CABasicAnimation animation];
+    animation.keyPath = @"backgroundColor";
+    animation.toValue = (__bridge id)color.CGColor;
+    //apply animation to layer
+    [self.colorLayer addAnimation:animation forKey:nil];
+}
+
+@end
+</code></pre>
+
+<p>运行程序，结果有点差强人意，点击按钮，的确可以使图层动画过渡到一个新的颜色，然动画结束之后又立刻变回原始值。</p>
+
+<p>这是因为动画并没有改变图层的<em>模型</em>，而只是<em>呈现</em>（第七章）。一旦动画结束并从图层上移除之后，图层就立刻恢复到之前定义的外观状态。我们从没改变过<code class="highlighter-rouge">backgroundColor</code>属性，所以图层就返回到原始的颜色。</p>
+
+<p>当之前在使用隐式动画的时候，实际上它就是用例子中<code class="highlighter-rouge">CABasicAnimation</code>来实现的（回忆第七章，我们在<code class="highlighter-rouge">-actionForLayer:forKey:</code>委托方法打印出来的结果就是<code class="highlighter-rouge">CABasicAnimation</code>）。但是在那个例子中，我们通过设置属性来打开动画。在这里我们做了相同的动画，但是并没有设置任何属性的值（这就是为什么会立刻变回初始状态的原因）。</p>
+
+<p>把动画设置成一个图层的行为（然后通过改变属性值来启动动画）是到目前为止同步属性值和动画状态最简单的方式了，假设由于某些原因我们不能这么做（通常因为<code class="highlighter-rouge">UIView</code>关联的图层不能这么做动画），那么有两种可以更新属性值的方式：在动画开始之前或者动画结束之后。</p>
+
+<p>动画之前改变属性的值是最简单的办法，但这意味着我们不能使用<code class="highlighter-rouge">fromValue</code>这么好的特性了，而且要手动将<code class="highlighter-rouge">fromValue</code>设置成图层当前的值。</p>
+
+<p>于是在动画创建之前插入如下代码，就可以解决问题了</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>animation.fromValue = (__bridge id)self.colorLayer.backgroundColor; 
+self.colorLayer.backgroundColor = color.CGColor;
+</code></pre>
+</div>
+
+<p>这的确是可行的，但还是有些问题，如果这里已经正在进行一段动画，我们需要从<em>呈现</em>图层那里去获得<code class="highlighter-rouge">fromValue</code>，而不是模型图层。另外，由于这里的图层并不是<code class="highlighter-rouge">UIView</code>关联的图层，我们需要用<code class="highlighter-rouge">CATransaction</code>来禁用隐式动画行为，否则默认的图层行为会干扰我们的显式动画（实际上，显式动画通常会覆盖隐式动画，但在文章中并没有提到，所以为了安全最好这么做）。</p>
+
+<p>更新之后的代码如下：
+<code class="highlighter-rouge">objective-c
+CALayer *layer = self.colorLayer.presentationLayer ?:
+self.colorLayer;
+ animation.fromValue = (__bridge id)layer.backgroundColor;
+[CATransaction begin];
+[CATransaction setDisableActions:YES];
+self.colorLayer.backgroundColor = color.CGColor;
+[CATransaction commit];
+</code></p>
+
+<p>如果给每个动画都添加这些，代码会显得特别臃肿。幸运的是，我们可以从<code class="highlighter-rouge">CABasicAnimation</code>去自动设置这些。于是可以创建一个可复用的代码。清单8.2修改了之前的示例，通过使用<code class="highlighter-rouge">CABasicAnimation</code>的一个函数来避免在每次动画时候都重复那些臃肿的代码。</p>
+
+<p>清单8.2 修改动画立刻恢复到原始状态的一个可复用函数</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)applyBasicAnimation:(CABasicAnimation *)animation toLayer:(CALayer *)layer
+￼{
+
+    //set the from value (using presentation layer if available)
+    animation.fromValue = [layer.presentationLayer ?: layer valueForKeyPath:animation.keyPath];
+    //update the property in advance
+    //note: this approach will only work if toValue != nil 
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    [layer setValue:animation.toValue forKeyPath:animation.keyPath];
+    [CATransaction commit];
+    //apply animation to layer
+    [layer addAnimation:animation forKey:nil];
+}
+
+- (IBAction)changeColor
+{
+    //create a new random color
+    CGFloat red = arc4random() / (CGFloat)INT_MAX;
+    CGFloat green = arc4random() / (CGFloat)INT_MAX;
+    CGFloat blue = arc4random() / (CGFloat)INT_MAX;
+    UIColor *color = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+    //create a basic animation
+    CABasicAnimation *animation = [CABasicAnimation animation];
+    animation.keyPath = @"backgroundColor";
+    animation.toValue = (__bridge id)color.CGColor;
+    //apply animation without snap-back
+    [self applyBasicAnimation:animation toLayer:self.colorLayer];
+}
+</code></pre>
+</div>
+
+<p>这种简单的实现方式通过<code class="highlighter-rouge">toValue</code>而不是<code class="highlighter-rouge">byValue</code>来处理动画，不过这已经是朝更好的解决方案迈出一大步了。你可以把它添加给<code class="highlighter-rouge">CALayer</code>作为一个分类，以方便更好地使用。</p>
+
+<p>解决看起来如此简单的一个问题都着实麻烦，但是别的方案会更加复杂。如果不在动画开始之前去更新目标属性，那么就只能在动画完全结束或者取消的时候更新它。这意味着我们需要精准地在动画结束之后，图层返回到原始值之前更新属性。那么该如何找到这个点呢？</p>
+
+<h3 id="caanimationdelegate">CAAnimationDelegate</h3>
+
+<p>在第七章使用隐式动画的时候，我们可以在<code class="highlighter-rouge">CATransaction</code>完成块中检测到动画的完成。但是这种方式并不适用于显式动画，因为这里的动画和事务并没太多关联。</p>
+
+<p>那么为了知道一个显式动画在何时结束，我们需要使用一个实现了<code class="highlighter-rouge">CAAnimationDelegate</code>协议的<code class="highlighter-rouge">delegate</code>。</p>
+
+<p><code class="highlighter-rouge">CAAnimationDelegate</code>在任何头文件中都找不到，但是可以在<code class="highlighter-rouge">CAAnimation</code>头文件或者苹果开发者文档中找到相关函数。在这个例子中，我们用<code class="highlighter-rouge">-animationDidStop:finished:</code>方法在动画结束之后来更新图层的<code class="highlighter-rouge">backgroundColor</code>。</p>
+
+<p>当更新属性的时候，我们需要设置一个新的事务，并且禁用图层行为。否则动画会发生两次，一个是因为显式的<code class="highlighter-rouge">CABasicAnimation</code>，另一次是因为隐式动画，具体实现见订单8.3。</p>
+
+<p>清单8.3 动画完成之后修改图层的背景色</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create sublayer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">50</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">blueColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="c1">//add it to our view
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">changeColor</span>
+<span class="p">{</span>
+    <span class="c1">//create a new random color
+</span>    <span class="n">CGFloat</span> <span class="n">red</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">green</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">blue</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="n">UIColor</span> <span class="o">*</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithRed</span><span class="p">:</span><span class="n">red</span> <span class="nf">green</span><span class="p">:</span><span class="n">green</span> <span class="nf">blue</span><span class="p">:</span><span class="n">blue</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">];</span>
+    <span class="c1">//create a basic animation
+</span>    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"backgroundColor"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span><span class="n">color</span><span class="p">.</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="c1">//apply animation to layer
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">animationDidStop</span><span class="o">:</span><span class="p">(</span><span class="n">CABasicAnimation</span> <span class="o">*</span><span class="p">)</span><span class="n">anim</span> <span class="n">finished</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">flag</span>
+<span class="p">{</span>
+    <span class="c1">//set the backgroundColor property to match animation toValue
+</span>    <span class="p">[</span><span class="n">CATransaction</span> <span class="nf">begin</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">CATransaction</span> <span class="nf">setDisableActions</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">CGColorRef</span><span class="p">)</span><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">CATransaction</span> <span class="nf">commit</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>对<code class="highlighter-rouge">CAAnimation</code>而言，使用委托模式而不是一个完成块会带来一个问题，就是当你有多个动画的时候，无法在在回调方法中区分。在一个视图控制器中创建动画的时候，通常会用控制器本身作为一个委托（如清单8.3所示），但是所有的动画都会调用同一个回调方法，所以你就需要判断到底是那个图层的调用。</p>
+
+<p>考虑一下第三章的闹钟，“图层几何学”，我们通过简单地每秒更新指针的角度来实现一个钟，但如果指针动态地转向新的位置会更加真实。</p>
+
+<p>我们不能通过隐式动画来实现因为这些指针都是<code class="highlighter-rouge">UIView</code>的实例，所以图层的隐式动画都被禁用了。我们可以简单地通过<code class="highlighter-rouge">UIView</code>的动画方法来实现。但如果想更好地控制动画时间，使用显式动画会更好（更多内容见第十章）。使用<code class="highlighter-rouge">CABasicAnimation</code>来做动画可能会更加复杂，因为我们需要在<code class="highlighter-rouge">-animationDidStop:finished:</code>中检测指针状态（用于设置结束的位置）。</p>
+
+<p>动画本身会作为一个参数传入委托的方法，也许你会认为可以控制器中把动画存储为一个属性，然后在回调用比较，但实际上并不起作用，因为委托传入的动画参数是原始值的一个深拷贝，从而不是同一个值。</p>
+
+<p>当使用<code class="highlighter-rouge">-addAnimation:forKey:</code>把动画添加到图层，这里有一个到目前为止我们都设置为<code class="highlighter-rouge">nil</code>的<code class="highlighter-rouge">key</code>参数。这里的键是<code class="highlighter-rouge">-animationForKey:</code>方法找到对应动画的唯一标识符，而当前动画的所有键都可以用<code class="highlighter-rouge">animationKeys</code>获取。如果我们对每个动画都关联一个唯一的键，就可以对每个图层循环所有键，然后调用<code class="highlighter-rouge">-animationForKey:</code>来比对结果。尽管这不是一个优雅的实现。</p>
+
+<p>幸运的是，还有一种更加简单的方法。像所有的<code class="highlighter-rouge">NSObject</code>子类一样，<code class="highlighter-rouge">CAAnimation</code>实现了KVC（键-值-编码）协议，于是你可以用<code class="highlighter-rouge">-setValue:forKey:</code>和<code class="highlighter-rouge">-valueForKey:</code>方法来存取属性。但是<code class="highlighter-rouge">CAAnimation</code>有一个与众不同的特性：它更像一个<code class="highlighter-rouge">NSDictionary</code>，可以让你随意设置键值对，即使和你使用的动画类所声明的属性并不匹配。</p>
+
+<p>这意味着你可以对动画用任意类型打标签。在这里，我们给<code class="highlighter-rouge">UIView</code>类型的指针添加的动画，所以可以简单地判断动画到底属于哪个视图，然后在委托方法中用这个信息正确地更新钟的指针（清单8.4）。</p>
+
+<p>清单8.4 使用KVC对动画打标签</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">hourHand</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">minuteHand</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">secondHand</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">NSTimer</span> <span class="o">*</span><span class="n">timer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//adjust anchor points
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">secondHand</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">9</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">minuteHand</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">9</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">hourHand</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">9</span><span class="n">f</span><span class="p">);</span>
+    <span class="c1">//start timer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimer</span> <span class="nf">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="nf">target</span><span class="p">:</span><span class="n">self</span> <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">tick</span><span class="p">)</span> <span class="nf">userInfo</span><span class="p">:</span><span class="nb">nil</span> <span class="nf">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="c1">//set initial hand positions
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">updateHandsAnimated</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">tick</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">updateHandsAnimated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">updateHandsAnimated</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">animated</span>
+<span class="p">{</span>
+    <span class="c1">//convert time to hours, minutes and seconds
+</span>    <span class="n">NSCalendar</span> <span class="o">*</span><span class="n">calendar</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSCalendar</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithCalendarIdentifier</span><span class="p">:</span><span class="n">NSGregorianCalendar</span><span class="p">];</span>
+    <span class="n">NSUInteger</span> <span class="n">units</span> <span class="o">=</span> <span class="n">NSHourCalendarUnit</span> <span class="o">|</span> <span class="n">NSMinuteCalendarUnit</span> <span class="o">|</span> <span class="n">NSSecondCalendarUnit</span><span class="p">;</span>
+    <span class="n">NSDateComponents</span> <span class="o">*</span><span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">calendar</span> <span class="nf">components</span><span class="p">:</span><span class="n">units</span> <span class="nf">fromDate</span><span class="p">:[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">]];</span>
+    <span class="n">CGFloat</span> <span class="n">hourAngle</span> <span class="o">=</span> <span class="p">(</span><span class="n">components</span><span class="p">.</span><span class="n">hour</span> <span class="o">/</span> <span class="mi">12</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//calculate hour hand angle //calculate minute hand angle
+</span>    <span class="n">CGFloat</span> <span class="n">minuteAngle</span> <span class="o">=</span> <span class="p">(</span><span class="n">components</span><span class="p">.</span><span class="n">minute</span> <span class="o">/</span> <span class="mi">60</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//calculate second hand angle
+</span>    <span class="n">CGFloat</span> <span class="n">secondAngle</span> <span class="o">=</span> <span class="p">(</span><span class="n">components</span><span class="p">.</span><span class="n">second</span> <span class="o">/</span> <span class="mi">60</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//rotate hands
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">setAngle</span><span class="p">:</span><span class="n">hourAngle</span> <span class="nf">forHand</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">hourHand</span> <span class="nf">animated</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">setAngle</span><span class="p">:</span><span class="n">minuteAngle</span> <span class="nf">forHand</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">minuteHand</span> <span class="nf">animated</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">setAngle</span><span class="p">:</span><span class="n">secondAngle</span> <span class="nf">forHand</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">secondHand</span> <span class="nf">animated</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setAngle</span><span class="o">:</span><span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">angle</span> <span class="n">forHand</span><span class="o">:</span><span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="p">)</span><span class="n">handView</span> <span class="n">animated</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">animated</span>
+<span class="p">{</span>
+    <span class="c1">//generate transform
+</span>    <span class="n">CATransform3D</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">CATransform3DMakeRotation</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">animated</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//create transform animation
+</span>        <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">updateHandsAnimated</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+        <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"transform"</span><span class="p">;</span>
+        <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCATransform3D</span><span class="p">:</span><span class="n">transform</span><span class="p">];</span>
+        <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
+        <span class="n">animation</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+        <span class="p">[</span><span class="n">animation</span> <span class="nf">setValue</span><span class="p">:</span><span class="n">handView</span> <span class="nf">forKey</span><span class="p">:</span><span class="s">@"handView"</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">handView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">//set transform directly
+</span>        <span class="n">handView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">animationDidStop</span><span class="o">:</span><span class="p">(</span><span class="n">CABasicAnimation</span> <span class="o">*</span><span class="p">)</span><span class="n">anim</span> <span class="n">finished</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">flag</span>
+<span class="p">{</span>
+    <span class="c1">//set final position for hand view
+</span>    <span class="n">UIView</span> <span class="o">*</span><span class="n">handView</span> <span class="o">=</span> <span class="p">[</span><span class="n">anim</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"handView"</span><span class="p">];</span>
+    <span class="n">handView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="p">[</span><span class="n">anim</span><span class="p">.</span><span class="n">toValue</span> <span class="nf">CATransform3DValue</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>我们成功的识别出每个图层停止动画的时间，然后更新它的变换到一个新值，很好。</p>
+
+<p>不幸的是，即使做了这些，还是有个问题，清单8.4在模拟器上运行的很好，但当真正跑在iOS设备上时，我们发现在<code class="highlighter-rouge">-animationDidStop:finished:</code>委托方法调用之前，指针会迅速返回到原始值，这个清单8.3图层颜色发生的情况一样。</p>
+
+<p>问题在于回调方法在动画完成之前已经被调用了，但不能保证这发生在属性动画返回初始状态之前。这同时也很好地说明了为什么要在真实的设备上测试动画代码，而不仅仅是模拟器。</p>
+
+<p>我们可以用一个<code class="highlighter-rouge">fillMode</code>属性来解决这个问题，下一章会详细说明，这里知道在动画之前设置它比在动画结束之后更新属性更加方便。</p>
+
+<h3 id="section-3">关键帧动画</h3>
+
+<p><code class="highlighter-rouge">CABasicAnimation</code>揭示了大多数隐式动画背后依赖的机制，这的确很有趣，但是显式地给图层添加<code class="highlighter-rouge">CABasicAnimation</code>相较于隐式动画而言，只能说费力不讨好。</p>
+
+<p><code class="highlighter-rouge">CAKeyframeAnimation</code>是另一种UIKit没有暴露出来但功能强大的类。和<code class="highlighter-rouge">CABasicAnimation</code>类似，<code class="highlighter-rouge">CAKeyframeAnimation</code>同样是<code class="highlighter-rouge">CAPropertyAnimation</code>的一个子类，它依然作用于单一的一个属性，但是和<code class="highlighter-rouge">CABasicAnimation</code>不一样的是，它不限制于设置一个起始和结束的值，而是可以根据一连串随意的值来做动画。</p>
+
+<p><em>关键帧</em>起源于传动动画，意思是指主导的动画在显著改变发生时重绘当前帧（也就是<em>关键</em>帧），每帧之间剩下的绘制（可以通过关键帧推算出）将由熟练的艺术家来完成。<code class="highlighter-rouge">CAKeyframeAnimation</code>也是同样的道理：你提供了显著的帧，然后Core Animation在每帧之间进行插值。</p>
+
+<p>我们可以用之前使用颜色图层的例子来演示，设置一个颜色的数组，然后通过关键帧动画播放出来（清单8.5）</p>
+
+<p>清单8.5 使用<code class="highlighter-rouge">CAKeyframeAnimation</code>应用一系列颜色的变化</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (IBAction)changeColor
+{
+    //create a keyframe animation
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+    animation.keyPath = @"backgroundColor";
+    animation.duration = 2.0;
+    animation.values = @[
+                         (__bridge id)[UIColor blueColor].CGColor,
+                         (__bridge id)[UIColor redColor].CGColor,
+                         (__bridge id)[UIColor greenColor].CGColor,
+                         (__bridge id)[UIColor blueColor].CGColor ];
+    //apply animation to layer
+    [self.colorLayer addAnimation:animation forKey:nil];
+}
+
+</code></pre>
+</div>
+
+<p>注意到序列中开始和结束的颜色都是蓝色，这是因为<code class="highlighter-rouge">CAKeyframeAnimation</code>并不能自动把当前值作为第一帧（就像<code class="highlighter-rouge">CABasicAnimation</code>那样把<code class="highlighter-rouge">fromValue</code>设为<code class="highlighter-rouge">nil</code>）。动画会在开始的时候突然跳转到第一帧的值，然后在动画结束的时候突然恢复到原始的值。所以为了动画的平滑特性，我们需要开始和结束的关键帧来匹配当前属性的值。</p>
+
+<p>当然可以创建一个结束和开始值不同的动画，那样的话就需要在动画启动之前手动更新属性和最后一帧的值保持一致，就和之前讨论的一样。</p>
+
+<p>我们用<code class="highlighter-rouge">duration</code>属性把动画时间从默认的0.25秒增加到2秒，以便于动画做的不那么快。运行它，你会发现动画通过颜色不断循环，但效果看起来有些<em>奇怪</em>。原因在于动画以一个<em>恒定的步调</em>在运行。当在每个动画之间过渡的时候并没有减速，这就产生了一个略微奇怪的效果，为了让动画看起来更自然，我们需要调整一下<em>缓冲</em>，第十章将会详细说明。</p>
+
+<p>提供一个数组的值就可以按照颜色变化做动画，但一般来说用数组来描述动画运动并不直观。<code class="highlighter-rouge">CAKeyframeAnimation</code>有另一种方式去指定动画，就是使用<code class="highlighter-rouge">CGPath</code>。<code class="highlighter-rouge">path</code>属性可以用一种直观的方式，使用Core Graphics函数定义运动序列来绘制动画。</p>
+
+<p>我们来用一个宇宙飞船沿着一个简单曲线的实例演示一下。为了创建路径，我们需要使用一个<em>三次贝塞尔曲线</em>，它是一种使用开始点，结束点和另外两个<em>控制点</em>来定义形状的曲线，可以通过使用一个基于C的Core Graphics绘图指令来创建，不过用UIKit提供的<code class="highlighter-rouge">UIBezierPath</code>类会更简单。</p>
+
+<p>我们这次用<code class="highlighter-rouge">CAShapeLayer</code>来在屏幕上绘制曲线，尽管对动画来说并不是必须的，但这会让我们的动画更加形象。绘制完<code class="highlighter-rouge">CGPath</code>之后，我们用它来创建一个<code class="highlighter-rouge">CAKeyframeAnimation</code>，然后用它来应用到我们的宇宙飞船。代码见清单8.6，结果见图8.1。</p>
+
+<p>清单8.6 沿着一个贝塞尔曲线对图层做动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create a path
+</span>    <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">bezierPath</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBezierPath</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">bezierPath</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">bezierPath</span> <span class="nf">addCurveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span> <span class="nf">controlPoint1</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="nf">controlPoint2</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="mi">300</span><span class="p">)];</span>
+    <span class="c1">//draw the path using a CAShapeLayer
+</span>    <span class="n">CAShapeLayer</span> <span class="o">*</span><span class="n">pathLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAShapeLayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">bezierPath</span><span class="p">.</span><span class="n">CGPath</span><span class="p">;</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">clearColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">pathLayer</span><span class="p">];</span>
+    <span class="c1">//add the ship
+</span>    <span class="n">CALayer</span> <span class="o">*</span><span class="n">shipLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span> <span class="s">@"Ship.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">shipLayer</span><span class="p">];</span>
+    <span class="c1">//create the keyframe animation
+</span>    <span class="n">CAKeyframeAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAKeyframeAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"position"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">4</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">bezierPath</span><span class="p">.</span><span class="n">CGPath</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">shipLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/8.1.jpeg" alt="IMG" /></p>
+
+<p>图8.1 沿着一个贝塞尔曲线移动的宇宙飞船图片</p>
+
+<p>运行示例，你会发现飞船的动画有些不太真实，这是因为当它运动的时候永远指向右边，而不是指向曲线切线的方向。你可以调整它的<code class="highlighter-rouge">affineTransform</code>来对运动方向做动画，但很可能和其它的动画冲突。</p>
+
+<p>幸运的是，苹果预见到了这点，并且给<code class="highlighter-rouge">CAKeyFrameAnimation</code>添加了一个<code class="highlighter-rouge">rotationMode</code>的属性。设置它为常量<code class="highlighter-rouge">kCAAnimationRotateAuto</code>（清单8.7），图层将会根据曲线的切线自动旋转（图8.2）。</p>
+
+<p>清单8.7 通过<code class="highlighter-rouge">rotationMode</code>自动对齐图层到曲线</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    //create a path
+    ...
+    //create the keyframe animation
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+    animation.keyPath = @"position";
+    animation.duration = 4.0;
+    animation.path = bezierPath.CGPath;
+    animation.rotationMode = kCAAnimationRotateAuto;
+    [shipLayer addAnimation:animation forKey:nil];
+}
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/8.2.jpeg" alt="IMG" /></p>
+
+<p>图8.2 匹配曲线切线方向的飞船图层</p>
+
+<h3 id="section-4">虚拟属性</h3>
+
+<p>之前提到过属性动画实际上是针对于关键<em>路径</em>而不是一个键，这就意味着可以对子属性甚至是<em>虚拟属性</em>做动画。但是<em>虚拟</em>属性到底是什么呢？</p>
+
+<p>考虑一个旋转的动画：如果想要对一个物体做旋转的动画，那就需要作用于<code class="highlighter-rouge">transform</code>属性，因为<code class="highlighter-rouge">CALayer</code>没有显式提供角度或者方向之类的属性，代码如清单8.8所示</p>
+
+<p>清单8.8 用<code class="highlighter-rouge">transform</code>属性对图层做动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add the ship
+</span>    <span class="n">CALayer</span> <span class="o">*</span><span class="n">shipLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">);</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span> <span class="s">@"Ship.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">shipLayer</span><span class="p">];</span>
+    <span class="c1">//animate the ship rotation
+</span>    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"transform"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCATransform3D</span><span class="p">:</span> <span class="n">CATransform3DMakeRotation</span><span class="p">(</span><span class="n">M_PI</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">shipLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>这么做是可行的，但看起来更因为是运气而不是设计的原因，如果我们把旋转的值从<code class="highlighter-rouge">M_PI</code>（180度）调整到<code class="highlighter-rouge">2 * M_PI</code>（360度），然后运行程序，会发现这时候飞船完全不动了。这是因为这里的矩阵做了一次360度的旋转，和做了0度是一样的，所以最后的值根本没变。</p>
+
+<p>现在继续使用<code class="highlighter-rouge">M_PI</code>，但这次用<code class="highlighter-rouge">byValue</code>而不是<code class="highlighter-rouge">toValue</code>。也许你会认为这和设置<code class="highlighter-rouge">toValue</code>结果一样，因为0 + 90度 == 90度，但实际上飞船的图片变大了，并没有做任何旋转，这是因为变换矩阵不能像角度值那样叠加。</p>
+
+<p>那么如果需要独立于角度之外单独对平移或者缩放做动画呢？由于都需要我们来修改<code class="highlighter-rouge">transform</code>属性，实时地重新计算每个时间点的每个变换效果，然后根据这些创建一个复杂的关键帧动画，这一切都是为了对图层的一个独立做一个简单的动画。</p>
+
+<p>幸运的是，有一个更好的解决方案：为了旋转图层，我们可以对<code class="highlighter-rouge">transform.rotation</code>关键路径应用动画，而不是<code class="highlighter-rouge">transform</code>本身（清单8.9）。</p>
+
+<p>清单8.9 对虚拟的<code class="highlighter-rouge">transform.rotation</code>属性做动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add the ship
+</span>    <span class="n">CALayer</span> <span class="o">*</span><span class="n">shipLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">);</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">shipLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span> <span class="s">@"Ship.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">shipLayer</span><span class="p">];</span>
+    <span class="c1">//animate the ship rotation
+</span>    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"transform.rotation"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">byValue</span> <span class="o">=</span> <span class="err">@</span><span class="p">(</span><span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">shipLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>结果运行的特别好，用<code class="highlighter-rouge">transform.rotation</code>而不是<code class="highlighter-rouge">transform</code>做动画的好处如下：</p>
+
+<ul>
+  <li>我们可以不通过关键帧一步旋转多于180度的动画。</li>
+  <li>可以用相对值而不是绝对值旋转（设置<code class="highlighter-rouge">byValue</code>而不是<code class="highlighter-rouge">toValue</code>）。</li>
+  <li>可以不用创建<code class="highlighter-rouge">CATransform3D</code>，而是使用一个简单的数值来指定角度。</li>
+  <li>不会和<code class="highlighter-rouge">transform.position</code>或者<code class="highlighter-rouge">transform.scale</code>冲突（同样是使用关键路径来做独立的动画属性）。</li>
+</ul>
+
+<p><code class="highlighter-rouge">transform.rotation</code>属性有一个奇怪的问题是它其实<em>并不存在</em>。这是因为<code class="highlighter-rouge">CATransform3D</code>并不是一个对象，它实际上是一个结构体，也没有符合KVC相关属性，<code class="highlighter-rouge">transform.rotation</code>实际上是一个<code class="highlighter-rouge">CALayer</code>用于处理动画变换的<em>虚拟</em>属性。</p>
+
+<p>你不可以直接设置<code class="highlighter-rouge">transform.rotation</code>或者<code class="highlighter-rouge">transform.scale</code>，他们不能被直接使用。当你对他们做动画时，Core Animation自动地根据通过<code class="highlighter-rouge">CAValueFunction</code>来计算的值来更新<code class="highlighter-rouge">transform</code>属性。</p>
+
+<p><code class="highlighter-rouge">CAValueFunction</code>用于把我们赋给虚拟的<code class="highlighter-rouge">transform.rotation</code>简单浮点值转换成真正的用于摆放图层的<code class="highlighter-rouge">CATransform3D</code>矩阵值。你可以通过设置<code class="highlighter-rouge">CAPropertyAnimation</code>的<code class="highlighter-rouge">valueFunction</code>属性来改变，于是你设置的函数将会覆盖默认的函数。</p>
+
+<p><code class="highlighter-rouge">CAValueFunction</code>看起来似乎是对那些不能简单相加的属性（例如变换矩阵）做动画的非常有用的机制，但由于<code class="highlighter-rouge">CAValueFunction</code>的实现细节是私有的，所以目前不能通过继承它来自定义。你可以通过使用苹果目前已近提供的常量（目前都是和变换矩阵的虚拟属性相关，所以没太多使用场景了，因为这些属性都有了默认的实现方式）。</p>
+
+<h2 id="section-5">动画组</h2>
+
+<p><code class="highlighter-rouge">CABasicAnimation</code>和<code class="highlighter-rouge">CAKeyframeAnimation</code>仅仅作用于单独的属性，而<code class="highlighter-rouge">CAAnimationGroup</code>可以把这些动画组合在一起。<code class="highlighter-rouge">CAAnimationGroup</code>是另一个继承于<code class="highlighter-rouge">CAAnimation</code>的子类，它添加了一个<code class="highlighter-rouge">animations</code>数组的属性，用来组合别的动画。我们把清单8.6那种关键帧动画和调整图层背景色的基础动画组合起来（清单8.10），结果如图8.3所示。</p>
+
+<p>清单8.10 组合关键帧动画和基础动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    //create a path
+    UIBezierPath *bezierPath = [[UIBezierPath alloc] init];
+    [bezierPath moveToPoint:CGPointMake(0, 150)];
+    [bezierPath addCurveToPoint:CGPointMake(300, 150) controlPoint1:CGPointMake(75, 0) controlPoint2:CGPointMake(225, 300)];
+    //draw the path using a CAShapeLayer
+    CAShapeLayer *pathLayer = [CAShapeLayer layer];
+    pathLayer.path = bezierPath.CGPath;
+    pathLayer.fillColor = [UIColor clearColor].CGColor;
+    pathLayer.strokeColor = [UIColor redColor].CGColor;
+    pathLayer.lineWidth = 3.0f;
+    [self.containerView.layer addSublayer:pathLayer];
+    //add a colored layer
+    CALayer *colorLayer = [CALayer layer];
+    colorLayer.frame = CGRectMake(0, 0, 64, 64);
+    colorLayer.position = CGPointMake(0, 150);
+    colorLayer.backgroundColor = [UIColor greenColor].CGColor;
+    [self.containerView.layer addSublayer:colorLayer];
+    //create the position animation
+    CAKeyframeAnimation *animation1 = [CAKeyframeAnimation animation];
+    animation1.keyPath = @"position";
+    animation1.path = bezierPath.CGPath;
+    animation1.rotationMode = kCAAnimationRotateAuto;
+    //create the color animation
+    CABasicAnimation *animation2 = [CABasicAnimation animation];
+    animation2.keyPath = @"backgroundColor";
+    animation2.toValue = (__bridge id)[UIColor redColor].CGColor;
+    //create group animation
+    CAAnimationGroup *groupAnimation = [CAAnimationGroup animation];
+    groupAnimation.animations = @[animation1, animation2]; 
+    groupAnimation.duration = 4.0;
+    //add the animation to the color layer
+    [colorLayer addAnimation:groupAnimation forKey:nil];
+}
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/8.3.jpeg" alt="IMG" /></p>
+
+<p>图8.3 关键帧路径和基础动画的组合</p>
+
+<h2 id="section-6">过渡</h2>
+
+<p>有时候对于iOS应用程序来说，希望能通过属性动画来对比较难做动画的布局进行一些改变。比如交换一段文本和图片，或者用一段网格视图来替换，等等。属性动画只对图层的可动画属性起作用，所以如果要改变一个不能动画的属性（比如图片），或者从层级关系中添加或者移除图层，属性动画将不起作用。</p>
+
+<p>于是就有了过渡的概念。过渡并不像属性动画那样平滑地在两个值之间做动画，而是影响到整个图层的变化。过渡动画首先展示之前的图层外观，然后通过一个交换过渡到新的外观。</p>
+
+<p>为了创建一个过渡动画，我们将使用<code class="highlighter-rouge">CATransition</code>，同样是另一个<code class="highlighter-rouge">CAAnimation</code>的子类，和别的子类不同，<code class="highlighter-rouge">CATransition</code>有一个<code class="highlighter-rouge">type</code>和<code class="highlighter-rouge">subtype</code>来标识变换效果。<code class="highlighter-rouge">type</code>属性是一个<code class="highlighter-rouge">NSString</code>类型，可以被设置成如下类型：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kCATransitionFade 
+kCATransitionMoveIn 
+kCATransitionPush 
+kCATransitionReveal
+</code></pre>
+</div>
+
+<p>到目前为止你只能使用上述四种类型，但你可以通过一些别的方法来自定义过渡效果，后续会详细介绍。</p>
+
+<p>默认的过渡类型是<code class="highlighter-rouge">kCATransitionFade</code>，当你在改变图层属性之后，就创建了一个平滑的淡入淡出效果。</p>
+
+<p>我们在第七章的例子中就已经用到过<code class="highlighter-rouge">kCATransitionPush</code>，它创建了一个新的图层，从边缘的一侧滑动进来，把旧图层从另一侧推出去的效果。</p>
+
+<p><code class="highlighter-rouge">kCATransitionMoveIn</code>和<code class="highlighter-rouge">kCATransitionReveal</code>与<code class="highlighter-rouge">kCATransitionPush</code>类似，都实现了一个定向滑动的动画，但是有一些细微的不同，<code class="highlighter-rouge">kCATransitionMoveIn</code>从顶部滑动进入，但不像推送动画那样把老图层推走，然而<code class="highlighter-rouge">kCATransitionReveal</code>把原始的图层滑动出去来显示新的外观，而不是把新的图层滑动进入。</p>
+
+<p>后面三种过渡类型都有一个默认的动画方向，它们都从左侧滑入，但是你可以通过<code class="highlighter-rouge">subtype</code>来控制它们的方向，提供了如下四种类型：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kCATransitionFromRight 
+kCATransitionFromLeft 
+kCATransitionFromTop 
+kCATransitionFromBottom
+</code></pre>
+</div>
+
+<p>一个简单的用<code class="highlighter-rouge">CATransition</code>来对非动画属性做动画的例子如清单8.11所示，这里我们对<code class="highlighter-rouge">UIImage</code>的<code class="highlighter-rouge">image</code>属性做修改，但是隐式动画或者<code class="highlighter-rouge">CAPropertyAnimation</code>都不能对它做动画，因为Core Animation不知道如何在插图图片。通过对图层应用一个淡入淡出的过渡，我们可以忽略它的内容来做平滑动画（图8.4），我们来尝试修改过渡的<code class="highlighter-rouge">type</code>常量来观察其它效果。</p>
+
+<p>清单8.11 使用<code class="highlighter-rouge">CATransition</code>来对<code class="highlighter-rouge">UIImageView</code>做动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">imageView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">images</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//set up images
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="o">=</span> <span class="p">@[[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Anchor.png"</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Cone.png"</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Igloo.png"</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Spaceship.png"</span><span class="p">]];</span>
+<span class="p">}</span>
+
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">switchImage</span>
+<span class="p">{</span>
+    <span class="c1">//set up crossfade transition
+</span>    <span class="n">CATransition</span> <span class="o">*</span><span class="n">transition</span> <span class="o">=</span> <span class="p">[</span><span class="n">CATransition</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">transition</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">kCATransitionFade</span><span class="p">;</span>
+    <span class="c1">//apply transition to imageview backing layer
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">transition</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="c1">//cycle to next image
+</span>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">currentImage</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="p">;</span>
+    <span class="n">NSUInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="nf">indexOfObject</span><span class="p">:</span><span class="n">currentImage</span><span class="p">];</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="nf">count</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">images</span><span class="p">[</span><span class="nf">index</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>你可以从代码中看出，过渡动画和之前的属性动画或者动画组添加到图层上的方式一致，都是通过<code class="highlighter-rouge">-addAnimation:forKey:</code>方法。但是和属性动画不同的是，对指定的图层一次只能使用一次<code class="highlighter-rouge">CATransition</code>，因此，无论你对动画的键设置什么值，过渡动画都会对它的键设置成“transition”，也就是常量<code class="highlighter-rouge">kCATransition</code>。</p>
+
+<p><img src="/img/in-post/ios_introduction/8.4.jpeg" alt="IMG" /></p>
+
+<p>图8.4 使用<code class="highlighter-rouge">CATransition</code>对图像平滑淡入淡出</p>
+
+<h3 id="section-7">隐式过渡</h3>
+
+<p><code class="highlighter-rouge">CATransision</code>可以对图层任何变化平滑过渡的事实使得它成为那些不好做动画的属性图层行为的理想候选。苹果当然意识到了这点，并且当设置了<code class="highlighter-rouge">CALayer</code>的<code class="highlighter-rouge">content</code>属性的时候，<code class="highlighter-rouge">CATransition</code>的确是默认的行为。但是对于视图关联的图层，或者是其他隐式动画的行为，这个特性依然是被禁用的，但是对于你自己创建的图层，这意味着对图层<code class="highlighter-rouge">contents</code>图片做的改动都会自动附上淡入淡出的动画。</p>
+
+<p>我们在第七章使用<code class="highlighter-rouge">CATransition</code>作为一个图层行为来改变图层的背景色，当然<code class="highlighter-rouge">backgroundColor</code>属性可以通过正常的<code class="highlighter-rouge">CAPropertyAnimation</code>来实现，但这不是说不可以用<code class="highlighter-rouge">CATransition</code>来实行。</p>
+
+<h3 id="section-8">对图层树的动画</h3>
+
+<p><code class="highlighter-rouge">CATransition</code>并不作用于指定的图层属性，这就是说你可以在即使不能准确得知改变了什么的情况下对图层做动画，例如，在不知道<code class="highlighter-rouge">UITableView</code>哪一行被添加或者删除的情况下，直接就可以平滑地刷新它，或者在不知道<code class="highlighter-rouge">UIViewController</code>内部的视图层级的情况下对两个不同的实例做过渡动画。</p>
+
+<p>这些例子和我们之前所讨论的情况完全不同，因为它们不仅涉及到图层的属性，而且是整个<em>图层树</em>的改变–我们在这种动画的过程中手动在层级关系中添加或者移除图层。</p>
+
+<p>这里用到了一个小诡计，要确保<code class="highlighter-rouge">CATransition</code>添加到的图层在过渡动画发生时不会在树状结构中被移除，否则<code class="highlighter-rouge">CATransition</code>将会和图层一起被移除。一般来说，你只需要将动画添加到被影响图层的<code class="highlighter-rouge">superlayer</code>。</p>
+
+<p>在清单8.2中，我们展示了如何在<code class="highlighter-rouge">UITabBarController</code>切换标签的时候添加淡入淡出的动画。这里我们建立了默认的标签应用程序模板，然后用<code class="highlighter-rouge">UITabBarControllerDelegate</code>的<code class="highlighter-rouge">-tabBarController:didSelectViewController:</code>方法来应用过渡动画。我们把动画添加到<code class="highlighter-rouge">UITabBarController</code>的视图图层上，于是在标签被替换的时候动画不会被移除。</p>
+
+<p>清单8.12 对<code class="highlighter-rouge">UITabBarController</code>做动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#import "AppDelegate.h"
+#import "FirstViewController.h" 
+#import "SecondViewController.h"
+#import &lt;QuartzCore/QuartzCore.h&gt;
+</span><span class="k">@implementation</span> <span class="nc">AppDelegate</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+<span class="p">{</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIWindow</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:</span> <span class="p">[[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">]</span> <span class="nf">bounds</span><span class="p">]];</span>
+    <span class="n">UIViewController</span> <span class="o">*</span><span class="n">viewController1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">FirstViewController</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">UIViewController</span> <span class="o">*</span><span class="n">viewController2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SecondViewController</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">tabBarController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UITabBarController</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">tabBarController</span><span class="p">.</span><span class="n">viewControllers</span> <span class="o">=</span> <span class="p">@[</span><span class="n">viewController1</span><span class="p">,</span> <span class="n">viewController2</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">tabBarController</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">window</span><span class="p">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">tabBarController</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">window</span> <span class="nf">makeKeyAndVisible</span><span class="p">];</span>
+    <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">tabBarController</span><span class="p">:(</span><span class="n">UITabBarController</span> <span class="o">*</span><span class="p">)</span><span class="nv">tabBarController</span> <span class="nf">didSelectViewController</span><span class="p">:(</span><span class="n">UIViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">viewController</span>
+<span class="p">{</span>
+    <span class="err">￼</span><span class="c1">//set up crossfade transition
+</span>    <span class="n">CATransition</span> <span class="o">*</span><span class="n">transition</span> <span class="o">=</span> <span class="p">[</span><span class="n">CATransition</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">transition</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">kCATransitionFade</span><span class="p">;</span>
+    <span class="c1">//apply transition to tab bar controller's view
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">tabBarController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">transition</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<h3 id="section-9">自定义动画</h3>
+
+<p>我们证实了过渡是一种对那些不太好做平滑动画属性的强大工具，但是<code class="highlighter-rouge">CATransition</code>的提供的动画类型太少了。</p>
+
+<p>更奇怪的是苹果通过<code class="highlighter-rouge">UIView +transitionFromView:toView:duration:options:completion:</code>和<code class="highlighter-rouge">+transitionWithView:duration:options:animations:</code>方法提供了Core Animation的过渡特性。但是这里的可用的过渡选项和<code class="highlighter-rouge">CATransition</code>的<code class="highlighter-rouge">type</code>属性提供的常量<em>完全不同</em>。<code class="highlighter-rouge">UIView</code>过渡方法中<code class="highlighter-rouge">options</code>参数可以由如下常量指定：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>UIViewAnimationOptionTransitionFlipFromLeft 
+UIViewAnimationOptionTransitionFlipFromRight
+UIViewAnimationOptionTransitionCurlUp 
+UIViewAnimationOptionTransitionCurlDown
+UIViewAnimationOptionTransitionCrossDissolve 
+UIViewAnimationOptionTransitionFlipFromTop 
+UIViewAnimationOptionTransitionFlipFromBottom
+</code></pre>
+</div>
+
+<p>除了<code class="highlighter-rouge">UIViewAnimationOptionTransitionCrossDissolve</code>之外，剩下的值和<code class="highlighter-rouge">CATransition</code>类型完全没关系。你可以用之前例子修改过的版本来测试一下（见清单8.13）。</p>
+
+<p>清单8.13 使用UIKit提供的方法来做过渡动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">imageView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">images</span><span class="p">;</span>
+<span class="k">@end</span>
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span> <span class="c1">//set up images
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="o">=</span> <span class="p">@[[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Anchor.png"</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Cone.png"</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Igloo.png"</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Spaceship.png"</span><span class="p">]];</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">switchImage</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">UIView</span> <span class="nf">transitionWithView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">imageView</span> <span class="nf">duration</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
+                       <span class="nf">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionTransitionFlipFromLeft</span>
+                    <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+                        <span class="c1">//cycle to next image
+</span>                        <span class="n">UIImage</span> <span class="o">*</span><span class="n">currentImage</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="err">;</span>
+                        <span class="n">NSUInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="nf">indexOfObject</span><span class="p">:</span><span class="n">currentImage</span><span class="p">]</span><span class="err">;</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">images</span> <span class="nf">count</span><span class="p">]</span><span class="err">;</span>
+                        <span class="n">self</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">images</span><span class="p">[</span><span class="nf">index</span><span class="p">]</span><span class="err">;</span>
+                    <span class="p">}</span>
+                    <span class="nf">completion</span><span class="p">:</span><span class="nb">NULL</span><span class="p">];</span>
+<span class="p">}</span>
+    
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>文档暗示过在iOS5（带来了Core Image框架）之后，可以通过<code class="highlighter-rouge">CATransition</code>的<code class="highlighter-rouge">filter</code>属性，用<code class="highlighter-rouge">CIFilter</code>来创建其它的过渡效果。然而直到iOS6都做不到这点。试图对<code class="highlighter-rouge">CATransition</code>使用Core Image的滤镜完全没效果（但是在Mac OS中是可行的，也许文档是想表达这个意思）。</p>
+
+<p>因此，根据要实现的效果，你只用关心是用<code class="highlighter-rouge">CATransition</code>还是用<code class="highlighter-rouge">UIView</code>的过渡方法就可以了。希望下个版本的iOS系统可以通过<code class="highlighter-rouge">CATransition</code>很好的支持Core Image的过渡滤镜效果（或许甚至会有新的方法）。</p>
+
+<p>但这并不意味着在iOS上就不能实现自定义的过渡效果了。这只是意味着你需要做一些额外的工作。就像之前提到的那样，过渡动画做基础的原则就是对原始的图层外观截图，然后添加一段动画，平滑过渡到图层改变之后那个截图的效果。如果我们知道如何对图层截图，我们就可以使用属性动画来代替<code class="highlighter-rouge">CATransition</code>或者是UIKit的过渡方法来实现动画。</p>
+
+<p>事实证明，对图层做截图还是很简单的。<code class="highlighter-rouge">CALayer</code>有一个<code class="highlighter-rouge">-renderInContext:</code>方法，可以通过把它绘制到Core Graphics的上下文中捕获当前内容的图片，然后在另外的视图中显示出来。如果我们把这个截屏视图置于原始视图之上，就可以遮住真实视图的所有变化，于是重新创建了一个简单的过渡效果。</p>
+
+<p>清单8.14演示了一个基本的实现。我们对当前视图状态截图，然后在我们改变原始视图的背景色的时候对截图快速转动并且淡出，图8.5展示了我们自定义的过渡效果。</p>
+
+<p>为了让事情更简单，我们用<code class="highlighter-rouge">UIView -animateWithDuration:completion:</code>方法来实现。虽然用<code class="highlighter-rouge">CABasicAnimation</code>可以达到同样的效果，但是那样的话我们就需要对图层的变换和不透明属性创建单独的动画，然后当动画结束的时候在<code class="highlighter-rouge">CAAnimationDelegate</code>中把<code class="highlighter-rouge">coverView</code>从屏幕中移除。</p>
+
+<p>清单8.14 用<code class="highlighter-rouge">renderInContext:</code>创建自定义过渡效果</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">ViewController</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">performTransition</span>
+<span class="p">{</span>
+    <span class="c1">//preserve the current view snapshot
+</span>    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">YES</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">layer</span> <span class="nf">renderInContext</span><span class="p">:</span><span class="n">UIGraphicsGetCurrentContext</span><span class="p">()];</span>
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">coverImage</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+    <span class="c1">//insert snapshot view in front of this one
+</span>    <span class="n">UIView</span> <span class="o">*</span><span class="n">coverView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImageView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithImage</span><span class="p">:</span><span class="n">coverImage</span><span class="p">];</span>
+    <span class="n">coverView</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">coverView</span><span class="p">];</span>
+    <span class="c1">//update the view (we'll simply randomize the layer background color)
+</span>    <span class="n">CGFloat</span> <span class="n">red</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">green</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="n">CGFloat</span> <span class="n">blue</span> <span class="o">=</span> <span class="n">arc4random</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">CGFloat</span><span class="p">)</span><span class="n">INT_MAX</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithRed</span><span class="p">:</span><span class="n">red</span> <span class="nf">green</span><span class="p">:</span><span class="n">green</span> <span class="nf">blue</span><span class="p">:</span><span class="n">blue</span> <span class="nf">alpha</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">];</span>
+    <span class="c1">//perform animation (anything you like)
+</span>    <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="c1">//scale, rotate and fade the view
+</span>        <span class="n">CGAffineTransform</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeScale</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mo">01</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mo">01</span><span class="p">)</span><span class="err">;</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">CGAffineTransformRotate</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">M_PI_2</span><span class="p">)</span><span class="err">;</span>
+        <span class="n">coverView</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="err">;</span>
+        <span class="n">coverView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="err">;</span>
+    <span class="p">}</span> <span class="nf">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//remove the cover view now we're finished with it
+</span>        <span class="p">[</span><span class="n">coverView</span> <span class="nf">removeFromSuperview</span><span class="p">]</span><span class="err">;</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/8.5.jpeg" alt="IMG" /></p>
+
+<p>图8.5 使用<code class="highlighter-rouge">renderInContext:</code>创建自定义过渡效果</p>
+
+<p>这里有个警告：<code class="highlighter-rouge">-renderInContext:</code>捕获了图层的图片和子图层，但是不能对子图层正确地处理变换效果，而且对视频和OpenGL内容也不起作用。但是用<code class="highlighter-rouge">CATransition</code>，或者用私有的截屏方式就没有这个限制了。</p>
+
+<h2 id="section-10">在动画过程中取消动画</h2>
+
+<p>之前提到过，你可以用<code class="highlighter-rouge">-addAnimation:forKey:</code>方法中的<code class="highlighter-rouge">key</code>参数来在添加动画之后检索一个动画，使用如下方法：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (CAAnimation *)animationForKey:(NSString *)key;
+</code></pre>
+</div>
+
+<p>但并不支持在动画运行过程中修改动画，所以这个方法主要用来检测动画的属性，或者判断它是否被添加到当前图层中。</p>
+
+<p>为了终止一个指定的动画，你可以用如下方法把它从图层移除掉：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)removeAnimationForKey:(NSString *)key;
+</code></pre>
+</div>
+
+<p>或者移除所有动画：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)removeAllAnimations;
+</code></pre>
+</div>
+
+<p>动画一旦被移除，图层的外观就立刻更新到当前的模型图层的值。一般说来，动画在结束之后被自动移除，除非设置<code class="highlighter-rouge">removedOnCompletion</code>为<code class="highlighter-rouge">NO</code>，如果你设置动画在结束之后不被自动移除，那么当它不需要的时候你要手动移除它；否则它会一直存在于内存中，直到图层被销毁。</p>
+
+<p>我们来扩展之前旋转飞船的示例，这里添加一个按钮来停止或者启动动画。这一次我们用一个非<code class="highlighter-rouge">nil</code>的值作为动画的键，以便之后可以移除它。<code class="highlighter-rouge">-animationDidStop:finished:</code>方法中的<code class="highlighter-rouge">flag</code>参数表明了动画是自然结束还是被打断，我们可以在控制台打印出来。如果你用停止按钮来终止动画，它会打印<code class="highlighter-rouge">NO</code>，如果允许它完成，它会打印<code class="highlighter-rouge">YES</code>。</p>
+
+<p>清单8.15是更新后的示例代码，图8.6显示了结果。</p>
+
+<p>清单8.15 开始和停止一个动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">CALayer</span> <span class="o">*</span><span class="n">shipLayer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add the ship
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span> <span class="s">@"Ship.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">start</span>
+<span class="p">{</span>
+    <span class="c1">//animate the ship rotation
+</span>    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"transform.rotation"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">byValue</span> <span class="o">=</span> <span class="err">@</span><span class="p">(</span><span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="s">@"rotateAnimation"</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">stop</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span> <span class="nf">removeAnimationForKey</span><span class="p">:</span><span class="s">@"rotateAnimation"</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">animationDidStop</span><span class="o">:</span><span class="p">(</span><span class="n">CAAnimation</span> <span class="o">*</span><span class="p">)</span><span class="n">anim</span> <span class="n">finished</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">flag</span>
+<span class="p">{</span>
+    <span class="c1">//log that the animation stopped
+</span>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"The animation stopped (finished: %@)"</span><span class="p">,</span> <span class="n">flag</span><span class="p">?</span> <span class="s">@"YES"</span><span class="p">:</span> <span class="s">@"NO"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/8.6.jpeg" alt="IMG" /></p>
+
+<p>图8.6 通过开始和停止按钮控制的旋转动画</p>
+
+<h2 id="section-11">总结</h2>
+
+<p>这一章中，我们涉及了属性动画（你可以对单独的图层属性动画有更加具体的控制），动画组（把多个属性动画组合成一个独立单元）以及过度（影响整个图层，可以用来对图层的任何内容做任何类型的动画，包括子图层的添加和移除）。</p>
+
+<p>在第九章中，我们继续学习<code class="highlighter-rouge">CAMediaTiming</code>协议，来看一看Core Animation是怎样处理逝去的时间。</p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/28/ios_core_animation7_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解七">
+                        Previous<br>
+                        <span>IOS 动画讲解七</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="13">
+                                    Android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ios" title="ios" rel="14">
+                                    ios
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="3">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#core-animation" title="core-animation" rel="8">
+                                    core-animation
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/29/ios_core_animation8_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/29/ios_core_animation8_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
