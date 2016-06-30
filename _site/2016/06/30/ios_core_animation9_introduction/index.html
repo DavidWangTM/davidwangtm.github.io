@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 动画讲解九
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/30/ios_core_animation9_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/markdown/">markdown</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-e2e-ux.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#core-animation" title="core-animation">core-animation</a>
+                        
+                    </div>
+                    <h1>IOS 动画讲解九</h1>
+                    
+                    
+                    <h2 class="subheading">图层时间</h2>
+                    
+                    <span class="meta">Posted by DavidWang on June 30, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h1 id="section">图层时间</h1>
+
+<blockquote>
+  <p><em>时间和空间最大的区别在于，时间不能被复用</em> – 弗斯特梅里克</p>
+</blockquote>
+
+<p>在上面两章中，我们探讨了可以用<code class="highlighter-rouge">CAAnimation</code>和它的子类实现的多种图层动画。动画的发生是需要持续一段时间的，所以<em>计时</em>对整个概念来说至关重要。在这一章中，我们来看看<code class="highlighter-rouge">CAMediaTiming</code>，看看Core Animation是如何跟踪时间的。</p>
+
+<h2 id="camediatiming"><code class="highlighter-rouge">CAMediaTiming</code>协议</h2>
+
+<p><code class="highlighter-rouge">CAMediaTiming</code>协议定义了在一段动画内用来控制逝去时间的属性的集合，<code class="highlighter-rouge">CALayer</code>和<code class="highlighter-rouge">CAAnimation</code>都实现了这个协议，所以时间可以被任意基于一个图层或者一段动画的类控制。</p>
+
+<h3 id="section-1">持续和重复</h3>
+
+<p>我们在第八章“显式动画”中简单提到过<code class="highlighter-rouge">duration</code>（<code class="highlighter-rouge">CAMediaTiming</code>的属性之一），<code class="highlighter-rouge">duration</code>是一个<code class="highlighter-rouge">CFTimeInterval</code>的类型（类似于<code class="highlighter-rouge">NSTimeInterval</code>的一种双精度浮点类型），对将要进行的动画的一次迭代指定了时间。</p>
+
+<p>这里的<em>一次迭代</em>是什么意思呢？<code class="highlighter-rouge">CAMediaTiming</code>另外还有一个属性叫做<code class="highlighter-rouge">repeatCount</code>，代表动画重复的迭代次数。如果<code class="highlighter-rouge">duration</code>是2，<code class="highlighter-rouge">repeatCount</code>设为3.5（三个半迭代），那么完整的动画时长将是7秒。</p>
+
+<p><code class="highlighter-rouge">duration</code>和<code class="highlighter-rouge">repeatCount</code>默认都是0。但这不意味着动画时长为0秒，或者0次，这里的0仅仅代表了“默认”，也就是0.25秒和1次，你可以用一个简单的测试来尝试为这两个属性赋多个值，如清单9.1，图9.1展示了程序的结果。</p>
+
+<p>清单9.1 测试<code class="highlighter-rouge">duration</code>和<code class="highlighter-rouge">repeatCount</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">durationField</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UITextField</span> <span class="o">*</span><span class="n">repeatField</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIButton</span> <span class="o">*</span><span class="n">startButton</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">CALayer</span> <span class="o">*</span><span class="n">shipLayer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add the ship
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span> <span class="s">@"Ship.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">setControlsEnabled</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">enabled</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">UIControl</span> <span class="o">*</span><span class="n">control</span> <span class="k">in</span> <span class="p">@[</span><span class="n">self</span><span class="p">.</span><span class="n">durationField</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">repeatField</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">startButton</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">control</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">enabled</span><span class="p">;</span>
+        <span class="n">control</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">enabled</span><span class="p">?</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">25</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">hideKeyboard</span>
+<span class="p">{</span>
+    <span class="err">￼</span><span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">durationField</span> <span class="nf">resignFirstResponder</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">repeatField</span> <span class="nf">resignFirstResponder</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">start</span>
+<span class="p">{</span>
+    <span class="n">CFTimeInterval</span> <span class="n">duration</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">durationField</span><span class="p">.</span><span class="n">text</span> <span class="nf">doubleValue</span><span class="p">];</span>
+    <span class="kt">float</span> <span class="n">repeatCount</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">repeatField</span><span class="p">.</span><span class="n">text</span> <span class="nf">floatValue</span><span class="p">];</span>
+    <span class="c1">//animate the ship rotation
+</span>    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"transform.rotation"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatCount</span> <span class="o">=</span> <span class="n">repeatCount</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">byValue</span> <span class="o">=</span> <span class="err">@</span><span class="p">(</span><span class="n">M_PI</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="s">@"rotateAnimation"</span><span class="p">];</span>
+    <span class="c1">//disable controls
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">setControlsEnabled</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">animationDidStop</span><span class="o">:</span><span class="p">(</span><span class="n">CAAnimation</span> <span class="o">*</span><span class="p">)</span><span class="n">anim</span> <span class="n">finished</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">flag</span>
+<span class="p">{</span>
+    <span class="c1">//reenable controls
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">setControlsEnabled</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/9.1.jpeg" alt="IMG" /></p>
+
+<p>图9.1 演示<code class="highlighter-rouge">duration</code>和<code class="highlighter-rouge">repeatCount</code>的测试程序</p>
+
+<p>创建重复动画的另一种方式是使用<code class="highlighter-rouge">repeatDuration</code>属性，它让动画重复一个指定的时间，而不是指定次数。你甚至设置一个叫做<code class="highlighter-rouge">autoreverses</code>的属性（BOOL类型）在每次间隔交替循环过程中自动回放。这对于播放一段连续非循环的动画很有用，例如打开一扇门，然后关上它（图9.2）。</p>
+
+<p><img src="/img/in-post/ios_introduction/9.2.jpeg" alt="IMG" /></p>
+
+<p>图9.2 摆动门的动画</p>
+
+<p>对门进行摆动的代码见清单9.2。我们用了<code class="highlighter-rouge">autoreverses</code>来使门在打开后自动关闭，在这里我们把<code class="highlighter-rouge">repeatDuration</code>设置为<code class="highlighter-rouge">INFINITY</code>，于是动画无限循环播放，设置<code class="highlighter-rouge">repeatCount</code>为<code class="highlighter-rouge">INFINITY</code>也有同样的效果。注意<code class="highlighter-rouge">repeatCount</code>和<code class="highlighter-rouge">repeatDuration</code>可能会相互冲突，所以你只要对其中一个指定非零值。对两个属性都设置非0值的行为没有被定义。</p>
+
+<p>清单9.2 使用<code class="highlighter-rouge">autoreverses</code>属性实现门的摇摆</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add the door
+</span>    <span class="n">CALayer</span> <span class="o">*</span><span class="n">doorLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">doorLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">);</span>
+    <span class="n">doorLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span> <span class="o">-</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">doorLayer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">);</span>
+    <span class="n">doorLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span> <span class="s">@"Door.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">doorLayer</span><span class="p">];</span>
+    <span class="c1">//apply perspective transform
+</span>    <span class="n">CATransform3D</span> <span class="n">perspective</span> <span class="o">=</span> <span class="n">CATransform3DIdentity</span><span class="p">;</span>
+    <span class="n">perspective</span><span class="p">.</span><span class="n">m34</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="mi">500</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">sublayerTransform</span> <span class="o">=</span> <span class="n">perspective</span><span class="p">;</span>
+    <span class="c1">//apply swinging animation
+</span>    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"transform.rotation.y"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="err">@</span><span class="p">(</span><span class="o">-</span><span class="n">M_PI_2</span><span class="p">);</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">repeatDuration</span> <span class="o">=</span> <span class="n">INFINITY</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">autoreverses</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">doorLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<h3 id="section-2">相对时间</h3>
+
+<p>每次讨论到Core Animation，时间都是相对的，每个动画都有它自己描述的时间，可以独立地加速，延时或者偏移。</p>
+
+<p><code class="highlighter-rouge">beginTime</code>指定了动画开始之前的的延迟时间。这里的延迟从动画添加到可见图层的那一刻开始测量，默认是0（就是说动画会立刻执行）。</p>
+
+<p><code class="highlighter-rouge">speed</code>是一个时间的倍数，默认1.0，减少它会减慢图层/动画的时间，增加它会加快速度。如果2.0的速度，那么对于一个<code class="highlighter-rouge">duration</code>为1的动画，实际上在0.5秒的时候就已经完成了。</p>
+
+<p><code class="highlighter-rouge">timeOffset</code>和<code class="highlighter-rouge">beginTime</code>类似，但是和增加<code class="highlighter-rouge">beginTime</code>导致的延迟动画不同，增加<code class="highlighter-rouge">timeOffset</code>只是让动画快进到某一点，例如，对于一个持续1秒的动画来说，设置<code class="highlighter-rouge">timeOffset</code>为0.5意味着动画将从一半的地方开始。</p>
+
+<p>和<code class="highlighter-rouge">beginTime</code>不同的是，<code class="highlighter-rouge">timeOffset</code>并不受<code class="highlighter-rouge">speed</code>的影响。所以如果你把<code class="highlighter-rouge">speed</code>设为2.0，把<code class="highlighter-rouge">timeOffset</code>设置为0.5，那么你的动画将从动画最后结束的地方开始，因为1秒的动画实际上被缩短到了0.5秒。然而即使使用了<code class="highlighter-rouge">timeOffset</code>让动画从结束的地方开始，它仍然播放了一个完整的时长，这个动画仅仅是循环了一圈，然后从头开始播放。</p>
+
+<p>可以用清单9.3的测试程序验证一下，设置<code class="highlighter-rouge">speed</code>和<code class="highlighter-rouge">timeOffset</code>滑块到随意的值，然后点击播放来观察效果（见图9.3）</p>
+
+<p>清单9.3 测试<code class="highlighter-rouge">timeOffset</code>和<code class="highlighter-rouge">speed</code>属性</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">speedLabel</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UILabel</span> <span class="o">*</span><span class="n">timeOffsetLabel</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UISlider</span> <span class="o">*</span><span class="n">speedSlider</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UISlider</span> <span class="o">*</span><span class="n">timeOffsetSlider</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">bezierPath</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">CALayer</span> <span class="o">*</span><span class="n">shipLayer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create a path
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBezierPath</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span> <span class="nf">addCurveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span> <span class="nf">controlPoint1</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="nf">controlPoint2</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="mi">300</span><span class="p">)];</span>
+    <span class="c1">//draw the path using a CAShapeLayer
+</span>    <span class="n">CAShapeLayer</span> <span class="o">*</span><span class="n">pathLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAShapeLayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span><span class="p">.</span><span class="n">CGPath</span><span class="p">;</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">clearColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">pathLayer</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">pathLayer</span><span class="p">];</span>
+    <span class="c1">//add the ship
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span> <span class="s">@"Ship.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span><span class="p">];</span>
+    <span class="c1">//set initial values
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">updateSliders</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">updateSliders</span>
+<span class="p">{</span>
+    <span class="n">CFTimeInterval</span> <span class="n">timeOffset</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timeOffsetSlider</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">timeOffsetLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%0.2f"</span><span class="p">,</span> <span class="n">timeOffset</span><span class="p">];</span>
+    <span class="kt">float</span> <span class="n">speed</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">speedSlider</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">speedLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%0.2f"</span><span class="p">,</span> <span class="n">speed</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">play</span>
+<span class="p">{</span>
+    <span class="c1">//create the keyframe animation
+</span>    <span class="n">CAKeyframeAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAKeyframeAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"position"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">timeOffset</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">timeOffsetSlider</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">speed</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">speedSlider</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span><span class="p">.</span><span class="n">CGPath</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">rotationMode</span> <span class="o">=</span> <span class="n">kCAAnimationRotateAuto</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">removedOnCompletion</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">shipLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="s">@"slide"</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/9.3.jpeg" alt="IMG" /></p>
+
+<p>图9.3 测试时间偏移和速度的简单的应用程序</p>
+
+<h3 id="fillmode"><code class="highlighter-rouge">fillMode</code></h3>
+
+<p>对于<code class="highlighter-rouge">beginTime</code>非0的一段动画来说，会出现一个当动画添加到图层上但什么也没发生的状态。类似的，<code class="highlighter-rouge">removeOnCompletion</code>被设置为<code class="highlighter-rouge">NO</code>的动画将会在动画结束的时候仍然保持之前的状态。这就产生了一个问题，当动画开始之前和动画结束之后，被设置动画的属性将会是什么值呢？</p>
+
+<p>一种可能是属性和动画没被添加之前保持一致，也就是在模型图层定义的值（见第七章“隐式动画”，模型图层和呈现图层的解释）。</p>
+
+<p>另一种可能是保持动画开始之前那一帧，或者动画结束之后的那一帧。这就是所谓的<em>填充</em>，因为动画开始和结束的值用来填充开始之前和结束之后的时间。</p>
+
+<p>这种行为就交给开发者了，它可以被<code class="highlighter-rouge">CAMediaTiming</code>的<code class="highlighter-rouge">fillMode</code>来控制。<code class="highlighter-rouge">fillMode</code>是一个<code class="highlighter-rouge">NSString</code>类型，可以接受如下四种常量：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kCAFillModeForwards 
+kCAFillModeBackwards 
+kCAFillModeBoth 
+kCAFillModeRemoved
+</code></pre>
+</div>
+
+<p>默认是<code class="highlighter-rouge">kCAFillModeRemoved</code>，当动画不再播放的时候就显示图层模型指定的值剩下的三种类型向前，向后或者即向前又向后去填充动画状态，使得动画在开始前或者结束后仍然保持开始和结束那一刻的值。</p>
+
+<p>这就对避免在动画结束的时候急速返回提供另一种方案（见第八章）。但是记住了，当用它来解决这个问题的时候，需要把<code class="highlighter-rouge">removeOnCompletion</code>设置为<code class="highlighter-rouge">NO</code>，另外需要给动画添加一个非空的键，于是可以在不需要动画的时候把它从图层上移除。</p>
+
+<h2 id="section-3">层级关系时间</h2>
+
+<p>在第三章“图层几何学”中，你已经了解到每个图层是如何相对在图层树中的父图层定义它的坐标系的。动画时间和它类似，每个动画和图层在时间上都有它自己的层级概念，相对于它的父亲来测量。对图层调整时间将会影响到它本身和子图层的动画，但不会影响到父图层。另一个相似点是所有的动画都被按照层级组合（使用<code class="highlighter-rouge">CAAnimationGroup</code>实例）。</p>
+
+<p>对<code class="highlighter-rouge">CALayer</code>或者<code class="highlighter-rouge">CAGroupAnimation</code>调整<code class="highlighter-rouge">duration</code>和<code class="highlighter-rouge">repeatCount</code>/<code class="highlighter-rouge">repeatDuration</code>属性并不会影响到子动画。但是<code class="highlighter-rouge">beginTime</code>，<code class="highlighter-rouge">timeOffset</code>和<code class="highlighter-rouge">speed</code>属性将会影响到子动画。然而在层级关系中，<code class="highlighter-rouge">beginTime</code>指定了父图层开始动画（或者组合关系中的父动画）和对象将要开始自己动画之间的偏移。类似的，调整<code class="highlighter-rouge">CALayer</code>和<code class="highlighter-rouge">CAGroupAnimation</code>的<code class="highlighter-rouge">speed</code>属性将会对动画以及子动画速度应用一个缩放的因子。</p>
+
+<h3 id="section-4">全局时间和本地时间</h3>
+
+<p>CoreAnimation有一个<em>全局时间</em>的概念，也就是所谓的<em>马赫时间</em>（“马赫”实际上是iOS和Mac OS系统内核的命名）。马赫时间在设备上所有进程都是全局的–但是在不同设备上并不是全局的–不过这已经足够对动画的参考点提供便利了，你可以使用<code class="highlighter-rouge">CACurrentMediaTime</code>函数来访问马赫时间：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CFTimeInterval time = CACurrentMediaTime();
+</code></pre>
+</div>
+
+<p>这个函数返回的值其实无关紧要（它返回了设备自从上次启动后的秒数，并不是你所关心的），它真实的作用在于对动画的时间测量提供了一个相对值。注意当设备休眠的时候马赫时间会暂停，也就是所有的<code class="highlighter-rouge">CAAnimations</code>（基于马赫时间）同样也会暂停。</p>
+
+<p>因此马赫时间对长时间测量并不有用。比如用<code class="highlighter-rouge">CACurrentMediaTime</code>去更新一个实时闹钟并不明智。（可以用<code class="highlighter-rouge">[NSDate date]</code>代替，就像第三章例子所示）。</p>
+
+<p>每个<code class="highlighter-rouge">CALayer</code>和<code class="highlighter-rouge">CAAnimation</code>实例都有自己<em>本地</em>时间的概念，是根据父图层/动画层级关系中的<code class="highlighter-rouge">beginTime</code>，<code class="highlighter-rouge">timeOffset</code>和<code class="highlighter-rouge">speed</code>属性计算。就和转换不同图层之间坐标关系一样，<code class="highlighter-rouge">CALayer</code>同样也提供了方法来转换不同图层之间的<em>本地时间</em>。如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (CFTimeInterval)convertTime:(CFTimeInterval)t fromLayer:(CALayer *)l; 
+- (CFTimeInterval)convertTime:(CFTimeInterval)t toLayer:(CALayer *)l;
+</code></pre>
+</div>
+
+<p>当用来同步不同图层之间有不同的<code class="highlighter-rouge">speed</code>，<code class="highlighter-rouge">timeOffset</code>和<code class="highlighter-rouge">beginTime</code>的动画，这些方法会很有用。</p>
+
+<h3 id="section-5">暂停，倒回和快进</h3>
+
+<p>设置动画的<code class="highlighter-rouge">speed</code>属性为0可以暂停动画，但在动画被添加到图层之后不太可能再修改它了，所以不能对正在进行的动画使用这个属性。给图层添加一个<code class="highlighter-rouge">CAAnimation</code>实际上是给动画对象做了一个不可改变的拷贝，所以对原始动画对象属性的改变对真实的动画并没有作用。相反，直接用<code class="highlighter-rouge">-animationForKey:</code>来检索图层正在进行的动画可以返回正确的动画对象，但是修改它的属性将会抛出异常。</p>
+
+<p>如果移除图层正在进行的动画，图层将会急速返回动画之前的状态。但如果在动画移除之前拷贝呈现图层到模型图层，动画将会看起来暂停在那里。但是不好的地方在于之后就不能再恢复动画了。</p>
+
+<p>一个简单的方法是可以利用<code class="highlighter-rouge">CAMediaTiming</code>来暂停<em>图层</em>本身。如果把图层的<code class="highlighter-rouge">speed</code>设置成0，它会暂停任何添加到图层上的动画。类似的，设置<code class="highlighter-rouge">speed</code>大于1.0将会快进，设置成一个负值将会倒回动画。</p>
+
+<p>通过增加主窗口图层的<code class="highlighter-rouge">speed</code>，可以暂停整个应用程序的动画。这对UI自动化提供了好处，我们可以加速所有的视图动画来进行自动化测试（注意对于在主窗口之外的视图并不会被影响，比如<code class="highlighter-rouge">UIAlertview</code>）。可以在app delegate设置如下进行验证：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>self.window.layer.speed = 100;
+</code></pre>
+</div>
+
+<p>你也可以通过这种方式来<em>减速</em>，但其实也可以在模拟器通过切换慢速动画来实现。</p>
+
+<h2 id="section-6">手动动画</h2>
+
+<p><code class="highlighter-rouge">timeOffset</code>一个很有用的功能在于你可以它可以让你手动控制动画进程，通过设置<code class="highlighter-rouge">speed</code>为0，可以禁用动画的自动播放，然后来使用<code class="highlighter-rouge">timeOffset</code>来来回显示动画序列。这可以使得运用手势来手动控制动画变得很简单。</p>
+
+<p>举个简单的例子：还是之前关门的动画，修改代码来用手势控制动画。我们给视图添加一个<code class="highlighter-rouge">UIPanGestureRecognizer</code>，然后用<code class="highlighter-rouge">timeOffset</code>左右摇晃。</p>
+
+<p>因为在动画添加到图层之后不能再做修改了，我们来通过调整<code class="highlighter-rouge">layer</code>的<code class="highlighter-rouge">timeOffset</code>达到同样的效果（清单9.4）。</p>
+
+<p>清单9.4 通过触摸手势手动控制动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">CALayer</span> <span class="o">*</span><span class="n">doorLayer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add the door
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span> <span class="o">-</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">anchorPoint</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Door.png"</span><span class="p">].</span><span class="n">CGImage</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">];</span>
+    <span class="c1">//apply perspective transform
+</span>    <span class="n">CATransform3D</span> <span class="n">perspective</span> <span class="o">=</span> <span class="n">CATransform3DIdentity</span><span class="p">;</span>
+    <span class="n">perspective</span><span class="p">.</span><span class="n">m34</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="mi">500</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">sublayerTransform</span> <span class="o">=</span> <span class="n">perspective</span><span class="p">;</span>
+    <span class="c1">//add pan gesture recognizer to handle swipes
+</span>    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">pan</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">pan</span> <span class="nf">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nf">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">pan</span><span class="p">:)];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span><span class="n">pan</span><span class="p">];</span>
+    <span class="c1">//pause all layer animations
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">speed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="c1">//apply swinging animation (which won't play because layer is paused)
+</span>    <span class="n">CABasicAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CABasicAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"transform.rotation.y"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">toValue</span> <span class="o">=</span> <span class="err">@</span><span class="p">(</span><span class="o">-</span><span class="n">M_PI_2</span><span class="p">);</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">pan</span><span class="o">:</span><span class="p">(</span><span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">pan</span>
+<span class="p">{</span>
+    <span class="c1">//get horizontal component of pan gesture
+</span>    <span class="n">CGFloat</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">pan</span> <span class="nf">translationInView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">].</span><span class="n">x</span><span class="p">;</span>
+    <span class="c1">//convert from points to animation duration //using a reasonable scale factor
+</span>    <span class="n">x</span> <span class="o">/=</span> <span class="mi">200</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="c1">//update timeOffset and clamp result
+</span>    <span class="n">CFTimeInterval</span> <span class="n">timeOffset</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">timeOffset</span><span class="p">;</span>
+    <span class="n">timeOffset</span> <span class="o">=</span> <span class="n">MIN</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">999</span><span class="p">,</span> <span class="n">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">timeOffset</span> <span class="o">-</span> <span class="n">x</span><span class="p">));</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">timeOffset</span> <span class="o">=</span> <span class="n">timeOffset</span><span class="p">;</span>
+    <span class="c1">//reset pan gesture
+</span>    <span class="p">[</span><span class="n">pan</span> <span class="nf">setTranslation</span><span class="p">:</span><span class="n">CGPointZero</span> <span class="nf">inView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>这其实是个小诡计，也许相对于设置个动画然后每次显示一帧而言，用移动手势来直接设置门的<code class="highlighter-rouge">transform</code>会更简单。</p>
+
+<p>在这个例子中的确是这样，但是对于比如说关键这这样更加复杂的情况，或者有多个图层的动画组，相对于实时计算每个图层的属性而言，这就显得方便的多了。</p>
+
+<h2 id="section-7">总结</h2>
+
+<p>在这一章，我们了解了<code class="highlighter-rouge">CAMediaTiming</code>协议，以及Core Animation用来操作时间控制动画的机制。在下一章，我们将要接触<code class="highlighter-rouge">缓冲</code>，另一个用来使动画更加真实的操作时间的技术。</p>
+
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/29/ios_core_animation8_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解八">
+                        Previous<br>
+                        <span>IOS 动画讲解八</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="13">
+                                    Android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ios" title="ios" rel="15">
+                                    ios
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="3">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#core-animation" title="core-animation" rel="9">
+                                    core-animation
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/06/30/ios_core_animation9_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/06/30/ios_core_animation9_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

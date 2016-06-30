@@ -180,6 +180,41 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/06/20/ios_mantle_introduction/">
+        <h2 class="post-title">
+            IOS 开源库讲解篇一
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Mantle 源码解析
+        </h3>
+        
+        <div class="post-content-preview">
+            前言
+
+iOS开发中，不管是哪种设计模式，Model层都是不可或缺的。而Model层的第三方库常用的库有以下几个
+
+
+  JSONModel
+  Mantle
+  MJExtension
+
+
+JSON data到对象的转换原理都差不多，一般的顺序如下
+
+
+  根据Runtime，动态的获取属性的类型和属性的名字，（如果需要，做一次Json的key的Mapping
+  创建对应的对象实例
+  ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 20, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/06/18/mac_core_os_upan_introduction/">
         <h2 class="post-title">
             制作Mac OS X EL Capotan U盘引导安装
@@ -521,37 +556,6 @@ RBBAnimation
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/06/09/android_command_introduction/">
-        <h2 class="post-title">
-            Android 设计模式分析九
-        </h2>
-        
-        <h3 class="post-subtitle">
-            命令模式
-        </h3>
-        
-        <div class="post-content-preview">
-            1. 模式介绍
-
-模式的定义
-将一个请求封装成一个对象，从而使你可用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。
-
-模式的使用场景
-
-
-  系统需要将请求调用者和请求接收者解耦，使得调用者和接收者不直接交互。
-  系统需要在不同的时间指定请求、将请求排队和执行请求。
-  系统需要支持命令的撤销(Undo)操作和恢复(Redo)操作。
-  系统需要将一组操作组合...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 9, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -642,7 +646,7 @@ RBBAnimation
                             
                         
                             
-                                <a href="/tags/#ios" title="ios" rel="14">
+                                <a href="/tags/#ios" title="ios" rel="15">
                                     ios
                                 </a>
                             
@@ -660,7 +664,7 @@ RBBAnimation
                             
                         
                             
-                                <a href="/tags/#core-animation" title="core-animation" rel="8">
+                                <a href="/tags/#core-animation" title="core-animation" rel="9">
                                     core-animation
                                 </a>
                             
