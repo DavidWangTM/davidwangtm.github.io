@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="baidu-site-verification" content="6o2YzUB1JR"/>
+    <meta name="description" content="爱唱歌健身的程序员 | 王伟达，Web & algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。">
+    <meta name="keyword" content="DavidWangTM, 王伟达, 技术, 软件, 互联网, Mac, 算法, Linux, blog ,php ,android, ios">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        IOS 动画讲解十
+            -
+            DavidWang's Blog | 王伟达的博客
+        
+    </title>
+
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/07/01/ios_core_animation10_introduction/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href=" /css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href=" /css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href=" /css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">DavidWang's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/markdown/">markdown</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-e2e-ux.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
+                        
+                        <a class="tag" href="/tags/#core-animation" title="core-animation">core-animation</a>
+                        
+                    </div>
+                    <h1>IOS 动画讲解十</h1>
+                    
+                    
+                    <h2 class="subheading">缓冲</h2>
+                    
+                    <span class="meta">Posted by DavidWang on July 1, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h1 id="section">缓冲</h1>
+
+<blockquote>
+  <p>生活和艺术一样，最美的永远是曲线。 – 爱德华布尔沃 - 利顿</p>
+</blockquote>
+
+<p>在第九章“图层时间”中，我们讨论了动画时间和<code class="highlighter-rouge">CAMediaTiming</code>协议。现在我们来看一下另一个和时间相关的机制–所谓的<em>缓冲</em>。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。</p>
+
+<h2 id="section-1">动画速度</h2>
+
+<p>动画实际上就是一段时间内的变化，这就暗示了变化一定是随着某个特定的速率进行。速率由以下公式计算而来：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>velocity = change / time
+</code></pre>
+</div>
+
+<p>这里的<em>变化</em>可以指的是一个物体移动的距离，<em>时间</em>指动画持续的时长，用这样的一个移动可以更加形象的描述（比如<code class="highlighter-rouge">position</code>和<code class="highlighter-rouge">bounds</code>属性的动画），但实际上它应用于任意可以做动画的属性（比如<code class="highlighter-rouge">color</code>和<code class="highlighter-rouge">opacity</code>）。</p>
+
+<p>上面的等式假设了速度在整个动画过程中都是恒定不变的（就如同第八章“显式动画”的情况），对于这种恒定速度的动画我们称之为“线性步调”，而且从技术的角度而言这也是实现动画最简单的方式，但也是<em>完全不真实</em>的一种效果。</p>
+
+<p>考虑一个场景，一辆车行驶在一定距离内，它并不会一开始就以60mph的速度行驶，然后到达终点后突然变成0mph。一是因为需要无限大的加速度（即使是最好的车也不会在0秒内从0跑到60），另外不然的话会干死所有乘客。在现实中，它会慢慢地加速到全速，然后当它接近终点的时候，它会慢慢地减速，直到最后停下来。</p>
+
+<p>那么对于一个掉落到地上的物体又会怎样呢？它会首先停在空中，然后一直加速到落到地面，然后突然停止（然后由于积累的动能转换伴随着一声巨响，砰！）。</p>
+
+<p>现实生活中的任何一个物体都会在运动中加速或者减速。那么我们如何在动画中实现这种加速度呢？一种方法是使用<em>物理引擎</em>来对运动物体的摩擦和动量来建模，然而这会使得计算过于复杂。我们称这种类型的方程为<em>缓冲函数</em>，幸运的是，Core Animation内嵌了一系列标准函数提供给我们使用。</p>
+
+<h3 id="camediatimingfunction"><code class="highlighter-rouge">CAMediaTimingFunction</code></h3>
+
+<p>那么该如何使用缓冲方程式呢？首先需要设置<code class="highlighter-rouge">CAAnimation</code>的<code class="highlighter-rouge">timingFunction</code>属性，是<code class="highlighter-rouge">CAMediaTimingFunction</code>类的一个对象。如果想改变隐式动画的计时函数，同样也可以使用<code class="highlighter-rouge">CATransaction</code>的<code class="highlighter-rouge">+setAnimationTimingFunction:</code>方法。</p>
+
+<p>这里有一些方式来创建<code class="highlighter-rouge">CAMediaTimingFunction</code>，最简单的方式是调用<code class="highlighter-rouge">+timingFunctionWithName:</code>的构造方法。这里传入如下几个常量之一：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kCAMediaTimingFunctionLinear 
+kCAMediaTimingFunctionEaseIn 
+kCAMediaTimingFunctionEaseOut 
+kCAMediaTimingFunctionEaseInEaseOut
+kCAMediaTimingFunctionDefault
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">kCAMediaTimingFunctionLinear</code>选项创建了一个线性的计时函数，同样也是<code class="highlighter-rouge">CAAnimation</code>的<code class="highlighter-rouge">timingFunction</code>属性为空时候的默认函数。线性步调对于那些立即加速并且保持匀速到达终点的场景会有意义（例如射出枪膛的子弹），但是默认来说它看起来很奇怪，因为对大多数的动画来说确实很少用到。</p>
+
+<p><code class="highlighter-rouge">kCAMediaTimingFunctionEaseIn</code>常量创建了一个慢慢加速然后突然停止的方法。对于之前提到的自由落体的例子来说很适合，或者比如对准一个目标的导弹的发射。</p>
+
+<p><code class="highlighter-rouge">kCAMediaTimingFunctionEaseOut</code>则恰恰相反，它以一个全速开始，然后慢慢减速停止。它有一个削弱的效果，应用的场景比如一扇门慢慢地关上，而不是砰地一声。</p>
+
+<p><code class="highlighter-rouge">kCAMediaTimingFunctionEaseInEaseOut</code>创建了一个慢慢加速然后再慢慢减速的过程。这是现实世界大多数物体移动的方式，也是大多数动画来说最好的选择。如果只可以用一种缓冲函数的话，那就必须是它了。那么你会疑惑为什么这不是默认的选择，实际上当使用<code class="highlighter-rouge">UIView</code>的动画方法时，他的确是默认的，但当创建<code class="highlighter-rouge">CAAnimation</code>的时候，就需要手动设置它了。</p>
+
+<p>最后还有一个<code class="highlighter-rouge">kCAMediaTimingFunctionDefault</code>，它和<code class="highlighter-rouge">kCAMediaTimingFunctionEaseInEaseOut</code>很类似，但是加速和减速的过程都稍微有些慢。它和<code class="highlighter-rouge">kCAMediaTimingFunctionEaseInEaseOut</code>的区别很难察觉，可能是苹果觉得它对于隐式动画来说更适合（然后对UIKit就改变了想法，而是使用<code class="highlighter-rouge">kCAMediaTimingFunctionEaseInEaseOut</code>作为默认效果），虽然它的名字说是默认的，但还是要记住当创建<em>显式</em>的<code class="highlighter-rouge">CAAnimation</code>它并不是默认选项（换句话说，默认的图层行为动画用<code class="highlighter-rouge">kCAMediaTimingFunctionDefault</code>作为它们的计时方法）。</p>
+
+<p>你可以使用一个简单的测试工程来实验一下（清单10.1），在运行之前改变缓冲函数的代码，然后点击任何地方来观察图层是如何通过指定的缓冲移动的。</p>
+
+<p>清单10.1 缓冲函数的简单测试</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">CALayer</span> <span class="o">*</span><span class="n">colorLayer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create a red layer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchesBegan</span><span class="o">:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span>
+<span class="p">{</span>
+    <span class="c1">//configure the transaction
+</span>    <span class="p">[</span><span class="n">CATransaction</span> <span class="nf">begin</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">CATransaction</span> <span class="nf">setAnimationDuration</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">CATransaction</span> <span class="nf">setAnimationTimingFunction</span><span class="p">:[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span><span class="n">kCAMediaTimingFunctionEaseOut</span><span class="p">]];</span>
+    <span class="c1">//set the position
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">[[</span><span class="n">touches</span> <span class="nf">anyObject</span><span class="p">]</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+    <span class="c1">//commit transaction
+</span>    <span class="p">[</span><span class="n">CATransaction</span> <span class="nf">commit</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<h3 id="uiview"><code class="highlighter-rouge">UIView</code>的动画缓冲</h3>
+
+<p>UIKit的动画也同样支持这些缓冲方法的使用，尽管语法和常量有些不同，为了改变<code class="highlighter-rouge">UIView</code>动画的缓冲选项，给<code class="highlighter-rouge">options</code>参数添加如下常量之一：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>UIViewAnimationOptionCurveEaseInOut 
+UIViewAnimationOptionCurveEaseIn 
+UIViewAnimationOptionCurveEaseOut 
+UIViewAnimationOptionCurveLinear
+</code></pre>
+</div>
+
+<p>它们和<code class="highlighter-rouge">CAMediaTimingFunction</code>紧密关联，<code class="highlighter-rouge">UIViewAnimationOptionCurveEaseInOut</code>是默认值（这里没有<code class="highlighter-rouge">kCAMediaTimingFunctionDefault</code>相对应的值了）。</p>
+
+<p>具体使用方法见清单10.2（注意到这里不再使用<code class="highlighter-rouge">UIView</code>额外添加的图层，因为UIKit的动画并不支持这类图层）。</p>
+
+<p>清单10.2 使用UIKit动画的缓冲测试工程</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">colorView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create a red layer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">colorView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorView</span><span class="p">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorView</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">colorView</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchesBegan</span><span class="o">:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span>
+<span class="p">{</span>
+    <span class="c1">//perform the animation
+</span>    <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="nf">delay</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span>
+                        <span class="nf">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+                     <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+                            <span class="c1">//set the position
+</span>                            <span class="n">self</span><span class="p">.</span><span class="n">colorView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">[[</span><span class="n">touches</span> <span class="nf">anyObject</span><span class="p">]</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">]</span><span class="err">;</span>
+                        <span class="p">}</span>
+                     <span class="nf">completion</span><span class="p">:</span><span class="nb">NULL</span><span class="p">];</span>
+    
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<h3 id="section-2">缓冲和关键帧动画</h3>
+
+<p>或许你会回想起第八章里面颜色切换的关键帧动画由于线性变换的原因（见清单8.5）看起来有些奇怪，使得颜色变换非常不自然。为了纠正这点，我们来用更加合适的缓冲方法，例如<code class="highlighter-rouge">kCAMediaTimingFunctionEaseIn</code>，给图层的颜色变化添加一点<em>脉冲</em>效果，让它更像现实中的一个彩色灯泡。</p>
+
+<p>我们不想给整个动画过程应用这个效果，我们希望对每个动画的过程重复这样的缓冲，于是每次颜色的变换都会有脉冲效果。</p>
+
+<p><code class="highlighter-rouge">CAKeyframeAnimation</code>有一个<code class="highlighter-rouge">NSArray</code>类型的<code class="highlighter-rouge">timingFunctions</code>属性，我们可以用它来对每次动画的步骤指定不同的计时函数。但是指定函数的个数一定要等于<code class="highlighter-rouge">keyframes</code>数组的元素个数<em>减一</em>，因为它是描述每一帧之间动画速度的函数。</p>
+
+<p>在这个例子中，我们自始至终想使用同一个缓冲函数，但我们同样需要一个函数的数组来告诉动画不停地重复每个步骤，而不是在整个动画序列只做一次缓冲，我们简单地使用包含多个相同函数拷贝的数组就可以了（见清单10.3）。</p>
+
+<p>运行更新后的代码，你会发现动画看起来更加自然了。</p>
+
+<p>清单10.3 对<code class="highlighter-rouge">CAKeyframeAnimation</code>使用<code class="highlighter-rouge">CAMediaTimingFunction</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">layerView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">CALayer</span> <span class="o">*</span><span class="n">colorLayer</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create sublayer
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CALayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="mi">50</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">50</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">,</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">blueColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="c1">//add it to our view
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">changeColor</span>
+<span class="p">{</span>
+    <span class="c1">//create a keyframe animation
+</span>    <span class="n">CAKeyframeAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAKeyframeAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"backgroundColor"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">@[</span>
+                         <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">blueColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">,</span>
+                         <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">,</span>
+                         <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">greenColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">,</span>
+                         <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)[</span><span class="n">UIColor</span> <span class="nf">blueColor</span><span class="p">].</span><span class="n">CGColor</span> <span class="p">];</span>
+    <span class="c1">//add timing function
+</span>    <span class="n">CAMediaTimingFunction</span> <span class="o">*</span><span class="n">fn</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseIn</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">timingFunctions</span> <span class="o">=</span> <span class="p">@[</span><span class="n">fn</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">fn</span><span class="p">];</span>
+    <span class="c1">//apply animation to layer
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">colorLayer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<h2 id="section-3">自定义缓冲函数</h2>
+
+<p>在第八章中，我们给时钟项目添加了动画。看起来很赞，但是如果有合适的缓冲函数就更好了。在显示世界中，钟表指针转动的时候，通常起步很慢，然后迅速啪地一声，最后缓冲到终点。但是标准的缓冲函数在这里每一个适合它，那该如何创建一个新的呢？</p>
+
+<p>除了<code class="highlighter-rouge">+functionWithName:</code>之外，<code class="highlighter-rouge">CAMediaTimingFunction</code>同样有另一个构造函数，一个有四个浮点参数的<code class="highlighter-rouge">+functionWithControlPoints::::</code>（注意这里奇怪的语法，并没有包含具体每个参数的名称，这在objective-C中是合法的，但是却违反了苹果对方法命名的指导方针，而且看起来是一个奇怪的设计）。</p>
+
+<p>使用这个方法，我们可以创建一个自定义的缓冲函数，来匹配我们的时钟动画，为了理解如何使用这个方法，我们要了解一些<code class="highlighter-rouge">CAMediaTimingFunction</code>是如何工作的。</p>
+
+<h3 id="section-4">三次贝塞尔曲线</h3>
+
+<p><code class="highlighter-rouge">CAMediaTimingFunction</code>函数的主要原则在于它把输入的时间转换成起点和终点之间成比例的改变。我们可以用一个简单的图标来解释，横轴代表时间，纵轴代表改变的量，于是线性的缓冲就是一条从起点开始的简单的斜线（图10.1）。</p>
+
+<p><img src="/img/in-post/ios_introduction/10.1.jpeg" alt="IMG" /></p>
+
+<p>图10.1 线性缓冲函数的图像</p>
+
+<p>这条曲线的斜率代表了速度，斜率的改变代表了加速度，原则上来说，任何加速的曲线都可以用这种图像来表示，但是<code class="highlighter-rouge">CAMediaTimingFunction</code>使用了一个叫做<em>三次贝塞尔曲线</em>的函数，它只可以产出指定缓冲函数的子集（我们之前在第八章中创建<code class="highlighter-rouge">CAKeyframeAnimation</code>路径的时候提到过三次贝塞尔曲线）。</p>
+
+<p>你或许会回想起，一个三次贝塞尔曲线通过四个点来定义，第一个和最后一个点代表了曲线的起点和终点，剩下中间两个点叫做<em>控制点</em>，因为它们控制了曲线的形状，贝塞尔曲线的控制点其实是位于曲线之外的点，也就是说曲线并不一定要穿过它们。你可以把它们想象成吸引经过它们曲线的磁铁。</p>
+
+<p>图10.2展示了一个三次贝塞尔缓冲函数的例子</p>
+
+<p><img src="/img/in-post/ios_introduction/10.2.jpeg" alt="IMG" /></p>
+
+<p>图10.2 三次贝塞尔缓冲函数</p>
+
+<p>实际上它是一个很奇怪的函数，先加速，然后减速，最后快到达终点的时候又加速，那么标准的缓冲函数又该如何用图像来表示呢？</p>
+
+<p><code class="highlighter-rouge">CAMediaTimingFunction</code>有一个叫做<code class="highlighter-rouge">-getControlPointAtIndex:values:</code>的方法，可以用来检索曲线的点，这个方法的设计的确有点奇怪（或许也就只有苹果能回答为什么不简单返回一个<code class="highlighter-rouge">CGPoint</code>），但是使用它我们可以找到标准缓冲函数的点，然后用<code class="highlighter-rouge">UIBezierPath</code>和<code class="highlighter-rouge">CAShapeLayer</code>来把它画出来。</p>
+
+<p>曲线的起始和终点始终是{0, 0}和{1, 1}，于是我们只需要检索曲线的第二个和第三个点（控制点）。具体代码见清单10.4。所有的标准缓冲函数的图像见图10.3。</p>
+
+<p>清单10.4 使用<code class="highlighter-rouge">UIBezierPath</code>绘制<code class="highlighter-rouge">CAMediaTimingFunction</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">layerView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//create timing function
+</span>    <span class="n">CAMediaTimingFunction</span> <span class="o">*</span><span class="n">function</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseOut</span><span class="p">];</span>
+    <span class="c1">//get control points
+</span>    <span class="n">CGPoint</span> <span class="n">controlPoint1</span><span class="p">,</span> <span class="n">controlPoint2</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">function</span> <span class="nf">getControlPointAtIndex</span><span class="p">:</span><span class="mi">1</span> <span class="nf">values</span><span class="p">:(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">controlPoint1</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">function</span> <span class="nf">getControlPointAtIndex</span><span class="p">:</span><span class="mi">2</span> <span class="nf">values</span><span class="p">:(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">controlPoint2</span><span class="p">];</span>
+    <span class="c1">//create curve
+</span>    <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBezierPath</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">path</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointZero</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">path</span> <span class="nf">addCurveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nf">controlPoint1</span><span class="p">:</span><span class="n">controlPoint1</span> <span class="nf">controlPoint2</span><span class="p">:</span><span class="n">controlPoint2</span><span class="p">];</span>
+    <span class="c1">//scale the path up to a reasonable size for display
+</span>    <span class="p">[</span><span class="n">path</span> <span class="nf">applyTransform</span><span class="p">:</span><span class="n">CGAffineTransformMakeScale</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)];</span>
+    <span class="c1">//create shape layer
+</span>    <span class="n">CAShapeLayer</span> <span class="o">*</span><span class="n">shapeLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAShapeLayer</span> <span class="nf">layer</span><span class="p">];</span>
+    <span class="n">shapeLayer</span><span class="p">.</span><span class="n">strokeColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">redColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">shapeLayer</span><span class="p">.</span><span class="n">fillColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">clearColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+    <span class="n">shapeLayer</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="mi">4</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="n">shapeLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">.</span><span class="n">CGPath</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addSublayer</span><span class="p">:</span><span class="n">shapeLayer</span><span class="p">];</span>
+    <span class="c1">//flip geometry so that 0,0 is in the bottom-left
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">layerView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">geometryFlipped</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/10.3.jpeg" alt="IMG" /></p>
+
+<p>图10.3 标准<code class="highlighter-rouge">CAMediaTimingFunction</code>缓冲曲线</p>
+
+<p>那么对于我们自定义时钟指针的缓冲函数来说，我们需要初始微弱，然后迅速上升，最后缓冲到终点的曲线，通过一些实验之后，最终结果如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1];
+</code></pre>
+</div>
+
+<p>如果把它转换成缓冲函数的图像，最后如图10.4所示，如果把它添加到时钟的程序，就形成了之前一直期待的非常赞的效果（见代清单10.5）。</p>
+
+<p><img src="/img/in-post/ios_introduction/10.4.jpeg" alt="IMG" /></p>
+
+<p>图10.4 自定义适合时钟的缓冲函数</p>
+
+<p>清单10.5 添加了自定义缓冲函数的时钟程序</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)setAngle:(CGFloat)angle forHand:(UIView *)handView ￼animated:(BOOL)animated
+{
+    //generate transform
+    CATransform3D transform = CATransform3DMakeRotation(angle, 0, 0, 1);
+    if (animated) {
+        //create transform animation
+        CABasicAnimation *animation = [CABasicAnimation animation];
+        animation.keyPath = @"transform";
+        animation.fromValue = [handView.layer.presentationLayer valueForKey:@"transform"];
+        animation.toValue = [NSValue valueWithCATransform3D:transform];
+        animation.duration = 0.5;
+        animation.delegate = self;
+        animation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:1 :0 :0.75 :1];
+        //apply animation
+        handView.layer.transform = transform;
+        [handView.layer addAnimation:animation forKey:nil];
+    } else {
+        //set transform directly
+        handView.layer.transform = transform;
+    }
+}
+</code></pre>
+</div>
+
+<h3 id="section-5">更加复杂的动画曲线</h3>
+
+<p>考虑一个橡胶球掉落到坚硬的地面的场景，当开始下落的时候，它会持续加速知道落到地面，然后经过几次反弹，最后停下来。如果用一张图来说明，它会如图10.5所示。</p>
+
+<p><img src="/img/in-post/ios_introduction/10.5.jpeg" alt="IMG" /></p>
+
+<p>图10.5 一个没法用三次贝塞尔曲线描述的反弹的动画</p>
+
+<p>这种效果没法用一个简单的三次贝塞尔曲线表示，于是不能用<code class="highlighter-rouge">CAMediaTimingFunction</code>来完成。但如果想要实现这样的效果，可以用如下几种方法：</p>
+
+<ul>
+  <li>用<code class="highlighter-rouge">CAKeyframeAnimation</code>创建一个动画，然后分割成几个步骤，每个小步骤使用自己的计时函数（具体下节介绍）。</li>
+  <li>使用定时器逐帧更新实现动画（见第11章，“基于定时器的动画”）。</li>
+</ul>
+
+<h3 id="section-6">基于关键帧的缓冲</h3>
+
+<p>为了使用关键帧实现反弹动画，我们需要在缓冲曲线中对每一个显著的点创建一个关键帧（在这个情况下，关键点也就是每次反弹的峰值），然后应用缓冲函数把每段曲线连接起来。同时，我们也需要通过<code class="highlighter-rouge">keyTimes</code>来指定每个关键帧的时间偏移，由于每次反弹的时间都会减少，于是关键帧并不会均匀分布。</p>
+
+<p>清单10.6展示了实现反弹球动画的代码（见图10.6）</p>
+
+<p>清单10.6 使用关键帧实现反弹球的动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">ViewController</span> <span class="p">()</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">weak</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">containerView</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">UIImageView</span> <span class="o">*</span><span class="n">ballView</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">ViewController</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="c1">//add ball image view
+</span>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">ballImage</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"Ball.png"</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">ballView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImageView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithImage</span><span class="p">:</span><span class="n">ballImage</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">containerView</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">ballView</span><span class="p">];</span>
+    <span class="c1">//animate
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">animate</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchesBegan</span><span class="o">:</span><span class="p">(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="n">withEvent</span><span class="o">:</span><span class="p">(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span>
+<span class="p">{</span>
+    <span class="c1">//replay animation on tap
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">animate</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">animate</span>
+<span class="p">{</span>
+    <span class="c1">//reset ball to top of screen
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">ballView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="c1">//create keyframe animation
+</span>    <span class="n">CAKeyframeAnimation</span> <span class="o">*</span><span class="n">animation</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAKeyframeAnimation</span> <span class="nf">animation</span><span class="p">];</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyPath</span> <span class="o">=</span> <span class="s">@"position"</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="n">animation</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">@[</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">32</span><span class="p">)],</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">268</span><span class="p">)],</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">140</span><span class="p">)],</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">268</span><span class="p">)],</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">220</span><span class="p">)],</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">268</span><span class="p">)],</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">250</span><span class="p">)],</span>
+                         <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">268</span><span class="p">)]</span>
+                         <span class="p">];</span>
+    
+    <span class="n">animation</span><span class="p">.</span><span class="n">timingFunctions</span> <span class="o">=</span> <span class="p">@[</span>
+                                  <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseIn</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseOut</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseIn</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseOut</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseIn</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseOut</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="n">CAMediaTimingFunction</span> <span class="nf">functionWithName</span><span class="p">:</span> <span class="n">kCAMediaTimingFunctionEaseIn</span><span class="p">]</span>
+                                  <span class="p">];</span>
+    
+    <span class="n">animation</span><span class="p">.</span><span class="n">keyTimes</span> <span class="o">=</span> <span class="p">@[</span><span class="mf">@0.0</span><span class="p">,</span> <span class="mf">@0.3</span><span class="p">,</span> <span class="mf">@0.5</span><span class="p">,</span> <span class="mf">@0.7</span><span class="p">,</span> <span class="mf">@0.8</span><span class="p">,</span> <span class="mf">@0.9</span><span class="p">,</span> <span class="mf">@0.95</span><span class="p">,</span> <span class="mf">@1.0</span><span class="p">];</span>
+    <span class="c1">//apply animation
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">ballView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">CGPointMake</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">268</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">ballView</span><span class="p">.</span><span class="n">layer</span> <span class="nf">addAnimation</span><span class="p">:</span><span class="n">animation</span> <span class="nf">forKey</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p><img src="/img/in-post/ios_introduction/10.6.jpeg" alt="IMG" /></p>
+
+<p>图10.6 使用关键帧实现的反弹球动画</p>
+
+<p>这种方式还算不错，但是实现起来略显笨重（因为要不停地尝试计算各种关键帧和时间偏移）并且和动画强绑定了（因为如果要改变动画的一个属性，那就意味着要重新计算所有的关键帧）。那该如何写一个方法，用缓冲函数来把任何简单的属性动画转换成关键帧动画呢，下面我们来实现它。</p>
+
+<h3 id="section-7">流程自动化</h3>
+
+<p>在清单10.6中，我们把动画分割成相当大的几块，然后用Core Animation的缓冲进入和缓冲退出函数来大约形成我们想要的曲线。但如果我们把动画分割成更小的几部分，那么我们就可以用直线来拼接这些曲线（也就是线性缓冲）。为了实现自动化，我们需要知道如何做如下两件事情：</p>
+
+<ul>
+  <li>自动把任意属性动画分割成多个关键帧</li>
+  <li>用一个数学函数表示弹性动画，使得可以对帧做便宜</li>
+</ul>
+
+<p>为了解决第一个问题，我们需要复制Core Animation的插值机制。这是一个传入起点和终点，然后在这两个点之间指定时间点产出一个新点的机制。对于简单的浮点起始值，公式如下（假设时间从0到1）：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>value = (endValue – startValue) × time + startValue;
+</code></pre>
+</div>
+
+<p>那么如果要插入一个类似于<code class="highlighter-rouge">CGPoint</code>，<code class="highlighter-rouge">CGColorRef</code>或者<code class="highlighter-rouge">CATransform3D</code>这种更加复杂类型的值，我们可以简单地对每个独立的元素应用这个方法（也就<code class="highlighter-rouge">CGPoint</code>中的x和y值，<code class="highlighter-rouge">CGColorRef</code>中的红，蓝，绿，透明值，或者是<code class="highlighter-rouge">CATransform3D</code>中独立矩阵的坐标）。我们同样需要一些逻辑在插值之前对对象拆解值，然后在插值之后在重新封装成对象，也就是说需要实时地检查类型。</p>
+
+<p>一旦我们可以用代码获取属性动画的起始值之间的任意插值，我们就可以把动画分割成许多独立的关键帧，然后产出一个线性的关键帧动画。清单10.7展示了相关代码。</p>
+
+<p>注意到我们用了60 x 动画时间（秒做单位）作为关键帧的个数，这时因为Core Animation按照每秒60帧去渲染屏幕更新，所以如果我们每秒生成60个关键帧，就可以保证动画足够的平滑（尽管实际上很可能用更少的帧率就可以达到很好的效果）。</p>
+
+<p>我们在示例中仅仅引入了对<code class="highlighter-rouge">CGPoint</code>类型的插值代码。但是，从代码中很清楚能看出如何扩展成支持别的类型。作为不能识别类型的备选方案，我们仅仅在前一半返回了<code class="highlighter-rouge">fromValue</code>，在后一半返回了<code class="highlighter-rouge">toValue</code>。</p>
+
+<p>清单10.7 使用插入的值创建一个关键帧动画</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>float interpolate(float from, float to, float time)
+{
+    return (to - from) * time + from;
+}
+
+- (id)interpolateFromValue:(id)fromValue toValue:(id)toValue time:(float)time
+{
+    if ([fromValue isKindOfClass:[NSValue class]]) {
+        //get type
+        const char *type = [fromValue objCType];
+        if (strcmp(type, @encode(CGPoint)) == 0) {
+            CGPoint from = [fromValue CGPointValue];
+            CGPoint to = [toValue CGPointValue];
+            CGPoint result = CGPointMake(interpolate(from.x, to.x, time), interpolate(from.y, to.y, time));
+            return [NSValue valueWithCGPoint:result];
+        }
+    }
+    //provide safe default implementation
+    return (time &lt; 0.5)? fromValue: toValue;
+}
+
+- (void)animate
+{
+    //reset ball to top of screen
+    self.ballView.center = CGPointMake(150, 32);
+    //set up animation parameters
+    NSValue *fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];
+    NSValue *toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];
+    CFTimeInterval duration = 1.0;
+    //generate keyframes
+    NSInteger numFrames = duration * 60;
+    NSMutableArray *frames = [NSMutableArray array];
+    for (int i = 0; i &lt; numFrames; i++) {
+        float time = 1 / (float)numFrames * i;
+        [frames addObject:[self interpolateFromValue:fromValue toValue:toValue time:time]];
+    }
+    //create keyframe animation
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+    animation.keyPath = @"position";
+    animation.duration = 1.0;
+    animation.delegate = self;
+    animation.values = frames;
+    //apply animation
+    [self.ballView.layer addAnimation:animation forKey:nil];
+}
+</code></pre>
+</div>
+
+<p>这可以起到作用，但效果并不是很好，到目前为止我们所完成的只是一个非常复杂的方式来使用线性缓冲复制<code class="highlighter-rouge">CABasicAnimation</code>的行为。这种方式的好处在于我们可以更加精确地控制缓冲，这也意味着我们可以应用一个完全定制的缓冲函数。那么该如何做呢？</p>
+
+<p>缓冲背后的数学并不很简单，但是幸运的是我们不需要一一实现它。罗伯特·彭纳有一个网页关于缓冲函数（<a href="http://www.robertpenner.com/easing">http://www.robertpenner.com/easing</a>），包含了大多数普遍的缓冲函数的多种编程语言的实现的链接，包括C。这里是一个缓冲进入缓冲退出函数的示例（实际上有很多不同的方式去实现它）。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>float quadraticEaseInOut(float t) 
+{
+    return (t &lt; 0.5)? (2 * t * t): (-2 * t * t) + (4 * t) - 1; 
+}
+</code></pre>
+</div>
+
+<p>对我们的弹性球来说，我们可以使用<code class="highlighter-rouge">bounceEaseOut</code>函数：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>float bounceEaseOut(float t)
+{
+    if (t &lt; 4/11.0) {
+        return (121 * t * t)/16.0;
+    } else if (t &lt; 8/11.0) {
+        return (363/40.0 * t * t) - (99/10.0 * t) + 17/5.0;
+    } else if (t &lt; 9/10.0) {
+        return (4356/361.0 * t * t) - (35442/1805.0 * t) + 16061/1805.0;
+    }
+    return (54/5.0 * t * t) - (513/25.0 * t) + 268/25.0;
+}
+</code></pre>
+</div>
+
+<p>如果修改清单10.7的代码来引入<code class="highlighter-rouge">bounceEaseOut</code>方法，我们的任务就是仅仅交换缓冲函数，现在就可以选择任意的缓冲类型创建动画了（见清单10.8）。</p>
+
+<p>清单10.8 用关键帧实现自定义的缓冲函数</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)animate
+{
+    //reset ball to top of screen
+    self.ballView.center = CGPointMake(150, 32);
+    //set up animation parameters
+    NSValue *fromValue = [NSValue valueWithCGPoint:CGPointMake(150, 32)];
+    NSValue *toValue = [NSValue valueWithCGPoint:CGPointMake(150, 268)];
+    CFTimeInterval duration = 1.0;
+    //generate keyframes
+    NSInteger numFrames = duration * 60;
+    NSMutableArray *frames = [NSMutableArray array];
+    for (int i = 0; i &lt; numFrames; i++) {
+        float time = 1/(float)numFrames * i;
+        //apply easing
+        time = bounceEaseOut(time);
+        //add keyframe
+        [frames addObject:[self interpolateFromValue:fromValue toValue:toValue time:time]];
+    }
+    //create keyframe animation
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
+    animation.keyPath = @"position";
+    animation.duration = 1.0;
+    animation.delegate = self;
+    animation.values = frames;
+    //apply animation
+    [self.ballView.layer addAnimation:animation forKey:nil];
+}
+</code></pre>
+</div>
+
+<h2 id="section-8">总结</h2>
+<p>在这一章中，我们了解了有关缓冲和<code class="highlighter-rouge">CAMediaTimingFunction</code>类，它可以允许我们创建自定义的缓冲函数来完善我们的动画，同样了解了如何用<code class="highlighter-rouge">CAKeyframeAnimation</code>来避开<code class="highlighter-rouge">CAMediaTimingFunction</code>的限制，创建完全自定义的缓冲函数。</p>
+
+<p>在下一章中，我们将要研究基于定时器的动画–另一个给我们对动画更多控制的选择，并且实现对动画的实时操纵。</p>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/30/ios_core_animation9_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解九">
+                        Previous<br>
+                        <span>IOS 动画讲解九</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                    Fedora
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                    Markdown
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                    Leetcode
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                    Algorithm
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                    PHP
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                    MacOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                    Jekyll
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#Android" title="Android" rel="13">
+                                    Android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ios" title="ios" rel="16">
+                                    ios
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Xcode" title="Xcode" rel="3">
+                                    Xcode
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#core-animation" title="core-animation" rel="10">
+                                    core-animation
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "davidwang";
+    var disqus_identifier = "/2016/07/01/ios_core_animation10_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/07/01/ios_core_animation10_introduction/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/David_wang_xm">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/DavidWangTM">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; DavidWang's Blog 2016
+                    <br>
+                    Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=davidwangtm&repo=davidwangtm.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+        hljs.initHighlightingOnLoad();
+    })
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+
+<!--fastClick.js -->
+<script>
+    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        // var $nav = document.querySelector("nav");
+        // if($nav) FastClick.attach($nav);
+
+        // global FastClick!!
+        FastClick.attach(document.body);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = '';
+    var _gaDomain = 'DavidWangTM.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2436e853445e53365067f8975c3f123b';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
