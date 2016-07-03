@@ -13,10 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        DavidWang's Blog | 王伟达的博客
+        QQ浏览器访问
+            -
+            DavidWang's Blog | 王伟达的博客
+        
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/404.html">
+    <link rel="canonical" href="http://DavidWangTM.github.io/share/jndex/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -153,23 +156,33 @@
 </script>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/404-bg.jpg')">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-				<div class="site-heading" id="tag-heading">
-					<h1>404</h1>
-					<span class="subheading">你来到了没有知识的荒原 :(</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</header>
+    <!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>nativeShare.js Demo</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="description" content="demo" />
+    <script src="./nativeShare.js"></script>
+    <link rel="stylesheet" href="./nativeShare.css"/>
+</head>
+<body>
 
-<script>
-	document.body.classList.add('page-fullscreen');
-</script>
+    <div id="nativeShare"></div>
+
+    <script>
+        var config = {
+            url:'https://davidwangtm.github.io/',
+            title:'DavidWang的个人博客',
+            desc:'DavidWang的个人博客',
+            img:'https://davidwangtm.github.io/portfolio/images/wen_avatar.png',
+            img_title:'DavidWang的个人博客',
+            from:'DavidWang的博客'
+        };
+        var share_obj = new nativeShare('nativeShare',config);
+    </script>
+</body>
+</html>
 
 
     <!-- Footer -->
