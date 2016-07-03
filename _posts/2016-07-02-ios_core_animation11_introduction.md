@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "IOS 动画讲解十一"
-subtitle:   "缓冲"
+subtitle:   "基于定时器的动画"
 date:       2016-07-02 07:00:00
 author:     "DavidWang"
 header-img: "img/post-bg-e2e-ux.jpg"

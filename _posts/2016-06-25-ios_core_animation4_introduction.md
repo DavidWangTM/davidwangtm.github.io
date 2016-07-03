@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "IOS 动画讲解四"
-subtitle:   "图层几何学"
+subtitle:   "视觉效果"
 date:       2016-06-24 23:00:00
 author:     "DavidWang"
 header-img: "img/post-bg-e2e-ux.jpg"
