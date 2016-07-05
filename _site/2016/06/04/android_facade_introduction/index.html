@@ -240,27 +240,27 @@
     <span class="kd">private</span> <span class="n">VoiceSystem</span> <span class="n">mVoiceSystem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VoiceSystem</span><span class="o">();</span>
     <span class="kd">private</span> <span class="n">ChannelSystem</span> <span class="n">mChannelSystem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ChannelSystem</span><span class="o">();</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">powerOn</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">powerOn</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mPowerSystem</span><span class="o">.</span><span class="na">powerOn</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">powerOff</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">powerOff</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mPowerSystem</span><span class="o">.</span><span class="na">powerOff</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">turnUp</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnUp</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mVoiceSystem</span><span class="o">.</span><span class="na">turnUp</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">turnDown</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnDown</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mVoiceSystem</span><span class="o">.</span><span class="na">turnDown</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">nextChannel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">nextChannel</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mChannelSystem</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">prevChannel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">prevChannel</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mChannelSystem</span><span class="o">.</span><span class="na">prev</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -272,11 +272,11 @@
  * 电源控制系统
  */</span>
  <span class="kd">class</span> <span class="nc">PowerSystem</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">powerOn</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">powerOn</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"开机"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">powerOff</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">powerOff</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"关机"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -289,11 +289,11 @@
  * 声音控制系统
  */</span>
 <span class="kd">class</span> <span class="nc">VoiceSystem</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">turnUp</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnUp</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"音量增大"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">turnDown</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnDown</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"音量减小"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -306,11 +306,11 @@
  * 频道控制系统
  */</span>
 <span class="kd">class</span> <span class="nc">ChannelSystem</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">next</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"下一频道"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">prev</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">prev</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"上一频道"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -324,27 +324,27 @@
     <span class="kd">private</span> <span class="n">VoiceSystem</span> <span class="n">mVoiceSystem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VoiceSystem</span><span class="o">();</span>
     <span class="kd">private</span> <span class="n">ChannelSystem</span> <span class="n">mChannelSystem</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ChannelSystem</span><span class="o">();</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">powerOn</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">powerOn</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mPowerSystem</span><span class="o">.</span><span class="na">powerOn</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">powerOff</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">powerOff</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mPowerSystem</span><span class="o">.</span><span class="na">powerOff</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">turnUp</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnUp</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mVoiceSystem</span><span class="o">.</span><span class="na">turnUp</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">turnDown</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnDown</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mVoiceSystem</span><span class="o">.</span><span class="na">turnDown</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">nextChannel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">nextChannel</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mChannelSystem</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">prevChannel</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">prevChannel</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mChannelSystem</span><span class="o">.</span><span class="na">prev</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -519,7 +519,7 @@
 	<span class="c1">// 代码省略</span>
     
         <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">sendBroadcast</span><span class="o">(</span><span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sendBroadcast</span><span class="o">(</span><span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">String</span> <span class="n">resolvedType</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">resolveTypeIfNeeded</span><span class="o">(</span><span class="n">getContentResolver</span><span class="o">());</span>
         <span class="k">try</span> <span class="o">{</span>
             <span class="n">ActivityManagerNative</span><span class="o">.</span><span class="na">getDefault</span><span class="o">().</span><span class="na">broadcastIntent</span><span class="o">(</span>
@@ -531,9 +531,9 @@
     
     
         <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">startActivity</span><span class="o">(</span><span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startActivity</span><span class="o">(</span><span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">((</span><span class="n">intent</span><span class="o">.</span><span class="na">getFlags</span><span class="o">()&amp;</span><span class="n">Intent</span><span class="o">.</span><span class="na">FLAG_ACTIVITY_NEW_TASK</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="n">AndroidRuntimeException</span><span class="o">(</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">AndroidRuntimeException</span><span class="o">(</span>
                     <span class="s">"Calling startActivity() from outside of an Activity "</span>
                     <span class="o">+</span> <span class="s">" context requires the FLAG_ACTIVITY_NEW_TASK flag."</span>
                     <span class="o">+</span> <span class="s">" Is this really what you want?"</span><span class="o">);</span>
@@ -544,13 +544,13 @@
     
     
         <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">ComponentName</span> <span class="n">startService</span><span class="o">(</span><span class="n">Intent</span> <span class="n">service</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">ComponentName</span> <span class="nf">startService</span><span class="o">(</span><span class="n">Intent</span> <span class="n">service</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">try</span> <span class="o">{</span>
             <span class="n">ComponentName</span> <span class="n">cn</span> <span class="o">=</span> <span class="n">ActivityManagerNative</span><span class="o">.</span><span class="na">getDefault</span><span class="o">().</span><span class="na">startService</span><span class="o">(</span>
                 <span class="n">mMainThread</span><span class="o">.</span><span class="na">getApplicationThread</span><span class="o">(),</span> <span class="n">service</span><span class="o">,</span>
                 <span class="n">service</span><span class="o">.</span><span class="na">resolveTypeIfNeeded</span><span class="o">(</span><span class="n">getContentResolver</span><span class="o">()));</span>
             <span class="k">if</span> <span class="o">(</span><span class="n">cn</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">cn</span><span class="o">.</span><span class="na">getPackageName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"!"</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">throw</span> <span class="k">new</span> <span class="n">SecurityException</span><span class="o">(</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">SecurityException</span><span class="o">(</span>
                         <span class="s">"Not allowed to start service "</span> <span class="o">+</span> <span class="n">service</span>
                         <span class="o">+</span> <span class="s">" without permission "</span> <span class="o">+</span> <span class="n">cn</span><span class="o">.</span><span class="na">getClassName</span><span class="o">());</span>
             <span class="o">}</span>
@@ -561,11 +561,11 @@
     <span class="o">}</span>
     
         <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="n">getPackageName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getPackageName</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">mPackageInfo</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
             <span class="k">return</span> <span class="n">mPackageInfo</span><span class="o">.</span><span class="na">getPackageName</span><span class="o">();</span>
         <span class="o">}</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">"Not supported in system context"</span><span class="o">);</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"Not supported in system context"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
@@ -720,7 +720,7 @@
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -738,7 +738,7 @@
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

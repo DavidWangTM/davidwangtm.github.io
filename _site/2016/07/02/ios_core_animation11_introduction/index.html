@@ -296,9 +296,9 @@
     <span class="c1">//start the timer
 </span>    <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSTimer</span> <span class="nf">scheduledTimerWithTimeInterval</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">60</span><span class="p">.</span><span class="mi">0</span>
                                                   <span class="nf">target</span><span class="p">:</span><span class="n">self</span>
-                                                <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">step</span><span class="p">:)</span>
-                                                <span class="nf">userInfo</span><span class="p">:</span><span class="nb">nil</span>
-                                                 <span class="nf">repeats</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+                                                <span class="n">selector</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">step</span><span class="o">:</span><span class="p">)</span>
+                                                <span class="n">userInfo</span><span class="o">:</span><span class="nb">nil</span>
+                                                 <span class="n">repeats</span><span class="o">:</span><span class="nb">YES</span><span class="p">];</span>
 <span class="p">}</span>
 <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">step</span><span class="o">:</span><span class="p">(</span><span class="n">NSTimer</span> <span class="o">*</span><span class="p">)</span><span class="n">step</span>
 <span class="p">{</span>
@@ -311,7 +311,7 @@
     <span class="c1">//interpolate position
 </span>    <span class="n">id</span> <span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">interpolateFromValue</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">fromValue</span>
                                      <span class="nf">toValue</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">toValue</span>
-                                  <span class="nf">time</span><span class="p">:</span><span class="n">time</span><span class="p">];</span>
+                                  <span class="n">time</span><span class="o">:</span><span class="n">time</span><span class="p">];</span>
     <span class="c1">//move ball view to new position
 </span>    <span class="n">self</span><span class="p">.</span><span class="n">ballView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">[</span><span class="n">position</span> <span class="nf">CGPointValue</span><span class="p">];</span>
     <span class="c1">//stop the timer if we've reached the end of the animation
@@ -386,7 +386,7 @@
     <span class="c1">//start the timer
 </span>    <span class="n">self</span><span class="p">.</span><span class="n">lastStep</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
     <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CADisplayLink</span> <span class="nf">displayLinkWithTarget</span><span class="p">:</span><span class="n">self</span>
-                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">step</span><span class="p">:)];</span>
+                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">step</span><span class="o">:</span><span class="p">)];</span>
     <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="nf">addToRunLoop</span><span class="p">:[</span><span class="n">NSRunLoop</span> <span class="nf">mainRunLoop</span><span class="p">]</span>
                      <span class="nf">forMode</span><span class="p">:</span><span class="n">NSDefaultRunLoopMode</span><span class="p">];</span>
 <span class="p">}</span>
@@ -404,7 +404,7 @@
 </span>    <span class="n">time</span> <span class="o">=</span> <span class="n">bounceEaseOut</span><span class="p">(</span><span class="n">time</span><span class="p">);</span>
     <span class="c1">//interpolate position
 </span>    <span class="n">id</span> <span class="n">position</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">interpolateFromValue</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">fromValue</span> <span class="nf">toValue</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">toValue</span>
-                                        <span class="nf">time</span><span class="p">:</span><span class="n">time</span><span class="p">];</span>
+                                        <span class="n">time</span><span class="o">:</span><span class="n">time</span><span class="p">];</span>
     <span class="c1">//move ball view to new position
 </span>    <span class="n">self</span><span class="p">.</span><span class="n">ballView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">[</span><span class="n">position</span> <span class="nf">CGPointValue</span><span class="p">];</span>
     <span class="c1">//stop the timer if we've reached the end of the animation
@@ -533,7 +533,7 @@ Chipmunk完整的物理引擎相当巨大复杂，但是我们只会使用如下
     <span class="c1">//start the timer
 </span>    <span class="n">self</span><span class="p">.</span><span class="n">lastStep</span> <span class="o">=</span> <span class="n">CACurrentMediaTime</span><span class="p">();</span>
     <span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CADisplayLink</span> <span class="nf">displayLinkWithTarget</span><span class="p">:</span><span class="n">self</span>
-                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">step</span><span class="p">:)];</span>
+                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">step</span><span class="o">:</span><span class="p">)];</span>
     <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">timer</span> <span class="nf">addToRunLoop</span><span class="p">:[</span><span class="n">NSRunLoop</span> <span class="nf">mainRunLoop</span><span class="p">]</span>
                      <span class="nf">forMode</span><span class="p">:</span><span class="n">NSDefaultRunLoopMode</span><span class="p">];</span>
 <span class="p">}</span>
@@ -685,7 +685,7 @@ Chipmunk完整的物理引擎相当巨大复杂，但是我们只会使用如下
                     
                     
                     <li class="next">
-                        <a href="/2016/07/02/ios_core_animation12_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解十二">
+                        <a href="/2016/07/03/ios_core_animation12_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解十二">
                         Next<br>
                         <span>IOS 动画讲解十二</span>
                         </a>
@@ -793,7 +793,7 @@ Chipmunk完整的物理引擎相当巨大复杂，但是我们只会使用如下
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -811,7 +811,7 @@ Chipmunk完整的物理引擎相当巨大复杂，但是我们只会使用如下
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

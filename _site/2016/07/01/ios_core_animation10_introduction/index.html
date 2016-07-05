@@ -330,12 +330,12 @@ UIViewAnimationOptionCurveLinear
 <span class="p">{</span>
     <span class="c1">//perform the animation
 </span>    <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="nf">delay</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span>
-                        <span class="nf">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
-                     <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+                        <span class="n">options</span><span class="o">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+                     <span class="n">animations</span><span class="o">:^</span><span class="p">{</span>
                             <span class="c1">//set the position
-</span>                            <span class="n">self</span><span class="p">.</span><span class="n">colorView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">[[</span><span class="n">touches</span> <span class="nf">anyObject</span><span class="p">]</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">]</span><span class="err">;</span>
+</span>                            <span class="n">self</span><span class="p">.</span><span class="n">colorView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="p">[[</span><span class="n">touches</span> <span class="nf">anyObject</span><span class="p">]</span> <span class="nf">locationInView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
                         <span class="p">}</span>
-                     <span class="nf">completion</span><span class="p">:</span><span class="nb">NULL</span><span class="p">];</span>
+                     <span class="n">completion</span><span class="o">:</span><span class="nb">NULL</span><span class="p">];</span>
     
 <span class="p">}</span>
 
@@ -454,7 +454,7 @@ UIViewAnimationOptionCurveLinear
 </span>    <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBezierPath</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
     <span class="p">[</span><span class="n">path</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointZero</span><span class="p">];</span>
     <span class="p">[</span><span class="n">path</span> <span class="nf">addCurveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="nf">controlPoint1</span><span class="p">:</span><span class="n">controlPoint1</span> <span class="nf">controlPoint2</span><span class="p">:</span><span class="n">controlPoint2</span><span class="p">];</span>
+            <span class="nf">controlPoint1</span><span class="p">:</span><span class="n">controlPoint1</span> <span class="n">controlPoint2</span><span class="o">:</span><span class="n">controlPoint2</span><span class="p">];</span>
     <span class="c1">//scale the path up to a reasonable size for display
 </span>    <span class="p">[</span><span class="n">path</span> <span class="nf">applyTransform</span><span class="p">:</span><span class="n">CGAffineTransformMakeScale</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)];</span>
     <span class="c1">//create shape layer
@@ -873,7 +873,7 @@ UIViewAnimationOptionCurveLinear
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -891,7 +891,7 @@ UIViewAnimationOptionCurveLinear
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

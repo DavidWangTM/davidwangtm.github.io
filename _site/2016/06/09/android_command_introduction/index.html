@@ -248,9 +248,9 @@
      * 命令接口    [命令角色]
      */</span>
     <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Command</span> <span class="o">{</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">execute</span><span class="o">();</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">undo</span><span class="o">();</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">redo</span><span class="o">();</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">();</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">();</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">redo</span><span class="o">();</span>
     <span class="o">}</span>
     
 </code></pre>
@@ -266,12 +266,12 @@
     <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConcreteCommandImpl1</span> <span class="kd">implements</span> <span class="n">Command</span><span class="o">{</span>
     	<span class="kd">private</span> <span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">;</span>
     
-    	<span class="kd">public</span> <span class="n">ConcreteCommandImpl1</span><span class="o">(</span><span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="nf">ConcreteCommandImpl1</span><span class="o">(</span><span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">receiverRole1</span> <span class="o">=</span> <span class="n">receiverRole1</span><span class="o">;</span>
     	<span class="o">}</span>
     	
     	<span class="nd">@Override</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">execute</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
     		<span class="cm">/*
     		 * 可以加入命令排队等等，未执行的命令支持redo操作
     		 */</span>
@@ -279,12 +279,12 @@
     	<span class="o">}</span>
     
     	<span class="nd">@Override</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">undo</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">()</span> <span class="o">{</span>
     		<span class="n">receiverRole1</span><span class="o">.</span><span class="na">rollBackAge</span><span class="o">();</span><span class="c1">//执行具体的撤销回滚操作</span>
     	<span class="o">}</span>
     
     	<span class="nd">@Override</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">redo</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">redo</span><span class="o">()</span> <span class="o">{</span>
     		<span class="c1">//在命令执行前可以修改命令的执行</span>
     	<span class="o">}</span>
     <span class="o">}</span>
@@ -300,12 +300,12 @@
     <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConcreteCommandImpl2</span> <span class="kd">implements</span> <span class="n">Command</span><span class="o">{</span>
     	<span class="kd">private</span> <span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">;</span>
     
-    	<span class="kd">public</span> <span class="n">ConcreteCommandImpl2</span><span class="o">(</span><span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="nf">ConcreteCommandImpl2</span><span class="o">(</span><span class="n">ReceiverRole</span> <span class="n">receiverRole1</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">receiverRole1</span> <span class="o">=</span> <span class="n">receiverRole1</span><span class="o">;</span>
     	<span class="o">}</span>
     	
     	<span class="nd">@Override</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">execute</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">()</span> <span class="o">{</span>
     		<span class="cm">/*
     		 * 可以加入命令排队等等，未执行的命令支持redo操作
     		 */</span>
@@ -313,12 +313,12 @@
     	<span class="o">}</span>
     
     	<span class="nd">@Override</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">undo</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">undo</span><span class="o">()</span> <span class="o">{</span>
     		<span class="n">receiverRole1</span><span class="o">.</span><span class="na">rollBackName</span><span class="o">();</span><span class="c1">//执行具体的撤销回滚操作</span>
     	<span class="o">}</span>
     
     	<span class="nd">@Override</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">redo</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">redo</span><span class="o">()</span> <span class="o">{</span>
     		<span class="c1">//在命令执行前可以修改命令的执行</span>
     	<span class="o">}</span>
     	
@@ -337,17 +337,17 @@
     	<span class="kd">private</span> <span class="n">Command</span> <span class="n">command2</span><span class="o">;</span>
     	<span class="c1">//持有多个命令对象[实际的情况也可能是一个命令对象的集合来保存命令对象]</span>
     	
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setCommand1</span><span class="o">(</span><span class="n">Command</span> <span class="n">command1</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCommand1</span><span class="o">(</span><span class="n">Command</span> <span class="n">command1</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">command1</span> <span class="o">=</span> <span class="n">command1</span><span class="o">;</span>
     	<span class="o">}</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setCommand2</span><span class="o">(</span><span class="n">Command</span> <span class="n">command2</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCommand2</span><span class="o">(</span><span class="n">Command</span> <span class="n">command2</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">command2</span> <span class="o">=</span> <span class="n">command2</span><span class="o">;</span>
     	<span class="o">}</span>
     	
     	<span class="cm">/**
     	 * 执行正常命令，1执行回滚命令
     	 */</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">invoke</span><span class="o">(</span><span class="kt">int</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">invoke</span><span class="o">(</span><span class="kt">int</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
     		<span class="c1">//可以根据具体情况选择执行某些命令</span>
     		<span class="k">if</span><span class="o">(</span><span class="n">args</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
     			<span class="n">command1</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
@@ -371,25 +371,25 @@
     <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReceiverRole</span> <span class="o">{</span>
     	<span class="kd">private</span> <span class="n">PeopleBean</span> <span class="n">people</span><span class="o">;</span>
     	<span class="c1">//具体命令操作的缓存栈，用于回滚。这里为了方便就用一个PeopleBean来代替    </span>
-    	<span class="kd">private</span> <span class="n">PeopleBean</span> <span class="n">peopleCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PeopleBean</span><span class="o">();</span>     	<span class="kd">public</span> <span class="n">ReceiverRole</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">private</span> <span class="n">PeopleBean</span> <span class="n">peopleCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PeopleBean</span><span class="o">();</span>     	<span class="kd">public</span> <span class="nf">ReceiverRole</span><span class="o">()</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">people</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PeopleBean</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="s">"NULL"</span><span class="o">);</span><span class="c1">//初始化年龄为-1，姓名为NULL</span>
     	<span class="o">}</span>
     	
-    	<span class="kd">public</span> <span class="n">ReceiverRole</span><span class="o">(</span><span class="n">PeopleBean</span> <span class="n">people</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="nf">ReceiverRole</span><span class="o">(</span><span class="n">PeopleBean</span> <span class="n">people</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">people</span> <span class="o">=</span> <span class="n">people</span><span class="o">;</span>
     	<span class="o">}</span>
 	
 	<span class="cm">/**
 	 * 具体操作方法[修改年龄和姓名]
 	 */</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">opActionUpdateAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">opActionUpdateAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令前："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">people</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">age</span><span class="o">);</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
 	<span class="o">}</span>
 	
 	<span class="c1">//修改姓名</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">opActionUpdateName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">opActionUpdateName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令前："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">people</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"执行命令后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
@@ -398,11 +398,11 @@
 	<span class="cm">/**
 	 * 回滚操作，用于撤销opAction执行的改变
 	 */</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">rollBackAge</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">rollBackAge</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">people</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">peopleCache</span><span class="o">.</span><span class="na">getAge</span><span class="o">());</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"命令回滚后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
 	<span class="o">}</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">rollBackName</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">rollBackName</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">people</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">peopleCache</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"命令回滚后："</span><span class="o">+</span><span class="n">people</span><span class="o">.</span><span class="na">toString</span><span class="o">()+</span><span class="s">"\n"</span><span class="o">);</span>
 	<span class="o">}</span>
@@ -421,30 +421,30 @@
     <span class="kd">public</span> <span class="kd">class</span> <span class="nc">PeopleBean</span> <span class="o">{</span>
     	<span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>	<span class="c1">//年龄</span>
     	<span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"NULL"</span><span class="o">;</span>	<span class="c1">//姓名</span>
-    	<span class="kd">public</span> <span class="n">PeopleBean</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="nf">PeopleBean</span><span class="o">()</span> <span class="o">{</span>
     	<span class="o">}</span>
-    	<span class="kd">public</span> <span class="n">PeopleBean</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="nf">PeopleBean</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
     	<span class="o">}</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">update</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
     	<span class="o">}</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">update</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
     	<span class="o">}</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">update</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
     		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
     	<span class="o">}</span>
     	<span class="cm">/**
     	 * @return 返回一个PeopleBean的克隆对象
     	 */</span>
-    	<span class="kd">protected</span> <span class="n">PeopleBean</span> <span class="n">clone</span><span class="o">(){</span>
-    		<span class="k">return</span> <span class="k">new</span> <span class="n">PeopleBean</span><span class="o">(</span><span class="n">age</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+    	<span class="kd">protected</span> <span class="n">PeopleBean</span> <span class="nf">clone</span><span class="o">(){</span>
+    		<span class="k">return</span> <span class="k">new</span> <span class="nf">PeopleBean</span><span class="o">(</span><span class="n">age</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
     	<span class="o">}</span>
     	<span class="nd">@Override</span>
-    	<span class="kd">public</span> <span class="n">String</span> <span class="n">toString</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
     		<span class="k">return</span> <span class="s">" 【年龄："</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="s">"\t姓名："</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">"】"</span><span class="o">;</span>
     	<span class="o">}</span>
     	<span class="c1">// setter and getter </span>
@@ -464,7 +464,7 @@
     	<span class="cm">/**
     	 * 组装操作
     	 */</span>
-    	<span class="kd">public</span> <span class="kt">void</span> <span class="n">assembleAction</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">assembleAction</span><span class="o">()</span> <span class="o">{</span>
     		<span class="c1">//创建一个命令接收者</span>
     		<span class="n">ReceiverRole</span> <span class="n">receiverRole1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReceiverRole</span><span class="o">();</span>    			<span class="c1">//创建一个命令的具体实现对象，并指定命令接收者</span>
     		<span class="n">Command</span> <span class="n">command1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcreteCommandImpl1</span><span class="o">(</span><span class="n">receiverRole1</span><span class="o">);</span>           		    <span class="n">Command</span> <span class="n">command2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcreteCommandImpl2</span><span class="o">(</span><span class="n">receiverRole1</span><span class="o">);</span>
@@ -484,7 +484,7 @@
 <div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">command</span><span class="o">;</span>
 
     <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainTest</span> <span class="o">{</span>
-    	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
     		<span class="n">ClientRole</span> <span class="n">client</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClientRole</span><span class="o">();</span>
     		<span class="n">client</span><span class="o">.</span><span class="na">assembleAction</span><span class="o">();</span>
     	<span class="o">}</span>
@@ -824,7 +824,7 @@ static void setThreadSelf(Thread* thread){
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -842,7 +842,7 @@ static void setThreadSelf(Thread* thread){
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

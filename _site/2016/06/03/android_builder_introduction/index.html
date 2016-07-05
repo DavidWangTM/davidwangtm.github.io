@@ -242,21 +242,21 @@
 	<span class="kd">protected</span> <span class="kt">int</span> <span class="n">mRamSize</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
 	<span class="kd">protected</span> <span class="n">String</span> <span class="n">mOs</span> <span class="o">=</span> <span class="s">"Dos"</span><span class="o">;</span>
 
-	<span class="kd">protected</span> <span class="n">Computer</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">protected</span> <span class="nf">Computer</span><span class="o">()</span> <span class="o">{</span>
 
 	<span class="o">}</span>
 
 	<span class="c1">// 设置CPU核心数</span>
-	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">setCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">);</span>
 
 	<span class="c1">// 设置内存</span>
-	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">setRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">);</span>
 
 	<span class="c1">// 设置操作系统</span>
-	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">setOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">);</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="n">String</span> <span class="n">toString</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
 		<span class="k">return</span> <span class="s">"Computer [mCpuCore="</span> <span class="o">+</span> <span class="n">mCpuCore</span> <span class="o">+</span> <span class="s">", mRamSize="</span> <span class="o">+</span> <span class="n">mRamSize</span>
 				<span class="o">+</span> <span class="s">", mOs="</span> <span class="o">+</span> <span class="n">mOs</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">;</span>
 	<span class="o">}</span>
@@ -270,22 +270,22 @@
  */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppleComputer</span> <span class="kd">extends</span> <span class="n">Computer</span> <span class="o">{</span>
 
-	<span class="kd">protected</span> <span class="n">AppleComputer</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">protected</span> <span class="nf">AppleComputer</span><span class="o">()</span> <span class="o">{</span>
 
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mCpuCore</span> <span class="o">=</span> <span class="n">core</span><span class="o">;</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mRamSize</span> <span class="o">=</span> <span class="n">gb</span><span class="o">;</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">setOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mOs</span> <span class="o">=</span> <span class="n">os</span><span class="o">;</span>
 	<span class="o">}</span>
 
@@ -302,16 +302,16 @@
  */</span>
 <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
 	<span class="c1">// 设置CPU核心数</span>
-	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">buildCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">buildCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">);</span>
 
 	<span class="c1">// 设置内存</span>
-	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">buildRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">buildRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">);</span>
 
 	<span class="c1">// 设置操作系统</span>
-	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">buildOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">buildOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">);</span>
 
 	<span class="c1">// 创建Computer</span>
-	<span class="kd">public</span> <span class="kd">abstract</span> <span class="n">Computer</span> <span class="n">create</span><span class="o">();</span>
+	<span class="kd">public</span> <span class="kd">abstract</span> <span class="n">Computer</span> <span class="nf">create</span><span class="o">();</span>
 
 <span class="o">}</span>
 
@@ -321,22 +321,22 @@
 	<span class="kd">private</span> <span class="n">Computer</span> <span class="n">mApplePc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AppleComputer</span><span class="o">();</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">buildCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildCPU</span><span class="o">(</span><span class="kt">int</span> <span class="n">core</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mApplePc</span><span class="o">.</span><span class="na">setCPU</span><span class="o">(</span><span class="n">core</span><span class="o">);</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">buildRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildRAM</span><span class="o">(</span><span class="kt">int</span> <span class="n">gb</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mApplePc</span><span class="o">.</span><span class="na">setRAM</span><span class="o">(</span><span class="n">gb</span><span class="o">);</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">buildOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">buildOs</span><span class="o">(</span><span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mApplePc</span><span class="o">.</span><span class="na">setOs</span><span class="o">(</span><span class="n">os</span><span class="o">);</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="n">Computer</span> <span class="n">create</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="n">Computer</span> <span class="nf">create</span><span class="o">()</span> <span class="o">{</span>
 		<span class="k">return</span> <span class="n">mApplePc</span><span class="o">;</span>
 	<span class="o">}</span>
 
@@ -351,7 +351,7 @@
 	 * 
 	 * @param builder
 	 */</span>
-	<span class="kd">public</span> <span class="n">Director</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">Director</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mBuilder</span> <span class="o">=</span> <span class="n">builder</span><span class="o">;</span>
 	<span class="o">}</span>
 
@@ -362,7 +362,7 @@
 	 * @param ram
 	 * @param os
 	 */</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">construct</span><span class="o">(</span><span class="kt">int</span> <span class="n">cpu</span><span class="o">,</span> <span class="kt">int</span> <span class="n">ram</span><span class="o">,</span> <span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">construct</span><span class="o">(</span><span class="kt">int</span> <span class="n">cpu</span><span class="o">,</span> <span class="kt">int</span> <span class="n">ram</span><span class="o">,</span> <span class="n">String</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">mBuilder</span><span class="o">.</span><span class="na">buildCPU</span><span class="o">(</span><span class="n">cpu</span><span class="o">);</span>
 		<span class="n">mBuilder</span><span class="o">.</span><span class="na">buildRAM</span><span class="o">(</span><span class="n">ram</span><span class="o">);</span>
 		<span class="n">mBuilder</span><span class="o">.</span><span class="na">buildOs</span><span class="o">(</span><span class="n">os</span><span class="o">);</span>
@@ -376,7 +376,7 @@
  *
  */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
 		<span class="c1">// 构建器</span>
 		<span class="n">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApplePCBuilder</span><span class="o">();</span>
 		<span class="c1">// Director</span>
@@ -396,26 +396,26 @@
 <p>在Android源码中，我们最常用到的Builder模式就是AlertDialog.Builder， 使用该Builder来构建复杂的AlertDialog对象。简单示例如下 :</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="c1">//显示基本的AlertDialog  </span>
-    <span class="kd">private</span> <span class="kt">void</span> <span class="n">showDialog</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>  
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">showDialog</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>  
         <span class="n">AlertDialog</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AlertDialog</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>  
         <span class="n">builder</span><span class="o">.</span><span class="na">setIcon</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">icon</span><span class="o">);</span>  
         <span class="n">builder</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="s">"Title"</span><span class="o">);</span>  
         <span class="n">builder</span><span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="s">"Message"</span><span class="o">);</span>  
         <span class="n">builder</span><span class="o">.</span><span class="na">setPositiveButton</span><span class="o">(</span><span class="s">"Button1"</span><span class="o">,</span>  
                 <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>  
-                    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
                         <span class="n">setTitle</span><span class="o">(</span><span class="s">"点击了对话框上的Button1"</span><span class="o">);</span>  
                     <span class="o">}</span>  
                 <span class="o">});</span>  
         <span class="n">builder</span><span class="o">.</span><span class="na">setNeutralButton</span><span class="o">(</span><span class="s">"Button2"</span><span class="o">,</span>  
                 <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>  
-                    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
                         <span class="n">setTitle</span><span class="o">(</span><span class="s">"点击了对话框上的Button2"</span><span class="o">);</span>  
                     <span class="o">}</span>  
                 <span class="o">});</span>  
         <span class="n">builder</span><span class="o">.</span><span class="na">setNegativeButton</span><span class="o">(</span><span class="s">"Button3"</span><span class="o">,</span>  
                 <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>  
-                    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">DialogInterface</span> <span class="n">dialog</span><span class="o">,</span> <span class="kt">int</span> <span class="n">whichButton</span><span class="o">)</span> <span class="o">{</span>  
                         <span class="n">setTitle</span><span class="o">(</span><span class="s">"点击了对话框上的Button3"</span><span class="o">);</span>  
                     <span class="o">}</span>  
                 <span class="o">});</span>  
@@ -435,7 +435,7 @@
     <span class="kd">private</span> <span class="n">AlertController</span> <span class="n">mAlert</span><span class="o">;</span>
 
     <span class="c1">// 构造函数</span>
-    <span class="kd">protected</span> <span class="n">AlertDialog</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">theme</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="nf">AlertDialog</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">theme</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">theme</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
     <span class="o">}</span>
 
@@ -448,17 +448,17 @@
 
     <span class="c1">// 实际上调用的是mAlert的setTitle方法</span>
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setTitle</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTitle</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
         <span class="n">mAlert</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="c1">// 实际上调用的是mAlert的setCustomTitle方法</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setCustomTitle</span><span class="o">(</span><span class="n">View</span> <span class="n">customTitleView</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCustomTitle</span><span class="o">(</span><span class="n">View</span> <span class="n">customTitleView</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">mAlert</span><span class="o">.</span><span class="na">setCustomTitle</span><span class="o">(</span><span class="n">customTitleView</span><span class="o">);</span>
     <span class="o">}</span>
     
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setMessage</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMessage</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">mAlert</span><span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
     <span class="o">}</span>
 
@@ -473,12 +473,12 @@
         <span class="cm">/**
          * Constructor using a context for this builder and the {@link AlertDialog} it creates.
          */</span>
-        <span class="kd">public</span> <span class="n">Builder</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="nf">Builder</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
             <span class="k">this</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">resolveDialogTheme</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="mi">0</span><span class="o">));</span>
         <span class="o">}</span>
 
 
-        <span class="kd">public</span> <span class="n">Builder</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">theme</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="nf">Builder</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="kt">int</span> <span class="n">theme</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">P</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AlertController</span><span class="o">.</span><span class="na">AlertParams</span><span class="o">(</span><span class="k">new</span> <span class="n">ContextThemeWrapper</span><span class="o">(</span>
                     <span class="n">context</span><span class="o">,</span> <span class="n">resolveDialogTheme</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">theme</span><span class="o">)));</span>
             <span class="n">mTheme</span> <span class="o">=</span> <span class="n">theme</span><span class="o">;</span>
@@ -487,37 +487,37 @@
         <span class="c1">// Builder的其他代码省略 ......</span>
 
         <span class="c1">// 2 : 设置各种参数</span>
-        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setTitle</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setTitle</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">P</span><span class="o">.</span><span class="na">mTitle</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
             <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
         <span class="o">}</span>
         
         
-        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setMessage</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setMessage</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">P</span><span class="o">.</span><span class="na">mMessage</span> <span class="o">=</span> <span class="n">message</span><span class="o">;</span>
             <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
         <span class="o">}</span>
 
-        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setIcon</span><span class="o">(</span><span class="kt">int</span> <span class="n">iconId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setIcon</span><span class="o">(</span><span class="kt">int</span> <span class="n">iconId</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">P</span><span class="o">.</span><span class="na">mIconId</span> <span class="o">=</span> <span class="n">iconId</span><span class="o">;</span>
             <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
         <span class="o">}</span>
         
-        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setPositiveButton</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">text</span><span class="o">,</span> <span class="kd">final</span> <span class="n">OnClickListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setPositiveButton</span><span class="o">(</span><span class="n">CharSequence</span> <span class="n">text</span><span class="o">,</span> <span class="kd">final</span> <span class="n">OnClickListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">P</span><span class="o">.</span><span class="na">mPositiveButtonText</span> <span class="o">=</span> <span class="n">text</span><span class="o">;</span>
             <span class="n">P</span><span class="o">.</span><span class="na">mPositiveButtonListener</span> <span class="o">=</span> <span class="n">listener</span><span class="o">;</span>
             <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
         <span class="o">}</span>
         
         
-        <span class="kd">public</span> <span class="n">Builder</span> <span class="n">setView</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setView</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">P</span><span class="o">.</span><span class="na">mView</span> <span class="o">=</span> <span class="n">view</span><span class="o">;</span>
             <span class="n">P</span><span class="o">.</span><span class="na">mViewSpacingSpecified</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
             <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
         <span class="o">}</span>
         
         <span class="c1">// 3 : 构建AlertDialog, 传递参数</span>
-        <span class="kd">public</span> <span class="n">AlertDialog</span> <span class="n">create</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="n">AlertDialog</span> <span class="nf">create</span><span class="o">()</span> <span class="o">{</span>
             <span class="c1">// 调用new AlertDialog构造对象， 并且将参数传递个体AlertDialog </span>
             <span class="kd">final</span> <span class="n">AlertDialog</span> <span class="n">dialog</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AlertDialog</span><span class="o">(</span><span class="n">P</span><span class="o">.</span><span class="na">mContext</span><span class="o">,</span> <span class="n">mTheme</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
             <span class="c1">// 5 : 将P中的参数应用的dialog中的mAlert对象中</span>
@@ -539,7 +539,7 @@
 </div>
 <p>可以看到，通过Builder来设置AlertDialog中的title, message, button等参数， 这些参数都存储在类型为AlertController.AlertParams的成员变量P中，AlertController.AlertParams中包含了与之对应的成员变量。在调用Builder类的create函数时才创建AlertDialog, 并且将Builder成员变量P中保存的参数应用到AlertDialog的mAlert对象中，即P.apply(dialog.mAlert)代码段。我们看看apply函数的实现 :</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">apply</span><span class="p">(</span><span class="n">AlertController</span> <span class="n">dialog</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">apply</span><span class="o">(</span><span class="n">AlertController</span> <span class="n">dialog</span><span class="o">)</span> <span class="o">{</span>
             <span class="k">if</span> <span class="o">(</span><span class="n">mCustomTitleView</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">dialog</span><span class="o">.</span><span class="na">setCustomTitle</span><span class="o">(</span><span class="n">mCustomTitleView</span><span class="o">);</span>
             <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
@@ -734,7 +734,7 @@
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -752,7 +752,7 @@
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

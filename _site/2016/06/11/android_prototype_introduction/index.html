@@ -252,7 +252,7 @@
      */</span>
     <span class="kd">private</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">mImages</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&lt;</span><span class="n">string</span><span class="o">&gt;();</span>
 
-    <span class="kd">public</span> <span class="n">WordDocument</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">WordDocument</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"----------- WordDocument构造函数 -----------"</span><span class="o">);</span>
     <span class="o">}</span>
 
@@ -260,7 +260,7 @@
      * 克隆对象
      */</span>
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="n">WordDocument</span> <span class="n">clone</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="n">WordDocument</span> <span class="nf">clone</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">try</span> <span class="o">{</span>
             <span class="n">WordDocument</span> <span class="n">doc</span> <span class="o">=</span> <span class="o">(</span><span class="n">WordDocument</span><span class="o">)</span> <span class="kd">super</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
             <span class="n">doc</span><span class="o">.</span><span class="na">mText</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mText</span><span class="o">;</span>
@@ -272,29 +272,29 @@
         <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="n">String</span> <span class="n">getText</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getText</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">mText</span><span class="o">;</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setText</span><span class="o">(</span><span class="n">String</span> <span class="n">mText</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setText</span><span class="o">(</span><span class="n">String</span> <span class="n">mText</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">mText</span> <span class="o">=</span> <span class="n">mText</span><span class="o">;</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">getImages</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="nf">getImages</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">mImages</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="cm">/**
      * @param img
      */</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">addImage</span><span class="o">(</span><span class="n">String</span> <span class="n">img</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addImage</span><span class="o">(</span><span class="n">String</span> <span class="n">img</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">mImages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">img</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="cm">/**
      * 打印文档内容
      */</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">showDocument</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">showDocument</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"----------- Word Content Start -----------"</span><span class="o">);</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Text : "</span> <span class="o">+</span> <span class="n">mText</span><span class="o">);</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Images List: "</span><span class="o">);</span>
@@ -310,7 +310,7 @@
 <p>通过WordDocument类模拟了word文档中的基本元素，即文字和图片。WordDocument的在该原型模式示例中扮演的角色为ConcretePrototype， 而Cloneable的角色则为Prototype。WordDocument实现了clone方法以实现对象克隆。下面我们看看Client端的使用 :</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">WordDocument</span> <span class="n">originDoc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WordDocument</span><span class="o">();</span>
         <span class="n">originDoc</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"这是一篇文档"</span><span class="o">);</span>
         <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片1"</span><span class="o">);</span>
@@ -338,7 +338,7 @@
 <h3 id="section-7">浅拷贝和深拷贝</h3>
 <p>将main函数的内容修改为如下 :</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">WordDocument</span> <span class="n">originDoc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WordDocument</span><span class="o">();</span>
         <span class="n">originDoc</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"这是一篇文档"</span><span class="o">);</span>
         <span class="n">originDoc</span><span class="o">.</span><span class="na">addImage</span><span class="o">(</span><span class="s">"图片1"</span><span class="o">);</span>
@@ -367,7 +367,7 @@
      * 克隆对象
      */</span>
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="n">WordDocument</span> <span class="n">clone</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="n">WordDocument</span> <span class="nf">clone</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">try</span> <span class="o">{</span>
             <span class="n">WordDocument</span> <span class="n">doc</span> <span class="o">=</span> <span class="o">(</span><span class="n">WordDocument</span><span class="o">)</span> <span class="kd">super</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
             <span class="n">doc</span><span class="o">.</span><span class="na">mText</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mText</span><span class="o">;</span>
@@ -404,14 +404,14 @@
 <p>可以看到，我们通过shareIntent.clone方法拷贝了一个对象intent, 然后执行startActivity(intent)， 随即就进入了短信页面，号码为0800000123,文本内容为The SMS text，即这些内容都与shareIntent一致。</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">Object</span> <span class="n">clone</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">clone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="cm">/**
      * Copy constructor.
      */</span>
-    <span class="kd">public</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Intent</span><span class="o">(</span><span class="n">Intent</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">mAction</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mAction</span><span class="o">;</span>
         <span class="k">this</span><span class="o">.</span><span class="na">mData</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mData</span><span class="o">;</span>
         <span class="k">this</span><span class="o">.</span><span class="na">mType</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="na">mType</span><span class="o">;</span>
@@ -580,7 +580,7 @@
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -598,7 +598,7 @@
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

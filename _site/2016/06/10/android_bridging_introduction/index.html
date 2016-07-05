@@ -243,22 +243,22 @@
 <span class="c1">//具体的绘图程序类dp1</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">DP1</span> <span class="o">{</span>
 	
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw_1_Rantanle</span><span class="o">(){</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw_1_Rantanle</span><span class="o">(){</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP1的程序画矩形"</span><span class="o">);</span>
 	<span class="o">}</span>
 	
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw_1_Circle</span><span class="o">(){</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw_1_Circle</span><span class="o">(){</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP1的程序画圆形"</span><span class="o">);</span>
 	<span class="o">}</span>
 <span class="o">}</span>
 <span class="c1">//具体的绘图程序类dp2</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">DP2</span> <span class="o">{</span>
   
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantanle</span><span class="o">(){</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawRantanle</span><span class="o">(){</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP2的程序画矩形"</span><span class="o">);</span>
 	<span class="o">}</span>
 	
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">(){</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawCircle</span><span class="o">(){</span>
 		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"使用DP2的程序画圆形"</span><span class="o">);</span>
 	<span class="o">}</span>
 	
@@ -269,42 +269,42 @@
 	<span class="c1">//持有实现的角色Implementor(作图类)</span>
 	<span class="kd">protected</span> <span class="n">Drawing</span> <span class="n">myDrawing</span><span class="o">;</span>
 	
-	<span class="kd">public</span> <span class="n">Shape</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">Shape</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">myDrawing</span> <span class="o">=</span> <span class="n">drawing</span><span class="o">;</span>
 	<span class="o">}</span>
 	
-	<span class="kd">abstract</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">draw</span><span class="o">();</span>
+	<span class="kd">abstract</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">();</span>
 
 	<span class="c1">//保护方法drawRectangle</span>
-	<span class="kd">protected</span> <span class="kt">void</span> <span class="n">drawRectangle</span><span class="o">(){</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">drawRectangle</span><span class="o">(){</span>
        <span class="c1">//this.impl.implmentation()</span>
 		<span class="n">myDrawing</span><span class="o">.</span><span class="na">drawRantangle</span><span class="o">();</span>
 	<span class="o">}</span>
 
 	<span class="c1">//保护方法drawCircle</span>
-	<span class="kd">protected</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">(){</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">drawCircle</span><span class="o">(){</span>
         <span class="c1">//this.impl.implmentation()</span>
 		<span class="n">myDrawing</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">();</span>
 	<span class="o">}</span>
 <span class="o">}</span>
 <span class="c1">//修正抽象化角色Refined Abstraction(矩形)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Rantangle</span> <span class="kd">extends</span> <span class="n">Shape</span><span class="o">{</span>
-	<span class="kd">public</span> <span class="n">Rantangle</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">Rantangle</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
 		<span class="kd">super</span><span class="o">(</span><span class="n">drawing</span><span class="o">);</span>
 	<span class="o">}</span>
      
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">drawRectangle</span><span class="o">();</span>
 	<span class="o">}</span>
 <span class="o">}</span>
 <span class="c1">//修正抽象化角色Refined Abstraction(圆形)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">extends</span> <span class="n">Shape</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="n">Circle</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">Circle</span><span class="o">(</span><span class="n">Drawing</span> <span class="n">drawing</span><span class="o">)</span> <span class="o">{</span>
 		<span class="kd">super</span><span class="o">(</span><span class="n">drawing</span><span class="o">);</span>
 	<span class="o">}</span>
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">draw</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">drawCircle</span><span class="o">();</span>
 	<span class="o">}</span>
 <span class="o">}</span>
@@ -312,8 +312,8 @@
 <span class="c1">//实现化角色Implementor</span>
 <span class="c1">//implmentation两个方法，画圆和画矩形</span>
 <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Drawing</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantangle</span><span class="o">();</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">();</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawRantangle</span><span class="o">();</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawCircle</span><span class="o">();</span>
 <span class="o">}</span>
 <span class="c1">//具体实现化逻辑ConcreteImplementor</span>
 <span class="c1">//实现了接口方法，使用DP1进行绘图</span>
@@ -321,15 +321,15 @@
  
 	<span class="n">DP1</span> <span class="n">dp1</span><span class="o">;</span>
 	
-	<span class="kd">public</span> <span class="n">V1Drawing</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">V1Drawing</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">dp1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DP1</span><span class="o">();</span>
 	<span class="o">}</span>
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantangle</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawRantangle</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">dp1</span><span class="o">.</span><span class="na">draw_1_Rantanle</span><span class="o">();</span>
 	<span class="o">}</span>
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawCircle</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">dp1</span><span class="o">.</span><span class="na">draw_1_Circle</span><span class="o">();</span>
 	<span class="o">}</span>			
 <span class="o">}</span>
@@ -338,16 +338,16 @@
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">V2Drawing</span> <span class="kd">implements</span> <span class="n">Drawing</span><span class="o">{</span>
 	<span class="n">DP2</span> <span class="n">dp2</span><span class="o">;</span>
 	
-	<span class="kd">public</span> <span class="n">V2Drawing</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">V2Drawing</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">dp2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DP2</span><span class="o">();</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawRantangle</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawRantangle</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">dp2</span><span class="o">.</span><span class="na">drawRantanle</span><span class="o">();</span>
 	<span class="o">}</span>
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="n">drawCircle</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">drawCircle</span><span class="o">()</span> <span class="o">{</span>
 		<span class="n">dp2</span><span class="o">.</span><span class="na">drawCircle</span><span class="o">();</span>
 	<span class="o">}</span>
 <span class="o">}</span>
@@ -364,8 +364,8 @@
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ListAdapter</span> <span class="kd">extends</span> <span class="n">Adapter</span><span class="o">{</span>
     <span class="c1">//继承自Adapter，扩展了自己的两个实现方法</span>
-      <span class="kd">public</span> <span class="kt">boolean</span> <span class="n">areAllItemsEnabled</span><span class="o">();</span>
-      <span class="kt">boolean</span> <span class="n">isEnabled</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">);</span>
+      <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">areAllItemsEnabled</span><span class="o">();</span>
+      <span class="kt">boolean</span> <span class="nf">isEnabled</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">);</span>
 <span class="o">}</span>  
 </code></pre>
 </div>
@@ -374,8 +374,8 @@
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AdapterView</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Adapter</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">ViewGroup</span> <span class="o">{</span>  
     <span class="c1">//这里需要一个泛型的Adapter</span>
-      <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="n">getAdapter</span><span class="o">();</span>
-     <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">setAdapter</span><span class="o">(</span><span class="n">T</span> <span class="n">adapter</span><span class="o">);</span>  
+      <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="nf">getAdapter</span><span class="o">();</span>
+     <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">setAdapter</span><span class="o">(</span><span class="n">T</span> <span class="n">adapter</span><span class="o">);</span>  
 <span class="o">}</span>  
 </code></pre>
 </div>
@@ -390,7 +390,7 @@
     <span class="n">ListAdapter</span> <span class="n">mAdapter</span><span class="o">;</span>  
     <span class="c1">//代码省略</span>
     <span class="c1">//这里实现了setAdapter的方法，实例了对实现化对象的引用</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setAdapter</span><span class="o">(</span><span class="n">ListAdapter</span> <span class="n">adapter</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAdapter</span><span class="o">(</span><span class="n">ListAdapter</span> <span class="n">adapter</span><span class="o">)</span> <span class="o">{</span>
         <span class="c1">//这的adapter是从子类传入上来，也就是listview，拿到了具体实现化的对象</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">adapter</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">mAdapterHasStableIds</span> <span class="o">=</span> <span class="n">mAdapter</span><span class="o">.</span><span class="na">hasStableIds</span><span class="o">();</span>
@@ -411,7 +411,7 @@
 
 <p>大家都知道，构建一个listview，adapter中最重要的两个方法，getCount()告知数量，getview()告知具体的view类型，接下来看看AbsListView作为一个视图的集合是如何来根据实现化对象adapter来实现的具体的view呢？</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onAttachedToWindow</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onAttachedToWindow</span><span class="o">()</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">onAttachedToWindow</span><span class="o">();</span>
         
             <span class="c1">//省略代码，</span>
@@ -426,7 +426,7 @@
 
 <p>接着来看</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="n">View</span> <span class="nf">obtainView</span><span class="p">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">isScrap</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="n">View</span> <span class="nf">obtainView</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">isScrap</span><span class="o">)</span> <span class="o">{</span>
         <span class="c1">//代码省略</span>
       <span class="err">​</span><span class="c1">//这里根据位置显示具体的view,return的child是从持有的实现对象mAdapter里面的具体实现的</span>
       <span class="err">​</span><span class="c1">//方法getview来得到的。</span>
@@ -580,7 +580,7 @@
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -598,7 +598,7 @@
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

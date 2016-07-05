@@ -236,26 +236,26 @@
  */</span>
 <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractComputer</span> <span class="o">{</span>
 
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">powerOn</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">powerOn</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"开启电源"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">checkHardware</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">checkHardware</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"硬件检查"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">loadOS</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">loadOS</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"载入操作系统"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">login</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">login</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"小白的电脑无验证，直接进入系统"</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="cm">/**
      * 启动电脑方法, 步骤固定为开启电源、系统检查、加载操作系统、用户登录。该方法为final， 防止算法框架被覆写.
      */</span>
-    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="n">startUp</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">startUp</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"------ 开机 START ------"</span><span class="o">);</span>
         <span class="n">powerOn</span><span class="o">();</span>
         <span class="n">checkHardware</span><span class="o">();</span>
@@ -275,7 +275,7 @@
  */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoderComputer</span> <span class="kd">extends</span> <span class="n">AbstractComputer</span> <span class="o">{</span>
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">login</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">login</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"码农只需要进行用户和密码验证就可以了"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -292,13 +292,13 @@
     
  
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">checkHardware</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">checkHardware</span><span class="o">()</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">checkHardware</span><span class="o">();</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"检查硬件防火墙"</span><span class="o">);</span>
     <span class="o">}</span>
     
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">login</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">login</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"进行指纹之别等复杂的用户验证"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -307,7 +307,7 @@
 <span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">dp</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">templatemethod</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">AbstractComputer</span> <span class="n">comp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CoderComputer</span><span class="o">();</span>
         <span class="n">comp</span><span class="o">.</span><span class="na">startUp</span><span class="o">();</span>
 
@@ -351,19 +351,19 @@
 
 <p>下面我们看源码，首先我们看执行异步任务的入口, 即execute方法 :</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">final</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Params</span><span class="o">,</span> <span class="n">Progress</span><span class="o">,</span> <span class="n">Result</span><span class="o">&gt;</span> <span class="n">execute</span><span class="o">(</span><span class="n">Params</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="n">executeOnExecutor</span><span class="o">(</span><span class="n">sDefaultExecutor</span><span class="o">,</span> <span class="n">params</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">final</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Params</span><span class="o">,</span> <span class="n">Progress</span><span class="o">,</span> <span class="n">Result</span><span class="o">&gt;</span> <span class="nf">execute</span><span class="o">(</span><span class="n">Params</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">executeOnExecutor</span><span class="o">(</span><span class="n">sDefaultExecutor</span><span class="o">,</span> <span class="n">params</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kd">final</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Params</span><span class="o">,</span> <span class="n">Progress</span><span class="o">,</span> <span class="n">Result</span><span class="o">&gt;</span> <span class="n">executeOnExecutor</span><span class="o">(</span><span class="n">Executor</span> <span class="n">exec</span><span class="o">,</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">AsyncTask</span><span class="o">&lt;</span><span class="n">Params</span><span class="o">,</span> <span class="n">Progress</span><span class="o">,</span> <span class="n">Result</span><span class="o">&gt;</span> <span class="nf">executeOnExecutor</span><span class="o">(</span><span class="n">Executor</span> <span class="n">exec</span><span class="o">,</span>
             <span class="n">Params</span><span class="o">...</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">mStatus</span> <span class="o">!=</span> <span class="n">Status</span><span class="o">.</span><span class="na">PENDING</span><span class="o">)</span> <span class="o">{</span>
             <span class="k">switch</span> <span class="o">(</span><span class="n">mStatus</span><span class="o">)</span> <span class="o">{</span>
                 <span class="k">case</span> <span class="nl">RUNNING:</span>
-                    <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="s">"Cannot execute task:"</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Cannot execute task:"</span>
                             <span class="o">+</span> <span class="s">" the task is already running."</span><span class="o">);</span>
                 <span class="k">case</span> <span class="nl">FINISHED:</span>
-                    <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="s">"Cannot execute task:"</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Cannot execute task:"</span>
                             <span class="o">+</span> <span class="s">" the task has already been executed "</span>
                             <span class="o">+</span> <span class="s">"(a task can be executed only once)"</span><span class="o">);</span>
             <span class="o">}</span>
@@ -386,19 +386,19 @@
 
 <p>mWorker和mFuture又是什么呢？其实mWorker只是实现了Callable接口，并添加了一个参数数组字段，关于Callable和FutureTask的资料请参考<a href="http://blog.csdn.net/bboyfeiyu/article/details/24851847">Java中的Runnable、Callable、Future、FutureTask的区别与示例</a>，我们挨个来分析吧，跟踪代码我们可以看到，这两个字段都是在构造函数中初始化。</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kd">public</span> <span class="nf">AsyncTask</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="kd">public</span> <span class="nf">AsyncTask</span><span class="o">()</span> <span class="o">{</span>
         <span class="n">mWorker</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WorkerRunnable</span><span class="o">&lt;</span><span class="n">Params</span><span class="o">,</span> <span class="n">Result</span><span class="o">&gt;()</span> <span class="o">{</span>
-            <span class="kd">public</span> <span class="n">Result</span> <span class="n">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="n">Result</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
                 <span class="n">mTaskInvoked</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
 
                 <span class="n">Process</span><span class="o">.</span><span class="na">setThreadPriority</span><span class="o">(</span><span class="n">Process</span><span class="o">.</span><span class="na">THREAD_PRIORITY_BACKGROUND</span><span class="o">);</span>
-                <span class="k">return</span> <span class="n">postResult</span><span class="o">(</span><span class="n">doInBackground</span><span class="o">(</span><span class="n">mParams</span><span class="o">));</span>
+                <span class="k">return</span> <span class="nf">postResult</span><span class="o">(</span><span class="n">doInBackground</span><span class="o">(</span><span class="n">mParams</span><span class="o">));</span>
             <span class="o">}</span>
         <span class="o">};</span>
 
         <span class="n">mFuture</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FutureTask</span><span class="o">&lt;</span><span class="n">Result</span><span class="o">&gt;(</span><span class="n">mWorker</span><span class="o">)</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">protected</span> <span class="kt">void</span> <span class="n">done</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">done</span><span class="o">()</span> <span class="o">{</span>
                 <span class="k">try</span> <span class="o">{</span>
                     <span class="kd">final</span> <span class="n">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">get</span><span class="o">();</span>
 
@@ -406,12 +406,12 @@
                 <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
                     <span class="n">android</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">LOG_TAG</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
                 <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ExecutionException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">"An error occured while executing doInBackground()"</span><span class="o">,</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"An error occured while executing doInBackground()"</span><span class="o">,</span>
                             <span class="n">e</span><span class="o">.</span><span class="na">getCause</span><span class="o">());</span>
                 <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">CancellationException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
                     <span class="n">postResultIfNotInvoked</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
                 <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">"An error occured while executing "</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"An error occured while executing "</span>
                             <span class="o">+</span> <span class="s">"doInBackground()"</span><span class="o">,</span> <span class="n">t</span><span class="o">);</span>
                 <span class="o">}</span>
             <span class="o">}</span>
@@ -424,7 +424,7 @@
     关于AsyncTask的更详细的分析请移步<a href="http://blog.csdn.net/bboyfeiyu/article/details/8973058">Android中AsyncTask的使用与源码分析</a>，我们这里只分析模板方法模式。总之，call方法会在子线程中调用，而在call方法中又调用了doInBackground方法，因此doInBackground会执行在子线程。doInBackground会返回结果，最终通过postResult投递给UI线程。
     我们再看看postResult的实现 :</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">private</span> <span class="n">Result</span> <span class="nf">postResult</span><span class="p">(</span><span class="n">Result</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="kd">private</span> <span class="n">Result</span> <span class="nf">postResult</span><span class="o">(</span><span class="n">Result</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="n">sHandler</span><span class="o">.</span><span class="na">obtainMessage</span><span class="o">(</span><span class="n">MESSAGE_POST_RESULT</span><span class="o">,</span>
                 <span class="k">new</span> <span class="n">AsyncTaskResult</span><span class="o">&lt;</span><span class="n">Result</span><span class="o">&gt;(</span><span class="k">this</span><span class="o">,</span> <span class="n">result</span><span class="o">));</span>
         <span class="n">message</span><span class="o">.</span><span class="na">sendToTarget</span><span class="o">();</span>
@@ -434,7 +434,7 @@
     <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">InternalHandler</span> <span class="kd">extends</span> <span class="n">Handler</span> <span class="o">{</span>
         <span class="nd">@SuppressWarnings</span><span class="o">({</span><span class="s">"unchecked"</span><span class="o">,</span> <span class="s">"RawUseOfParameterizedType"</span><span class="o">})</span>
         <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="n">handleMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">AsyncTaskResult</span> <span class="n">result</span> <span class="o">=</span> <span class="o">(</span><span class="n">AsyncTaskResult</span><span class="o">)</span> <span class="n">msg</span><span class="o">.</span><span class="na">obj</span><span class="o">;</span>
             <span class="k">switch</span> <span class="o">(</span><span class="n">msg</span><span class="o">.</span><span class="na">what</span><span class="o">)</span> <span class="o">{</span>
                 <span class="k">case</span> <span class="nl">MESSAGE_POST_RESULT:</span>
@@ -449,7 +449,7 @@
     <span class="o">}</span>
 
 
-    <span class="kd">private</span> <span class="kt">void</span> <span class="n">finish</span><span class="o">(</span><span class="n">Result</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">finish</span><span class="o">(</span><span class="n">Result</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">isCancelled</span><span class="o">())</span> <span class="o">{</span>
             <span class="n">onCancelled</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
         <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
@@ -619,7 +619,7 @@
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -637,7 +637,7 @@
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

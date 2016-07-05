@@ -372,7 +372,7 @@
     <span class="c1">//create a path
 </span>    <span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIBezierPath</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
     <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span> <span class="nf">moveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">)];</span>
-    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span> <span class="nf">addCurveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span> <span class="nf">controlPoint1</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="nf">controlPoint2</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="mi">300</span><span class="p">)];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span> <span class="nf">addCurveToPoint</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span> <span class="nf">controlPoint1</span><span class="p">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">75</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">controlPoint2</span><span class="o">:</span><span class="n">CGPointMake</span><span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="mi">300</span><span class="p">)];</span>
     <span class="c1">//draw the path using a CAShapeLayer
 </span>    <span class="n">CAShapeLayer</span> <span class="o">*</span><span class="n">pathLayer</span> <span class="o">=</span> <span class="p">[</span><span class="n">CAShapeLayer</span> <span class="nf">layer</span><span class="p">];</span>
     <span class="n">pathLayer</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bezierPath</span><span class="p">.</span><span class="n">CGPath</span><span class="p">;</span>
@@ -519,7 +519,7 @@ kCAFillModeRemoved
     <span class="n">self</span><span class="p">.</span><span class="n">containerView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">sublayerTransform</span> <span class="o">=</span> <span class="n">perspective</span><span class="p">;</span>
     <span class="c1">//add pan gesture recognizer to handle swipes
 </span>    <span class="n">UIPanGestureRecognizer</span> <span class="o">*</span><span class="n">pan</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIPanGestureRecognizer</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-    <span class="p">[</span><span class="n">pan</span> <span class="nf">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nf">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">pan</span><span class="p">:)];</span>
+    <span class="p">[</span><span class="n">pan</span> <span class="nf">addTarget</span><span class="p">:</span><span class="n">self</span> <span class="nf">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">pan</span><span class="o">:</span><span class="p">)];</span>
     <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span><span class="n">pan</span><span class="p">];</span>
     <span class="c1">//pause all layer animations
 </span>    <span class="n">self</span><span class="p">.</span><span class="n">doorLayer</span><span class="p">.</span><span class="n">speed</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
@@ -683,7 +683,7 @@ kCAFillModeRemoved
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -701,7 +701,7 @@ kCAFillModeRemoved
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             

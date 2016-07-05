@@ -222,7 +222,7 @@
 责任链模式非常简单异常好理解，相信我它比单例模式还简单易懂，其应用也几乎无所不在，甚至可以这么说……从你敲代码的第一天起你就不知不觉用过了它最原始的裸体结构：分支语句：</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleResponsibility</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
         <span class="kt">int</span> <span class="n">request</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">3</span><span class="o">);</span>
         <span class="k">switch</span> <span class="o">(</span><span class="n">request</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
@@ -431,14 +431,14 @@ public class Client {
      * 
      * @return 要多少钱
      */</span>
-    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">int</span> <span class="n">getExpenses</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">int</span> <span class="nf">getExpenses</span><span class="o">();</span>
 
     <span class="cm">/**
      * 获取差旅费申请
      * 
      * @return Just a request
      */</span>
-    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="n">getApply</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">String</span> <span class="nf">getApply</span><span class="o">();</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -458,17 +458,17 @@ public class Client {
     <span class="cm">/*
      * 含参构造方法
      */</span>
-    <span class="kd">public</span> <span class="n">AndroidApe</span><span class="o">(</span><span class="kt">int</span> <span class="n">expenses</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">AndroidApe</span><span class="o">(</span><span class="kt">int</span> <span class="n">expenses</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">expenses</span> <span class="o">=</span> <span class="n">expenses</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="n">getExpenses</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getExpenses</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">expenses</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="n">getApply</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getApply</span><span class="o">()</span> <span class="o">{</span>
         <span class="k">return</span> <span class="n">apply</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -489,7 +489,7 @@ public class Client {
      * @param ape
      *            具体的猿
      */</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">handleRequest</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleRequest</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre>
 </div>
@@ -516,7 +516,7 @@ public class Client {
      * @param expenses
      *            当前领导能批复的金额
      */</span>
-    <span class="kd">public</span> <span class="n">Leader</span><span class="o">(</span><span class="kt">int</span> <span class="n">expenses</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Leader</span><span class="o">(</span><span class="kt">int</span> <span class="n">expenses</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">expenses</span> <span class="o">=</span> <span class="n">expenses</span><span class="o">;</span>
     <span class="o">}</span>
 
@@ -526,7 +526,7 @@ public class Client {
      * @param ape
      *            具体的程序猿
      */</span>
-    <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">);</span>
+    <span class="kd">protected</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">);</span>
 
     <span class="cm">/**
      * 处理请求
@@ -534,7 +534,7 @@ public class Client {
      * @param ape
      *            具体的程序猿
      */</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">handleRequest</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleRequest</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
         <span class="cm">/*
          * 如果说程序猿申请的money在当前领导的批复范围内
          */</span>
@@ -561,7 +561,7 @@ public class Client {
      * @param superiorLeader
      *            上级领导
      */</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="n">setLeader</span><span class="o">(</span><span class="n">Leader</span> <span class="n">superiorLeader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setLeader</span><span class="o">(</span><span class="n">Leader</span> <span class="n">superiorLeader</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">mSuperiorLeader</span> <span class="o">=</span> <span class="n">superiorLeader</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -597,12 +597,12 @@ public class GroupLeader extends Leader {
  *
  */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Director</span> <span class="kd">extends</span> <span class="n">Leader</span><span class="o">{</span>
-    <span class="kd">public</span> <span class="n">Director</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Director</span><span class="o">()</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ape</span><span class="o">.</span><span class="na">getApply</span><span class="o">());</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Director: Of course Yes!"</span><span class="o">);</span>     
     <span class="o">}</span>
@@ -617,12 +617,12 @@ public class GroupLeader extends Leader {
  *
  */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Manager</span> <span class="kd">extends</span> <span class="n">Leader</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="n">Manager</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Manager</span><span class="o">()</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="mi">10000</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ape</span><span class="o">.</span><span class="na">getApply</span><span class="o">());</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Manager: Of course Yes!"</span><span class="o">);</span>
     <span class="o">}</span>
@@ -637,12 +637,12 @@ public class GroupLeader extends Leader {
  *
  */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Boss</span> <span class="kd">extends</span> <span class="n">Leader</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="n">Boss</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Boss</span><span class="o">()</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">(</span><span class="mi">40000</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="n">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">reply</span><span class="o">(</span><span class="n">ProgramApe</span> <span class="n">ape</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ape</span><span class="o">.</span><span class="na">getApply</span><span class="o">());</span>
         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Boss: Of course Yes!"</span><span class="o">);</span>
     <span class="o">}</span>
@@ -659,7 +659,7 @@ public class GroupLeader extends Leader {
  *
  */</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="n">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
         <span class="cm">/*
          * 先来一个程序猿 这里给他一个三万以内的随机值表示需要申请的差旅费
          */</span>
@@ -711,7 +711,7 @@ public class GroupLeader extends Leader {
 <p>Android中关于责任链模式比较明显的体现就是在事件分发过程中对事件的投递，其实严格来说，事件投递的模式并不是严格的责任链模式，但是其是责任链模式的一种变种体现，在ViewGroup中对事件处理者的查找方式如下：</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
-<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchTouchEvent</span><span class="p">(</span><span class="n">MotionEvent</span> <span class="n">ev</span><span class="o">)</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">dispatchTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">ev</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// 省略两行代码…………</span>
 
     <span class="kt">boolean</span> <span class="n">handled</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
@@ -815,7 +815,7 @@ public class GroupLeader extends Leader {
 
 <p>再来看看dispatchTransformedTouchEvent方法是如何调度子元素dispatchTouchEvent方法的：</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">dispatchTransformedTouchEvent</span><span class="p">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">cancel</span><span class="o">,</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">dispatchTransformedTouchEvent</span><span class="o">(</span><span class="n">MotionEvent</span> <span class="n">event</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">cancel</span><span class="o">,</span>
         <span class="n">View</span> <span class="n">child</span><span class="o">,</span> <span class="kt">int</span> <span class="n">desiredPointerIdBits</span><span class="o">)</span> <span class="o">{</span>
     <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">handled</span><span class="o">;</span>
 
@@ -1047,7 +1047,7 @@ public class GroupLeader extends Leader {
                             
         				
                             
-                				<a href="/tags/#ios" title="ios" rel="18">
+                				<a href="/tags/#ios" title="ios" rel="19">
                                     ios
                                 </a>
                             
@@ -1065,7 +1065,7 @@ public class GroupLeader extends Leader {
                             
         				
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="12">
+                				<a href="/tags/#core-animation" title="core-animation" rel="13">
                                     core-animation
                                 </a>
                             
