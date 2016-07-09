@@ -113,7 +113,7 @@ http://your-ip_address:8080
 ```
 你可以看到的页面如下：
 
-![IMG](/img/in-post/shwo.png)
+![IMG](/img/in-post/show.png)
 
 从上面可以看到，里面有四个链接到步骤三中安装的软件包：
 
