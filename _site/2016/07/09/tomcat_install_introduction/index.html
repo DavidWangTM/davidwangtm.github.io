@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Leetcode Remove Duplicates from Sorted Array
+        Tomcat 安装
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2015/05/19/leetcode_26_easy_remove_duplicates_from_sorted_array/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/07/09/tomcat_install_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-digital-native.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-rwd.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-digital-native.jpg')
+        background-image: url('/img/post-bg-rwd.jpg')
     }
 
     
@@ -173,17 +173,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Leetcode" title="Leetcode">Leetcode</a>
+                        <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
                         
-                        <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
+                        <a class="tag" href="/tags/#ubuntu" title="ubuntu">ubuntu</a>
                         
                     </div>
-                    <h1>Leetcode Remove Duplicates from Sorted Array</h1>
+                    <h1>Tomcat 安装</h1>
                     
                     
-                    <h2 class="subheading">Easy题目 编号26</h2>
+                    <h2 class="subheading">在 Ubuntu 14.04 上通过 apt-get 安装 Apache Tomcat 7</h2>
                     
-                    <span class="meta">Posted by DavidWang on May 19, 2015</span>
+                    <span class="meta">Posted by DavidWang on July 9, 2016</span>
                 </div>
             </div>
         </div>
@@ -201,77 +201,137 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>“<a href="https://leetcode.com/">Leetcode</a>是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”</p>
-</blockquote>
+				<h3 id="apache-tomcat">关于 Apache Tomcat</h3>
 
-<h4 id="section">题目</h4>
+<p>Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web 。 Tomcat 是 Java Servlet 与 JSP 技术的一个开源实现，由 Apache 软件基金会发布。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Given a sorted array, remove the duplicates in place such that each element
-appear only once and return the new length.
+<p>这个教程涵盖了在 Ubuntu 14.04 上 Tomcat 7.0.x 版本的安装和基础配置。</p>
 
-Do not allocate extra space for another array, you must do this in place with
-constant memory.
+<p>有两种基本的途径来安装 Tomcat 到 Ubuntu 上：</p>
 
-For example,
-Given input array nums = [1,1,2],
+<ul>
+  <li>通过 apt-get 工具来安装，这是最简单的方法。</li>
+  <li>从 Apache Tomcat 网站下载二进制发布包。本教程不涵盖这种方法。</li>
+</ul>
 
-Your function should return length = 2, with the first two elements of nums
-being 1 and 2 respectively. It does not matter what you leave beyond the new
-length.
+<p>在这个教程中，我们将使用最简单地方法： <code class="highlighter-rouge">apt-get</code> 。这将从官方的 Ubuntu 资源仓库安装最新的 Tomcat 发布包，这个包可能不是 Tomcat 的最新发布版本。如果你想要确保安装 Tomcat 的最新版，你可以下载最新的二进制发布包。</p>
+
+<h3 id="section">步骤一 - 先决条件</h3>
+
+<p>在你开始这个向导之前，在你的服务器上需要配置一个独立的非 root 用户账号。你可以按照 Ubuntu 14.04 上搭建服务器中的 1-4 步来学习完成它。我们这里使用创建的 <code class="highlighter-rouge">demo</code> 用户来完成后续的教程。</p>
+
+<h3 id="tomcat">步骤二 - 安装 Tomcat</h3>
+
+<p>首先，你需要升级 apt-get 软件包列表：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get update
+</code></pre>
+</div>
+<p>现在你已经准备好安装 Tomcat。运行以下命令，开始安装：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install tomcat7
+</code></pre>
+</div>
+<p>输入 <code class="highlighter-rouge">yes</code> 来安装 Tomcat 。这将同时安装 Tomcat 和它的依赖，例如 Java，同时，它将创建一个 <code class="highlighter-rouge">tomcat7</code> 用户，并以默认设置启动 Tomcat 。</p>
+
+<p>这时候， Tomcat 并没有完全安装完成，但你可以通过在浏览器中输入本地域名或IP地址之后加 :8080 的方法来访问默认页面。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://your_ip_address:8080
 </code></pre>
 </div>
 
-<h4 id="section-1">翻译</h4>
+<p>你会看到一个闪屏页面，显示 “It works” ，和其他附加信息。现在，我们要深入到 Tomcat 的安装过程。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>给定一个有序数组，删除所有重复的元素，使得每个元素仅出现一次，返回新的数组长度。
-不要使用额外的数组，你必须在连续的内存中完成这项工作。
-例如，给定一个输入数组[1, 1, 2], 你的函数应该返回length = 2，
-并且数组的前两个元素应该分别为1和2。超过新长度的部分不需要进行考虑。
+<h3 id="section-1">步骤三 - 安装额外软件包</h3>
+
+<p>注意：如果你对 Tomcat 足够了解，且不需要 Web 管理接口，文档和示例，那这个章节不是必须的。如果你是第一次接触 Tomcat ，请继续。</p>
+
+<p>通过以下代码，你将安装 Tomcat 的在线文档， Web接 口（管理 Web 应用），以及一些示例应用。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install tomcat7-docs tomcat7-admin tomcat7-examples
+</code></pre>
+</div>
+<p>输入 <code class="highlighter-rouge">yes</code> 来安装这些软件包。后面我们会讲到这些工具的用法和配置。接下来，我们要安装 JDK 。</p>
+
+<h3 id="jdk-">步骤四 - 安装 JDK (可选)</h3>
+
+<p>如果你打算在服务器上开发应用，你需要安装本章节中提到的软件。</p>
+
+<p>JDK 确保我们可以开发运行在 Tomcat 服务器上的 Java 应用。运行以下命令来安装 <code class="highlighter-rouge">openjdk-7-jdk</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install default-jdk
+</code></pre>
+</div>
+<p>作为 JDK 的附件， Tomcat 文档上建议同时安装用来构建 Java 应用 Apache Ant 工具及包括 Git 在内的源码控制系统。通过下面的命令来安装它们：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ant git
+</code></pre>
+</div>
+<p>Apache Ant 的更多信息，可查阅<a href="http://ant.apache.org/manual/index.html">其官方文档</a>。 <a href="https://www.digitalocean.com/community/articles/how-to-use-git-effectively">Git</a> 使用教程可以参考这里。</p>
+
+<h3 id="tomcat-web-">步骤五 - 配置 Tomcat Web 管理器</h3>
+
+<p>想要使用步骤三中安装的 Web 应用管理器，需要先登录到 Tomcat 服务器。首先需要编辑修改 <code class="highlighter-rouge">tomcat-users.xml</code> ：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nano /etc/tomcat7/tomcat-users.xml
+</code></pre>
+</div>
+<p>该文件充满了用于说明如何配置的注释。你需要删除下面两行之间的所有注释。如需要用作参考，则保留。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;tomcat-users&gt;
+&lt;/tomcat-users&gt;
 </code></pre>
 </div>
 
-<h4 id="tags">tags</h4>
+<p>你需要添加一个用户，可以访问 <code class="highlighter-rouge">manager-gui</code> 和 <code class="highlighter-rouge">admin-gui</code> （我们在步骤三种安装的管理界面）。你可以通过如下的配置来定义一个用户。如果需要，确保修改用户名和密码。</p>
 
-<p><code class="highlighter-rouge">array</code> <code class="highlighter-rouge">two pointers</code></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;tomcat-users&gt;
+	&lt;user username="admin" password="password" roles="manager-gui,admin-gui" /&gt;
+&lt;/tomcat-users&gt;
+</code></pre>
+</div>
+<p>保存并退出 <code class="highlighter-rouge">tomcat-users.xml</code> 文件。重启 <code class="highlighter-rouge">Tomcat</code> 服务，以便修改配置生效。</p>
 
-<h4 id="section-2">代码</h4>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>C：
-
-int removeDuplicates(int* nums, int numsSize) {
-	if (numsSize == 0 || numsSize == 1)
-        return numsSize;
-
-	int count = 0;
-	int i;
-	for(i = 0; i&lt;numsSize; i++){
-		if(nums[count] != nums[i])
-			nums[++count] = nums[i];
-	}
-	return ++count;
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo service tomcat7 restart
 </code></pre>
 </div>
 
-<h4 id="section-3">讲解</h4>
+<h3 id="web-">步骤六 - 访问 Web 界面</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>本题应用了快慢指针的思想，
+<p>现在，我们已经配置了一个管理员用户，从 Web 浏览器访问 Web 管理器页面。</p>
 
-count用于向数组的最前部分存储不重复的数字，
-
-i用于检索每一个数字，
-
-如果出现重复的数字，就跳过他，继续向后进行检索，如果出现不同的数字，则count在数组中右移一位后
-存储这个新的不重复数字
-
-遍历完整个数组后结束。
+<div class="highlighter-rouge"><pre class="highlight"><code>http://your-ip_address:8080
 </code></pre>
 </div>
+<p>你可以看到的页面如下：</p>
 
-<h4 id="section-4">习题地址</h4>
+<p><img src="/img/in-post/shwo.png" alt="IMG" /></p>
 
-<p><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank">Remove Duplicates from Sorted Array</a></p>
+<p>从上面可以看到，里面有四个链接到步骤三中安装的软件包：</p>
+
+<ul>
+  <li>tomcat7-docs: Tomcat 的在线文档。通过 <code class="highlighter-rouge">http://your_ip_address:8080/docs/</code> 来访问</li>
+  <li>tomcat7-examples: Tomcat 7 Servlet 和 JSP 示例。你可以点击这些示例 Web 应用来了解它们是怎么工作的（通过源码可以了解它们是怎么实现的）。通过 <code class="highlighter-rouge">http://your_ip_address:8080/examples/</code> 来访问</li>
+  <li>tomcat7-admin ( Web 应用管理器): Tomcat Web 应用管理器。通过这里来管理你的 Java 应用。</li>
+  <li>tomcat7-admin (主机管理器): Tomcat 虚拟主机管理器。</li>
+</ul>
+
+<p>通过打开链接 <code class="highlighter-rouge">http://your_ip_address:8080/manager/html</code> ，来查看 Web 应用管理器：</p>
+
+<p><img src="/img/in-post/show1.png" alt="IMG" /></p>
+
+<p>这个Web应用管理器使用来管理Java应用的。你可以在这里执行应用的启动，停止，重新加载，部署，下架等操作。还可以对应用做一些诊断（如内存泄露）。最后，你服务器的相关信息被显示在页面的最底部。</p>
+
+<p>通过打开链接 <code class="highlighter-rouge">http://your_ip_address:8080/host-manager/html</code> ，来查看虚拟主机管理器：</p>
+
+<p><img src="/img/in-post/show3.png" alt="IMG" /></p>
+
+<p>在虚拟主机管理页面，你可以为应用程序添加虚拟主机。</p>
+
+<h3 id="section-2">结束</h3>
+
+<p>Tomcat 的安装到此结束。你现在就可以免费得来部署自己的 Web 应用。</p>
+
 
 
                 <hr>
@@ -282,19 +342,12 @@ i用于检索每一个数字，
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/05/04/mac_os_yosemite_sublime_and_c/" data-toggle="tooltip" data-placement="top" title="Mac OS Yosemite 配置sublime text C语言开发环境">
+                        <a href="/2016/07/06/ios_core_animation15_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 动画讲解十五">
                         Previous<br>
-                        <span>Mac OS Yosemite 配置sublime text C语言开发环境</span>
+                        <span>IOS 动画讲解十五</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2015/05/19/leetcode_204_easy_count_prime/" data-toggle="tooltip" data-placement="top" title="Leetcode Count Primes">
-                        Next<br>
-                        <span>Leetcode Count Primes</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -451,8 +504,8 @@ i用于检索每一个数字，
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2015/05/19/leetcode_26_easy_remove_duplicates_from_sorted_array";
-    var disqus_url = "http://DavidWangTM.github.io/2015/05/19/leetcode_26_easy_remove_duplicates_from_sorted_array/";
+    var disqus_identifier = "/2016/07/09/tomcat_install_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/07/09/tomcat_install_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
