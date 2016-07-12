@@ -180,6 +180,45 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/07/11/tomcat_80_introduction/">
+        <h2 class="post-title">
+            阿里云端口配置
+        </h2>
+        
+        <h3 class="post-subtitle">
+            阿里云将80端口请求转发到其他端口
+        </h3>
+        
+        <div class="post-content-preview">
+            阿里云将80端口请求转发到其他端口
+
+背景
+租了一台阿里云ECS，想搭建一个java Web 程序，环境都搭建好后，将Tomcat端口改为80并执行
+
+./startup.sh
+
+
+
+程序报错端口号冲突。
+估计是80端口被占用了，但是想绑定域名，还是需要将80端口映射到tomcat才行。
+
+于是检查占用80端口的程序
+
+
+
+是一个叫AliYunDun的程序将80端口占用了。
+
+解决方案
+由于...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on July 11, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/07/09/tomcat_install_introduction/">
         <h2 class="post-title">
             Tomcat 安装
@@ -443,36 +482,6 @@ CAMediaTiming协...
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/06/28/ios_core_animation7_introduction/">
-        <h2 class="post-title">
-            IOS 动画讲解七
-        </h2>
-        
-        <h3 class="post-subtitle">
-            隐式动画
-        </h3>
-        
-        <div class="post-content-preview">
-            隐式动画
-
-
-  按照我的意思去做，而不是我说的。 – 埃德娜，辛普森
-
-
-我们在第一部分讨论了Core Animation除了动画之外可以做到的任何事情。但是动画是Core Animation库一个非常显著的特性。这一章我们来看看它是怎么做到的。具体来说，我们先来讨论框架自动完成的隐式动画（除非你明确禁用了这个功能）。
-
-事务
-
-Core Animation基于一个假设，说屏幕上的任何东西...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 28, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -582,6 +591,10 @@ Core Animation基于一个假设，说屏幕上的任何东西...
                                 </a>
                             
                         
+                            
+                                <a href="/tags/#tomcat" title="tomcat" rel="2">
+                                    tomcat
+                                </a>
                             
                         
                             

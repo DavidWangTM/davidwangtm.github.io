@@ -180,6 +180,45 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2014/11/25/how_to_deal_with_multiple_version_lib/">
+        <h2 class="post-title">
+            如何解决“保护多库版本”问题
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            今天在fedora21上安装wine的时候，遇到一个问题，错误提示为：保护多库版本 …
+
+搜查了一圈，找到了一个解决方案
+
+首先将fedora进行降级：
+
+sudo yum distro-sync
+
+
+
+然后进行源的清理：
+
+sudo yum clean all &amp;&amp; sudo yum makecache
+
+
+
+最后，重新升级fedora：
+
+sudo yum update
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on November 25, 2014
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2014/10/14/markdown_simple_syntax/">
         <h2 class="post-title">
             Markdown 简明语法
@@ -423,6 +462,10 @@ vi /etc/fonts/conf.d/65-0-wqy-microh...
                                 </a>
                             
                         
+                            
+                                <a href="/tags/#tomcat" title="tomcat" rel="2">
+                                    tomcat
+                                </a>
                             
                         
                             

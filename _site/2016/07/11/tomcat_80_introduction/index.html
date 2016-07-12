@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Fedora 22上安装jekyll
+        阿里云端口配置
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2015/09/18/install_jekyll_on_fedora_22/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/07/11/tomcat_80_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/home-bg-o.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-rwd.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/home-bg-o.jpg')
+        background-image: url('/img/post-bg-rwd.jpg')
     }
 
     
@@ -173,17 +173,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Fedora" title="Fedora">Fedora</a>
-                        
-                        <a class="tag" href="/tags/#Jekyll" title="Jekyll">Jekyll</a>
+                        <a class="tag" href="/tags/#tomcat" title="tomcat">tomcat</a>
                         
                     </div>
-                    <h1>Fedora 22上安装jekyll</h1>
+                    <h1>阿里云端口配置</h1>
                     
                     
-                    <h2 class="subheading"></h2>
+                    <h2 class="subheading">阿里云将80端口请求转发到其他端口</h2>
                     
-                    <span class="meta">Posted by DavidWang on September 18, 2015</span>
+                    <span class="meta">Posted by DavidWang on July 11, 2016</span>
                 </div>
             </div>
         </div>
@@ -201,83 +199,39 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>“jekyll 是一款简单的博客系统，静态网站生成器。”</p>
-</blockquote>
+				<h3 id="section">阿里云将80端口请求转发到其他端口</h3>
 
-<h3 id="section">1. 概述</h3>
+<h4 id="section-1">背景</h4>
+<p>租了一台阿里云ECS，想搭建一个java Web 程序，环境都搭建好后，将Tomcat端口改为80并执行</p>
 
-<p>jekyll是一个简单的免费的Blog生成工具，类似WordPress。但是和WordPress又有很大的不同，原因是jekyll只是一个生成静态网页的工具，不需要数据库支持。但是可以配合第三方服务,例如Disqus。最关键的是jekyll可以免费部署在Github上，而且可以绑定自己的域名。</p>
-
-<h3 id="ruby">2. 安装最新版ruby</h3>
-
-<p>调用命令</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo dnf install ruby
+<div class="highlighter-rouge"><pre class="highlight"><code>./startup.sh
 </code></pre>
 </div>
 
-<p>安装完成后,输入命令</p>
+<p>程序报错端口号冲突。
+估计是80端口被占用了，但是想绑定域名，还是需要将80端口映射到tomcat才行。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ruby -v
+<p>于是检查占用80端口的程序</p>
+
+<p><img src="/img/in-post/aliyun_80.png" alt="IMG" /></p>
+
+<p>是一个叫<code class="highlighter-rouge">AliYunDun</code>的程序将80端口占用了。</p>
+
+<h4 id="section-2">解决方案</h4>
+<p>由于80端口受到各种保护措施，所以一般程序是无法获取80端口的使用权的，要想实现不输入端口号直接访问程序，需要将80端口的请求转发到Tomcat设定的端口上去，也就是默认的8080端口。</p>
+
+<h4 id="ip">首先查看服务器网卡及ip设置：</h4>
+
+<p><img src="/img/in-post/aliyun_ip.png" alt="IMG" /></p>
+
+<p>很明显eth1为外网网卡。</p>
+
+<h4 id="section-3">设置端口号转发规则：</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>iptables -A PREROUTING -t nat -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 8080
 </code></pre>
 </div>
 
-<p>会有如下类似的显示:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>ruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-linux]
-</code></pre>
-</div>
-
-<p>说明已经成功安装了2.2.3版本的ruby。</p>
-
-<!--break-->
-
-<h3 id="jkeyll">3. 安装jkeyll</h3>
-
-<p>安装最新版本的jekyll，命令如下：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>gem install jekyll
-</code></pre>
-</div>
-
-<p>安装过程中可能会报如下错误:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>Fetching: ffi-1.9.10.gem (100%)
-Building native extensions.  This could take a while...
-ERROR:  Error installing jekyll:
-	ERROR: Failed to build gem native extension.
-
-    /usr/bin/ruby -r ./siteconf20150918-17908-j7rbks.rb extconf.rb
-mkmf.rb can't find header files for ruby at /usr/share/include/ruby.h
-
-extconf failed, exit code 1
-
-Gem files will remain installed in /home/wenzhiquan/.gem/ruby/gems/ffi-1.9.10 for inspection.
-Results logged to /home/wenzhiquan/.gem/ruby/extensions/x86_64-linux/ffi-1.9.10/gem_make.out
-</code></pre>
-</div>
-
-<p>原因是没有安装gem本地扩展,输入命令<code class="highlighter-rouge">sudo dnf install ruby-devel</code>安装dev版本的ruby即可解决问题。如果是报gcc相关的错误,只需要<code class="highlighter-rouge">sudo dnf install gcc</code>进行安装即可。</p>
-
-<p>因为我们将会使用Markdown语言作为标记语言，所以还需要安装kramdown，命令如下：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>gem install kramdown
-</code></pre>
-</div>
-
-<p>至此，本机的jekyll运行环境就已经搭建好了。</p>
-
-<h3 id="section-1">4. 运行例子</h3>
-
-<p>安装好之后，就可以自己构建一个博客系统，或者也可以到<a href="http://jekyllthemes.org/" title="jekyll 模板网站">jekyll模板网站</a> 下载自己喜欢的模板进行修改，然后运行并查看效果，要运行jekyll首先要进入博客的根目录，然后运行命令<code class="highlighter-rouge">jekyll server</code>，最后会显示启动信息：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>Server address: http://127.0.0.1:4000/
-Server running... press ctrl-c to stop.
-</code></pre>
-</div>
-
-<p>说明程序已经成功启动，在浏览器中输入localhost:4000，就可以查看自己的博客了。</p>
 
 
                 <hr>
@@ -288,19 +242,12 @@ Server running... press ctrl-c to stop.
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/05/29/install_nginx_php_mysql_phpmyadmin_on_mac_osx/" data-toggle="tooltip" data-placement="top" title="Mac OS上搭建Nginx,Mysql,PHP开发环境">
+                        <a href="/2016/07/09/tomcat_install_introduction/" data-toggle="tooltip" data-placement="top" title="Tomcat 安装">
                         Previous<br>
-                        <span>Mac OS上搭建Nginx,Mysql,PHP开发环境</span>
+                        <span>Tomcat 安装</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/03/28/seven_sort/" data-toggle="tooltip" data-placement="top" title="七种排序算法">
-                        Next<br>
-                        <span>七种排序算法</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -461,8 +408,8 @@ Server running... press ctrl-c to stop.
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2015/09/18/install_jekyll_on_fedora_22";
-    var disqus_url = "http://DavidWangTM.github.io/2015/09/18/install_jekyll_on_fedora_22/";
+    var disqus_identifier = "/2016/07/11/tomcat_80_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/07/11/tomcat_80_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
