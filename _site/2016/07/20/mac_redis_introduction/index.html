@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        七种排序算法
+        Mac下配置redis
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/03/28/seven_sort/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/07/20/mac_redis_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-digital-native.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-rwd.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-digital-native.jpg')
+        background-image: url('/img/post-bg-rwd.jpg')
     }
 
     
@@ -173,15 +173,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
+                        <a class="tag" href="/tags/#redis" title="redis">redis</a>
+                        
+                        <a class="tag" href="/tags/#Mac" title="Mac">Mac</a>
                         
                     </div>
-                    <h1>七种排序算法</h1>
+                    <h1>Mac下配置redis</h1>
                     
                     
-                    <h2 class="subheading">冒泡，选择，插入，希尔，快速，归并，堆</h2>
+                    <h2 class="subheading">redis安装与运行</h2>
                     
-                    <span class="meta">Posted by DavidWang on March 28, 2016</span>
+                    <span class="meta">Posted by DavidWang on July 20, 2016</span>
                 </div>
             </div>
         </div>
@@ -199,286 +201,37 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>“排序算法可以说是数据结构与算法当中最为基础的部分”</p>
-</blockquote>
+				<h3 id="mac--redis">Mac 下安装运行 redis</h3>
 
-<h3 id="section">1. 概述</h3>
+<p><code class="highlighter-rouge">mac</code> 上安装 redis 首先必须保证 <code class="highlighter-rouge">mac</code> 已经安装 <code class="highlighter-rouge">xcode</code>.</p>
 
-<p>排序算法可以说是数据结构与算法当中最为基础的部分，针对的是数组这一数据结构。将数组中的无序数据元素通过算法整理为有序的数据元素即为排序。</p>
+<h4 id="redis">一.下载redis</h4>
 
-<h3 id="section-1">2. 简单排序</h3>
+<p>redis下载地址：<a href="https://code.google.com/archive/p/redis/downloads">https://code.google.com/archive/p/redis/downloads</a></p>
 
-<h4 id="section-2">2.1 冒泡排序</h4>
+<h4 id="redis-1">二.配置redis</h4>
 
-<p>简介：</p>
-
-<p><code class="highlighter-rouge">冒泡排序</code>（Bubble Sort）是一种简单的排序算法。它重复地访问要排序的数列，将每次访问的最大值“浮”到数组尾部。</p>
-
-<p>步骤如下：</p>
-
-<ol>
-  <li>比较相邻的元素。如果第一个比第二个大，就交换他们两个，直到把最大的元素放到数组尾部。</li>
-  <li>遍历长度减一，对剩下的元素从头重复以上的步骤。</li>
-  <li>直到没有任何一对数字需要比较时完成。</li>
-</ol>
-
-<!--break-->
-
-<p>实现代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>def bubbleSort(arr):
-    for i in range(len(arr))[::-1]:
-        for j in range(i):
-            if arr[j] &gt; arr[j + 1]:
-                swap(arr[j], arr[j + 1])
+<div class="highlighter-rouge"><pre class="highlight"><code>//依次运行
+sudo make
+sudo make test
+sudo make isntall
 </code></pre>
 </div>
 
-<p>效果图：</p>
+<p>运行完成后，将配置文件移动到/etc目录下.</p>
 
-<p><img src="/img/in-post/bubbleSort.gif" alt="冒泡排序" /></p>
+<h4 id="redis-2">三.启动redis</h4>
 
-<h4 id="section-3">2.2 选择排序</h4>
-
-<p>简介：</p>
-
-<p><code class="highlighter-rouge">选择排序</code>(Selection sort)是一种简单直观的排序算法。它的工作原理如下。首先在未排序序列中找到最小元素，存放到排序序列的起始位置，重复上述过程，直到所有元素均排序完毕。</p>
-
-<p>步骤如下：</p>
-
-<ol>
-  <li>遍历数组，找到最小的元素，将其置于数组起始位置。</li>
-  <li>从上次最小元素存放的后一个元素开始遍历至数组尾，将最小的元素置于开始处。</li>
-  <li>重复上述过程，直到元素排序完毕。</li>
-</ol>
-
-<p>实现代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>def selectSort(arr):
-    for i in range(len(arr)):
-        min = i
-        for j in range(i, len(arr)):
-            if arr[j] &lt; arr[min]:
-                min = j
-        swap(arr[i], arr[min])
+<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/bin/redis-server
+//或者
+/usr/local/bin/redis-server /etc/redis.conf
 </code></pre>
 </div>
+<p><img src="/img/in-post/redis.png" alt="IMG" /></p>
 
-<p>效果图：</p>
+<h4 id="redis-3">四.尝试连接redis，进行数据操作</h4>
 
-<p><img src="/img/in-post/selectSort.gif" alt="选择排序" /></p>
-
-<h4 id="section-4">2.3 插入排序</h4>
-
-<p>简介：</p>
-
-<p><code class="highlighter-rouge">插入排序</code>（Insertion Sort）是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
-
-<p>步骤如下：</p>
-
-<ol>
-  <li>从第一个元素开始，该元素可以认为已经被排序</li>
-  <li>取出下一个元素，在已经排序的元素序列中从后向前扫描</li>
-  <li>如果该元素（已排序）大于新元素，将该元素移到下一位置</li>
-  <li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置</li>
-  <li>将新元素插入到该位置中</li>
-  <li>重复步骤2</li>
-</ol>
-
-<p>实现代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>def insertSort(arr):
-    for i in range(len(arr)):
-        tmp = arr[i]
-        pre = i - 1
-        while pre &gt;= 0 and arr[pre] &gt; tmp:
-            arr[pre + 1] = arr[pre]
-            pre -= 1
-        arr[pre + 1] = tmp
-
-</code></pre>
-</div>
-
-<h3 id="section-5">3. 高级排序</h3>
-
-<h4 id="section-6">3.1 希尔排序</h4>
-
-<p>简介：</p>
-
-<p><code class="highlighter-rouge">希尔排序</code>(Shell Sort)是插入排序的一种。也称缩小增量排序，是直接插入排序算法的一种更高效的改进版本。希尔排序是非稳定排序算法。</p>
-
-<p>步骤如下：</p>
-
-<ol>
-  <li>希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；</li>
-  <li>随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。</li>
-</ol>
-
-<p>实现代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>def insertSort(arr):
-    k = 1
-    while k &lt; len(arr) / 3:
-        k = 3 * h + 1 //此处为Knuth算法
-
-    while k &gt; 0:
-        for i in range(k, len(arr)):
-            tmp = arr[i]
-            pre = i - k
-            while pre &gt;= 0 and arr[pre] &gt; tmp:
-                arr[pre + k] = arr[pre]
-                pre -= k
-            arr[pre + k] = tmp
-        k = (k - 1) / 3
-
-</code></pre>
-</div>
-
-<p>效果图：</p>
-
-<p><img src="/img/in-post/shellSort.gif" alt="希尔排序" /></p>
-
-<h4 id="section-7">3.2 快速排序</h4>
-
-<p>简介：</p>
-
-<p><code class="highlighter-rouge">快速排序</code>（Quicksort）是对冒泡排序的一种改进。它的基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
-
-<p>步骤如下：</p>
-
-<p>步骤：</p>
-
-<ol>
-  <li>从数列中挑出一个元素，称为 “基准”（pivot），</li>
-  <li>重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作。</li>
-  <li>递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</li>
-</ol>
-
-<p>实现代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>def quickSort(arr, low, high):
-    if low &lt; high:
-        pivot = partition(arr, low, high)
-        quickSort(arr, low, pivot - 1)
-        quickSort(arr, pivot + 1, high)
-
-def partition(arr, low, high):
-    pivot = arr[low]
-    while low &lt; high:
-        while low &lt; high and arr[high] &gt;= pivot:
-            high -= 1
-        arr[low] = arr[high]
-        while low &lt; high and arr[low] &lt;= pivot:
-            low += 1
-        arr[high] = arr[low]
-    arr[low] = pivot
-    return low
-</code></pre>
-</div>
-
-<p>效果图：</p>
-
-<p><img src="/img/in-post/quickSort.gif" alt="快速排序" /></p>
-
-<h4 id="section-8">3.3 归并排序</h4>
-
-<p>简介：</p>
-
-<p><code class="highlighter-rouge">归并排序</code>(Merge Sort)是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。</p>
-
-<p>步骤如下：</p>
-
-<ol>
-  <li>申请空间，创建两个数组，长度分别为两个有序数组的长度</li>
-  <li>设定两个指针，最初位置分别为两个已经排序序列的起始位置</li>
-  <li>比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置</li>
-  <li>重复步骤3直到某一指针达到序列尾</li>
-  <li>将另一序列剩下的所有元素直接复制到合并序列尾</li>
-</ol>
-
-<p>实现代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>def mergeSort(arr, low, high):
-    if low &lt; high:
-        mid = low + (high - low) / 2
-        mergeSort(arr, low, mid)
-        mergeSort(arr, mid + 1, high)
-        return merge(arr, low, mid, high)
-
-def merge(arr, low, mid, high):
-    leftArr = arr[low : mid + 1]
-    rightArr = arr[mid + 1 : high + 1]
-    i, j, m = 0, 0, low
-    while i &lt; len(leftArr) and j &lt; len(rightArr)：
-        if leftArr[i] &lt; rightArr[j]:
-            arr[m] = leftArr[i]
-            i += 1
-        else:
-            arr[m] = rightArr[j]
-            j += 1
-        m += 1
-    while i &lt; len(leftArr):
-        arr[m] = leftArr[i]
-        m += 1
-        i += 1
-    while j &lt; len(rightArr):
-        arr[m] = rightArr[j]
-        m += 1
-        j += 1
-</code></pre>
-</div>
-
-<p>实现效果：</p>
-
-<p><img src="/img/in-post/mergeSort.gif" alt="归并排序" /></p>
-
-<h4 id="section-9">3.4 堆排序</h4>
-
-<p>简介：</p>
-
-<p>堆积排序（Heap Sort）是指利用堆这种数据结构所设计的一种排序算法。堆是一个近似完全二叉树的结构，并同时满足堆性质：即子结点的键值或索引总是小于（或者大于）它的父节点。</p>
-
-<p>步骤如下：</p>
-
-<ol>
-  <li>按堆的定义将数组R[0..n]调整为堆（这个过程称为创建初始堆），交换R[0]和R[n]；</li>
-  <li>将R[0..n-1]调整为堆，交换R[0]和R[n-1]；</li>
-  <li>重复上述过程，直到交换了R[0]和R[1]为止。</li>
-</ol>
-
-<p>实现代码：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>def heapSort(arr):
-    for i in range(len(arr) / 2)[::-1]:
-        heapAdjust(arr, i, len(arr) - 1)
-
-    for i in range(len(arr) - 1)[::-1]:
-        swap(arr[i], arr[0])
-        heapAdjust(arr, 0, i)
-
-def heapAdjust(arr, parent, length)：
-    tmp = arr[parent]
-    child = 2 * parent + 1
-    while child &lt; length:
-        if child + 1 &lt; length and arr[child + 1] &gt; arr[child]:
-            child += 1
-        if arr[child] &lt;= tmp:
-            break
-        arr[parent] = arr[child]
-        parent = child
-        child = 2 * parent + 1
-    arr[parent] = tmp
-</code></pre>
-</div>
-
-<p>效果图：</p>
-
-<p><img src="/img/in-post/heapSort.gif" alt="堆排序" /></p>
-
-<h3 id="section-10">4. 各排序算法时间空间复杂度</h3>
-
-<p><img src="/img/in-post/sortTimeComplexity.png" alt="" /></p>
+<p>进入到<code class="highlighter-rouge">/usr/local/bin</code>目录，输入 <code class="highlighter-rouge">./redis-cli</code>即可进入编辑页面</p>
 
 
                 <hr>
@@ -489,19 +242,12 @@ def heapAdjust(arr, parent, length)：
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/09/18/install_jekyll_on_fedora_22/" data-toggle="tooltip" data-placement="top" title="Fedora 22上安装jekyll">
+                        <a href="/2016/07/11/tomcat_80_introduction/" data-toggle="tooltip" data-placement="top" title="阿里云端口配置">
                         Previous<br>
-                        <span>Fedora 22上安装jekyll</span>
+                        <span>阿里云端口配置</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/04/12/idea_gradle_ssm/" data-toggle="tooltip" data-placement="top" title="使用IDEA和gradle搭建Spring MVC和MyBatis开发环境">
-                        Next<br>
-                        <span>使用IDEA和gradle搭建Spring MVC和MyBatis开发环境</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -668,8 +414,8 @@ def heapAdjust(arr, parent, length)：
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/03/28/seven_sort";
-    var disqus_url = "http://DavidWangTM.github.io/2016/03/28/seven_sort/";
+    var disqus_identifier = "/2016/07/20/mac_redis_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/07/20/mac_redis_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
