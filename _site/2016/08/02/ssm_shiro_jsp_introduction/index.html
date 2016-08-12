@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Leetcode Happy Number
+        SSM框架 shiro篇
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/04/13/leetcode_202_easy_happy_number/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/08/02/ssm_shiro_jsp_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-digital-native.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-js-module.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-digital-native.jpg')
+        background-image: url('/img/post-bg-js-module.jpg')
     }
 
     
@@ -173,17 +173,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Leetcode" title="Leetcode">Leetcode</a>
-                        
-                        <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
+                        <a class="tag" href="/tags/#SSM" title="SSM">SSM</a>
                         
                     </div>
-                    <h1>Leetcode Happy Number</h1>
+                    <h1>SSM框架 shiro篇</h1>
                     
                     
-                    <h2 class="subheading">Easy题目 编号202</h2>
+                    <h2 class="subheading">Shiro 在jsp中的使用</h2>
                     
-                    <span class="meta">Posted by DavidWang on April 13, 2016</span>
+                    <span class="meta">Posted by DavidWang on August 2, 2016</span>
                 </div>
             </div>
         </div>
@@ -201,97 +199,120 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<blockquote>
-  <p>“<a href="https://leetcode.com/">Leetcode</a>是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”</p>
-</blockquote>
+				<p>Shiro    提供了 JSP 的一套 JSTL 标签，用于做 JSP   页面做权限控制的。可以控制一些按钮和一些超链接，或者一些显示内容。</p>
 
-<h4 id="section">题目</h4>
+<p>不过引入有区分，JSP需要在头部引入， Shiro  提供的TLD 文件:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Write an algorithm to determine if a number is "happy".
-
-A happy number is a number defined by the following process:
-Starting with any positive integer, replace the number by the sum of the squares
-of its digits, and repeat the process until the number equals 1 (where it will stay),
-or it loops endlessly in a cycle which does not include 1.
-Those numbers for which this process ends in 1 are happy numbers.
-
-Example: 19 is a happy number
-
-1² + 9² = 82
-8² + 2² = 68
-6² + 8² = 100
-1² + 0² + 0² = 1
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %&gt;  
 </code></pre>
 </div>
 
-<h4 id="section-1">翻译</h4>
+<p>下面是具体的标签用法：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>写一个算法判断一个数是否为“happy”的。
-一个happy number由下列程序进行判断：
-初始为一个正整数，用这个正整数的每一位数字的平方和代替原数，
-重复这个做法直到数字为1，或者进入一个不为1的无限循环。
-最后能够达到1的数字就是happy number。
+<h3 id="guest">1.guest（游客）</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:guest&gt;  
+您当前是游客，&lt;a href="javascript:void(0);" class="dropdown-toggle qqlogin" &gt;登录&lt;/a&gt;
+&lt;/shiro:guest&gt; 
 </code></pre>
 </div>
 
-<h4 id="tags">Tags</h4>
+<h3 id="user">2.user（已经登录，或者记住我登录）</h3>
 
-<p><code class="highlighter-rouge">Hash Table</code> <code class="highlighter-rouge">Math</code></p>
-
-<h4 id="section-2">代码</h4>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>Java Math：
-
-public boolean isHappy(int n) {
-    if(n == 0) return false;
-    int sum = 0, tmp = 0;
-    while(n != 1){
-        sum = 0;
-        tmp = n;
-        while(tmp &gt; 0){
-            sum += Math.pow(tmp % 10, 2);
-            tmp /= 10;
-        }
-        n = sum;
-        if(n &lt; 10 &amp;&amp; n != 1 &amp;&amp; n != 7)
-            return false;
-    }
-    return true;
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:user&gt;  
+欢迎[&lt;shiro:principal/&gt;]登录，&lt;a href="/logout.shtml"&gt;退出&lt;/a&gt;  
+&lt;/shiro:user&gt;   
 </code></pre>
 </div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Java Hash Table:
+<h3 id="authenticated">3.authenticated（已经认证，排除记住我登录的）</h3>
 
-public boolean isHappy(int n) {
-    if(n == 0) return false;
-    HashSet&lt;Integer&gt; hashSet = new HashSet&lt;&gt;();
-    int sum = 0, tmp = 0;;
-    while(n != 1 &amp;&amp; n != 7){
-        sum = 0;
-        tmp = n;
-        while(tmp &gt; 0){
-            sum += Math.pow(tmp % 10, 2);
-            tmp /= 10;
-        }
-        n = sum;
-        if(hashSet.contains(n)) return false;
-        hashSet.add(n);
-    }
-    return true;
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:authenticated&gt;  
+	用户[&lt;shiro:principal/&gt;]已身份验证通过  
+&lt;/shiro:authenticated&gt;   
 </code></pre>
 </div>
 
-<h4 id="section-3">讲解</h4>
+<h3 id="notauthenticatedauthenticated">4.notAuthenticated（和authenticated相反）</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>很容易的我们可以推断出，如果一个数为个位数，则只有1和7才是happy number，而任何数字经过有限次
-的转换一定会变成个位数，如果变成的个位数不为1和7，则不是happy number，反之则是。
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:notAuthenticated&gt;
+	当前身份未认证（包括记住我登录的）
+&lt;/shiro:notAuthenticated&gt; 
 </code></pre>
 </div>
 
-<h4 id="section-4">习题地址</h4>
-<p><a href="https://leetcode.com/problems/happy-number/" target="_blank">Happy Number</a></p>
+<p>这个功能主要用途，识别是不是本次操作登录过的，比如支付系统，进入系统可以用记住我的登录信息，但是当要关键操作的时候，需要进行认证识别。</p>
+
+<h3 id="principal">5.principal标签，比较常用。</h3>
+
+<p>principal 标签，取值取的是你登录的时候。在Realm 实现类中的如下代码：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>....
+return new SimpleAuthenticationInfo(user,user.getPswd(), getName());
+</code></pre>
+</div>
+
+<p>在new SimpleAuthenticationInfo(第一个参数,….) 的第一个参数放的如果是一个username ，那么就可以直接用。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;!--取到username--&gt;
+&lt;shiro: principal/&gt;
+</code></pre>
+</div>
+
+<p>如果第一个参数放的是对象，比如我喜欢放User 对象。那么如果要取username 字段。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;!--需要指定property--&gt;
+&lt;shiro:principal property="username"/&gt;
+</code></pre>
+</div>
+
+<p>和下面 Java  代码一致</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>User user = (User)SecurityUtils.getSubject().getPrincipals();
+String username = user.getUsername();
+</code></pre>
+</div>
+
+<h3 id="hasrole">6.hasRole标签（判断是否拥有这个角色）</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:hasRole name="admin"&gt;  
+	用户[&lt;shiro:principal/&gt;]拥有角色admin&lt;br/&gt;  
+&lt;/shiro:hasRole&gt;   
+</code></pre>
+</div>
+
+<h3 id="hasanyroles">7.hasAnyRoles标签（判断是否拥有这些角色的其中一个）</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:hasAnyRoles name="admin,user,member"&gt;  
+用户[&lt;shiro:principal/&gt;]拥有角色admin或user或member&lt;br/&gt;  
+&lt;/shiro:hasAnyRoles&gt;   
+</code></pre>
+</div>
+
+<h3 id="lacksrole">8.lacksRole标签（判断是否不拥有这个角色）</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:lacksRole name="admin"&gt;  
+用户[&lt;shiro:principal/&gt;]不拥有admin角色
+&lt;/shiro:lacksRole&gt;   
+</code></pre>
+</div>
+
+<h3 id="haspermission">9.hasPermission标签（判断是否有拥有这个权限）</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:hasPermission name="user:add"&gt;  
+	用户[&lt;shiro:principal/&gt;]拥有user:add权限
+&lt;/shiro:hasPermission&gt;   
+</code></pre>
+</div>
+
+<h3 id="lackspermission">10.lacksPermission标签（判断是否没有这个权限）</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;shiro:lacksPermission name="user:add"&gt;  
+	用户[&lt;shiro:principal/&gt;]不拥有user:add权限
+&lt;/shiro:lacksPermission&gt;   
+</code></pre>
+</div>
+
 
 
                 <hr>
@@ -302,19 +323,12 @@ public boolean isHappy(int n) {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/04/13/leetcode_319_medium_bulb_switcher/" data-toggle="tooltip" data-placement="top" title="Leetcode Bulb Switcher">
+                        <a href="/2016/08/01/ubuntu_root_introduction/" data-toggle="tooltip" data-placement="top" title="Ubuntu 操作篇">
                         Previous<br>
-                        <span>Leetcode Bulb Switcher</span>
+                        <span>Ubuntu 操作篇</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/04/13/leetcode_268_medium_missing_number/" data-toggle="tooltip" data-placement="top" title="Leetcode Missing Number">
-                        Next<br>
-                        <span>Leetcode Missing Number</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -485,8 +499,8 @@ public boolean isHappy(int n) {
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/04/13/leetcode_202_easy_happy_number";
-    var disqus_url = "http://DavidWangTM.github.io/2016/04/13/leetcode_202_easy_happy_number/";
+    var disqus_identifier = "/2016/08/02/ssm_shiro_jsp_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/08/02/ssm_shiro_jsp_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
