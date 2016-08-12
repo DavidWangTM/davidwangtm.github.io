@@ -5,17 +5,19 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 12 Aug 2016 13:31:55 +0800</pubDate>
-    <lastBuildDate>Fri, 12 Aug 2016 13:31:55 +0800</lastBuildDate>
+    <pubDate>Fri, 12 Aug 2016 13:38:04 +0800</pubDate>
+    <lastBuildDate>Fri, 12 Aug 2016 13:38:04 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>Ubuntu 操作篇</title>
         <description>&lt;h3 id=&quot;root-&quot;&gt;1. 修改 root 密码&lt;/h3&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo passwd root&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo passwd root
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;h3 id=&quot;sudo-nano-etcsshsshdconfig-&quot;&gt;2. 以其他账户登录，通过 sudo nano修改 /etc/ssh/sshd_config :&lt;/h3&gt;
+&lt;h3 id=&quot;section&quot;&gt;2. 以其他账户登录修改内容&lt;/h3&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xxx@ubuntu14:~$ su - root
 Password:
@@ -23,7 +25,7 @@ root@ubuntu14:~# vi /etc/ssh/sshd_config
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;permitrootlogin-without-password-permitrootlogin-yes&quot;&gt;3. 注释掉 #PermitRootLogin without-password，添加 PermitRootLogin yes&lt;/h3&gt;
+&lt;h3 id=&quot;section-1&quot;&gt;3. 注释注解&lt;/h3&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Authentication:
 LoginGraceTime 120
@@ -33,7 +35,7 @@ StrictModes yes
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;ssh-&quot;&gt;4. 重启 ssh 服务&lt;/h3&gt;
+&lt;h3 id=&quot;ssh&quot;&gt;4. 重启ssh服务&lt;/h3&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@ubuntu14:~# sudo service ssh restart
 ssh stop/waiting

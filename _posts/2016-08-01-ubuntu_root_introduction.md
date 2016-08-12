@@ -12,9 +12,11 @@ tags:
 
 ### 1. 修改 root 密码
 
-`sudo passwd root`
+```
+sudo passwd root
+```
 
-### 2. 以其他账户登录，通过 sudo nano修改 /etc/ssh/sshd_config :
+### 2. 以其他账户登录修改内容
 
 ```
 xxx@ubuntu14:~$ su - root
@@ -22,7 +24,7 @@ Password:
 root@ubuntu14:~# vi /etc/ssh/sshd_config
 ```
 
-### 3. 注释掉 #PermitRootLogin without-password，添加 PermitRootLogin yes
+### 3. 注释注解
 
 ```
 # Authentication:
@@ -32,7 +34,7 @@ PermitRootLogin yes
 StrictModes yes
 ```
 
-### 4. 重启 ssh 服务
+### 4. 重启ssh服务
 
 ```
 root@ubuntu14:~# sudo service ssh restart
