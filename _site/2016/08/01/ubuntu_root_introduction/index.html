@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        IOS 快速开发工具
+        Ubuntu 操作篇
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/14/ios_xcodeplu_introduction/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/08/01/ubuntu_root_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-apple-event-2015.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-apple-event-2015.jpg')
+        background-image: url('/img/post-bg-e2e-ux.jpg')
     }
 
     
@@ -173,17 +173,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#ios" title="ios">ios</a>
-                        
-                        <a class="tag" href="/tags/#Xcode" title="Xcode">Xcode</a>
+                        <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
                         
                     </div>
-                    <h1>IOS 快速开发工具</h1>
+                    <h1>Ubuntu 操作篇</h1>
                     
                     
-                    <h2 class="subheading">Xcode 觉得好用的插件库</h2>
+                    <h2 class="subheading">Ubuntu修改为root账号远程登录</h2>
                     
-                    <span class="meta">Posted by DavidWang on June 14, 2016</span>
+                    <span class="meta">Posted by DavidWang on August 1, 2016</span>
                 </div>
             </div>
         </div>
@@ -201,164 +199,36 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h3 id="alcatraz">第一部分 Alcatraz插件的介绍</h3>
+				<h3 id="root-">1. 修改 root 密码</h3>
 
-<p>Alcatraz 是Xcode管理插件的工具,在上面能找到各种提高效率的插件。</p>
+<p><code class="highlighter-rouge">sudo passwd root</code></p>
 
-<p>源码地址：<a href="https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin">https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin</a></p>
+<h3 id="sudo-nano-etcsshsshdconfig-">2. 以其他账户登录，通过 sudo nano修改 /etc/ssh/sshd_config :</h3>
 
-<p>安装的方法也很简单，如果你以前没有安装过那执行下面指令</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -fsSL https://raw.github.com/alcatraz/Alcatraz/master/Scripts/install.sh | sh
+<div class="highlighter-rouge"><pre class="highlight"><code>xxx@ubuntu14:~$ su - root
+Password:
+root@ubuntu14:~# vi /etc/ssh/sshd_config
 </code></pre>
 </div>
 
-<p>如果之前安装过但是Xcode最新版本不能用了，那就先卸载旧的再安装下新的。</p>
+<h3 id="permitrootlogin-without-password-permitrootlogin-yes">3. 注释掉 #PermitRootLogin without-password，添加 PermitRootLogin yes</h3>
 
-<p>卸载的方法是：</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin
-rm -rf ~/Library/Application\ Support/Alcatraz/
+<div class="highlighter-rouge"><pre class="highlight"><code># Authentication:
+LoginGraceTime 120
+#PermitRootLogin without-password
+PermitRootLogin yes
+StrictModes yes
 </code></pre>
 </div>
 
-<h3 id="section">第二部分 插件的安装</h3>
-
-<p>in Xcode: <code class="highlighter-rouge">go to Windows → Package Manager</code> and search for <code class="highlighter-rouge">插件名</code>.</p>
-
-<p><img src="https://camo.githubusercontent.com/70505dece9a75af5ca4715fff66271127f7d5b78/687474703a2f2f616c63617472617a2e696f2f696d616765732f6d656e754032782e706e67" alt="URL" /></p>
-
-<p><img src="https://camo.githubusercontent.com/919efe4e1e53237df51d7010c862bd5c04fd6a70/687474703a2f2f616c63617472617a2e696f2f696d616765732f73637265656e73686f744032782e706e67" alt="URL" /></p>
-
-<h3 id="section-1">第三部分 插件的汇总</h3>
-
-<h4 id="esjsonformat-xcode">ESJsonFormat-Xcode</h4>
-
-<p>ESJsonFormat-Xcode 是Xcode JSON格式化输出为模型的属性的插件。</p>
-
-<p>源码地址：<a href="https://github.com/EnjoySR/ESJsonFormat-Xcode">https://github.com/EnjoySR/ESJsonFormat-Xcode</a></p>
-
-<p><img src="https://raw.githubusercontent.com/EnjoySR/ESJsonFormat-Xcode/master/ScreenShot/ScreenShot2.gif" alt="URL" /></p>
-
-<p><strong>推荐指数：五星</strong></p>
-
-<h4 id="mlautoreplace">MLAutoReplace</h4>
-
-<p>MLAutoReplace make you write code more quickly.</p>
-
-<p>源码地址：<a href="https://github.com/molon/MLAutoReplace">https://github.com/molon/MLAutoReplace</a></p>
-
-<p><img src="https://raw.githubusercontent.com/molon/MLAutoReplace/master/replaceTS.gif" alt="URL" /></p>
-
-<p><strong>推荐指数：五星</strong></p>
-
-<h4 id="vvdocumenter-xcode">VVDocumenter-Xcode</h4>
-
-<p>VVDocumenter 是一个Xcode的代码注释框架，可以简单的操作三斜杠<code class="highlighter-rouge">///</code>即可生成对应的代码注释，在菜单Window中找到VVDocumenter 可以进行一些个性化的设置。总体来说还是非常实用和好用的。</p>
-
-<p>源码地址：<a href="https://github.com/onevcat/VVDocumenter-Xcode">https://github.com/onevcat/VVDocumenter-Xcode</a></p>
-
-<p><img src="https://camo.githubusercontent.com/ca5518c9872e15b8a95b9d8c5f44bc331977d710/68747470733a2f2f7261772e6769746875622e636f6d2f6f6e65766361742f5656446f63756d656e7465722d58636f64652f6d61737465722f53637265656e53686f742e676966" alt="URL" /></p>
-
-<p><strong>推荐指数：五星</strong></p>
-
-<h4 id="ksimagenamed">KSImageNamed</h4>
-
-<p>KSImageNamed 是一款Xcode 图片文件提示工具.当你输入<code class="highlighter-rouge">imageNamed: </code>的时候会弹出所有图片的名称和预览图片选择，。</p>
-
-<p>源码地址：<a href="https://github.com/ksuther/KSImageNamed-Xcode">https://github.com/ksuther/KSImageNamed-Xcode</a></p>
-
-<p><img src="https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966" alt="URL" /></p>
-
-<p><strong>推荐指数：五星</strong></p>
-
-<h4 id="scxcodeminimap">SCXcodeMiniMap</h4>
-
-<p>SCXcodeMiniMap 是Xcode中类似于sublime的功能，这是非常好用的。 并且右边的代码迷你地图提供了很多可配置的地方，而且会高亮显示宏和注释部分，小地图中点击任何地方也会自动滚动至此。这在有的类代码特别长时你写着写着都不知道自己在哪里了,会很有用.</p>
-
-<p>源码地址：<a href="https://github.com/stefanceriu/SCXcodeMiniMap">https://github.com/stefanceriu/SCXcodeMiniMap</a></p>
-
-<p><img src="https://camo.githubusercontent.com/dff11be450a7e4f0208950a00b218484fffdac5b/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31323734383230312f5265636f7264696e67732f534358636f64654d696e696d61702f76322e322f736561726368526573756c7473486967686c69676874696e672e706e67" alt="URL" /></p>
-
-<p><strong>推荐指数：四星</strong></p>
-
-<h4 id="bbudebuggertuckaway">BBUDebuggerTuckAway</h4>
-
-<p>BBUDebuggerTuckAway 在Xcode编辑代码的时候，调试框会自动缩回。</p>
-
-<p>源码地址：<a href="https://github.com/neonichu/BBUDebuggerTuckAway">https://github.com/neonichu/BBUDebuggerTuckAway</a></p>
-
-<p><img src="https://github.com/neonichu/BBUDebuggerTuckAway/raw/master/plugin.gif" alt="URL" /></p>
-
-<p><strong>推荐指数：三星</strong></p>
-
-<h4 id="cocoapods-xcode-plugin">cocoapods-xcode-plugin</h4>
-
-<p>cocoapods-xcode-plugin 是一个Xcode上Pod管理工具。</p>
-
-<p>源码地址：<a href="https://github.com/kattrali/cocoapods-xcode-plugin">https://github.com/kattrali/cocoapods-xcode-plugin</a></p>
-
-<p><img src="https://github.com/kattrali/cocoapods-xcode-plugin/raw/master/menu.png" alt="URL" /></p>
-
-<p><strong>推荐指数：三星</strong></p>
-
-<h4 id="scxcodeswitchexpander">SCXcodeSwitchExpander</h4>
-
-<p>SCXcodeSwitchExpander  是Xcode非常方便的创建枚举库，自动生成了所有可能，并且每种里面都包含代码块，可以直接tab切换。  虽然使用率不会特别高但是用到的时候还是非常方便的。</p>
-
-<p>源码地址： <a href="https://github.com/stefanceriu/SCXcodeSwitchExpander">https://github.com/stefanceriu/SCXcodeSwitchExpander</a></p>
-
-<p><img src="https://camo.githubusercontent.com/a544a54d43b6e26c75d56889b7a6a4df8a90b4a5/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f31323734383230312f534358636f6465537769746368457870616e6465722f534358636f6465537769746368457870616e646572322e676966" alt="URL" /></p>
-
-<p><strong>推荐指数：四星</strong></p>
-
-<h4 id="hostringsense">HOStringSense</h4>
-
-<p>HOStringSense 是Xcode内容编辑工具，会把换行，空格转化成代码片段。</p>
-
-<p>源码地址：<a href="https://github.com/holtwick/HOStringSense-for-Xcode">https://github.com/holtwick/HOStringSense-for-Xcode</a></p>
-
-<p><img src="https://github.com/holtwick/HOStringSense-for-Xcode/raw/master/StringDemoAnimation.gif" alt="URL" /></p>
-
-<p><strong>推荐指数：三星</strong></p>
-
-<h4 id="xalign">XAlign</h4>
-
-<p>XAlign 是Xcode中自动对齐库,可以在 <code class="highlighter-rouge">Xcode -&gt; Edit -&gt; XAlign</code> 设置快捷键。默认为 <code class="highlighter-rouge">Shift + Cmd + X</code>.</p>
-
-<p>源码地址：<a href="https://github.com/qfish/XAlign">https://github.com/qfish/XAlign</a></p>
-
-<p><img src="https://camo.githubusercontent.com/7973c0e352b1f91e3efe5b3550cff5df97f4589a/687474703a2f2f7166692e73682f58416c69676e2f696d616765732f657175616c2e676966" alt="URL" /></p>
-
-<p><strong>推荐指数：五星</strong></p>
-
-<h4 id="dash-plugin-for-xcode">Dash-Plugin-for-Xcode</h4>
-
-<p>Dash-Plugin-for-Xcode 是Bogdan Popescu开发的一款集成了Dash文档查看器应用的Xcode插件，允许开发者在使用Option-Click或作用相同的快捷键操作查看当前文本的相关文档时，用Dash代替Xcode的文档查看器。</p>
-
-<p>源码地址：<a href="https://github.com/omz/Dash-Plugin-for-Xcode">https://github.com/omz/Dash-Plugin-for-Xcode</a></p>
-
-<p><strong>推荐指数：三星</strong></p>
-
-<h4 id="peckham">Peckham</h4>
-
-<p>Peckham 是Xcode快速导入头文件的插件,默认为 <code class="highlighter-rouge">⌘ + ctrl + P</code>.</p>
-
-<p>源码地址：<a href="https://github.com/markohlebar/Peckham">https://github.com/markohlebar/Peckham</a></p>
-
-<p><img src="https://github.com/markohlebar/Peckham/raw/master/Misc/Peckham.gif" alt="URL" /></p>
-
-<p><strong>推荐指数：四星</strong></p>
-
-<h4 id="xtodo-xcode">XToDo-Xcode</h4>
-
-<p>XToDo-Xcode 是一个注释辅助插件, 可以把项目中的 TODO FIXME等注释列出来.</p>
-
-<p>源码地址：<a href="https://github.com/trawor/XToDo">https://github.com/trawor/XToDo</a></p>
-
-<p><img src="https://github.com/trawor/XToDo/raw/master/screenshots/2.png" alt="URL" /></p>
-
-<p><strong>推荐指数：四星</strong></p>
+<h3 id="ssh-">4. 重启 ssh 服务</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>root@ubuntu14:~# sudo service ssh restart
+ssh stop/waiting
+ssh start/running, process 1499
+root@ubuntu14:~#
+</code></pre>
+</div>
 
 
                 <hr>
@@ -369,19 +239,12 @@ rm -rf ~/Library/Application\ Support/Alcatraz/
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/06/13/android_studio_plugins_introduction/" data-toggle="tooltip" data-placement="top" title="Android 快速开发工具">
+                        <a href="/2016/07/20/mac_redis_introduction/" data-toggle="tooltip" data-placement="top" title="Mac下配置redis">
                         Previous<br>
-                        <span>Android 快速开发工具</span>
+                        <span>Mac下配置redis</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/06/15/ios_pod_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 第三方库管理工具">
-                        Next<br>
-                        <span>IOS 第三方库管理工具</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -550,8 +413,8 @@ rm -rf ~/Library/Application\ Support/Alcatraz/
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/06/14/ios_xcodeplu_introduction";
-    var disqus_url = "http://DavidWangTM.github.io/2016/06/14/ios_xcodeplu_introduction/";
+    var disqus_identifier = "/2016/08/01/ubuntu_root_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/08/01/ubuntu_root_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

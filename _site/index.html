@@ -180,6 +180,38 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/08/01/ubuntu_root_introduction/">
+        <h2 class="post-title">
+            Ubuntu 操作篇
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Ubuntu修改为root账号远程登录
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 修改 root 密码
+
+sudo passwd root
+
+2. 以其他账户登录，通过 sudo nano修改 /etc/ssh/sshd_config :
+
+xxx@ubuntu14:~$ su - root
+Password:
+root@ubuntu14:~# vi /etc/ssh/sshd_config
+
+
+
+3. 注释掉 #PermitRootLogin without-pa...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on August 1, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/07/20/mac_redis_introduction/">
         <h2 class="post-title">
             Mac下配置redis
@@ -459,36 +491,6 @@ CPU VS GPU
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/06/30/ios_core_animation9_introduction/">
-        <h2 class="post-title">
-            IOS 动画讲解九
-        </h2>
-        
-        <h3 class="post-subtitle">
-            图层时间
-        </h3>
-        
-        <div class="post-content-preview">
-            图层时间
-
-
-  时间和空间最大的区别在于，时间不能被复用 – 弗斯特梅里克
-
-
-在上面两章中，我们探讨了可以用CAAnimation和它的子类实现的多种图层动画。动画的发生是需要持续一段时间的，所以计时对整个概念来说至关重要。在这一章中，我们来看看CAMediaTiming，看看Core Animation是如何跟踪时间的。
-
-CAMediaTiming协议
-
-CAMediaTiming协...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 30, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -606,6 +608,8 @@ CAMediaTiming协...
                                 <a href="/tags/#tomcat" title="tomcat" rel="2">
                                     tomcat
                                 </a>
+                            
+                        
                             
                         
                             

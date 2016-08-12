@@ -41,3 +41,31 @@ sudo make isntall
 #### 四.尝试连接redis，进行数据操作
 
 进入到`/usr/local/bin`目录，输入 `./redis-cli`即可进入编辑页面
+
+#### 五.安装redis-commander 
+
+Redis web-based management tool written in node.js
+
+##### 插入和运行
+
+```
+$ npm install -g redis-commander
+$ redis-commander
+```
+
+##### 使用
+
+```
+$ redis-commander --help
+Options:
+  --redis-port                    The port to find redis on.         [string]
+  --redis-host                    The host to find redis on.         [string]
+  --redis-socket                  The unix-socket to find redis on.  [string]
+  --redis-password                The redis password.                [string]
+  --redis-db                      The redis database.                [string]
+  --http-auth-username, --http-u  The http authorisation username.   [string]
+  --http-auth-password, --http-p  The http authorisation password.   [string]
+  --port, -p                      The port to run the server on.     [string]  [default: 8081]
+  --address, -a                   The address to run the server on   [string]  [default: 0.0.0.0]
+  ```
+
