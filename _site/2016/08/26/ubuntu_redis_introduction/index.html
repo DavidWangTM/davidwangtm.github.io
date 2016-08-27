@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        制作Mac OS X EL Capotan U盘引导安装
+        Ubuntu 操作篇
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/06/18/mac_core_os_upan_introduction/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/08/26/ubuntu_redis_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-2015.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-2015.jpg')
+        background-image: url('/img/post-bg-e2e-ux.jpg')
     }
 
     
@@ -173,15 +173,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Mac" title="Mac">Mac</a>
+                        <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
+                        
+                        <a class="tag" href="/tags/#Redis" title="Redis">Redis</a>
                         
                     </div>
-                    <h1>制作Mac OS X EL Capotan U盘引导安装</h1>
+                    <h1>Ubuntu 操作篇</h1>
                     
                     
-                    <h2 class="subheading">U盘引导安装</h2>
+                    <h2 class="subheading">Ubuntu 安装设置redis</h2>
                     
-                    <span class="meta">Posted by DavidWang on June 18, 2016</span>
+                    <span class="meta">Posted by DavidWang on August 26, 2016</span>
                 </div>
             </div>
         </div>
@@ -199,198 +201,76 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="mac-os-x-el-capitan-u">制作 Mac OS X El Capitan 的U盘引导安装</h2>
+				<h2 id="ubuntu-1404redis">ubuntu 14.04下的redis安装配置</h2>
 
-<h3 id="section">一、准备工作：</h3>
+<h3 id="section">安装</h3>
 
-<ul>
-  <li>准备一个 8GB 或者 8G 以上容量的 U 盘。</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>确保里面的数据已经妥善备份好（该过程会抹掉 U 盘全部数据）
-最好使用3.0的U盘、速度快 (本人比较苦逼，没有U盘，直接使用的硬盘~ 都是一样的啦)
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install redis-server
 </code></pre>
 </div>
 
-<ul>
-  <li>打开 <code class="highlighter-rouge">App store</code> 下载 <code class="highlighter-rouge">OS X El Capitan</code> 系统</li>
-</ul>
+<h3 id="redis">检查redis系统进程</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>下载 OS X 系统 这个就没啥可说的了，直接看图吧..
+<div class="highlighter-rouge"><pre class="highlight"><code>ps -aux|grep redis
 </code></pre>
 </div>
 
-<h3 id="os">二、下载OS系统</h3>
+<h3 id="redis-1">redis服务器状态检查</h3>
 
-<ul>
-  <li>搜索系统</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_1.jpeg" alt="IMG" /></p>
-
-<ul>
-  <li>点击下载</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_2.jpeg" alt="IMG" /></p>
-
-<ul>
-  <li>点击继续</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_3.png" alt="IMG" /></p>
-
-<ul>
-  <li>当你下载完成以后, 打开你的 launchpad</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_4.jpeg" alt="IMG" /></p>
-
-<ul>
-  <li>找到刚才下载的这个 OS X El Capitan</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_5.png" alt="IMG" /></p>
-
-<h3 id="section-1">三、格式化优盘</h3>
-
-<ul>
-  <li>插入你的 U 盘，然后在「应用程序」-&gt;「实用工具」里面找到并打开「磁盘工具」</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_6.png" alt="IMG" /></p>
-
-<ul>
-  <li>在左方列表中找到 外置 -&gt; U盘的名称并点击</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_7.png" alt="IMG" /></p>
-
-<ul>
-  <li>右边顶部选择 抹掉 并且在 名称 输入 DavidWang
-由于后面的命令中会用到此名称，如果你要修改成其他(英文)，
-请务必对应修改后面的命令, (如果不清楚、请按照我的步骤来，包你不会碰壁！）</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_8.png" alt="IMG" /></p>
-
-<ul>
-  <li>开始格式化 (抹掉U盘)</li>
-</ul>
-
-<h3 id="section-2">四、输入终端命令开始制作启动盘</h3>
-
-<ul>
-  <li>
-    <p>请再次确保名为 “安装 OS X El Capitan” 的文件是保存在 应用程序的目录中</p>
-  </li>
-  <li>
-    <p>在应用程序-&gt;实用工具里面找到终端<code class="highlighter-rouge">并打开, 也可以直接通过Spotlight</code>`搜索终端打开</p>
-  </li>
-  <li>
-    <p>复制下面的命令，并粘贴到终端里，按回车运行! (指令有点长！请复制完全哦~)</p>
-  </li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume 
-
-/Volumes/DavidWang --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
-
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo /etc/init.d/redis-server status
 </code></pre>
 </div>
 
-<p>命令说明：Install\ OS\ X\ El\ Capitan.app 这个是正式版的“安装OS X El Capitan
-Mac OS X EI Capitan 这个是U盘的名字 终端上的如果有空格需要加上 (空格)
-在终端上U盘的名字是这样的 Volumes/Mac\ OS\ X\ EI\ Capitan</p>
+<p>或</p>
 
-<ul>
-  <li>接回车之后，系统会提示你输入电脑的管理员密码 (如果没有设置密码直接再按一次回车)</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_9.png" alt="IMG" /></p>
-
-<ul>
-  <li>接下来就是等待系统开始制作启动盘了
-这时，命令执行中你会<code class="highlighter-rouge">陆续</code><code class="highlighter-rouge">陆续</code>`陆续看到类似以下的信息:</li>
-</ul>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>Erasing Disk: 0%... 10%... 20%... 30%...100%...
-Copying installer files to disk...
-Copy complete.
-Making disk bootable...
-Copying boot files...
-Copy complete.
-Done.
+<div class="highlighter-rouge"><pre class="highlight"><code>netstat -nlt|grep 6379
 </code></pre>
 </div>
 
-<p>当你看到最后有Copy complete 和Done字样出现就是表示启动盘已经制作完成了!!!</p>
+<h3 id="redis-2">通过终端访问redis</h3>
 
-<p><img src="/img/in-post/ios_introduction/u_10.png" alt="IMG" /></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>redis-cli
+</code></pre>
+</div>
 
-<ul>
-  <li>6.当你制作完成的OS X El Capitan启动盘之后,优盘就会显示
-Install OS X El Capitan的盘符那么就表示启动盘是正常的了。</li>
-</ul>
+<h3 id="redis-3">重启redis</h3>
 
-<h3 id="u-os-x-el-capitan-">五、U盘启动安装 OS X El Capitan 的方法</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo /etc/init.d/redis-server restart
+</code></pre>
+</div>
 
-<ul>
-  <li>1.先在目标电脑上插上 U盘，然后重启你的Mac
-然后一直按住键盘option 或者是(alt) 按键不放，
-直到屏幕显示多出一个 USB 启动盘的选项，如下图所示</li>
-</ul>
+<h3 id="redis-4">配置redis</h3>
 
-<p><img src="/img/in-post/ios_introduction/u_11.png" alt="IMG" /></p>
+<p>默认情况下，redis的访问是不需要账号和密码的。</p>
 
-<ul>
-  <li>2.这时，你可以直接覆盖安装系统(升级)，也可以在磁盘工具里面格式化抹掉整个硬盘，或者重新分区等实现全新的干净的安装。</li>
-  <li>3.选择磁盘工具…..</li>
-</ul>
+<p>要增加账号和密码，可以通过修改配置文件实现。</p>
 
-<p><img src="/img/in-post/ios_introduction/u_12.png" alt="IMG" /></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo vim /etc/redis/redis.conf
+</code></pre>
+</div>
 
-<ul>
-  <li>选择电脑内置磁盘….</li>
-</ul>
+<p>取消掉注释</p>
 
-<p><img src="/img/in-post/ios_introduction/u_13.png" alt="IMG" /></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#取消注释requirepass
+requirepass xxxx
+</code></pre>
+</div>
 
-<ul>
-  <li>抹掉….(磁盘名称 Macintosh HD)</li>
-</ul>
+<p>重启redis服务器</p>
 
-<p><img src="/img/in-post/ios_introduction/u_14.png" alt="IMG" /></p>
+<p>带密码登录</p>
 
-<ul>
-  <li>安装…..</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code>redis-cli -a xxx
+</code></pre>
+</div>
 
-<p><img src="/img/in-post/ios_introduction/u_15.png" alt="IMG" /></p>
+<h3 id="redis-5">访问远程redis服务器</h3>
 
-<ul>
-  <li>继续….</li>
-</ul>
+<p>注：默认情况下，redis服务器仅能本地方位。远程访问需注释掉配置文件中的“bind”项。</p>
 
-<p><img src="/img/in-post/ios_introduction/u_16.png" alt="IMG" /></p>
-
-<ul>
-  <li>继续….</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_17.png" alt="IMG" /></p>
-
-<ul>
-  <li>继续….</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_18.png" alt="IMG" /></p>
-
-<ul>
-  <li>选择电脑内置磁盘进行安装…..</li>
-</ul>
-
-<p><img src="/img/in-post/ios_introduction/u_19.png" alt="IMG" /></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>redis-cli -a xxx -h 192.168.1.200
+</code></pre>
+</div>
 
 
                 <hr>
@@ -401,19 +281,12 @@ Install OS X El Capitan的盘符那么就表示启动盘是正常的了。</li>
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/06/17/android_frame_introduction/" data-toggle="tooltip" data-placement="top" title="Android 快速开发库">
+                        <a href="/2016/08/02/ssm_shiro_jsp_introduction/" data-toggle="tooltip" data-placement="top" title="SSM框架 shiro篇">
                         Previous<br>
-                        <span>Android 快速开发库</span>
+                        <span>SSM框架 shiro篇</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/06/20/ios_mantle_introduction/" data-toggle="tooltip" data-placement="top" title="IOS 开源库讲解篇一">
-                        Next<br>
-                        <span>IOS 开源库讲解篇一</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -590,8 +463,8 @@ Install OS X El Capitan的盘符那么就表示启动盘是正常的了。</li>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/06/18/mac_core_os_upan_introduction";
-    var disqus_url = "http://DavidWangTM.github.io/2016/06/18/mac_core_os_upan_introduction/";
+    var disqus_identifier = "/2016/08/26/ubuntu_redis_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/08/26/ubuntu_redis_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -7,7 +7,7 @@ author:     "DavidWang"
 header-img: "img/post-bg-rwd.jpg"
 catalog: true
 tags:
-    - tomcat
+    - Tomcat
 --- 
 
 ### 阿里云将80端口请求转发到其他端口

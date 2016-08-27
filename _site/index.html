@@ -180,6 +180,54 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/08/26/ubuntu_redis_introduction/">
+        <h2 class="post-title">
+            Ubuntu 操作篇
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Ubuntu 安装设置redis
+        </h3>
+        
+        <div class="post-content-preview">
+            ubuntu 14.04下的redis安装配置
+
+安装
+
+sudo apt-get install redis-server
+
+
+
+检查redis系统进程
+
+ps -aux|grep redis
+
+
+
+redis服务器状态检查
+
+sudo /etc/init.d/redis-server status
+
+
+
+或
+
+netstat -nlt|grep 6379
+
+
+
+通过终端访问redis
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on August 26, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/08/02/ssm_shiro_jsp_introduction/">
         <h2 class="post-title">
             SSM框架 shiro篇
@@ -467,34 +515,6 @@ CPU VS GPU
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/07/02/ios_core_animation11_introduction/">
-        <h2 class="post-title">
-            IOS 动画讲解十一
-        </h2>
-        
-        <h3 class="post-subtitle">
-            基于定时器的动画
-        </h3>
-        
-        <div class="post-content-preview">
-            基于定时器的动画
-
-
-  我可以指导你，但是你必须按照我说的做。 – 骇客帝国
-
-
-在第10章“缓冲”中，我们研究了CAMediaTimingFunction，它是一个通过控制动画缓冲来模拟物理效果例如加速或者减速来增强现实感的东西，那么如果想更加真实地模拟物理交互或者实时根据用户输入修改动画改怎么办呢？在这一章中，我们将继续探索一种能够允许我们精确地控制一帧一帧展示的基于定时器的动画。
-
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on July 2, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -609,15 +629,21 @@ CPU VS GPU
                             
                         
                             
-                                <a href="/tags/#tomcat" title="tomcat" rel="2">
-                                    tomcat
+                                <a href="/tags/#Tomcat" title="Tomcat" rel="2">
+                                    Tomcat
                                 </a>
                             
                         
                             
-                        
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="3">
+                                    Ubuntu
+                                </a>
                             
                         
+                            
+                                <a href="/tags/#Redis" title="Redis" rel="2">
+                                    Redis
+                                </a>
                             
                         
                             

@@ -7,8 +7,8 @@ author:     "DavidWang"
 header-img: "img/post-bg-rwd.jpg"
 catalog: true
 tags:
-    - tomcat
-    - ubuntu
+    - Tomcat
+    - Ubuntu
 --- 
 
 ### 关于 Apache Tomcat

@@ -7,7 +7,7 @@ author:     "DavidWang"
 header-img: "img/post-bg-rwd.jpg"
 catalog: true
 tags:
-    - redis
+    - Redis
     - Mac
 --- 
 ### Mac 下安装运行 redis
