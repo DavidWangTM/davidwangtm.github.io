@@ -13,13 +13,10 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Ubuntu 操作篇
-            -
-            DavidWang's Blog | 王伟达的博客
-        
+        DavidWang's Blog | 王伟达的博客
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/08/26/ubuntu_redis_introduction/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/page8/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -152,308 +149,261 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
-
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        position: relative;
-        background-image: url('/img/post-bg-e2e-ux.jpg')
-    }
-
-    
-</style>
-<header class="intro-header" >
-    <div class="header-mask"></div>
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                        <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
-                        
-                        <a class="tag" href="/tags/#Redis" title="Redis">Redis</a>
-                        
-                    </div>
-                    <h1>Ubuntu 操作篇</h1>
-                    
-                    
-                    <h2 class="subheading">Ubuntu 安装设置redis</h2>
-                    
-                    <span class="meta">Posted by DavidWang on August 26, 2016</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>DavidWang's Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">简单一生，快乐一生</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-    <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-				<h2 id="ubuntu-1404redis">ubuntu 14.04下的redis安装配置</h2>
-
-<h3 id="section">安装</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install redis-server
-</code></pre>
-</div>
-
-<h3 id="redis">检查redis系统进程</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>ps -aux|grep redis
-</code></pre>
-</div>
-
-<h3 id="redis-1">redis服务器状态检查</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo /etc/init.d/redis-server status
-</code></pre>
-</div>
-
-<p>或</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>netstat -nlt|grep 6379
-</code></pre>
-</div>
-
-<h3 id="redis-2">通过终端访问redis</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>redis-cli
-</code></pre>
-</div>
-
-<h3 id="redis-3">重启redis</h3>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo /etc/init.d/redis-server restart
-</code></pre>
-</div>
-
-<h3 id="redis-4">配置redis</h3>
-
-<p>默认情况下，redis的访问是不需要账号和密码的。</p>
-
-<p>要增加账号和密码，可以通过修改配置文件实现。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo vim /etc/redis/redis.conf
-</code></pre>
-</div>
-
-<p>取消掉注释</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>#取消注释requirepass
-requirepass xxxx
-</code></pre>
-</div>
-
-<p>重启redis服务器</p>
-
-<p>带密码登录</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>redis-cli -a xxx
-</code></pre>
-</div>
-
-<h3 id="redis-5">访问远程redis服务器</h3>
-
-<p>注：默认情况下，redis服务器仅能本地方位。远程访问需注释掉配置文件中的“bind”项。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>redis-cli -a xxx -h 192.168.1.200
-</code></pre>
-</div>
-
-
-                <hr>
-
-                
-
-
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/2016/08/02/ssm_shiro_jsp_introduction/" data-toggle="tooltip" data-placement="top" title="SSM框架 shiro篇">
-                        Previous<br>
-                        <span>SSM框架 shiro篇</span>
-                        </a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/2016/08/28/ubuntu_nginx1_introduction/" data-toggle="tooltip" data-placement="top" title="Nginx 操作篇">
-                        Next<br>
-                        <span>Nginx 操作篇</span>
-                        </a>
-                    </li>
-                    
-                </ul>
-
-
-                
-
-                
-                <!-- disqus 评论框 start -->
-                <div class="comment">
-                    <div id="disqus_thread" class="disqus-thread"></div>
-                </div>
-                <!-- disqus 评论框 end -->
-                
-
-            </div>
-
-    <!-- Side Catalog Container -->
-        
-            <div class="
-                col-lg-2 col-lg-offset-0
-                visible-lg-block
-                sidebar-container
-                catalog-container">
-                <div class="side-catalog">
-                    <hr class="hidden-sm hidden-xs">
-                    <h5>
-                        <a class="catalog-toggle" href="#">CATALOG</a>
-                    </h5>
-                    <ul class="catalog-body"></ul>
-                </div>
-            </div>
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
         
 
+<!-- USE SIDEBAR -->
+    <!-- PostList Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                postlist-container
+            ">
+    			
+<div class="post-preview">
+    <a href="/2014/10/10/fedora_20_chinese_fonts/">
+        <h2 class="post-title">
+            Fedora 20 中文字体美化
+        </h2>
+        
+        <h3 class="post-subtitle">
+             如何美化Fedora 20的中文字体
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  “Fedora 20 自带的中文字体确实难以入眼。”
+
+
+新装了Fedora 20，但是他的中文字体看起来略微有一些奇怪，通过上网查找和自己的实践，总结出了以下美化的步骤：
+
+1. 安装字体
+
+安装文泉驿微米黑并开启文泉驿微米黑渲染：
+
+sudo yum install wqy-microhei-fonts
+
+
+
+vi /etc/fonts/conf.d/65-0-wqy-microh...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on October 10, 2014
+    </p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/page7">&larr; Newer Posts</a>
+    </li>
+    
+    
+</ul>
+
+
+    		</div>
     <!-- Sidebar Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
                 <!-- Featured Tags -->
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-        				
+                        
                             
-                				<a href="/tags/#Fedora" title="Fedora" rel="7">
+                                <a href="/tags/#Fedora" title="Fedora" rel="7">
                                     Fedora
                                 </a>
                             
-        				
+                        
                             
-        				
+                        
                             
-                				<a href="/tags/#Markdown" title="Markdown" rel="3">
+                                <a href="/tags/#Markdown" title="Markdown" rel="3">
                                     Markdown
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Leetcode" title="Leetcode" rel="12">
+                                <a href="/tags/#Leetcode" title="Leetcode" rel="12">
                                     Leetcode
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Algorithm" title="Algorithm" rel="13">
+                                <a href="/tags/#Algorithm" title="Algorithm" rel="13">
                                     Algorithm
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#PHP" title="PHP" rel="2">
+                                <a href="/tags/#PHP" title="PHP" rel="2">
                                     PHP
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#MacOS" title="MacOS" rel="5">
+                                <a href="/tags/#MacOS" title="MacOS" rel="5">
                                     MacOS
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Jekyll" title="Jekyll" rel="3">
+                                <a href="/tags/#Jekyll" title="Jekyll" rel="3">
                                     Jekyll
                                 </a>
                             
-        				
+                        
                             
-        				
+                        
                             
-        				
+                        
                             
-        				
+                        
                             
-                				<a href="/tags/#Android" title="Android" rel="13">
+                                <a href="/tags/#Android" title="Android" rel="13">
                                     Android
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#ios" title="ios" rel="21">
+                                <a href="/tags/#ios" title="ios" rel="21">
                                     ios
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Xcode" title="Xcode" rel="3">
+                                <a href="/tags/#Xcode" title="Xcode" rel="3">
                                     Xcode
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Mac" title="Mac" rel="2">
+                                <a href="/tags/#Mac" title="Mac" rel="2">
                                     Mac
                                 </a>
                             
-        				
+                        
                             
-        				
+                        
                             
-        				
+                        
                             
-                				<a href="/tags/#core-animation" title="core-animation" rel="15">
+                                <a href="/tags/#core-animation" title="core-animation" rel="15">
                                     core-animation
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Tomcat" title="Tomcat" rel="2">
+                                <a href="/tags/#Tomcat" title="Tomcat" rel="2">
                                     Tomcat
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
                                     Ubuntu
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#Redis" title="Redis" rel="2">
+                                <a href="/tags/#Redis" title="Redis" rel="2">
                                     Redis
                                 </a>
                             
-        				
+                        
                             
-        				
+                        
                             
-                				<a href="/tags/#Nginx" title="Nginx" rel="2">
+                                <a href="/tags/#Nginx" title="Nginx" rel="2">
                                     Nginx
                                 </a>
                             
-        				
-        			</div>
+                        
+                    </div>
                 </section>
                 
 
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <img src="/img/avatar-wen.jpg" />
+                        
+                        
+                            <p>爱唱歌，爱健身，准备好了吗，动起来吧。</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://www.zhihu.com/people/DavidWangTM">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                            <li>
+                                <a target="_blank" href="http://weibo.com/David_wang_xm">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://github.com/DavidWangTM">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </section>
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -462,68 +412,10 @@ requirepass xxxx
                     
                 </ul>
                 
-            </div>
-        </div>
-    </div>
-</article>
-
-
-
-
-
-
-<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES * * */
-    var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/08/26/ubuntu_redis_introduction";
-    var disqus_url = "http://DavidWangTM.github.io/2016/08/26/ubuntu_redis_introduction/";
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<!-- disqus 公共JS代码 end -->
-
-
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'always',
-          placement: 'right',
-          icon: '#'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
-
+    		</div>
+        
+	</div>
+</div>
 
 
     <!-- Footer -->
@@ -674,50 +566,6 @@ requirepass xxxx
 
 
 <!-- Side Catalog -->
-
-<script type="text/javascript">
-    function generateCatalog (selector) {
-        var P = $('div.post-container'),a,n,t,l,i,c;
-        a = P.find('h1,h2,h3,h4,h5,h6');
-        a.each(function () {
-            n = $(this).prop('tagName').toLowerCase();
-            i = "#"+$(this).prop('id');
-            t = $(this).text();
-            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
-            l = $('<li class="'+n+'_nav"></li>').append(c);
-            $(selector).append(l);
-        });
-        return true;
-    }
-
-    generateCatalog(".catalog-body");
-
-    // toggle side catalog
-    $(".catalog-toggle").click((function(e){
-        e.preventDefault();
-        $('.side-catalog').toggleClass("fold")
-    }))
-
-    /*
-     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
-     * Fork by Hux to support padding
-     */
-    async("/js/jquery.nav.js", function () {
-        $('.catalog-body').onePageNav({
-            currentClass: "active",
-            changeHash: !1,
-            easing: "swing",
-            filter: "",
-            scrollSpeed: 700,
-            scrollOffset: 0,
-            scrollThreshold: .2,
-            begin: null,
-            end: null,
-            scrollChange: null,
-            padding: 80
-        });
-    });
-</script>
 
 
 

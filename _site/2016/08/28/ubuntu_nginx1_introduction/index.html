@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Mastering Markdown
+        Nginx 操作篇
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/05/31/mastering_markdown/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/08/28/ubuntu_nginx1_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-markdown.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-markdown.jpg')
+        background-image: url('/img/post-bg-e2e-ux.jpg')
     }
 
     
@@ -173,15 +173,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Markdown" title="Markdown">Markdown</a>
+                        <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
+                        
+                        <a class="tag" href="/tags/#Nginx" title="Nginx">Nginx</a>
                         
                     </div>
-                    <h1>Mastering Markdown</h1>
+                    <h1>Nginx 操作篇</h1>
                     
                     
-                    <h2 class="subheading"> Markdown 用法介绍</h2>
+                    <h2 class="subheading">Ubuntu 设置Nginx操作配置</h2>
                     
-                    <span class="meta">Posted by DavidWang on May 31, 2016</span>
+                    <span class="meta">Posted by DavidWang on August 28, 2016</span>
                 </div>
             </div>
         </div>
@@ -199,207 +201,232 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h3 id="intro">Intro</h3>
+				<h3 id="nginx">重点介绍nginx配置</h3>
 
-<p>Markdown is a lightweight and easy-to-use syntax for styling all forms of writing on the GitHub platform.</p>
+<p>在上篇中，安装成功后，会有 <code class="highlighter-rouge">/etc/nginx</code> 目录，在 <code class="highlighter-rouge">/etc/nginx</code> 目录中找到 <code class="highlighter-rouge">nginx.conf</code>.使用 <code class="highlighter-rouge">vi nginx.conf</code> 打开文件。</p>
 
-<h3 id="what-you-will-learn">What you will learn:</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>user  nginx;
+#操作线程数
+worker_processes  1;
 
-<ul>
-  <li>How the Markdown format makes styled collaborative editing easy</li>
-  <li>How Markdown differs from traditional formatting approaches</li>
-  <li>How to use Markdown to format text</li>
-  <li>How to leverage GitHub’s automatic Markdown rendering</li>
-  <li>How to apply GitHub’s unique Markdown extensions</li>
-</ul>
+#引用目录地址
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
 
-<h3 id="what-is-markdown">What is Markdown?</h3>
+#单个线程最大连接数
+events {
+    worker_connections  1024;
+}
 
-<p><a href="href=&quot;http://daringfireball.net/projects/markdown/&quot;">markdown</a> is a way to style text on the web. You control the display of the document; formatting words as bold or italic, adding images, and creating lists are just a few of the things we can do with Markdown. Mostly, Markdown is just regular text with a few non-alphabetic characters thrown in, like <code class="highlighter-rouge">#</code> or <code class="highlighter-rouge">*</code>.</p>
 
-<p>You can use Markdown most places around GitHub:</p>
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
 
-<ul>
-  <li><a href="https://gist.github.com/">Gists</a></li>
-  <li>Comments in Issues and Pull Requests</li>
-  <li>Files with the <code class="highlighter-rouge">.md</code> or <code class="highlighter-rouge">.markdown</code> extension</li>
-</ul>
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
 
-<h3 id="examples">Examples</h3>
+    access_log  /var/log/nginx/access.log  main;
 
-<h4 id="text">Text</h4>
+    sendfile        on;
+    #tcp_nopush     on;
 
-<div class="highlighter-rouge"><pre class="highlight"><code>It's very easy to make some words **bold** and other 
-words *italic* with Markdown. You can even [link to 
-Google!](http://google.com)
+	 #超时时间
+	 client_body_timeout 12;
+    client_header_timeout 12;
+    keepalive_timeout 15;
+    send_timeout 10;
+    #gzip  on;
+	
+	 #我们需要配置目录
+    include /etc/nginx/conf.d/*.conf;
+}
+
 </code></pre>
 </div>
 
-<p>It’s very easy to make some words <strong>bold</strong> and other 
-words <em>italic</em> with Markdown. You can even <a href="http://google.com">link to 
-Google!</a></p>
+<p>操作 <code class="highlighter-rouge">vi /etc/nginx/conf.d/deault.conf</code></p>
 
-<h4 id="lists">Lists</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>Sometimes you want numbered lists:
-
-1. One
-2. Two
-3. Three
-
-Sometimes you want bullet points:
-
-* Start a line with a star
-* Profit!
-
-Alternatively,
-
-- Dashes work just as well
-- And if you have sub points, put two spaces before the dash or star:
-  - Like this
-  - And this
-</code></pre>
-</div>
-<p>Sometimes you want numbered lists:</p>
-
-<ol>
-  <li>One</li>
-  <li>Two</li>
-  <li>Three</li>
-</ol>
-
-<p>Sometimes you want bullet points:</p>
-
-<ul>
-  <li>Start a line with a star</li>
-  <li>Profit!</li>
-</ul>
-
-<p>Alternatively,</p>
-
-<ul>
-  <li>Dashes work just as well</li>
-  <li>And if you have sub points, put two spaces before the dash or star:
-    <ul>
-      <li>Like this</li>
-      <li>And this</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="images">Images</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>If you want to embed images, this is how you do it:
-
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-</code></pre>
-</div>
-<p>If you want to embed images, this is how you do it:</p>
-
-<p><img src="https://octodex.github.com/images/yaktocat.png" alt="Image of Yaktocat" /></p>
-
-<h4 id="headers--quotes">Headers &amp; Quotes</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code># Structured documents
-
-Sometimes it's useful to have different levels of headings to structure your documents. Start lines with a `#` to create headings. Multiple `##` in a row denote smaller heading sizes.
-
-#### This is a third-tier heading
-
-You can use one `#` all the way up to `######` six for different heading sizes.
-
-If you'd like to quote someone, use the &gt; character before the line:
-
-&gt; Coffee. The finest organic suspension ever devised... I beat the Borg with it.
-&gt; - Captain Janeway
-</code></pre>
-</div>
-<p># Structured documents</p>
-
-<p>Sometimes it’s useful to have different levels of headings to structure your documents. Start lines with a <code class="highlighter-rouge">#</code> to create headings. Multiple <code class="highlighter-rouge">##</code> in a row denote smaller heading sizes.</p>
-
-<h4 id="this-is-a-third-tier-heading">This is a third-tier heading</h4>
-
-<p>You can use one <code class="highlighter-rouge">#</code> all the way up to <code class="highlighter-rouge">######</code> six for different heading sizes.</p>
-
-<p>If you’d like to quote someone, use the &gt; character before the line:</p>
-
-<blockquote>
-  <p>Coffee. The finest organic suspension ever devised… I beat the Borg with it.
-- Captain Janeway</p>
-</blockquote>
-
-<h4 id="code">Code</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>There are many different ways to style code with GitHub's markdown. If you have inline code blocks, wrap them in backticks: `var example = true`.  If you've got a longer block of code, you can indent with four spaces:
-
-    if (isAwesome){
-      return true
+<div class="highlighter-rouge"><pre class="highlight"><code>upstream site {
+    server 127.0.0.1:8080 weight=1;
     }
 
-GitHub also supports something called code fencing, which allows for multiple lines without indentation:
+server {
+    listen       90;
+    server_name  localhost;
 
-```
-if (isAwesome){
-  return true
+    #charset koi8-r;
+    #access_log  /var/log/nginx/log/host.access.log  main;
+	#静态资源截获
+    location ~* ^.+\.(ico|gif|jpg|jpeg|png|html|htm)$ {
+        root         /usr/share/nginx/XXX;
+        access_log   /var/log/nginx/access.log;
+        expires      30d;
+    }
+
+	#静态资源截获
+    location ~* ^.+\.(css|js|txt|xml|swf|wav)$ {
+        root         /usr/share/nginx/XXX;
+        access_log   /var/log/nginx/access.log;
+        expires      24h;
+    }
+
+	
+    location / {
+        proxy_pass      http://site;
+        proxy_set_header        Host            $host;
+        proxy_set_header        X-Forwarded-For         $remote_addr;
+    }
+
+    gzip on;
+    gzip_comp_level 2;
+    gzip_min_length  1000;
+    gzip_buffers    4 8k;
+    gzip_types      text/plain application/javascript text/css text/xml application/x-httpd-php;
+    output_buffers  1 32k; 
+    postpone_output  1460;
+          
+         
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    # 
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html { 
+        root   /usr/share/nginx/html; 
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root           html;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include        fastcgi_params;
+    #}
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
 }
-```
 
-And if you'd like to use syntax highlighting, include the language:
+</code></pre>
+</div>
 
-```javascript
-if (isAwesome){
-  return true
+<h3 id="location">重点讲解下：location语法规则</h3>
+<p><code class="highlighter-rouge">=</code> 开头表示精确匹配</p>
+
+<p><code class="highlighter-rouge">^~</code> 开头表示uri以某个常规字符串开头，理解为匹配 url路径即可。nginx不对url做编码。</p>
+
+<p><code class="highlighter-rouge">~</code> 开头表示区分大小写的正则匹配</p>
+
+<p><code class="highlighter-rouge">~*</code>  开头表示不区分大小写的正则匹配</p>
+
+<p><code class="highlighter-rouge">!~</code> 和 <code class="highlighter-rouge">!~*</code> 分别为区分大小写不匹配及不区分大小写不匹配 的正则</p>
+
+<p><code class="highlighter-rouge">/</code> 通用匹配，任何请求都会匹配到。</p>
+
+<p>多个location配置的情况下匹配顺序为：</p>
+
+<p>首先匹配 <code class="highlighter-rouge">=</code>，其次匹配 <code class="highlighter-rouge">^~</code> , 其次是按文件中顺序的正则匹配，最后是交给 <code class="highlighter-rouge">/</code> 通用匹配。当有匹配成功时候，停止匹配，按当前匹配规则处理请求。</p>
+
+<h3 id="redirect">Redirect语法</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+    listen 90;
+    server_name localhost;
+    index index.html index.php;
+    root html;
+    if ($http_host !~ “^star\.igrow\.cn$&amp;quot {
+        rewrite ^(.*) http://XXX.cn$1 redirect;
+    }
 }
-```
-</code></pre>
-</div>
-<p>There are many different ways to style code with GitHub’s markdown. If you have inline code blocks, wrap them in backticks: <code class="highlighter-rouge">var example = true</code>.  If you’ve got a longer block of code, you can indent with four spaces:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if (isAwesome){
-  return true
+#放盗链
+location ~* \.(gif|jpg|swf)$ {
+    valid_referers none blocked XX.cn XXX.cn;
+    if ($invalid_referer) {
+        rewrite ^/ http://$host/logo.png;
+    }
+}
+
+#过期时间
+location ~* \.(js|css|jpg|jpeg|gif|png|swf)$ {
+    if (-f $request_filename) {
+        expires 1h;
+        break;
+    }
+}
+
+#禁止访问某个目录
+location ~* \.(txt|doc)${
+    root /usr/share/nginx/XXX;
+    deny all;
 }
 </code></pre>
 </div>
 
-<p>GitHub also supports something called code fencing, which allows for multiple lines without indentation:</p>
+<p>一些可用的全局变量:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if (isAwesome){
-  return true
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>$args $content_length $content_type $document_root
+$document_uri $host $http_user_agent
+$http_cookie $limit_rate $request_body_file
+$request_method $remote_addr $remote_port
+$remote_user $request_filename $request_uri
+$query_string $scheme $server_protocol
+$server_addr $server_name $server_port
+$uri
 </code></pre>
 </div>
 
-<p>And if you’d like to use syntax highlighting, include the language:</p>
+<h3 id="rewrite">ReWrite语法</h3>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">isAwesome</span><span class="p">){</span>
-  <span class="k">return</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre>
-</div>
+<p>三、ReWrite语法</p>
 
-<h4 id="extras">Extras</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>  GitHub supports many extras in Markdown that help you reference and link to people. If you ever want to direct a comment at someone, you can prefix their name with an @ symbol: Hey @kneath — love your sweater!
+<p>last – 基本上都用这个Flag。</p>
 
-But I have to admit, tasks lists are my favorite:
+<p>break – 中止Rewirte，不在继续匹配</p>
 
-- [x] This is a complete item
-- [ ] This is an incomplete item
+<p>redirect – 返回临时重定向的HTTP状态302</p>
 
-When you include a task list in the first comment of an Issue, you will see a helpful progress bar in your list of issues. It works in Pull Requests, too!
+<p>permanent – 返回永久重定向的HTTP状态301</p>
 
-And, of course emoji! :sparkles: :camel: :boom:
+<p>1、下面是可以用来判断的表达式：</p>
 
-</code></pre>
-</div>
-<p>GitHub supports many extras in Markdown that help you reference and link to people. If you ever want to direct a comment at someone, you can prefix their name with an @ symbol: Hey @kneath — love your sweater!</p>
+<p>-f和!-f用来判断是否存在文件</p>
 
-<p>But I have to admit, tasks lists are my favorite:</p>
+<p>-d和!-d用来判断是否存在目录</p>
 
-<ul>
-  <li>[x] This is a complete item</li>
-  <li>[ ] This is an incomplete item</li>
-</ul>
+<p>-e和!-e用来判断是否存在文件或目录</p>
 
-<p>When you include a task list in the first comment of an Issue, you will see a helpful progress bar in your list of issues. It works in Pull Requests, too!</p>
+<p>-x和!-x用来判断文件是否可执行</p>
 
-<p>And, of course emoji! :sparkles: :camel: :boom:</p>
+<p>2、下面是可以用作判断的全局变量</p>
+
+<p>例：http://localhost:88/test1/test2/test.php</p>
+
+<p>$host：localhost</p>
+
+<p>$server_port：88</p>
+
+<p>$request_uri：http://localhost:88/test1/test2/test.php</p>
+
+<p>$document_uri：/test1/test2/test.php</p>
+
+<p>$document_root：D:\nginx/html</p>
+
+<p>$request_filename：D:\nginx/html/test1/test2/test.php</p>
 
 
                 <hr>
@@ -410,17 +437,17 @@ And, of course emoji! :sparkles: :camel: :boom:
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/30/mac_os_markdown_user_macdown/" data-toggle="tooltip" data-placement="top" title="Mac OS 好用的Markdown编辑工具MacDown">
+                        <a href="/2016/08/26/ubuntu_redis_introduction/" data-toggle="tooltip" data-placement="top" title="Ubuntu 操作篇">
                         Previous<br>
-                        <span>Mac OS 好用的Markdown编辑工具MacDown</span>
+                        <span>Ubuntu 操作篇</span>
                         </a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2016/06/01/mac_os_rvm_install_jekyll_osx/" data-toggle="tooltip" data-placement="top" title="Mac OS M安装jekyll第二篇">
+                        <a href="/2016/09/01/ubuntu_nginx_introduction/" data-toggle="tooltip" data-placement="top" title="Ubuntu 操作篇二">
                         Next<br>
-                        <span>Mac OS M安装jekyll第二篇</span>
+                        <span>Ubuntu 操作篇二</span>
                         </a>
                     </li>
                     
@@ -605,8 +632,8 @@ And, of course emoji! :sparkles: :camel: :boom:
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/05/31/mastering_markdown";
-    var disqus_url = "http://DavidWangTM.github.io/2016/05/31/mastering_markdown/";
+    var disqus_identifier = "/2016/08/28/ubuntu_nginx1_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/08/28/ubuntu_nginx1_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

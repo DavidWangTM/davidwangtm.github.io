@@ -13,13 +13,13 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>
-        Mastering Markdown
+        Ubuntu 操作篇二
             -
             DavidWang's Blog | 王伟达的博客
         
     </title>
 
-    <link rel="canonical" href="http://DavidWangTM.github.io/2016/05/31/mastering_markdown/">
+    <link rel="canonical" href="http://DavidWangTM.github.io/2016/09/01/ubuntu_nginx_introduction/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href=" /css/bootstrap.min.css">
@@ -154,13 +154,13 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-markdown.jpg" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-e2e-ux.jpg" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('/img/post-bg-markdown.jpg')
+        background-image: url('/img/post-bg-e2e-ux.jpg')
     }
 
     
@@ -173,15 +173,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Markdown" title="Markdown">Markdown</a>
+                        <a class="tag" href="/tags/#Ubuntu" title="Ubuntu">Ubuntu</a>
+                        
+                        <a class="tag" href="/tags/#Nginx" title="Nginx">Nginx</a>
                         
                     </div>
-                    <h1>Mastering Markdown</h1>
+                    <h1>Ubuntu 操作篇二</h1>
                     
                     
-                    <h2 class="subheading"> Markdown 用法介绍</h2>
+                    <h2 class="subheading">Ubuntu 安装Nginx</h2>
                     
-                    <span class="meta">Posted by DavidWang on May 31, 2016</span>
+                    <span class="meta">Posted by DavidWang on September 1, 2016</span>
                 </div>
             </div>
         </div>
@@ -199,207 +201,63 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h3 id="intro">Intro</h3>
+				<h3 id="ubuntu-packages">从Ubuntu packages安装</h3>
 
-<p>Markdown is a lightweight and easy-to-use syntax for styling all forms of writing on the GitHub platform.</p>
-
-<h3 id="what-you-will-learn">What you will learn:</h3>
-
-<ul>
-  <li>How the Markdown format makes styled collaborative editing easy</li>
-  <li>How Markdown differs from traditional formatting approaches</li>
-  <li>How to use Markdown to format text</li>
-  <li>How to leverage GitHub’s automatic Markdown rendering</li>
-  <li>How to apply GitHub’s unique Markdown extensions</li>
-</ul>
-
-<h3 id="what-is-markdown">What is Markdown?</h3>
-
-<p><a href="href=&quot;http://daringfireball.net/projects/markdown/&quot;">markdown</a> is a way to style text on the web. You control the display of the document; formatting words as bold or italic, adding images, and creating lists are just a few of the things we can do with Markdown. Mostly, Markdown is just regular text with a few non-alphabetic characters thrown in, like <code class="highlighter-rouge">#</code> or <code class="highlighter-rouge">*</code>.</p>
-
-<p>You can use Markdown most places around GitHub:</p>
-
-<ul>
-  <li><a href="https://gist.github.com/">Gists</a></li>
-  <li>Comments in Issues and Pull Requests</li>
-  <li>Files with the <code class="highlighter-rouge">.md</code> or <code class="highlighter-rouge">.markdown</code> extension</li>
-</ul>
-
-<h3 id="examples">Examples</h3>
-
-<h4 id="text">Text</h4>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>It's very easy to make some words **bold** and other 
-words *italic* with Markdown. You can even [link to 
-Google!](http://google.com)
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install nginx
 </code></pre>
 </div>
 
-<p>It’s very easy to make some words <strong>bold</strong> and other 
-words <em>italic</em> with Markdown. You can even <a href="http://google.com">link to 
-Google!</a></p>
+<p>但是此时安装的nginx版本老旧，并且无法安装第三方扩展。但是大多数linux发行版支持更新最新的安装包。</p>
 
-<h4 id="lists">Lists</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>Sometimes you want numbered lists:
+<p>1.首先获取nginx认证钥匙以便包管理器认证nginx包</p>
 
-1. One
-2. Two
-3. Three
-
-Sometimes you want bullet points:
-
-* Start a line with a star
-* Profit!
-
-Alternatively,
-
-- Dashes work just as well
-- And if you have sub points, put two spaces before the dash or star:
-  - Like this
-  - And this
-</code></pre>
-</div>
-<p>Sometimes you want numbered lists:</p>
-
-<ol>
-  <li>One</li>
-  <li>Two</li>
-  <li>Three</li>
-</ol>
-
-<p>Sometimes you want bullet points:</p>
-
-<ul>
-  <li>Start a line with a star</li>
-  <li>Profit!</li>
-</ul>
-
-<p>Alternatively,</p>
-
-<ul>
-  <li>Dashes work just as well</li>
-  <li>And if you have sub points, put two spaces before the dash or star:
-    <ul>
-      <li>Like this</li>
-      <li>And this</li>
-    </ul>
-  </li>
-</ul>
-
-<h4 id="images">Images</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>If you want to embed images, this is how you do it:
-
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-</code></pre>
-</div>
-<p>If you want to embed images, this is how you do it:</p>
-
-<p><img src="https://octodex.github.com/images/yaktocat.png" alt="Image of Yaktocat" /></p>
-
-<h4 id="headers--quotes">Headers &amp; Quotes</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code># Structured documents
-
-Sometimes it's useful to have different levels of headings to structure your documents. Start lines with a `#` to create headings. Multiple `##` in a row denote smaller heading sizes.
-
-#### This is a third-tier heading
-
-You can use one `#` all the way up to `######` six for different heading sizes.
-
-If you'd like to quote someone, use the &gt; character before the line:
-
-&gt; Coffee. The finest organic suspension ever devised... I beat the Borg with it.
-&gt; - Captain Janeway
-</code></pre>
-</div>
-<p># Structured documents</p>
-
-<p>Sometimes it’s useful to have different levels of headings to structure your documents. Start lines with a <code class="highlighter-rouge">#</code> to create headings. Multiple <code class="highlighter-rouge">##</code> in a row denote smaller heading sizes.</p>
-
-<h4 id="this-is-a-third-tier-heading">This is a third-tier heading</h4>
-
-<p>You can use one <code class="highlighter-rouge">#</code> all the way up to <code class="highlighter-rouge">######</code> six for different heading sizes.</p>
-
-<p>If you’d like to quote someone, use the &gt; character before the line:</p>
-
-<blockquote>
-  <p>Coffee. The finest organic suspension ever devised… I beat the Borg with it.
-- Captain Janeway</p>
-</blockquote>
-
-<h4 id="code">Code</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>There are many different ways to style code with GitHub's markdown. If you have inline code blocks, wrap them in backticks: `var example = true`.  If you've got a longer block of code, you can indent with four spaces:
-
-    if (isAwesome){
-      return true
-    }
-
-GitHub also supports something called code fencing, which allows for multiple lines without indentation:
-
-```
-if (isAwesome){
-  return true
-}
-```
-
-And if you'd like to use syntax highlighting, include the language:
-
-```javascript
-if (isAwesome){
-  return true
-}
-```
-</code></pre>
-</div>
-<p>There are many different ways to style code with GitHub’s markdown. If you have inline code blocks, wrap them in backticks: <code class="highlighter-rouge">var example = true</code>.  If you’ve got a longer block of code, you can indent with four spaces:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>if (isAwesome){
-  return true
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>wget http://nginx.org/keys/nginx_signing.key
 </code></pre>
 </div>
 
-<p>GitHub also supports something called code fencing, which allows for multiple lines without indentation:</p>
+<p>2.用apt-key命令添加下载的钥匙</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if (isAwesome){
-  return true
-}
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-key add nginx_signing.key
 </code></pre>
 </div>
 
-<p>And if you’d like to use syntax highlighting, include the language:</p>
+<p>3.获取发行版的codename</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">isAwesome</span><span class="p">){</span>
-  <span class="k">return</span> <span class="kc">true</span>
-<span class="p">}</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>lsb_release -a
 </code></pre>
 </div>
 
-<h4 id="extras">Extras</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>  GitHub supports many extras in Markdown that help you reference and link to people. If you ever want to direct a comment at someone, you can prefix their name with an @ symbol: Hey @kneath — love your sweater!
+<div class="highlighter-rouge"><pre class="highlight"><code>No LSB modules are available.
 
-But I have to admit, tasks lists are my favorite:
+Distributor ID:	Ubuntu
 
-- [x] This is a complete item
-- [ ] This is an incomplete item
+Description:	Ubuntu 16.04 LTS
 
-When you include a task list in the first comment of an Issue, you will see a helpful progress bar in your list of issues. It works in Pull Requests, too!
+Release:	16.04
 
-And, of course emoji! :sparkles: :camel: :boom:
-
+Codename:	trusty
 </code></pre>
 </div>
-<p>GitHub supports many extras in Markdown that help you reference and link to people. If you ever want to direct a comment at someone, you can prefix their name with an @ symbol: Hey @kneath — love your sweater!</p>
 
-<p>But I have to admit, tasks lists are my favorite:</p>
+<p>4.打开/etc/apt/sources.list,添加命令：</p>
 
-<ul>
-  <li>[x] This is a complete item</li>
-  <li>[ ] This is an incomplete item</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code>deb http://nginx.org/packages/ubuntu/ codename nginx
 
-<p>When you include a task list in the first comment of an Issue, you will see a helpful progress bar in your list of issues. It works in Pull Requests, too!</p>
+deb-src http://nginx.org/packages/ubuntu/ codename nginx
+</code></pre>
+</div>
+<p>codename是第三步得到的。</p>
 
-<p>And, of course emoji! :sparkles: :camel: :boom:</p>
+<p>5.更新apt-get，并安装nginx</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get update
+
+sudo apt-get install nginx
+</code></pre>
+</div>
+
+<p>安装完成之后用nginx -V查看一下吧。</p>
+
 
 
                 <hr>
@@ -410,19 +268,12 @@ And, of course emoji! :sparkles: :camel: :boom:
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/30/mac_os_markdown_user_macdown/" data-toggle="tooltip" data-placement="top" title="Mac OS 好用的Markdown编辑工具MacDown">
+                        <a href="/2016/08/28/ubuntu_nginx1_introduction/" data-toggle="tooltip" data-placement="top" title="Nginx 操作篇">
                         Previous<br>
-                        <span>Mac OS 好用的Markdown编辑工具MacDown</span>
+                        <span>Nginx 操作篇</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/06/01/mac_os_rvm_install_jekyll_osx/" data-toggle="tooltip" data-placement="top" title="Mac OS M安装jekyll第二篇">
-                        Next<br>
-                        <span>Mac OS M安装jekyll第二篇</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -605,8 +456,8 @@ And, of course emoji! :sparkles: :camel: :boom:
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "davidwang";
-    var disqus_identifier = "/2016/05/31/mastering_markdown";
-    var disqus_url = "http://DavidWangTM.github.io/2016/05/31/mastering_markdown/";
+    var disqus_identifier = "/2016/09/01/ubuntu_nginx_introduction";
+    var disqus_url = "http://DavidWangTM.github.io/2016/09/01/ubuntu_nginx_introduction/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

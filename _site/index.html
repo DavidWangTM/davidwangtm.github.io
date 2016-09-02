@@ -180,6 +180,70 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/09/01/ubuntu_nginx_introduction/">
+        <h2 class="post-title">
+            Ubuntu 操作篇二
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Ubuntu 安装Nginx
+        </h3>
+        
+        <div class="post-content-preview">
+            从Ubuntu packages安装
+
+sudo apt-get install nginx
+
+
+
+但是此时安装的nginx版本老旧，并且无法安装第三方扩展。但是大多数linux发行版支持更新最新的安装包。
+
+1.首先获取nginx认证钥匙以便包管理器认证nginx包
+
+wget http://nginx.org/keys/nginx_signing.key
+
+
+
+2.用apt-key命令添...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on September 1, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/08/28/ubuntu_nginx1_introduction/">
+        <h2 class="post-title">
+            Nginx 操作篇
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Ubuntu 设置Nginx操作配置
+        </h3>
+        
+        <div class="post-content-preview">
+            重点介绍nginx配置
+
+在上篇中，安装成功后，会有 /etc/nginx 目录，在 /etc/nginx 目录中找到 nginx.conf.使用 vi nginx.conf 打开文件。
+
+user  nginx;
+#操作线程数
+worker_processes  1;
+
+#引用目录地址
+error_log  /var/log/nginx/error.log warn;
+pid       ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on August 28, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/08/26/ubuntu_redis_introduction/">
         <h2 class="post-title">
             Ubuntu 操作篇
@@ -454,67 +518,6 @@ Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web �
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2016/07/04/ios_core_animation13_introduction/">
-        <h2 class="post-title">
-            IOS 动画讲解十三
-        </h2>
-        
-        <h3 class="post-subtitle">
-            高效绘图
-        </h3>
-        
-        <div class="post-content-preview">
-            高效绘图
-
-
-  不必要的效率考虑往往是性能问题的万恶之源。
-——William Allan Wulf
-
-
-在第12章『速度的曲率』我们学习如何用Instruments来诊断Core Animation性能问题。在构建一个iOS app的时候会遇到很多潜在的性能陷阱，但是在本章我们将着眼于有关绘制的性能问题。
-
-软件绘图
-
-术语绘图通常在Core Animation的上下文中指代软件绘图（意...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on July 4, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/07/03/ios_core_animation12_introduction/">
-        <h2 class="post-title">
-            IOS 动画讲解十二
-        </h2>
-        
-        <h3 class="post-subtitle">
-            性能调优
-        </h3>
-        
-        <div class="post-content-preview">
-            性能调优
-
-
-  代码应该运行的尽量快，而不是更快 - 理查德
-
-
-在第一和第二部分，我们了解了Core Animation提供的关于绘制和动画的一些特性。Core Animation功能和性能都非常强大，但如果你对背后的原理不清楚的话也会降低效率。让它达到最优的状态是一门艺术。在这章中，我们将探究一些动画运行慢的原因，以及如何去修复这些问题。
-
-CPU VS GPU
-
-关于绘图和动画有两种...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on July 3, 2016
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -635,7 +638,7 @@ CPU VS GPU
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="3">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
                                     Ubuntu
                                 </a>
                             
@@ -646,6 +649,12 @@ CPU VS GPU
                                 </a>
                             
                         
+                            
+                        
+                            
+                                <a href="/tags/#Nginx" title="Nginx" rel="2">
+                                    Nginx
+                                </a>
                             
                         
                     </div>
