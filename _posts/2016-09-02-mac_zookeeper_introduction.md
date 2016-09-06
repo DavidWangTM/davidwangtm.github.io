@@ -168,12 +168,14 @@ $ vi /usr/local/zookeeper-3.4.6_1 /data/myid 设置值为1
 $ vi /usr/local/zookeeper-3.4.6_2 /data/myid 设置值为2
 $ vi /usr/local/zookeeper-3.4.6_3 /data/myid 设置值值为3
 ```
+
 ##### 2.2、启动并查看zookeeper:
 
 ```
 $ /usr/local/zookeeper-3.4.6_x/bin/zkServer.sh start
 $ /usr/local/zookeeper-3.4.6_x/bin/zkServer.sh status
 ```
+
 ##### 2.3、另外的配置方法
 
 在zookeeper-3.4.6中创建/wx/data,如下:

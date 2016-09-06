@@ -5,8 +5,8 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 06 Sep 2016 16:43:49 +0800</pubDate>
-    <lastBuildDate>Tue, 06 Sep 2016 16:43:49 +0800</lastBuildDate>
+    <pubDate>Tue, 06 Sep 2016 16:53:01 +0800</pubDate>
+    <lastBuildDate>Tue, 06 Sep 2016 16:53:01 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -172,13 +172,15 @@ $ vi /usr/local/zookeeper-3.4.6_2 /data/myid 设置值为2
 $ vi /usr/local/zookeeper-3.4.6_3 /data/myid 设置值值为3
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;##### 2.2、启动并查看zookeeper:&lt;/p&gt;
+
+&lt;h5 id=&quot;zookeeper&quot;&gt;2.2、启动并查看zookeeper:&lt;/h5&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ /usr/local/zookeeper-3.4.6_x/bin/zkServer.sh start
 $ /usr/local/zookeeper-3.4.6_x/bin/zkServer.sh status
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;##### 2.3、另外的配置方法&lt;/p&gt;
+
+&lt;h5 id=&quot;section-4&quot;&gt;2.3、另外的配置方法&lt;/h5&gt;
 
 &lt;p&gt;在zookeeper-3.4.6中创建/wx/data,如下:&lt;/p&gt;
 
