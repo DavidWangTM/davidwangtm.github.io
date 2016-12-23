@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Ubuntu 操作篇二"
+title:      "Ubuntu 安装GitLab"
 subtitle:   "Ubuntu 安装gitlab"
 date:       2016-12-22 07:00:00
 author:     "DavidWang"
@@ -48,7 +48,7 @@ sudo gitlab-ctl reconfigure
 sudo /etc/init.d/postfix restart
 ```
 
-访问GitLab
+#### 4.访问GitLab
 
 这样你就可以通过访问： http://192.168.1.10:8080 来进行GitLab的访问了
 
