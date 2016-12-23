@@ -50,7 +50,7 @@ sudo /etc/init.d/postfix restart
 
 #### 4.访问GitLab
 
-这样你就可以通过访问： http://192.168.1.10:8080 来进行GitLab的访问了
+这样你就可以通过访问： http://XXX.XXX.XX.XXX:8080 来进行GitLab的访问了
 
 默认管理员的账户密码：
 
