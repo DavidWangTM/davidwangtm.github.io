@@ -180,345 +180,305 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2016/09/03/mac_acitivemq_introduction/">
+    <a href="/2016/11/21/mybatis_four_introduction/">
         <h2 class="post-title">
-            Acitivemq 安装及配置
+            Mybatis回顾 四
         </h2>
         
         <h3 class="post-subtitle">
-            在 MAC 系统安装 acitivemq
+            Mybatis回顾-实现Mini版本的Mybatis
         </h3>
         
         <div class="post-content-preview">
-            MAC系统安装acitivemq
+            实现Mini版本的Mybatis
 
-安装
 
-官方推荐使用brew安装，前提是Mac要先安装brew，也可以手动下载压缩包解压安装，如果已经安装了brew很简单，只需要下面一句话，安装位置：/usr/local/Cellar/activemq/5.13.3
 
-$ brew install apache-activemq
-$ cd /usr/local/Cellar/activemq/5.13....
+Model
+
+public class TestModel {
+
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	pub...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on September 3, 2016
+        Posted by DavidWang on November 21, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/09/02/mac_zookeeper_introduction/">
+    <a href="/2016/11/20/mybatis_three_introduction/">
         <h2 class="post-title">
-            Zookeeper 安装及配置
+            Mybatis回顾 三
         </h2>
         
         <h3 class="post-subtitle">
-            在 Mac 上安装配置 Zookeeper
+            Mybatis回顾-动态代理
         </h3>
         
         <div class="post-content-preview">
-            Zookeeper 的安装
+            Mybatis回顾-动态代理
 
-下载地址：http://www.apache.org/dyn/closer.cgi/zookeeper
+mybait有两种开发方式，一种是传统的dao开发方式，一种是Mapper动态代理方式。
 
-
-
-解压文件：
-
-tar zxvf zookeeper-3.4.8.tar.gz
-
-
-
-Zookeeper 的配置
-
-一、单机模式
-
-1.1、编辑配置文件
-在“zookeeper-3.4.8”目录下，新建一个名为”data”和”logs”的文件，其中内容如下...
+传统为：配置XX.xml &lt;mapper resource="XX.xml"/&gt; 使用XX.xml中的 &lt;mapper namespace="test"&gt; 的标记来找到结构内的方法.比如 install.
+然后使用SqlSession selec...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on September 2, 2016
+        Posted by DavidWang on November 20, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/09/01/ubuntu_nginx_introduction/">
+    <a href="/2016/11/19/mybatis_two_introduction/">
         <h2 class="post-title">
-            Ubuntu 操作篇二
+            Mybatis回顾 二
         </h2>
         
         <h3 class="post-subtitle">
-            Ubuntu 安装Nginx
+            Mybatis回顾-Spring 集成下的SqlSession 和 Mapper 以及 Mybatis的事务
         </h3>
         
         <div class="post-content-preview">
-            从Ubuntu packages安装
+            Mybatis回顾
 
-sudo apt-get install nginx
+Spring 集成下的 SqlSession
 
-
-
-但是此时安装的nginx版本老旧，并且无法安装第三方扩展。但是大多数linux发行版支持更新最新的安装包。
-
-1.首先获取nginx认证钥匙以便包管理器认证nginx包
-
-wget http://nginx.org/keys/nginx_signing.key
-
-
-
-2.用apt-key命令添...
+在 MyBatis 中,你可以使用 SqlSessionFactory 来创建 SqlSession。一旦你获得一个 session 之后,你可以使用它来执行映射语句,提交或回滚连接,最后,当不再需要它的时 候, 你可以关闭 session。 使用 MyBatis-Spring 之后, 你不再需要直接使用 SqlSessi...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on September 1, 2016
+        Posted by DavidWang on November 19, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/08/28/ubuntu_nginx1_introduction/">
+    <a href="/2016/11/18/mybatis_one_introduction/">
         <h2 class="post-title">
-            Nginx 操作篇
+            Mybatis回顾 一
         </h2>
         
         <h3 class="post-subtitle">
-            Ubuntu 设置Nginx操作配置
+            Mybatis回顾-自动生成器-关联查询，嵌套查询-缓存使用场景和选择策略
         </h3>
         
         <div class="post-content-preview">
-            重点介绍nginx配置
+            Mybatis回顾
 
-在上篇中，安装成功后，会有 /etc/nginx 目录，在 /etc/nginx 目录中找到 nginx.conf.使用 vi nginx.conf 打开文件。
+代码自动生成器 generator
 
-user  nginx;
-#操作线程数
-worker_processes  1;
-
-#引用目录地址
-error_log  /var/log/nginx/error.log warn;
-pid       ...
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis....
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on August 28, 2016
+        Posted by DavidWang on November 18, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/08/26/ubuntu_redis_introduction/">
+    <a href="/2016/11/17/spring_eight_introduction/">
         <h2 class="post-title">
-            Ubuntu 操作篇
+            Spring回顾 (八)
         </h2>
         
         <h3 class="post-subtitle">
-            Ubuntu 安装设置redis
+            Spring MVC 和 struts2 对比
         </h3>
         
         <div class="post-content-preview">
-            ubuntu 14.04下的redis安装配置
+            Spring MVC 和 struts2 对比
 
-安装
-
-sudo apt-get install redis-server
+框架机制
 
 
-
-检查redis系统进程
-
-ps -aux|grep redis
+  Struts2采用Filter（StrutsPrepareAndExecuteFilter）实现，SpringMVC（DispatcherServlet）则采用Servlet实现。
 
 
+servlet
 
-redis服务器状态检查
-
-sudo /etc/init.d/redis-server status
-
-
-
-或
-
-netstat -nlt|grep 6379
-
-
-
-通过终端访问redis
-
-...
+servlet是一种运行服务器端的java应用程序，具有独立于平台和协议的特性，并且可以动态的生成web页面，它工作在客户...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on August 26, 2016
+        Posted by DavidWang on November 17, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/08/02/ssm_shiro_jsp_introduction/">
+    <a href="/2016/11/16/spring_seven_introduction/">
         <h2 class="post-title">
-            SSM框架 shiro篇
+            Spring回顾 (七)
         </h2>
         
         <h3 class="post-subtitle">
-            Shiro 在jsp中的使用
+            手写 SpringMVC 框架
         </h3>
         
         <div class="post-content-preview">
-            Shiro    提供了 JSP 的一套 JSTL 标签，用于做 JSP   页面做权限控制的。可以控制一些按钮和一些超链接，或者一些显示内容。
+            手写SpringMVC 框架
 
-不过引入有区分，JSP需要在头部引入， Shiro  提供的TLD 文件:
+上篇已经介绍过了SpringMVC的九大组件，本篇实战手写SpringMVC 框架。
 
-&lt;%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %&gt;  
+手写SpringMVC 框架步骤
 
 
-
-下面是具体的标签用法...
+  
+    加载配置文件
+  
+  
+    扫描配置包
+  
+  
+    利用反射机制，实例化存放IOC容器
+  
+  
+    初始化 HandlerMapping
+  
+  
+    异常拦截
+  
+  
+    处理参数
+ ...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on August 2, 2016
+        Posted by DavidWang on November 16, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/08/01/ubuntu_root_introduction/">
+    <a href="/2016/11/15/spring_six_introduction/">
         <h2 class="post-title">
-            Ubuntu 操作篇
+            Spring回顾 (六)
         </h2>
         
         <h3 class="post-subtitle">
-            Ubuntu修改为root账号远程登录
+            Spring MVC 九大组件
         </h3>
         
         <div class="post-content-preview">
-            1. 修改 root 密码
+            Spring MVC 原理介绍
 
-sudo passwd root
-
-
-
-2. 以其他账户登录修改内容
-
-xxx@ubuntu14:~$ su - root
-Password:
-root@ubuntu14:~# vi /etc/ssh/sshd_config
+Spring MVC 本质是一个Servlet , 通过下图可以看出 Servlet 继承自 HttpServlet, 提供了： Servlet：HttpServletBean ，FrameworkServlet ，DispatcherServlet 继承关系.
 
 
 
-3. 注释注解
 
-# Authentication:
-LoginGraceTime 120
-#PermitRootLogin wit...
+  
+    HttpServletBean直接继承自java的HttpServlet，...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on August 1, 2016
+        Posted by DavidWang on November 15, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/20/mac_redis_introduction/">
+    <a href="/2016/11/14/spring_five_introduction/">
         <h2 class="post-title">
-            Mac下配置redis
+            Spring回顾 (五)
         </h2>
         
         <h3 class="post-subtitle">
-            redis安装与运行
+            Spring JDBC 写 ORM框架
         </h3>
         
         <div class="post-content-preview">
-            Mac 下安装运行 redis
+            Spring Framework JDBC 简介
 
-mac 上安装 redis 首先必须保证 mac 已经安装 xcode.
-
-一.下载redis
-
-redis下载地址：https://code.google.com/archive/p/redis/downloads
-
-二.配置redis
-
-//依次运行
-sudo make
-sudo make test
-sudo make isntall
+Spring Framework JDBC抽象提供的增值可能通过下表中:
 
 
 
-运行完成后，...
+Spring框架帮助我们做的事情有：
+- 打开数据库连接
+- 执行相关sql语句
+- 处理异常
+- 操作事务 
+- 关闭数据库连接
+
+选择JDBC数据库访问的方法
+
+除了三种风格的JdbcTemplate之外，新的SimpleJdbcInsert和Simplej...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 20, 2016
+        Posted by DavidWang on November 14, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/11/tomcat_80_introduction/">
+    <a href="/2016/11/13/spring_four_introduction/">
         <h2 class="post-title">
-            阿里云端口配置
+            Spring回顾 (四)
         </h2>
         
         <h3 class="post-subtitle">
-            阿里云将80端口请求转发到其他端口
+            Spring 事务处理机制
         </h3>
         
         <div class="post-content-preview">
-            阿里云将80端口请求转发到其他端口
+            Spring 事务属性分析
 
-背景
-租了一台阿里云ECS，想搭建一个java Web 程序，环境都搭建好后，将Tomcat端口改为80并执行
+事务管理对于企业应用而言至关重要。它保证了用户的每一次操作都是可靠的，即便出现了异常的访问情况，也不至于破坏后台数据的完整性。就像银行的自助取款机，通常都能正常为客户服务，但是也难免遇到操作过程中机器突然出故障的情况，此时，事务就必须确保出故障前对账户的操作不生效，就像用户刚才完全没有使用过取款机一样，以保证用户和银行的利益都不受损失。
 
-./startup.sh
-
-
-
-程序报错端口号冲突。
-估计是80端口被占用了，但是想绑定域名，还是需要将80端口映射到tomcat才行。
-
-于是检查占用80端口的程序
-
-
-
-是一个叫AliYunDun的程序将80端口占用了。
-
-解决方案
-由于...
+在 Spring 中，...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 11, 2016
+        Posted by DavidWang on November 13, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/09/tomcat_install_introduction/">
+    <a href="/2016/11/12/spring_three_introduction/">
         <h2 class="post-title">
-            Tomcat 安装
+            Spring回顾 (三)
         </h2>
         
         <h3 class="post-subtitle">
-            在 Ubuntu 14.04 上通过 apt-get 安装 Apache Tomcat 7
+            BeanFactory 和 FactoryBean 区别
         </h3>
         
         <div class="post-content-preview">
-            关于 Apache Tomcat
+            一概述
 
-Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web 。 Tomcat 是 Java Servlet 与 JSP 技术的一个开源实现，由 Apache 软件基金会发布。
+BeanFactory 与 FactoryBean的区别， 两个名字很像，面试中也经常遇到，所以容易搞混，现从源码以及示例两方面来分析。
 
-这个教程涵盖了在 Ubuntu 14.04 上 Tomcat 7.0.x 版本的安装和基础配置。
+二、源码
 
-有两种基本的途径来安装 Tomcat 到 Ubuntu...
+BeanFactory
+
+BeanFactory 定义了 IOC 容器的最基本形式，并提供了 IOC 容器应遵守的的最基本的接口，也就是 Spring IOC 所遵守的最底层和最基本的编程规范。
+
+BeanFactory仅是个接口，...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 9, 2016
+        Posted by DavidWang on November 12, 2016
     </p>
 </div>
 <hr>
@@ -599,6 +559,10 @@ Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web �
                             
                         
                             
+                                <a href="/tags/#Java" title="Java" rel="12">
+                                    Java
+                                </a>
+                            
                         
                             
                         
@@ -643,7 +607,7 @@ Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web �
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="6">
                                     Ubuntu
                                 </a>
                             
@@ -664,6 +628,46 @@ Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web �
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Docker" title="Docker" rel="4">
+                                    Docker
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Dubbo" title="Dubbo" rel="10">
+                                    Dubbo
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#设计模式" title="设计模式" rel="7">
+                                    设计模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Spring" title="Spring" rel="8">
+                                    Spring
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Mybatis" title="Mybatis" rel="4">
+                                    Mybatis
+                                </a>
                             
                         
                     </div>
@@ -777,7 +781,7 @@ Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web �
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; DavidWang's Blog 2016
+                    Copyright &copy; DavidWang's Blog 2018
                     <br>
                     Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
                     <iframe

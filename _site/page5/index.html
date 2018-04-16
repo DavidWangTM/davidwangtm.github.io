@@ -180,311 +180,311 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2016/06/05/android_tactics_introduction/">
+    <a href="/2016/07/20/mac_redis_introduction/">
         <h2 class="post-title">
-            Android 设计模式分析五
+            Mac下配置redis
         </h2>
         
         <h3 class="post-subtitle">
-            策略模式
+            redis安装与运行
         </h3>
         
         <div class="post-content-preview">
-            1. 模式介绍
+            Mac 下安装运行 redis
 
-模式的定义
+mac 上安装 redis 首先必须保证 mac 已经安装 xcode.
 
-策略模式定义了一系列的算法，并将每一个算法封装起来，而且使它们还可以相互替换。策略模式让算法独立于使用它的客户而独立变化。
+一.下载redis
 
-注：针对同一类型操作，将复杂多样的处理方式分别开来，有选择的实现各自特有的操作。
+redis下载地址：https://code.google.com/archive/p/redis/downloads
 
-模式的使用场景
+二.配置redis
+
+//依次运行
+sudo make
+sudo make test
+sudo make isntall
 
 
-  针对同一类型问题的多种处理方式，仅仅是具体行为有差别时。
-  需要安全的封装多种同一类型的操作时。
-  出现同一抽象多个子类，而...
+
+运行完成后，...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 5, 2016
+        Posted by DavidWang on July 20, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/04/android_model_introduction/">
+    <a href="/2016/07/11/tomcat_80_introduction/">
         <h2 class="post-title">
-            Android 设计模式分析四
+            阿里云端口配置
         </h2>
         
         <h3 class="post-subtitle">
-            模板方法模式
+            阿里云将80端口请求转发到其他端口
         </h3>
         
         <div class="post-content-preview">
-            1. 模式介绍
+            阿里云将80端口请求转发到其他端口
 
-模式的定义
-定义一个操作中的算法的框架，而将一些步骤延迟到子类中。使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。
+背景
+租了一台阿里云ECS，想搭建一个java Web 程序，环境都搭建好后，将Tomcat端口改为80并执行
 
-模式的使用场景
+./startup.sh
 
-  多个子类有公有的方法，并且逻辑基本相同时。
-  重要、复杂的算法，可以把核心算法设计为模板方法，周边的相关细节功能则由各个子类实现。
-  重构时，模板方法模式是一个经常使用的模式，把相同的代码抽取到父类中，然后通过钩子函...
+
+
+程序报错端口号冲突。
+估计是80端口被占用了，但是想绑定域名，还是需要将80端口映射到tomcat才行。
+
+于是检查占用80端口的程序
+
+
+
+是一个叫AliYunDun的程序将80端口占用了。
+
+解决方案
+由于...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 4, 2016
+        Posted by DavidWang on July 11, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/04/android_facade_introduction/">
+    <a href="/2016/07/09/tomcat_install_introduction/">
         <h2 class="post-title">
-            Android 设计模式分析三
+            Tomcat 安装
         </h2>
         
         <h3 class="post-subtitle">
-            Facade模式
+            在 Ubuntu 14.04 上通过 apt-get 安装 Apache Tomcat 7
         </h3>
         
         <div class="post-content-preview">
-            1. 模式介绍
+            关于 Apache Tomcat
 
-模式的定义
-外观模式(也成为门面模式)要求一个子系统的外部与其内部的通信必须通过一个统一的对象进行。它提供一个高层次的接口，使得子系统更易于使用。
+Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web 。 Tomcat 是 Java Servlet 与 JSP 技术的一个开源实现，由 Apache 软件基金会发布。
 
-模式的使用场景
+这个教程涵盖了在 Ubuntu 14.04 上 Tomcat 7.0.x 版本的安装和基础配置。
 
-  在设计初期阶段，将不同的两个层分离；
-  在开发阶段，子系统往往因为不断的重构演化而变得越来越复杂，大多数的模式使用时也都会产生很多很小的类，这本是好事，但也给外部调用它们的用户程序带来了使用上的困难，增...
+有两种基本的途径来安装 Tomcat 到 Ubuntu...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 4, 2016
+        Posted by DavidWang on July 9, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/03/android_builder_introduction/">
+    <a href="/2016/07/06/ios_core_animation15_introduction/">
         <h2 class="post-title">
-            Android 设计模式分析二
+            IOS 动画讲解十五
         </h2>
         
         <h3 class="post-subtitle">
-            Builder模式
+            图层性能
         </h3>
         
         <div class="post-content-preview">
-            1. 模式介绍
-
-模式的定义
-将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
-
-模式的使用场景
-
-  相同的方法，不同的执行顺序，产生不同的事件结果时；
-  多个部件或零件，都可以装配到一个对象中，但是产生的运行结果又不相同时；
-  产品类非常复杂，或者产品类中的调用顺序不同产生了不同的效能，这个时候使用建造者模式非常合适；
+            图层性能
 
 
-2. UML类图
+  要更快性能，也要做对正确的事情。
+——Stephen R. Covey
 
 
-角色介绍
+在第14章『图像IO』讨论如何高效地载入和显示图像，通过视图来避免可能引起动画帧率下降的性能问题。在最后一章，我们将着重图层树本身，以发掘最好的性能。
+
+隐式绘制
+
+寄宿图可以通过Core Graphics直接绘制，也可以直接载入一个图片文件并赋值给contents属性，或事先绘制一个屏幕之外的CG...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on July 6, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/07/05/ios_core_animation14_introduction/">
+        <h2 class="post-title">
+            IOS 动画讲解十四
+        </h2>
+        
+        <h3 class="post-subtitle">
+            图像IO
+        </h3>
+        
+        <div class="post-content-preview">
+            图像IO
+
+潜伏期值得思考 - 凯文 帕萨特
+
+在第13章“高效绘图”中，我们研究了和Core Graphics绘图相关的性能问题，以及如何修复。和绘图性能相关紧密相关的是图像性能。在这一章中，我们将研究如何优化从闪存驱动器或者网络中加载和显示图片。
+
+加载和潜伏
+
+绘图实际消耗的时间通常并不是影响性能的因素。图片消耗很大一部分内存，而且不太可能把需要显示的图片都保留在内存中，所以需要在应用...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on July 5, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/07/04/ios_core_animation13_introduction/">
+        <h2 class="post-title">
+            IOS 动画讲解十三
+        </h2>
+        
+        <h3 class="post-subtitle">
+            高效绘图
+        </h3>
+        
+        <div class="post-content-preview">
+            高效绘图
+
+
+  不必要的效率考虑往往是性能问题的万恶之源。
+——William Allan Wulf
+
+
+在第12章『速度的曲率』我们学习如何用Instruments来诊断Core Animation性能问题。在构建一个iOS app的时候会遇到很多潜在的性能陷阱，但是在本章我们将着眼于有关绘制的性能问题。
+
+软件绘图
+
+术语绘图通常在Core Animation的上下文中指代软件绘图（意...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on July 4, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/07/03/ios_core_animation12_introduction/">
+        <h2 class="post-title">
+            IOS 动画讲解十二
+        </h2>
+        
+        <h3 class="post-subtitle">
+            性能调优
+        </h3>
+        
+        <div class="post-content-preview">
+            性能调优
+
+
+  代码应该运行的尽量快，而不是更快 - 理查德
+
+
+在第一和第二部分，我们了解了Core Animation提供的关于绘制和动画的一些特性。Core Animation功能和性能都非常强大，但如果你对背后的原理不清楚的话也会降低效率。让它达到最优的状态是一门艺术。在这章中，我们将探究一些动画运行慢的原因，以及如何去修复这些问题。
+
+CPU VS GPU
+
+关于绘图和动画有两种...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on July 3, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/07/02/ios_core_animation11_introduction/">
+        <h2 class="post-title">
+            IOS 动画讲解十一
+        </h2>
+        
+        <h3 class="post-subtitle">
+            基于定时器的动画
+        </h3>
+        
+        <div class="post-content-preview">
+            基于定时器的动画
+
+
+  我可以指导你，但是你必须按照我说的做。 – 骇客帝国
+
+
+在第10章“缓冲”中，我们研究了CAMediaTimingFunction，它是一个通过控制动画缓冲来模拟物理效果例如加速或者减速来增强现实感的东西，那么如果想更加真实地模拟物理交互或者实时根据用户输入修改动画改怎么办呢？在这一章中，我们将继续探索一种能够允许我们精确地控制一帧一帧展示的基于定时器的动画。
 
 ...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 3, 2016
+        Posted by DavidWang on July 2, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/02/android_singleton_introduction/">
+    <a href="/2016/07/01/ios_core_animation10_introduction/">
         <h2 class="post-title">
-            Android 设计模式分析一
+            IOS 动画讲解十
         </h2>
         
         <h3 class="post-subtitle">
-            单例模式
+            缓冲
         </h3>
         
         <div class="post-content-preview">
-            1. 模式介绍
-
-模式的定义
-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。
-
-模式的使用场景
-确保某个类有且只有一个对象的场景，例如创建一个对象需要消耗的资源过多，如要访问 IO 和数据库等资源。
-
-2. UML类图
+            缓冲
 
 
-角色介绍
-
-  Client : 高层客户端。
-  Singleton : 单例类。
+  生活和艺术一样，最美的永远是曲线。 – 爱德华布尔沃 - 利顿
 
 
-3. 模式的简单实现
+在第九章“图层时间”中，我们讨论了动画时间和CAMediaTiming协议。现在我们来看一下另一个和时间相关的机制–所谓的缓冲。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。
 
-简单实现的介绍
-单例模式是设计模式中...
+动画速度
+
+动画实际上就是一段时...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 2, 2016
+        Posted by DavidWang on July 1, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/01/mac_os_rvm_install_jekyll_osx/">
+    <a href="/2016/06/30/ios_core_animation9_introduction/">
         <h2 class="post-title">
-            Mac OS M安装jekyll第二篇
+            IOS 动画讲解九
         </h2>
         
         <h3 class="post-subtitle">
-            RVM安装jekyll
+            图层时间
         </h3>
         
         <div class="post-content-preview">
-            
-  “六一快乐,由于很多同学安装通过第一篇jekyll安装不成功，因此本文将使用RVM更新系统Ruby版本安装jekyll”
+            图层时间
 
 
-步骤1 － 安装 RVM
-RVM 是干什么的这里就不解释了，后面你将会慢慢搞明白。
+  时间和空间最大的区别在于，时间不能被复用 – 弗斯特梅里克
 
-$ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC...
+
+在上面两章中，我们探讨了可以用CAAnimation和它的子类实现的多种图层动画。动画的发生是需要持续一段时间的，所以计时对整个概念来说至关重要。在这一章中，我们来看看CAMediaTiming，看看Core Animation是如何跟踪时间的。
+
+CAMediaTiming协议
+
+CAMediaTiming协...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 1, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/05/31/mastering_markdown/">
-        <h2 class="post-title">
-            Mastering Markdown
-        </h2>
-        
-        <h3 class="post-subtitle">
-             Markdown 用法介绍
-        </h3>
-        
-        <div class="post-content-preview">
-            Intro
-
-Markdown is a lightweight and easy-to-use syntax for styling all forms of writing on the GitHub platform.
-
-What you will learn:
-
-
-  How the Markdown format makes styled collaborative editing...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on May 31, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/05/30/mac_os_markdown_user_macdown/">
-        <h2 class="post-title">
-            Mac OS 好用的Markdown编辑工具MacDown
-        </h2>
-        
-        <h3 class="post-subtitle">
-             MacDown 介绍
-        </h3>
-        
-        <div class="post-content-preview">
-            MacDown
-
-
-
-Hello there! I’m MacDown, the open source Markdown editor for OS X.
-
-Let me introduce myself.
-
-Markdown and I
-
-Markdown is a plain text formatting syntax created by John Gruber, aiming t...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on May 30, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/04/19/leetcode_318_medium_maximum_product_of_word_length/">
-        <h2 class="post-title">
-            Leetcode Maximum Product of Word Lengths
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Medium题目 编号318
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “Leetcode是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”
-
-
-题目
-
-Given a string array words, find the maximum value of length(word[i]) * length(word[j])
-where the two words do not share common letters. You may assu...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on April 19, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/04/18/leetcode_41_hard_first_missing_positive/">
-        <h2 class="post-title">
-            Leetcode First Missing Positive
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Hard题目 编号41
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “Leetcode是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”
-
-
-题目
-
-Given an unsorted integer array, find the first missing positive integer.
-
-For example,
-Given [1,2,0] return 3,
-and [3,4,-1,1] return 2.
-
-Your algori...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on April 18, 2016
+        Posted by DavidWang on June 30, 2016
     </p>
 </div>
 <hr>
@@ -569,6 +569,10 @@ Your algori...
                             
                         
                             
+                                <a href="/tags/#Java" title="Java" rel="12">
+                                    Java
+                                </a>
+                            
                         
                             
                         
@@ -613,7 +617,7 @@ Your algori...
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="6">
                                     Ubuntu
                                 </a>
                             
@@ -634,6 +638,46 @@ Your algori...
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Docker" title="Docker" rel="4">
+                                    Docker
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Dubbo" title="Dubbo" rel="10">
+                                    Dubbo
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#设计模式" title="设计模式" rel="7">
+                                    设计模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Spring" title="Spring" rel="8">
+                                    Spring
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Mybatis" title="Mybatis" rel="4">
+                                    Mybatis
+                                </a>
                             
                         
                     </div>
@@ -747,7 +791,7 @@ Your algori...
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; DavidWang's Blog 2016
+                    Copyright &copy; DavidWang's Blog 2018
                     <br>
                     Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
                     <iframe

@@ -180,104 +180,317 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2014/10/14/fedora_20_install_gitolite/">
+    <a href="/2016/06/08/android_responsibility_introduction/">
         <h2 class="post-title">
-            Fedora 20 安装gitolite
+            Android 设计模式分析八
         </h2>
         
         <h3 class="post-subtitle">
-            git本地化的权限管理工具
+            责任链模式
         </h3>
         
         <div class="post-content-preview">
-            
-  “git本地化之后，可能会用到权限管理，gitolite就是一个强大的权限管理工具”
+            1. 模式介绍
+
+模式的定义
+一个请求沿着一条“链”传递，直到该“链”上的某个处理者处理它为止。
+
+模式的使用场景
+一个请求可以被多个处理者处理或处理者未明确指定时。
+
+2. UML类图
 
 
-1.gitolite安装先决条件
+角色介绍
+Client：客户端
 
-关于git和ssh登录的基础知识，网上已经有很多很好的文章，在这里就不再加以赘述了。
+Handler：抽象处理者
 
-1.1.安装git
+ConcreteHandler：具体处理者
 
-要安装gitolite，首先要安装git:
-
-sudo yum install git
-
-
-
-1.2.创建git用户组和git用户
-
-然后，需要新建用户...
+3. 模式的简单实现
+###  简单实现的介绍
+责任链模式非常简单异常好理解，相信我它比单例...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on October 14, 2014
+        Posted by DavidWang on June 8, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2014/10/10/fedora_20_installed_to_do/">
+    <a href="/2016/06/07/android_iterator_introduction/">
         <h2 class="post-title">
-            安装fedora20后的一些操作
+            Android 设计模式分析七
         </h2>
         
         <h3 class="post-subtitle">
-            安装Fedora 20后的必备软件包和系统操作
+            迭代器模式
         </h3>
         
         <div class="post-content-preview">
-            
-  “Fedora 20 自带的软件并不够强大，而且需要关闭防火墙和SEXLinux。”
+            1. 模式介绍
 
+模式的定义
 
-1. 安装fedora20后的初始化配
+迭代器（Iterator）模式，又叫做游标（Cursor）模式。GOF给出的定义为：提供一种方法访问一个容器（container）对象中各个元素，而又不需暴露该对象的内部细节。
 
-1.1. 防火墙
-
-如果你的电脑处于局域网内，默认开启的防火墙会导致局域网内的其他电脑无法与你的电脑进行连接，所以，停止它！
-
-sudo systemctl stop firewalld.service
-sudo systemctl disable fir...
+模式的使用场景
+　　Java JDK 1.2 版开始支持迭代器。每一个迭代器提供next()以及hasNext()方法，同时也支持remove()(1.8的时候remove已经成为d...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on October 10, 2014
+        Posted by DavidWang on June 7, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2014/10/10/fedora_20_chinese_fonts/">
+    <a href="/2016/06/06/android_binder_introduction/">
         <h2 class="post-title">
-            Fedora 20 中文字体美化
+            Android 设计模式分析六
         </h2>
         
         <h3 class="post-subtitle">
-             如何美化Fedora 20的中文字体
+            Binder模式
+        </h3>
+        
+        <div class="post-content-preview">
+            Binder中的代理模式
+
+再说Binder中的代理模式之前，我们需要先看看代理模式的简单实现，这一部分内容采用了《JAVA与模式》之代理模式这篇文章中的代码示例和uml类图。
+
+1. 模式介绍
+代理模式是对象的结构模式。代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的引用。
+
+模式的使用场景
+就是一个人或者机构代表另一个人或者机构采取行动。在一些情况下，一个客户不想或者不能...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 6, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/05/android_tactics_introduction/">
+        <h2 class="post-title">
+            Android 设计模式分析五
+        </h2>
+        
+        <h3 class="post-subtitle">
+            策略模式
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 模式介绍
+
+模式的定义
+
+策略模式定义了一系列的算法，并将每一个算法封装起来，而且使它们还可以相互替换。策略模式让算法独立于使用它的客户而独立变化。
+
+注：针对同一类型操作，将复杂多样的处理方式分别开来，有选择的实现各自特有的操作。
+
+模式的使用场景
+
+
+  针对同一类型问题的多种处理方式，仅仅是具体行为有差别时。
+  需要安全的封装多种同一类型的操作时。
+  出现同一抽象多个子类，而...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 5, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/04/android_model_introduction/">
+        <h2 class="post-title">
+            Android 设计模式分析四
+        </h2>
+        
+        <h3 class="post-subtitle">
+            模板方法模式
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 模式介绍
+
+模式的定义
+定义一个操作中的算法的框架，而将一些步骤延迟到子类中。使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。
+
+模式的使用场景
+
+  多个子类有公有的方法，并且逻辑基本相同时。
+  重要、复杂的算法，可以把核心算法设计为模板方法，周边的相关细节功能则由各个子类实现。
+  重构时，模板方法模式是一个经常使用的模式，把相同的代码抽取到父类中，然后通过钩子函...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 4, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/04/android_facade_introduction/">
+        <h2 class="post-title">
+            Android 设计模式分析三
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Facade模式
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 模式介绍
+
+模式的定义
+外观模式(也成为门面模式)要求一个子系统的外部与其内部的通信必须通过一个统一的对象进行。它提供一个高层次的接口，使得子系统更易于使用。
+
+模式的使用场景
+
+  在设计初期阶段，将不同的两个层分离；
+  在开发阶段，子系统往往因为不断的重构演化而变得越来越复杂，大多数的模式使用时也都会产生很多很小的类，这本是好事，但也给外部调用它们的用户程序带来了使用上的困难，增...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 4, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/03/android_builder_introduction/">
+        <h2 class="post-title">
+            Android 设计模式分析二
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Builder模式
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 模式介绍
+
+模式的定义
+将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
+
+模式的使用场景
+
+  相同的方法，不同的执行顺序，产生不同的事件结果时；
+  多个部件或零件，都可以装配到一个对象中，但是产生的运行结果又不相同时；
+  产品类非常复杂，或者产品类中的调用顺序不同产生了不同的效能，这个时候使用建造者模式非常合适；
+
+
+2. UML类图
+
+
+角色介绍
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 3, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/02/android_singleton_introduction/">
+        <h2 class="post-title">
+            Android 设计模式分析一
+        </h2>
+        
+        <h3 class="post-subtitle">
+            单例模式
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 模式介绍
+
+模式的定义
+确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。
+
+模式的使用场景
+确保某个类有且只有一个对象的场景，例如创建一个对象需要消耗的资源过多，如要访问 IO 和数据库等资源。
+
+2. UML类图
+
+
+角色介绍
+
+  Client : 高层客户端。
+  Singleton : 单例类。
+
+
+3. 模式的简单实现
+
+简单实现的介绍
+单例模式是设计模式中...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 2, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/01/mac_os_rvm_install_jekyll_osx/">
+        <h2 class="post-title">
+            Mac OS M安装jekyll第二篇
+        </h2>
+        
+        <h3 class="post-subtitle">
+            RVM安装jekyll
         </h3>
         
         <div class="post-content-preview">
             
-  “Fedora 20 自带的中文字体确实难以入眼。”
+  “六一快乐,由于很多同学安装通过第一篇jekyll安装不成功，因此本文将使用RVM更新系统Ruby版本安装jekyll”
 
 
-新装了Fedora 20，但是他的中文字体看起来略微有一些奇怪，通过上网查找和自己的实践，总结出了以下美化的步骤：
+步骤1 － 安装 RVM
+RVM 是干什么的这里就不解释了，后面你将会慢慢搞明白。
 
-1. 安装字体
-
-安装文泉驿微米黑并开启文泉驿微米黑渲染：
-
-sudo yum install wqy-microhei-fonts
-
-
-
-vi /etc/fonts/conf.d/65-0-wqy-microh...
+$ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on October 10, 2014
+        Posted by DavidWang on June 1, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/31/mastering_markdown/">
+        <h2 class="post-title">
+            Mastering Markdown
+        </h2>
+        
+        <h3 class="post-subtitle">
+             Markdown 用法介绍
+        </h3>
+        
+        <div class="post-content-preview">
+            Intro
+
+Markdown is a lightweight and easy-to-use syntax for styling all forms of writing on the GitHub platform.
+
+What you will learn:
+
+
+  How the Markdown format makes styled collaborative editing...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on May 31, 2016
     </p>
 </div>
 <hr>
@@ -291,6 +504,10 @@ vi /etc/fonts/conf.d/65-0-wqy-microh...
         <a href="/page7">&larr; Newer Posts</a>
     </li>
     
+    
+    <li class="next">
+        <a href="/page9">Older Posts &rarr;</a>
+    </li>
     
 </ul>
 
@@ -358,6 +575,10 @@ vi /etc/fonts/conf.d/65-0-wqy-microh...
                             
                         
                             
+                                <a href="/tags/#Java" title="Java" rel="12">
+                                    Java
+                                </a>
+                            
                         
                             
                         
@@ -402,7 +623,7 @@ vi /etc/fonts/conf.d/65-0-wqy-microh...
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="6">
                                     Ubuntu
                                 </a>
                             
@@ -423,6 +644,46 @@ vi /etc/fonts/conf.d/65-0-wqy-microh...
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Docker" title="Docker" rel="4">
+                                    Docker
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Dubbo" title="Dubbo" rel="10">
+                                    Dubbo
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#设计模式" title="设计模式" rel="7">
+                                    设计模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Spring" title="Spring" rel="8">
+                                    Spring
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Mybatis" title="Mybatis" rel="4">
+                                    Mybatis
+                                </a>
                             
                         
                     </div>
@@ -536,7 +797,7 @@ vi /etc/fonts/conf.d/65-0-wqy-microh...
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; DavidWang's Blog 2016
+                    Copyright &copy; DavidWang's Blog 2018
                     <br>
                     Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
                     <iframe

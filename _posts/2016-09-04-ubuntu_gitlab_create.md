@@ -2,7 +2,7 @@
 layout:     post
 title:      "Ubuntu 安装GitLab"
 subtitle:   "Ubuntu 安装gitlab"
-date:       2016-12-22 07:00:00
+date:       2016-09-04 07:00:00
 author:     "DavidWang"
 header-img: "img/post-bg-e2e-ux.jpg"
 catalog: true

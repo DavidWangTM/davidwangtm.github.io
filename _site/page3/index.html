@@ -180,326 +180,317 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2016/06/26/ios_core_animation5_introduction/">
+    <a href="/2016/10/14/dubbo_nine_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解五
+            分布式框架Tudou-Dubbo(九)
         </h2>
         
         <h3 class="post-subtitle">
-            变换
+            分布式框架Tudou(九) 代码生成器
         </h3>
         
         <div class="post-content-preview">
-            变换
+            代码生成器介绍
 
+代码生成器表结构
 
-  很不幸，没人能告诉你母体是什么，你只能自己体会 – 骇客帝国
-
-
-在第四章“可视效果”中，我们研究了一些增强图层和它的内容显示效果的一些技术，在这一章中，我们将要研究可以用来对图层旋转，摆放或者扭曲的CGAffineTransform，以及可以将扁平物体转换成三维空间对象的CATransform3D（而不是仅仅对圆角矩形添加下沉阴影）。
-
-仿射变换
-
-在第三章“图层几何学”中，...
+CREATE TABLE `gen_scheme` (
+  `id` varchar(64) COLLATE utf8_bin NOT NULL COMMENT '编号',
+  `name` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '名称',
+  `category` varchar(200)...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 26, 2016
+        Posted by DavidWang on October 14, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/25/ios_core_animation4_introduction/">
+    <a href="/2016/10/14/dubbo_eight_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解四
+            分布式框架Tudou-Dubbo(八)
         </h2>
         
         <h3 class="post-subtitle">
-            视觉效果
+            分布式框架Tudou(八) Activiti工作流介绍
         </h3>
         
         <div class="post-content-preview">
-            视觉效果
+            Activiti 工作流介绍
 
+Activiti Maven 配置
 
-  嗯，圆和椭圆还不错，但如果是带圆角的矩形呢？
-
-
-
-  我们现在能做到那样了么？
-
-
-
-  史蒂芬·乔布斯
-
-
-我们在第三章『图层几何学』中讨论了图层的frame，第二章『寄宿图』则讨论了图层的寄宿图。但是图层不仅仅可以是图片或是颜色的容器；还有一系列内建的特性使得创造美丽优雅的令人深刻的界面元素成为可能。在这一章，我们将会探索一些能够通过使用CALayer属性实现的视觉效...
+	&lt;dependency&gt;
+            &lt;groupId&gt;org.activiti&lt;/groupId&gt;
+            &lt;artifactId&gt;activiti-engine&lt;/artifactId&gt;
+            &lt;versi...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 25, 2016
+        Posted by DavidWang on October 14, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/24/ios_core_animation3_introduction/">
+    <a href="/2016/10/13/dubbo_seven_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解三
+            分布式框架Tudou-Dubbo(七)
         </h2>
         
         <h3 class="post-subtitle">
-            图层几何学
+            分布式框架Tudou(七) 前端框架选型和介绍
         </h3>
         
         <div class="post-content-preview">
-            图层几何学
+            前端框架选型
 
-  不熟悉几何学的人就不要来这里了 –柏拉图学院入口的签名
+https://www.w3cschool.cn/extjs/extjs_components.html
 
+http://www.jeasyui.net/demo/380.html
 
-在第二章里面，我们介绍了图层背后的图片，和一些控制图层坐标和旋转的属性。在这一章中，我们将要看一看图层内部是如何根据父图层和兄弟图层来控制位置和尺寸的。另外我们也会涉及如何管理图层的几何结构，以及它是如何被自动调整和自动布局影响的。
+http://b-jui.com/
 
-布局
-UIView有三个比较重要的布局属性：frame，bounds和cente...
+http://www.bootcss.com/
+
+https://adminlte.io/
+
+http://www.layui.com/
+
+https://...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 24, 2016
+        Posted by DavidWang on October 13, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/23/ios_core_animation2_introduction/">
+    <a href="/2016/10/12/dubbo_six_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解二
+            分布式框架Tudou-Dubbo(六)
         </h2>
         
         <h3 class="post-subtitle">
-            寄宿图
+            分布式框架Tudou(六) 用户权限管理设计
         </h3>
         
         <div class="post-content-preview">
-            寄宿图
+            Dubbo 用户权限管理设计
 
-  图片胜过千言万语，界面抵得上千图片  ——Ben Shneiderman
+Dubbo 用户权限数据库设计
+
+根据RBAC角色权限方案来满足我们实际的业务情况作出表的调整
 
 
-我们在第一章『图层树』中介绍了CALayer类并创建了一个简单的有蓝色背景的图层。背景颜色还好啦，但是如果它仅仅是展现了一个单调的颜色未免也太无聊了。事实上CALayer类能够包含一张你喜欢的图片，这一章节我们将来探索CALayer的寄宿图（即图层中包含的图）。
 
-contents属性
-CALayer...
+
+
+以下是表结构
+
+CREATE TABLE `upms_organization` (
+  `organization_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `pid` in...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 23, 2016
+        Posted by DavidWang on October 12, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/22/ios_core_animation1_introduction/">
+    <a href="/2016/10/11/dubbo_five_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解一
+            分布式框架Tudou-Dubbo(五)
         </h2>
         
         <h3 class="post-subtitle">
-            图层的树状结构
+            分布式框架Tudou(五) Shiro 和 Session 管理
         </h3>
         
         <div class="post-content-preview">
-            图层的树状结构
+            Dubbo Shiro 管理
+
+Dubbo Shiro 配置
+
+此工程是使用Shiro 作为安全框架，使用Shiro来管理路由的访问权限和作用域
 
 
-  巨妖有图层，洋葱也有图层，你有吗？我们都有图层 – 史莱克
 
-
-Core Animation其实是一个令人误解的命名。你可能认为它只是用来做动画的，但实际上它是从一个叫做Layer Kit这么一个不怎么和动画有关的名字演变而来，所以做动画这只是Core Animation特性的冰山一角。
-
-Core Animation是一个复合引擎，它的职责就是尽可能快地组合屏幕上不...
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:x...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 22, 2016
+        Posted by DavidWang on October 11, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/21/ios_sdwebimage_introduction/">
+    <a href="/2016/10/10/dubbo_four_introduction/">
         <h2 class="post-title">
-            IOS 开源库讲解篇二
+            分布式框架Tudou-Dubbo(四)
         </h2>
         
         <h3 class="post-subtitle">
-            SDWebImage 源码解析
+            分布式框架Tudou(四) Dubbo 配置
         </h3>
         
         <div class="post-content-preview">
-            前言
+            Dubbo 配置
 
-SDWebImage是iOS开发中十分流行的库，大多数的开发者在下载图片或者加载网络图片并且本地缓存的时候，都会用这个框架。这个框架相对来说，源代码还是比较少的。
+详细配置这里不多介绍，直接上工程内配置的说明，其他的详见链接说明
 
-先介绍类的整体架构关系，先有一个宏观的认识。然后讲解sd_setImageWithURL的加载逻辑，因为这是SDWebImage最核心的，也是很多面试会问到的。接下来会介绍Image的解码，然后讲解缓存处理。最后再讲解A...
+
+
+
+
+详细文档请参考：
+
+
+  Dubbo GITHUB地址
+  Dubbo用户手册(中文)
+  Dubbo开发手册(中文) 
+  Dubbo管理手册(中文)
+
+
+为了方便服务的监管和运维，Dubbo提供了Dubbo-admin:
+
+
+  可以去GITHUB地址上下载War包，部署tomcat即可 Du...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 21, 2016
+        Posted by DavidWang on October 10, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/20/ios_mantle_introduction/">
+    <a href="/2016/10/09/dubbo_three_introduction/">
         <h2 class="post-title">
-            IOS 开源库讲解篇一
+            分布式框架Tudou-Dubbo(三)
         </h2>
         
         <h3 class="post-subtitle">
-            Mantle 源码解析
+            分布式框架Tudou(三) MAVEN 配置
         </h3>
         
         <div class="post-content-preview">
-            前言
+            Dubbo MAVEN 配置
 
-iOS开发中，不管是哪种设计模式，Model层都是不可或缺的。而Model层的第三方库常用的库有以下几个
+Dubbo 工程 Maven 设计
 
-
-  JSONModel
-  Mantle
-  MJExtension
+由于模块代码专注所在业务代码内，无需查看其它服务代码，对接只需要调用对应的服务即可，提取Maven配置在公共配置中，可以节约空间，并且解耦
 
 
-JSON data到对象的转换原理都差不多，一般的顺序如下
-
-
-  根据Runtime，动态的获取属性的类型和属性的名字，（如果需要，做一次Json的key的Mapping
-  创建对应的对象实例
-  ...
+  在主工程中引用 dependencyManagement 控制Maven引用库的版本。
+  在配置工程中(tudou-common)引用 dependencies 加载通用 M...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 20, 2016
+        Posted by DavidWang on October 9, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/18/mac_core_os_upan_introduction/">
+    <a href="/2016/10/09/dubbo_two_introduction/">
         <h2 class="post-title">
-            制作Mac OS X EL Capotan U盘引导安装
+            分布式框架Tudou-Dubbo(二)
         </h2>
         
         <h3 class="post-subtitle">
-            U盘引导安装
+            分布式框架Tudou(二) Dubbo工程框架搭建
         </h3>
         
         <div class="post-content-preview">
-            制作 Mac OS X El Capitan 的U盘引导安装
+            Dubbo工程框架搭建
 
-一、准备工作：
+Dubbo工程搭建业务模型说明
 
+由于公司业务急速增长，模块之间的关系越来越耦合，决定重组模块
 
-  准备一个 8GB 或者 8G 以上容量的 U 盘。
+家装行业，程序的定义设计的目的:方便公司流程和数据管理，解耦业务之间的数据关系.
 
-
-确保里面的数据已经妥善备份好（该过程会抹掉 U 盘全部数据）
-最好使用3.0的U盘、速度快 (本人比较苦逼，没有U盘，直接使用的硬盘~ 都是一样的啦)
-
+功能规划为：
 
 
-
-  打开 App store 下载 OS X El Capitan 系统
-
-
-下载 OS ...
+  UPMS权限管理中心（用于基础权限配置和管理员数据查看和运维工作）
+  OA管理系统 （用于公司的OA系统管理-里面设计包括Activi流程模块）
+  CODE_G...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 18, 2016
+        Posted by DavidWang on October 9, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/17/android_frame_introduction/">
+    <a href="/2016/10/09/dubbo_docker_introduction/">
         <h2 class="post-title">
-            Android 快速开发库
+            分布式框架Tudou-Dubbo(一)
         </h2>
         
         <h3 class="post-subtitle">
-            常用的第三方库
+            分布式框架Tudou(一) dubbo基础环境搭建
         </h3>
         
         <div class="post-content-preview">
-            1. 缓存
+            Docker-Compose 使用
+
+使用分布式框架，需要的docker服务包括zookeeper,dubbo-admin,mysql,redis
 
 
+  zookeeper  dubbo 注册服务器中心
+  dubbo-admin  dubbo 服务管理平台
+  mysql dubbo 在本工程中服务器内持久化数据库
+  redis dubbo 在本工程中服务器内缓存数据库
 
 
-  
-    
-      名称
-      描述
-    
-    
-      DiskLruCache
-      Java实现基于LRU的磁盘缓存
-    
-  
-
-
-2.图片加载
-
-
-
-
-  
-    
-      名称
-      描述
-    
-    
-      Android Universal Image Loader
-      一个强大的加载，缓...
+为了方便管...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 17, 2016
+        Posted by DavidWang on October 9, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/16/ios_copy_introduction/">
+    <a href="/2016/10/08/docker_nexus_introduction/">
         <h2 class="post-title">
-            ios 进阶篇
+            Docker-Nexus 安装及配置
         </h2>
         
         <h3 class="post-subtitle">
-            iOS 集合的深复制与浅复制
+            Docker 安装配置 Nexus
         </h3>
         
         <div class="post-content-preview">
-            概念
+            Docker 搭建maven私服
 
-对象拷贝有两种方式：浅复制和深复制。顾名思义，浅复制，并不拷贝对象本身，仅仅是拷贝指向对象的指针；深复制是直接拷贝整个对象内存到另一块内存中。
+nexus 是 sonatype 下的Maven管理器。
 
-一图以蔽之
+docker-nexus3 是  sonatype  下的docker开源容器库，只需要简单的使用docker命令即可创建nexus.
+
+Docker 镜像 docker-nexus3
+
+官方有两种方式
 
 
-
-再简单些说：浅复制就是指针拷贝；深复制就是内容拷贝。
-
-集合的浅复制 (shallow copy)
-
-集合的浅复制有非常多种方法。当你进行浅复制时，会向原始的集合发送retain消息，引用计数加1，同时指针被拷贝到新的集合...
+  使用 docker 的 data volume （推荐）
+  使用本地目录作为 con...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 16, 2016
+        Posted by DavidWang on October 8, 2016
     </p>
 </div>
 <hr>
@@ -584,6 +575,10 @@ JSON data到对象的转换原理都差不多，一般的顺序如下
                             
                         
                             
+                                <a href="/tags/#Java" title="Java" rel="12">
+                                    Java
+                                </a>
+                            
                         
                             
                         
@@ -628,7 +623,7 @@ JSON data到对象的转换原理都差不多，一般的顺序如下
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="6">
                                     Ubuntu
                                 </a>
                             
@@ -649,6 +644,46 @@ JSON data到对象的转换原理都差不多，一般的顺序如下
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Docker" title="Docker" rel="4">
+                                    Docker
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Dubbo" title="Dubbo" rel="10">
+                                    Dubbo
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#设计模式" title="设计模式" rel="7">
+                                    设计模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Spring" title="Spring" rel="8">
+                                    Spring
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Mybatis" title="Mybatis" rel="4">
+                                    Mybatis
+                                </a>
                             
                         
                     </div>
@@ -762,7 +797,7 @@ JSON data到对象的转换原理都差不多，一般的顺序如下
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; DavidWang's Blog 2016
+                    Copyright &copy; DavidWang's Blog 2018
                     <br>
                     Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
                     <iframe

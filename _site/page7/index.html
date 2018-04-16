@@ -180,336 +180,374 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2015/05/20/leetcode_205_easy_isomorphic_strings/">
+    <a href="/2016/06/18/mac_core_os_upan_introduction/">
         <h2 class="post-title">
-            Leetcode Isomorphic Strings
+            制作Mac OS X EL Capotan U盘引导安装
         </h2>
         
         <h3 class="post-subtitle">
-            Easy题目 编号205
+            U盘引导安装
         </h3>
         
         <div class="post-content-preview">
-            
-  “Leetcode是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”
+            制作 Mac OS X El Capitan 的U盘引导安装
+
+一、准备工作：
 
 
-题目
+  准备一个 8GB 或者 8G 以上容量的 U 盘。
 
-Given two strings s and t, determine if they are isomorphic.
 
-Two strings are isomorphic if the characters in s can be replaced to get t.
+确保里面的数据已经妥善备份好（该过程会抹掉 U 盘全部数据）
+最好使用3.0的U盘、速度快 (本人比较苦逼，没有U盘，直接使用的硬盘~ 都是一样的啦)
 
-All occurr...
+
+
+
+  打开 App store 下载 OS X El Capitan 系统
+
+
+下载 OS ...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on May 20, 2015
+        Posted by DavidWang on June 18, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2015/05/19/leetcode_204_easy_count_prime/">
+    <a href="/2016/06/17/android_frame_introduction/">
         <h2 class="post-title">
-            Leetcode Count Primes
+            Android 快速开发库
         </h2>
         
         <h3 class="post-subtitle">
-            Easy题目 编号204
+            常用的第三方库
         </h3>
         
         <div class="post-content-preview">
-            
-  “Leetcode是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”
-
-
-题目
-
-Count the number of prime numbers less than a non-negative number, n
+            1. 缓存
 
 
 
-翻译
 
-计算比一个给定非负数n小的质数的个数。
+  
+    
+      名称
+      描述
+    
+    
+      DiskLruCache
+      Java实现基于LRU的磁盘缓存
+    
+  
+
+
+2.图片加载
 
 
 
-引用
 
-
-  How many primes are there?
-
-
-
-  Sieve of Er...
+  
+    
+      名称
+      描述
+    
+    
+      Android Universal Image Loader
+      一个强大的加载，缓...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on May 19, 2015
+        Posted by DavidWang on June 17, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2015/05/19/leetcode_26_easy_remove_duplicates_from_sorted_array/">
+    <a href="/2016/06/16/ios_copy_introduction/">
         <h2 class="post-title">
-            Leetcode Remove Duplicates from Sorted Array
+            ios 进阶篇
         </h2>
         
         <h3 class="post-subtitle">
-            Easy题目 编号26
+            iOS 集合的深复制与浅复制
         </h3>
         
         <div class="post-content-preview">
-            
-  “Leetcode是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”
+            概念
+
+对象拷贝有两种方式：浅复制和深复制。顾名思义，浅复制，并不拷贝对象本身，仅仅是拷贝指向对象的指针；深复制是直接拷贝整个对象内存到另一块内存中。
+
+一图以蔽之
 
 
-题目
 
-Given a sorted array, remove the duplicates in place such that each element
-appear only once and return the new length.
+再简单些说：浅复制就是指针拷贝；深复制就是内容拷贝。
 
-Do not allocate extra space ...
+集合的浅复制 (shallow copy)
+
+集合的浅复制有非常多种方法。当你进行浅复制时，会向原始的集合发送retain消息，引用计数加1，同时指针被拷贝到新的集合...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on May 19, 2015
+        Posted by DavidWang on June 16, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2015/05/04/mac_os_yosemite_sublime_and_c/">
+    <a href="/2016/06/15/ios_pod_introduction/">
         <h2 class="post-title">
-            Mac OS Yosemite 配置sublime text C语言开发环境
+            IOS 第三方库管理工具
         </h2>
         
         <h3 class="post-subtitle">
-            sublime支持各种语言的编译和运行
+            CocoaPods安装和使用教程
         </h3>
         
         <div class="post-content-preview">
-            
-  “Sublime Text是一个轻便的文本编辑器”
+            CocoaPods是什么？
 
-
-1. 概述
-
-Sublime Text 是一个代码编辑器，也是HTML和散文先进的文本编辑器。它是由程序员Jon Skinner于2008年1月份所开发出来，它最初被设计为一个具有丰富扩展功能的Vim。
-Sublime Text具有漂亮的用户界面和强大的功能，例如代码缩略图，代码段等。还可自定义键绑定，菜单和工具栏。它的主要功能包...
+当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on May 4, 2015
+        Posted by DavidWang on June 15, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2015/03/19/mac_os_yosemite_install_jekyll/">
+    <a href="/2016/06/14/ios_xcodeplu_introduction/">
         <h2 class="post-title">
-            Mac OS安装jekyll
+            IOS 快速开发工具
         </h2>
         
         <h3 class="post-subtitle">
-            
+            Xcode 觉得好用的插件库
         </h3>
         
         <div class="post-content-preview">
-            
-  “jekyll 是一款简单的博客系统，静态网站生成器。”
+            第一部分 Alcatraz插件的介绍
 
+Alcatraz 是Xcode管理插件的工具,在上面能找到各种提高效率的插件。
 
-1. 概述
+源码地址：https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin
 
-jekyll 是一款简单的博客系统，静态网站生成器。她有一个模版目录，存放整个静态网站的模版文件，可以通过Liquid处理模版文件，把使用标记语言Textile或Markdown编写的内容文件，按照模版格式，转换成最终的静态网站页面。大名鼎鼎的GitHub Pages就是通过它实现的。搭建好我们的博客系统之后，...
+安装的方法也很简单，如果你以前没有安装过那执行下面指令
+
+curl -fsSL https://raw.github.com/alcatr...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on March 19, 2015
+        Posted by DavidWang on June 14, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2014/12/09/nginx_mysql_php_in_fedora/">
+    <a href="/2016/06/13/android_studio_plugins_introduction/">
         <h2 class="post-title">
-            fedora22 配置Nginx,Mysql,PHP
+            Android 快速开发工具
         </h2>
         
         <h3 class="post-subtitle">
-            在Fedora上配置LNMP开发环境
+            22个Android Studio优秀插件
         </h3>
         
         <div class="post-content-preview">
-            
-  “LNMP开发环境是PHP语言开发网站的主流环境。”
+            第一部分 插件的介绍
 
+Google 在2013年5月的I/O开发者大会推出了基于IntelliJ IDEA java ide上的Android Studio。Android Studio是一个功能齐全的开发工具，还提供了第三方插件的支持。让开发人员更快速更好的开发程序。
 
-1. 安装nginx
+第二部分 插件的安装
 
-nginx在fedora当中是一个默认包，所以直接使用命令行进行安装即可：
-
-sudo dnf install nginx -y
-
-
-
-然后启动nginx服务：
-
-sudo service nginx start
-
-
-
-当然，也可以设置他为开机启动：
-
-sudo systemctl enable ngin...
+in Android Studio: go to File → Settings → Plug...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on December 9, 2014
+        Posted by DavidWang on June 13, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2014/11/26/install_sougou_pinyin_in_fedora_20/">
+    <a href="/2016/06/12/ios_animation_introduction/">
         <h2 class="post-title">
-            fedora20 安装搜狗输入法
+            IOS 炫酷框架
         </h2>
         
         <h3 class="post-subtitle">
-            卸载ibus，启用fcitx
+            动画框架
         </h3>
         
         <div class="post-content-preview">
-            
-  “Fedora自带的输入法对中文的支持并不够好，可以安装搜狗输入法进行替代”
-
-
-0.环境描述
-
-系统环境: Fedora 20  64位
-搜狗输入法版本: sogou_pinyin_linux_1.1.0.0037_amd64
+            pop
 
 
 
-1.卸载ibus
-
-sudo yum remove ibus
-gsettings set org.gnome.settings-daemon.plugi...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on November 26, 2014
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2014/11/25/leetcode_medium_single_number/">
-        <h2 class="post-title">
-            Leetcode Single Number
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Medium题目 编号136
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “Leetcode是一个强大的OJ网站，很多公司的面试题目都可以在这里找到”
-
-
-题目
-
-Given an array of integers, every element appears twice except for one.
-Find that single one.
-
-有一个整数数组，其中的元素只有一个出现了一次，其他的均出现了两次，请找出只出现了一次的元素。
+popping
 
 
 
-注意
+
+
+Spring
+
+
+
+
+
+
+
+JNWSpringAnimation
+
+
+
+DCAnimationKit
+
+Tada
+
+
+Bounce
+
+
+Pulse
+
+
+Shake
+
+
+Swing
+
+
+Snap
+
+
+Bounce
+
+
+Expand
+
+
+Compress
+
+
+Hinge
+
+
+Drop
+
+
+Move
+
+
+Rotation
+
+
+RBBAnimation
+
+
 
 ...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on November 25, 2014
+        Posted by DavidWang on June 12, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2014/11/25/how_to_deal_with_multiple_version_lib/">
+    <a href="/2016/06/11/android_prototype_introduction/">
         <h2 class="post-title">
-            如何解决“保护多库版本”问题
+            Android 设计模式分析十一
         </h2>
         
         <h3 class="post-subtitle">
-            
+            原型模式
         </h3>
         
         <div class="post-content-preview">
-            今天在fedora21上安装wine的时候，遇到一个问题，错误提示为：保护多库版本 …
+            1. 模式介绍
 
-搜查了一圈，找到了一个解决方案
+模式的定义
+用原型实例指定创建对象的种类，并通过拷贝这些原型创建新的对象。
 
-首先将fedora进行降级：
+模式的使用场景
 
-sudo yum distro-sync
-
-
-
-然后进行源的清理：
-
-sudo yum clean all &amp;&amp; sudo yum makecache
-
-
-
-最后，重新升级fedora：
-
-sudo yum update
-...
+  类初始化需要消化非常多的资源，这个资源包括数据、硬件资源等，通过原型拷贝避免这些消耗；
+  通过 new 产生一个对象需要非常繁琐的数据准备或访问权限，则可以使用原型模式；
+  一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值时，可以考虑使用原型模式拷贝多个对...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on November 25, 2014
+        Posted by DavidWang on June 11, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2014/10/14/markdown_simple_syntax/">
+    <a href="/2016/06/10/android_bridging_introduction/">
         <h2 class="post-title">
-            Markdown 简明语法
+            Android 设计模式分析十
         </h2>
         
         <h3 class="post-subtitle">
-            Markdown语言的基本语法讲解和展示
+            桥接模式
         </h3>
         
         <div class="post-content-preview">
-            
-  “Markdown语言是现在编写博客最为常用的语言。”
+            模式介绍
+
+模式的定义
+
+将抽象部分与实现部分分离，使它们都可以独立的变化。
+
+模式的使用场景
 
 
-1.简介
-
-Markdown的目标是实现「易读易写」，成为一种适用于网络的「书写语言」。
-
-一份使用Markdown格式撰写的文件可以直接以纯文本发布，它的最大灵感来源其实是纯文本电子邮件的格式。
-
-Markdown的语法由一些符号所组成，其作用一目了然。比如：在文字两旁加上星号，看起来就像强调。
-
-Markdown兼容HTM...
+  如果一个系统需要在构件的抽象化角色和具体化角色之间添加更多的灵活性，避免在两个层次之间建立静态的联系。
+  设计要求实现化角色的任何改变不应当影响客户端，或者实现化角色的改变对客户端是完全透明的。
+  需要跨越多个平台的图形和窗口系统上。
+  一个类存在两个独立变化的维度，且两个维度都需要...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on October 14, 2014
+        Posted by DavidWang on June 10, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/06/09/android_command_introduction/">
+        <h2 class="post-title">
+            Android 设计模式分析九
+        </h2>
+        
+        <h3 class="post-subtitle">
+            命令模式
+        </h3>
+        
+        <div class="post-content-preview">
+            1. 模式介绍
+
+模式的定义
+将一个请求封装成一个对象，从而使你可用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。
+
+模式的使用场景
+
+
+  系统需要将请求调用者和请求接收者解耦，使得调用者和接收者不直接交互。
+  系统需要在不同的时间指定请求、将请求排队和执行请求。
+  系统需要支持命令的撤销(Undo)操作和恢复(Redo)操作。
+  系统需要将一组操作组合...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on June 9, 2016
     </p>
 </div>
 <hr>
@@ -594,6 +632,10 @@ Markdown兼容HTM...
                             
                         
                             
+                                <a href="/tags/#Java" title="Java" rel="12">
+                                    Java
+                                </a>
+                            
                         
                             
                         
@@ -638,7 +680,7 @@ Markdown兼容HTM...
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="6">
                                     Ubuntu
                                 </a>
                             
@@ -659,6 +701,46 @@ Markdown兼容HTM...
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Docker" title="Docker" rel="4">
+                                    Docker
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Dubbo" title="Dubbo" rel="10">
+                                    Dubbo
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#设计模式" title="设计模式" rel="7">
+                                    设计模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Spring" title="Spring" rel="8">
+                                    Spring
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Mybatis" title="Mybatis" rel="4">
+                                    Mybatis
+                                </a>
                             
                         
                     </div>
@@ -772,7 +854,7 @@ Markdown兼容HTM...
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; DavidWang's Blog 2016
+                    Copyright &copy; DavidWang's Blog 2018
                     <br>
                     Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
                     <iframe

@@ -180,303 +180,292 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2016/07/06/ios_core_animation15_introduction/">
+    <a href="/2016/11/11/spring_two_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解十五
+            Spring回顾 (二)
         </h2>
         
         <h3 class="post-subtitle">
-            图层性能
+            AOP 设计原理
         </h3>
         
         <div class="post-content-preview">
-            图层性能
+            AOP的特点
+
+AOP主要用于横切关注点分离和织入，因此需要理解横切关注点和织入：
 
 
-  要更快性能，也要做对正确的事情。
-——Stephen R. Covey
-
-
-在第14章『图像IO』讨论如何高效地载入和显示图像，通过视图来避免可能引起动画帧率下降的性能问题。在最后一章，我们将着重图层树本身，以发掘最好的性能。
-
-隐式绘制
-
-寄宿图可以通过Core Graphics直接绘制，也可以直接载入一个图片文件并赋值给contents属性，或事先绘制一个屏幕之外的CG...
+  
+    关注点： 可以认为是所关注的任何东西，比如上边的支付组件；
+  
+  
+    关注点分离： 将问题细化从而单独部分，即可以理解为不可再分割的组件，如上边的日志组件和支付组件；
+  
+  
+    横切关注点： 一个组件无法完成需要的功能，需要其他组件协作完成，如日志组件横切于支付组件；
+ ...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 6, 2016
+        Posted by DavidWang on November 11, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/05/ios_core_animation14_introduction/">
+    <a href="/2016/11/10/spring_one_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解十四
+            Spring回顾 (一)
         </h2>
         
         <h3 class="post-subtitle">
-            图像IO
+            IOC 容器设计原理及高级特性
         </h3>
         
         <div class="post-content-preview">
-            图像IO
+            IOC容器设计原理及高级特性
 
-潜伏期值得思考 - 凯文 帕萨特
+一、IOC接口设计
 
-在第13章“高效绘图”中，我们研究了和Core Graphics绘图相关的性能问题，以及如何修复。和绘图性能相关紧密相关的是图像性能。在这一章中，我们将研究如何优化从闪存驱动器或者网络中加载和显示图片。
+IOC容器设计的源码主要在spring-beans.jar、spring-context.jar这两个包中。IOC容器主要接口设计如下：
 
-加载和潜伏
 
-绘图实际消耗的时间通常并不是影响性能的因素。图片消耗很大一部分内存，而且不太可能把需要显示的图片都保留在内存中，所以需要在应用...
+
+这里的接口设计有两条主线：BeanFactory和ApplicationContext
+
+
+  
+    BeanFactory–&gt;HierarchicalBeanFactory–&gt;C...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 5, 2016
+        Posted by DavidWang on November 10, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/04/ios_core_animation13_introduction/">
+    <a href="/2016/11/07/template_pattern_introcudction/">
         <h2 class="post-title">
-            IOS 动画讲解十三
+            常用设计模式(七)
         </h2>
         
         <h3 class="post-subtitle">
-            高效绘图
+            Template 模板模式
         </h3>
         
         <div class="post-content-preview">
-            高效绘图
+            模板模式
 
+在模板模式（Template Pattern）中，一个抽象类公开定义了执行它的方法的方式/模板。它的子类可以按需要重写方法实现，但调用将以抽象类中定义的方式进行。这种类型的设计模式属于行为型模式。
 
-  不必要的效率考虑往往是性能问题的万恶之源。
-——William Allan Wulf
+介绍
 
+意图： 定义一个操作中的算法的骨架，而将一些步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。
 
-在第12章『速度的曲率』我们学习如何用Instruments来诊断Core Animation性能问题。在构建一个iOS app的时候会遇到很多潜在的性能陷阱，但是在本章我们将着眼于有关绘制的性能问题。
-
-软件绘图
-
-术语绘图通常在Core Animation的上下文中指代软件绘图（意...
+主要解决： 一些方法通用，却在每一个...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 4, 2016
+        Posted by DavidWang on November 7, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/03/ios_core_animation12_introduction/">
+    <a href="/2016/11/06/prototype_pattern_introcudction/">
         <h2 class="post-title">
-            IOS 动画讲解十二
+            常用设计模式(六)
         </h2>
         
         <h3 class="post-subtitle">
-            性能调优
+            Prototype 原型模式
         </h3>
         
         <div class="post-content-preview">
-            性能调优
+            原型模式
 
+原型模式（Prototype Pattern）是用于创建重复的对象，同时又能保证性能。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
 
-  代码应该运行的尽量快，而不是更快 - 理查德
-
-
-在第一和第二部分，我们了解了Core Animation提供的关于绘制和动画的一些特性。Core Animation功能和性能都非常强大，但如果你对背后的原理不清楚的话也会降低效率。让它达到最优的状态是一门艺术。在这章中，我们将探究一些动画运行慢的原因，以及如何去修复这些问题。
-
-CPU VS GPU
-
-关于绘图和动画有两种...
+这种模式是实现了一个原型接口，该接口用于创建当前对象的克隆。当直接创建对象的代价比较大时，则采用这种模式。例如，一个对象需要在一个高代价的数据库操作之后被创建。我们可以缓存该对象，在下一个请求时返回它的克隆，在需要的时候更新数...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 3, 2016
+        Posted by DavidWang on November 6, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/02/ios_core_animation11_introduction/">
+    <a href="/2016/11/05/strategy_pattern_introcudction/">
         <h2 class="post-title">
-            IOS 动画讲解十一
+            常用设计模式(五)
         </h2>
         
         <h3 class="post-subtitle">
-            基于定时器的动画
+            Strategy 策略模式
         </h3>
         
         <div class="post-content-preview">
-            基于定时器的动画
+            策略模式
 
+在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。这种类型的设计模式属于行为型模式。
 
-  我可以指导你，但是你必须按照我说的做。 – 骇客帝国
+在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。
 
+介绍
 
-在第10章“缓冲”中，我们研究了CAMediaTimingFunction，它是一个通过控制动画缓冲来模拟物理效果例如加速或者减速来增强现实感的东西，那么如果想更加真实地模拟物理交互或者实时根据用户输入修改动画改怎么办呢？在这一章中，我们将继续探索一种能够允许我们精确地控制一帧一帧展示的基于定时器的动画。
+意图： 定义一系列的算法,把它们一个个封装起来, 并且使它们可相互替换。
 
-...
+主要解决： 在有多种算法...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 2, 2016
+        Posted by DavidWang on November 5, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/07/01/ios_core_animation10_introduction/">
+    <a href="/2016/11/04/delegate_pattern_introcudction/">
         <h2 class="post-title">
-            IOS 动画讲解十
+            常用设计模式(四)
         </h2>
         
         <h3 class="post-subtitle">
-            缓冲
+            Delegate 委派模式
         </h3>
         
         <div class="post-content-preview">
-            缓冲
+            委托模式
 
+委托模式 是软件设计模式中的一项基本技巧。在委托模式中，有两个对象参与处理同一个请求，接受请求的对象将请求委托给另一个对象来处理。委托模式是一项基本技巧，许多其他的模式，如状态模式、策略模式、访问者模式本质上是在更特殊的场合采用了委托模式。委托模式使得我们可以用聚合”聚合 (计算机)（页面不存在）”)来替代继承”继承 (计算机科学)”)，它还使我们可以模拟mixin。
 
-  生活和艺术一样，最美的永远是曲线。 – 爱德华布尔沃 - 利顿
-
-
-在第九章“图层时间”中，我们讨论了动画时间和CAMediaTiming协议。现在我们来看一下另一个和时间相关的机制–所谓的缓冲。Core Animation使用缓冲来使动画移动更平滑更自然，而不是看起来的那种机械和人工，在这一章我们将要研究如何对你的动画控制和自定义缓冲曲线。
-
-动画速度
-
-动画实际上就是一段时...
+简单的J...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on July 1, 2016
+        Posted by DavidWang on November 4, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/30/ios_core_animation9_introduction/">
+    <a href="/2016/11/03/singleton_pattern_introcudction/">
         <h2 class="post-title">
-            IOS 动画讲解九
+            常用设计模式(三)
         </h2>
         
         <h3 class="post-subtitle">
-            图层时间
+            Singleton 单例模式
         </h3>
         
         <div class="post-content-preview">
-            图层时间
+            单例模式
+
+单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
+
+这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。
+
+注意：
 
 
-  时间和空间最大的区别在于，时间不能被复用 – 弗斯特梅里克
-
-
-在上面两章中，我们探讨了可以用CAAnimation和它的子类实现的多种图层动画。动画的发生是需要持续一段时间的，所以计时对整个概念来说至关重要。在这一章中，我们来看看CAMediaTiming，看看Core Animation是如何跟踪时间的。
-
-CAMediaTiming协议
-
-CAMediaTiming协...
+  1、单例类只能有一个实例。
+  2、单例类必须自己...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 30, 2016
+        Posted by DavidWang on November 3, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/29/ios_core_animation8_introduction/">
+    <a href="/2016/11/03/factory_pattern_introcudction/">
         <h2 class="post-title">
-            IOS 动画讲解八
+            常用设计模式(二)
         </h2>
         
         <h3 class="post-subtitle">
-            显式动画
+            Factory 工厂模式
         </h3>
         
         <div class="post-content-preview">
-            显式动画
+            工厂模式
+
+工厂模式（Factory Pattern）是 Java 中最常用的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
+
+在工厂模式中，我们在创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象。
+
+介绍
 
 
-  如果想让事情变得顺利，只有靠自己 – 夏尔·纪尧姆
-
-
-上一章介绍了隐式动画的概念。隐式动画是iOS平台上创建动态用户界面的一种简单方式，也是UIKit动画机制的基础，不过它并不能涵盖所有的动画类型。在这一章中，我们将要研究一下显式动画，它能够对一些属性做指定的自定义动画，或者创建非线性动画，比如沿着任意一条曲线移动。
-
-属性动画
-
-首先我们来探讨一下属性动画。属性动画作用...
+  
+    意图： 定义一个创建对象的接口，让其子类自己决定实例化哪一个工厂类，工厂模式使其创建过程延迟到子类进...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 29, 2016
+        Posted by DavidWang on November 3, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/28/ios_core_animation7_introduction/">
+    <a href="/2016/11/01/pattern_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解七
+            常用设计模式(一)
         </h2>
         
         <h3 class="post-subtitle">
-            隐式动画
+            Proxy代理模式
         </h3>
         
         <div class="post-content-preview">
-            隐式动画
+            Proxy代理模式
+在代理模式（Proxy Pattern）中，一个类代表另一个类的功能。这种类型的设计模式属于结构型模式。
+
+在代理模式中，我们创建具有现有对象的对象，以便向外界提供功能接口。
+
+介绍
 
 
-  按照我的意思去做，而不是我说的。 – 埃德娜，辛普森
-
-
-我们在第一部分讨论了Core Animation除了动画之外可以做到的任何事情。但是动画是Core Animation库一个非常显著的特性。这一章我们来看看它是怎么做到的。具体来说，我们先来讨论框架自动完成的隐式动画（除非你明确禁用了这个功能）。
-
-事务
-
-Core Animation基于一个假设，说屏幕上的任何东西...
+  
+    意图： 为其他对象提供一种代理以控制对这个对象的访问。
+  
+  
+    主要解决： 在直接访问对象时带来的问题，比如说：要访问的对象在远程的机器上。在面向对象系统中，有...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 28, 2016
+        Posted by DavidWang on November 1, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/27/ios_core_animation6_introduction/">
+    <a href="/2016/10/14/dubbo_ten_introduction/">
         <h2 class="post-title">
-            IOS 动画讲解六
+            分布式框架Tudou-Dubbo(十)
         </h2>
         
         <h3 class="post-subtitle">
-            专有图层
+            分布式框架Tudou(十) Scheduler
         </h3>
         
         <div class="post-content-preview">
-            专用图层
+            Scheduler
 
+Scheduler 配置
 
-  复杂的组织都是专门化的
+applicationContext-quartz.xml
 
-
-
-  Catharine R. Stimpson
-
-
-到目前为止，我们已经探讨过CALayer类了，同时我们也了解到了一些非常有用的绘图和动画功能。但是Core Animation图层不仅仅能作用于图片和颜色而已。本章就会学习其他的一些图层类，进一步扩展使用Core Animation绘图的能力。
-
-CAShapeLayer
-
-在第四章『视觉效果...
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.or...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 27, 2016
+        Posted by DavidWang on October 14, 2016
     </p>
 </div>
 <hr>
@@ -561,6 +550,10 @@ CAShapeLayer
                             
                         
                             
+                                <a href="/tags/#Java" title="Java" rel="12">
+                                    Java
+                                </a>
+                            
                         
                             
                         
@@ -605,7 +598,7 @@ CAShapeLayer
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="6">
                                     Ubuntu
                                 </a>
                             
@@ -626,6 +619,46 @@ CAShapeLayer
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Docker" title="Docker" rel="4">
+                                    Docker
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Dubbo" title="Dubbo" rel="10">
+                                    Dubbo
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#设计模式" title="设计模式" rel="7">
+                                    设计模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Spring" title="Spring" rel="8">
+                                    Spring
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Mybatis" title="Mybatis" rel="4">
+                                    Mybatis
+                                </a>
                             
                         
                     </div>
@@ -739,7 +772,7 @@ CAShapeLayer
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; DavidWang's Blog 2016
+                    Copyright &copy; DavidWang's Blog 2018
                     <br>
                     Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
                     <iframe

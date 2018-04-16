@@ -180,351 +180,351 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2016/06/15/ios_pod_introduction/">
+    <a href="/2016/10/07/docker_jenkins_java_configuration/">
         <h2 class="post-title">
-            IOS 第三方库管理工具
+            Docker-jenkins 安装及配置
         </h2>
         
         <h3 class="post-subtitle">
-            CocoaPods安装和使用教程
+            Docker 安装配置 jenkins
         </h3>
         
         <div class="post-content-preview">
-            CocoaPods是什么？
+            Docker 安装配置 jenkins
 
-当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新...
+安装
+
+docker run -p 8080:8080 -p 50000:50000 -d jenkins/jenkins:lts
+
+
+
+进入容器获取秘钥
+
+docker exec -it 容器名称/ID bash   
+
+
+
+配置插件
+
+Publish Over SSH
+
+Maven Integration
+
+Gitlab Hook
+
+系统设置配置...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 15, 2016
+        Posted by DavidWang on October 7, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/14/ios_xcodeplu_introduction/">
+    <a href="/2016/10/06/mac_docker_introduction/">
         <h2 class="post-title">
-            IOS 快速开发工具
+            Mac系统Docker 安装及配置
         </h2>
         
         <h3 class="post-subtitle">
-            Xcode 觉得好用的插件库
+            在 MAC 系统安装 Docker
         </h3>
         
         <div class="post-content-preview">
-            第一部分 Alcatraz插件的介绍
+            Mac系统Docker,安装配置及使用
 
-Alcatraz 是Xcode管理插件的工具,在上面能找到各种提高效率的插件。
+安装
 
-源码地址：https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin
+在Mac系统上下载Docker有两种方式，一种是下载stable Docker，另一种是下载Beta版本的Docker。
 
-安装的方法也很简单，如果你以前没有安装过那执行下面指令
+stable Docker下载
 
-curl -fsSL https://raw.github.com/alcatr...
+废话就不多说了直接上下载链接：https://download.docker.com/mac/stable/Docker.dmg
+
+Beta Docker下载
+
+废话就不多说了直接上下载...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 14, 2016
+        Posted by DavidWang on October 6, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/13/android_studio_plugins_introduction/">
+    <a href="/2016/09/04/ubuntu_gitlab_create/">
         <h2 class="post-title">
-            Android 快速开发工具
+            Ubuntu 安装GitLab
         </h2>
         
         <h3 class="post-subtitle">
-            22个Android Studio优秀插件
+            Ubuntu 安装gitlab
         </h3>
         
         <div class="post-content-preview">
-            第一部分 插件的介绍
+            Ubuntu 14.04下安装GitLab指南
 
-Google 在2013年5月的I/O开发者大会推出了基于IntelliJ IDEA java ide上的Android Studio。Android Studio是一个功能齐全的开发工具，还提供了第三方插件的支持。让开发人员更快速更好的开发程序。
+1.安装需要的库和软件
 
-第二部分 插件的安装
+sudo apt-get install curl openssh-server ca-certificates postfix
 
-in Android Studio: go to File → Settings → Plug...
+
+
+
+
+
+
+2. 添加GitLab的包并进行安装
+
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 13, 2016
+        Posted by DavidWang on September 4, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/12/ios_animation_introduction/">
+    <a href="/2016/09/03/mac_acitivemq_introduction/">
         <h2 class="post-title">
-            IOS 炫酷框架
+            Acitivemq 安装及配置
         </h2>
         
         <h3 class="post-subtitle">
-            动画框架
+            在 MAC 系统安装 acitivemq
         </h3>
         
         <div class="post-content-preview">
-            pop
+            MAC系统安装acitivemq
+
+安装
+
+官方推荐使用brew安装，前提是Mac要先安装brew，也可以手动下载压缩包解压安装，如果已经安装了brew很简单，只需要下面一句话，安装位置：/usr/local/Cellar/activemq/5.13.3
+
+$ brew install apache-activemq
+$ cd /usr/local/Cellar/activemq/5.13....
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on September 3, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/09/02/mac_zookeeper_introduction/">
+        <h2 class="post-title">
+            Zookeeper 安装及配置
+        </h2>
+        
+        <h3 class="post-subtitle">
+            在 Mac 上安装配置 Zookeeper
+        </h3>
+        
+        <div class="post-content-preview">
+            Zookeeper 的安装
+
+下载地址：http://www.apache.org/dyn/closer.cgi/zookeeper
 
 
 
-popping
+解压文件：
+
+tar zxvf zookeeper-3.4.8.tar.gz
 
 
 
+Zookeeper 的配置
+
+一、单机模式
+
+1.1、编辑配置文件
+在“zookeeper-3.4.8”目录下，新建一个名为”data”和”logs”的文件，其中内容如下...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on September 2, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/09/01/ubuntu_nginx_introduction/">
+        <h2 class="post-title">
+            Ubuntu 操作篇二
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Ubuntu 安装Nginx
+        </h3>
+        
+        <div class="post-content-preview">
+            从Ubuntu packages安装
+
+sudo apt-get install nginx
 
 
-Spring
+
+但是此时安装的nginx版本老旧，并且无法安装第三方扩展。但是大多数linux发行版支持更新最新的安装包。
+
+1.首先获取nginx认证钥匙以便包管理器认证nginx包
+
+wget http://nginx.org/keys/nginx_signing.key
 
 
 
+2.用apt-key命令添...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on September 1, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/08/28/ubuntu_nginx1_introduction/">
+        <h2 class="post-title">
+            Nginx 操作篇
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Ubuntu 设置Nginx操作配置
+        </h3>
+        
+        <div class="post-content-preview">
+            重点介绍nginx配置
+
+在上篇中，安装成功后，会有 /etc/nginx 目录，在 /etc/nginx 目录中找到 nginx.conf.使用 vi nginx.conf 打开文件。
+
+user  nginx;
+#操作线程数
+worker_processes  1;
+
+#引用目录地址
+error_log  /var/log/nginx/error.log warn;
+pid       ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by DavidWang on August 28, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/08/26/ubuntu_redis_introduction/">
+        <h2 class="post-title">
+            Ubuntu 操作篇
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Ubuntu 安装设置redis
+        </h3>
+        
+        <div class="post-content-preview">
+            ubuntu 14.04下的redis安装配置
+
+安装
+
+sudo apt-get install redis-server
 
 
 
+检查redis系统进程
 
-JNWSpringAnimation
-
-
-
-DCAnimationKit
-
-Tada
+ps -aux|grep redis
 
 
-Bounce
+
+redis服务器状态检查
+
+sudo /etc/init.d/redis-server status
 
 
-Pulse
+
+或
+
+netstat -nlt|grep 6379
 
 
-Shake
 
-
-Swing
-
-
-Snap
-
-
-Bounce
-
-
-Expand
-
-
-Compress
-
-
-Hinge
-
-
-Drop
-
-
-Move
-
-
-Rotation
-
-
-RBBAnimation
-
-
+通过终端访问redis
 
 ...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 12, 2016
+        Posted by DavidWang on August 26, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/11/android_prototype_introduction/">
+    <a href="/2016/08/02/ssm_shiro_jsp_introduction/">
         <h2 class="post-title">
-            Android 设计模式分析十一
+            SSM框架 shiro篇
         </h2>
         
         <h3 class="post-subtitle">
-            原型模式
+            Shiro 在jsp中的使用
         </h3>
         
         <div class="post-content-preview">
-            1. 模式介绍
+            Shiro    提供了 JSP 的一套 JSTL 标签，用于做 JSP   页面做权限控制的。可以控制一些按钮和一些超链接，或者一些显示内容。
 
-模式的定义
-用原型实例指定创建对象的种类，并通过拷贝这些原型创建新的对象。
+不过引入有区分，JSP需要在头部引入， Shiro  提供的TLD 文件:
 
-模式的使用场景
+&lt;%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %&gt;  
 
-  类初始化需要消化非常多的资源，这个资源包括数据、硬件资源等，通过原型拷贝避免这些消耗；
-  通过 new 产生一个对象需要非常繁琐的数据准备或访问权限，则可以使用原型模式；
-  一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值时，可以考虑使用原型模式拷贝多个对...
+
+
+下面是具体的标签用法...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 11, 2016
+        Posted by DavidWang on August 2, 2016
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2016/06/10/android_bridging_introduction/">
+    <a href="/2016/08/01/ubuntu_root_introduction/">
         <h2 class="post-title">
-            Android 设计模式分析十
+            Ubuntu 操作篇
         </h2>
         
         <h3 class="post-subtitle">
-            桥接模式
+            Ubuntu修改为root账号远程登录
         </h3>
         
         <div class="post-content-preview">
-            模式介绍
+            1. 修改 root 密码
 
-模式的定义
-
-将抽象部分与实现部分分离，使它们都可以独立的变化。
-
-模式的使用场景
+sudo passwd root
 
 
-  如果一个系统需要在构件的抽象化角色和具体化角色之间添加更多的灵活性，避免在两个层次之间建立静态的联系。
-  设计要求实现化角色的任何改变不应当影响客户端，或者实现化角色的改变对客户端是完全透明的。
-  需要跨越多个平台的图形和窗口系统上。
-  一个类存在两个独立变化的维度，且两个维度都需要...
+
+2. 以其他账户登录修改内容
+
+xxx@ubuntu14:~$ su - root
+Password:
+root@ubuntu14:~# vi /etc/ssh/sshd_config
+
+
+
+3. 注释注解
+
+# Authentication:
+LoginGraceTime 120
+#PermitRootLogin wit...
         </div>
     </a>
     <p class="post-meta">
-        Posted by DavidWang on June 10, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/06/09/android_command_introduction/">
-        <h2 class="post-title">
-            Android 设计模式分析九
-        </h2>
-        
-        <h3 class="post-subtitle">
-            命令模式
-        </h3>
-        
-        <div class="post-content-preview">
-            1. 模式介绍
-
-模式的定义
-将一个请求封装成一个对象，从而使你可用不同的请求对客户进行参数化，对请求排队或记录请求日志，以及支持可撤销的操作。
-
-模式的使用场景
-
-
-  系统需要将请求调用者和请求接收者解耦，使得调用者和接收者不直接交互。
-  系统需要在不同的时间指定请求、将请求排队和执行请求。
-  系统需要支持命令的撤销(Undo)操作和恢复(Redo)操作。
-  系统需要将一组操作组合...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 9, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/06/08/android_responsibility_introduction/">
-        <h2 class="post-title">
-            Android 设计模式分析八
-        </h2>
-        
-        <h3 class="post-subtitle">
-            责任链模式
-        </h3>
-        
-        <div class="post-content-preview">
-            1. 模式介绍
-
-模式的定义
-一个请求沿着一条“链”传递，直到该“链”上的某个处理者处理它为止。
-
-模式的使用场景
-一个请求可以被多个处理者处理或处理者未明确指定时。
-
-2. UML类图
-
-
-角色介绍
-Client：客户端
-
-Handler：抽象处理者
-
-ConcreteHandler：具体处理者
-
-3. 模式的简单实现
-###  简单实现的介绍
-责任链模式非常简单异常好理解，相信我它比单例...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 8, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/06/07/android_iterator_introduction/">
-        <h2 class="post-title">
-            Android 设计模式分析七
-        </h2>
-        
-        <h3 class="post-subtitle">
-            迭代器模式
-        </h3>
-        
-        <div class="post-content-preview">
-            1. 模式介绍
-
-模式的定义
-
-迭代器（Iterator）模式，又叫做游标（Cursor）模式。GOF给出的定义为：提供一种方法访问一个容器（container）对象中各个元素，而又不需暴露该对象的内部细节。
-
-模式的使用场景
-　　Java JDK 1.2 版开始支持迭代器。每一个迭代器提供next()以及hasNext()方法，同时也支持remove()(1.8的时候remove已经成为d...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 7, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/06/06/android_binder_introduction/">
-        <h2 class="post-title">
-            Android 设计模式分析六
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Binder模式
-        </h3>
-        
-        <div class="post-content-preview">
-            Binder中的代理模式
-
-再说Binder中的代理模式之前，我们需要先看看代理模式的简单实现，这一部分内容采用了《JAVA与模式》之代理模式这篇文章中的代码示例和uml类图。
-
-1. 模式介绍
-代理模式是对象的结构模式。代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的引用。
-
-模式的使用场景
-就是一个人或者机构代表另一个人或者机构采取行动。在一些情况下，一个客户不想或者不能...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by DavidWang on June 6, 2016
+        Posted by DavidWang on August 1, 2016
     </p>
 </div>
 <hr>
@@ -609,6 +609,10 @@ ConcreteHandler：具体处理者
                             
                         
                             
+                                <a href="/tags/#Java" title="Java" rel="12">
+                                    Java
+                                </a>
+                            
                         
                             
                         
@@ -653,7 +657,7 @@ ConcreteHandler：具体处理者
                             
                         
                             
-                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="5">
+                                <a href="/tags/#Ubuntu" title="Ubuntu" rel="6">
                                     Ubuntu
                                 </a>
                             
@@ -674,6 +678,46 @@ ConcreteHandler：具体处理者
                         
                             
                         
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Docker" title="Docker" rel="4">
+                                    Docker
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Dubbo" title="Dubbo" rel="10">
+                                    Dubbo
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#设计模式" title="设计模式" rel="7">
+                                    设计模式
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#Spring" title="Spring" rel="8">
+                                    Spring
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#Mybatis" title="Mybatis" rel="4">
+                                    Mybatis
+                                </a>
                             
                         
                     </div>
@@ -787,7 +831,7 @@ ConcreteHandler：具体处理者
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; DavidWang's Blog 2016
+                    Copyright &copy; DavidWang's Blog 2018
                     <br>
                     Theme © <a href="http://davidwangtm.github.io">davidwangtm</a> |
                     <iframe

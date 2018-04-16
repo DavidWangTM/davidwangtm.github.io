@@ -5,1181 +5,3121 @@
     <description>爱唱歌健身的程序员 | 王伟达，Web &amp; algorithm Lover，Server Enginee | 这里是 @王伟达 的个人博客，期待和你一起学习成长。</description>
     <link>http://DavidWangTM.github.io/</link>
     <atom:link href="http://DavidWangTM.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 07 Sep 2016 15:06:59 +0800</pubDate>
-    <lastBuildDate>Wed, 07 Sep 2016 15:06:59 +0800</lastBuildDate>
+    <pubDate>Sat, 14 Apr 2018 13:35:02 +0800</pubDate>
+    <lastBuildDate>Sat, 14 Apr 2018 13:35:02 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
-        <title>Acitivemq 安装及配置</title>
-        <description>&lt;h2 id=&quot;macacitivemq&quot;&gt;MAC系统安装acitivemq&lt;/h2&gt;
+        <title>Mybatis回顾 四</title>
+        <description>&lt;h1 id=&quot;minimybatis&quot;&gt;实现Mini版本的Mybatis&lt;/h1&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;安装&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/img/in-post/basic_design_patterns/basic_design_patterns_31.png&quot; alt=&quot;basic_design_patterns_31&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;官方推荐使用brew安装，前提是Mac要先安装brew，也可以手动下载压缩包解压安装，如果已经安装了brew很简单，只需要下面一句话，安装位置：/usr/local/Cellar/activemq/5.13.3&lt;/p&gt;
+&lt;h2 id=&quot;model&quot;&gt;Model&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ brew install apache-activemq
-$ cd /usr/local/Cellar/activemq/5.13.3
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class TestModel {
+
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return &quot;TestModel{&quot; +
+				&quot;name=&#39;&quot; + name + &#39;\&#39;&#39; +
+				&#39;}&#39;;
+	}
+}
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;查看信息:&lt;/p&gt;
+&lt;h2 id=&quot;mapper&quot;&gt;Mapper接口与实现类&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ bin/activemq
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface TestMapper {
 
-&lt;p&gt;配置activemq运行环境，默认路径/etc/default/activemq 或 /Users/user/.activemqrc&lt;/p&gt;
+	public TestModel getTestModel(Integer id);
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;activemq setup /Users/apple/.activemqrc
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;activemq官方建议设置访问权限，这一步是可选的：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$chown &#39;apple&#39;:nogroup &#39;/Users/apple/.activemqrc&#39;
-$chmod 600 &#39;/Users/apple/.activemqrc&#39;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;启动&lt;/h3&gt;
-
-&lt;p&gt;前台启动：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ activemq console   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;后台启动：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ activemq start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;指定运行日志输出到指定文件启动：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ activemq start &amp;gt; /tmp/smlog  2&amp;gt;&amp;amp;1 &amp;amp; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;查看是否启动成功，查看端口61616是否运行成功：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ netstat -an|grep 61616
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;或者浏览器访问activemq管理控制台：&lt;a href=&quot;http://localhost:8161/admin/&quot;&gt;http://localhost:8161/admin/&lt;/a&gt;，用户名和密码为&lt;code class=&quot;highlighter-rouge&quot;&gt;admin:admin&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;停止&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ activemq stop
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;或者：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ps -ef|grep activemq
-$ kill -9 pid
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;其他资料&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;activemq使用文档：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://activemq.apache.org/using-activemq-5.html&quot;&gt;http://activemq.apache.org/using-activemq-5.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;activemq jndi支持：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://activemq.apache.org/jndi-support.html&quot;&gt;http://activemq.apache.org/jndi-support.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;activemq spring支持：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://activemq.apache.org/spring-support.html&quot;&gt;http://activemq.apache.org/spring-support.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;使用spring JMS：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://docs.spring.io/spring/docs/2.5.x/reference/jms.html#jms-mdp&quot;&gt;http://docs.spring.io/spring/docs/2.5.x/reference/jms.html#jms-mdp&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Sat, 03 Sep 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/09/03/mac_acitivemq_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/09/03/mac_acitivemq_introduction/</guid>
-        
-        <category>Mac</category>
-        
-        <category>Acitivemq</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Zookeeper 安装及配置</title>
-        <description>&lt;h3 id=&quot;zookeeper-&quot;&gt;Zookeeper 的安装&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;下载地址：http://www.apache.org/dyn/closer.cgi/zookeeper
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;解压文件：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tar zxvf zookeeper-3.4.8.tar.gz
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;zookeeper--1&quot;&gt;Zookeeper 的配置&lt;/h3&gt;
-
-&lt;h4 id=&quot;section&quot;&gt;一、单机模式&lt;/h4&gt;
-
-&lt;h5 id=&quot;section-1&quot;&gt;1.1、编辑配置文件&lt;/h5&gt;
-&lt;p&gt;在“zookeeper-3.4.8”目录下，新建一个名为”data”和”logs”的文件，其中内容如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir data
-mkdir logs
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tickTime=2000  
-dataDir= /usr/local/zookeeper-3.4.8/data  (填写自己的data目录)  
-dataLogDir=/usr/local/zookeeper-3.4.8/logs  
-clientPort=2181
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;参数说明:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#tickTime: zookeeper中使用的基本时间单位, 毫秒值.
-#dataDir: 数据目录. 可以是任意目录.
-#dataLogDir: log目录, 同样可以是任意目录. 如果没有设置该参数, 将使用和#dataDir相同的设置.
-#clientPort: 监听client连接的端口号.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;zookeeper-server&quot;&gt;1.2、运行ZooKeeper Server&lt;/h5&gt;
-
-&lt;p&gt;执行./bin/zkServer.sh start命令，运行ZooKeeper Server进程，得到如图所示结果，表示后台运行ZooKeeper Server进程成功。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/java_introduction/cmd_start.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;注:命令telnet 127.0.0.1 2181 连接成功验证Zookeeper 是否启动成功
-停止：./bin/zkServer.sh stop
-也可以执行bin/zkServer.sh start-foreground命令，非后台运行ZooKeeper Server进程&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/java_introduction/cmd_foreground.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;section-2&quot;&gt;二、集群模式&lt;/h4&gt;
-
-&lt;p&gt;集群模式有两种形式：
-1）使用多台机器，在每台机器上运行一个ZooKeeper Server进程；
-2）使用一台机器，在该台机器上运行多个ZooKeeper Server进程。
-在生产环境中，一般使用第一种形式，在练习环境中，一般使用第二种形式。&lt;/p&gt;
-
-&lt;h5 id=&quot;section-3&quot;&gt;2.1、参数配置&lt;/h5&gt;
-
-&lt;p&gt;集群模式下，需要配置一些参数，以下是常见的一些参数。&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;data目录,用于存放进程运行数据。&lt;/li&gt;
-  &lt;li&gt;data目录下的myid文件,用于存储一个数值，用来作为该ZooKeeper Server进程的标识。&lt;/li&gt;
-  &lt;li&gt;监听Client端请求的端口号&lt;/li&gt;
-  &lt;li&gt;监听同ZooKeeper集群内其他Server进程通信请求的端口号&lt;/li&gt;
-  &lt;li&gt;监听ZooKeeper集群内“leader”选举请求的端口号,该端口号用来监听ZooKeeper集群内“leader”选举的请求。注意这个是ZooKeeper集群内“leader”的选举，跟分布式应用程序无关。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;参数配置注意事项：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;同一个ZooKeeper集群内，不同ZooKeeper Server进程的标识需要不一样，即myid文件内的值需要不一样&lt;/li&gt;
-  &lt;li&gt;采用上述第2种形式构建ZooKeeper集群，需要注意“目录，端口号”等资源的不可共享性，如果共享会导致ZooKeeper Server进程不能正常运行，比如“data目录，几个监听端口号”都不能被共享&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//先在zookeeper-3.4.6创建 
-mkdir data
-mkdir logs
-//然后
-cp zookeeper-3.4.6 zookeeper-3.4.6_1
-cp zookeeper-3.4.6 zookeeper-3.4.6_2
-cp zookeeper-3.4.6 zookeeper-3.4.6_3
-//分别在3个目录的conf中创建zoo.cfg
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;三个zoo.cfg配置如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tickTime=2000
-initLimit=10
-syncLimit=5
-dataDir=/usr/local/zookeeper-3.4.6_1/data
-dataLogDir=/usr/local/zookeeper-3.4.6_1/logs
-clientPort=2181
-
-server.1=192.168.1.106:2881:3881
-server.2=192.168.1.106:2882:3882
-server.3=192.168.1.106:2883:3883
-
-tickTime=2000
-initLimit=10
-syncLimit=5
-dataDir=/usr/local/zookeeper-3.4.6_2/data
-dataLogDir=/usr/local/zookeeper-3.4.6_2/logs
-clientPort=2182
-
-server.1=192.168.1.106:2881:3881
-server.2=192.168.1.106:2882:3882
-server.3=192.168.1.106:2883:3883
-
-tickTime=2000
-initLimit=10
-syncLimit=5
-dataDir=/usr/local/zookeeper-3.4.6_3/data
-dataLogDir=/usr/local/zookeeper-3.4.6_3/logs
-clientPort=2183
-
-server.1=192.168.1.106:2881:3881
-server.2=192.168.1.106:2882:3882
-server.3=192.168.1.106:2883:3883
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;参数说明:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tickTime=2000
-tickTime这个时间是作为 Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔,也就是每个tickTime时间就会发送一个心跳。
-
-initLimit=10
-initLimit这个配置项是用来配置Zookeeper接受客户端（这里所说的客户端不是用户连接Zookeeper 服务器的客户端,而是Zookeeper服务器集群中连接到Leader的Follower 服务器）初始化连接时最长 能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息,那么表明这个客户端连接失败。总的时间长度就是 10*2000=20 秒。
-
-syncLimit=5
-syncLimit 这个配置项标识Leader与Follower之间发送消息,请求和应答时间长度,最长不能超过多少个tickTime的时间长度,总的时间长度就是5*2000=10秒。
-
-dataDir=/usr/local/zookeeper-3.4.6_(x)/data
-dataDir顾名思义就是Zookeeper保存数据的目录,默认情况下Zookeeper将写数据的日志文件也保存在这个目录里。
-
-clientPort=2181
-clientPort这个端口就是客户端（应用程序）连接Zookeeper服务器的端口,Zookeeper 会监听这个端 口接受客户端的访问请求。
-
-server.A=B：C：D
-server.1=192.168.1.106:2881:3881
-server.2=192.168.1.106:2882:3882
-server.3=192.168.1.106:2883:3883
-A 是一个数字,表示这个是第几号服务器；
-B 是这个服务器的IP地址（或者是与IP地址做了映射的主机名）；
-C 第一个端口用来集群成员的信息交换,表示这个服务器与集群中的 Leader 服务器交换信息的端口；
-D 是在leader挂掉时专门用来进行选举 leader 所用的端口。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;在data目录下创建myid,如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ vi /usr/local/zookeeper-3.4.6_1 /data/myid 设置值为1
-$ vi /usr/local/zookeeper-3.4.6_2 /data/myid 设置值为2
-$ vi /usr/local/zookeeper-3.4.6_3 /data/myid 设置值值为3
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;zookeeper&quot;&gt;2.2、启动并查看zookeeper:&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ /usr/local/zookeeper-3.4.6_x/bin/zkServer.sh start
-$ /usr/local/zookeeper-3.4.6_x/bin/zkServer.sh status
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;section-4&quot;&gt;2.3、另外的配置方法&lt;/h5&gt;
-
-&lt;p&gt;在zookeeper-3.4.6中创建/wx/data,如下:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;myid&lt;/td&gt;
-      &lt;td&gt;Data目录&lt;/td&gt;
-      &lt;td&gt;Client&lt;/td&gt;
-      &lt;td&gt;Server&lt;/td&gt;
-      &lt;td&gt;Leader&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;/w1/data&lt;/td&gt;
-      &lt;td&gt;2181&lt;/td&gt;
-      &lt;td&gt;2881&lt;/td&gt;
-      &lt;td&gt;3881&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;2&lt;/td&gt;
-      &lt;td&gt;/w2/data&lt;/td&gt;
-      &lt;td&gt;2182&lt;/td&gt;
-      &lt;td&gt;2882&lt;/td&gt;
-      &lt;td&gt;3882&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;/w3/data&lt;/td&gt;
-      &lt;td&gt;2183&lt;/td&gt;
-      &lt;td&gt;2883&lt;/td&gt;
-      &lt;td&gt;3883&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;配置如下:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# zx.cfg  
-tickTime=2000  
-initLimit=10  
-syncLimit=2  
-dataDir=/usr/myenv/zookeeper-3.4.6/wx/data  
-clientPort=218x  
-# server.x中的“x”表示ZooKeeper Server进程的标识  
-server.1=192.168.1.106:2881:3881 
-server.2=192.168.1.106:2882:3882 
-server.3=192.168.1.106:2883:3883
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;运行如下:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bin/zkServer.sh start deploy/w1/w1.cfg，  
-bin/zkServer.sh start deploy/w2/w2.cfg  
-bin/zkServer.sh start deploy/w3/w3.cfg
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-</description>
-        <pubDate>Fri, 02 Sep 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/09/02/mac_zookeeper_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/09/02/mac_zookeeper_introduction/</guid>
-        
-        <category>Mac</category>
-        
-        <category>Zookeeper</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Ubuntu 操作篇二</title>
-        <description>&lt;h3 id=&quot;ubuntu-packages&quot;&gt;从Ubuntu packages安装&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install nginx
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;但是此时安装的nginx版本老旧，并且无法安装第三方扩展。但是大多数linux发行版支持更新最新的安装包。&lt;/p&gt;
-
-&lt;p&gt;1.首先获取nginx认证钥匙以便包管理器认证nginx包&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget http://nginx.org/keys/nginx_signing.key
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;2.用apt-key命令添加下载的钥匙&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-key add nginx_signing.key
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;3.获取发行版的codename&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lsb_release -a
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;No LSB modules are available.
-
-Distributor ID:	Ubuntu
-
-Description:	Ubuntu 16.04 LTS
-
-Release:	16.04
-
-Codename:	trusty
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;4.打开/etc/apt/sources.list,添加命令：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;deb http://nginx.org/packages/ubuntu/ codename nginx
-
-deb-src http://nginx.org/packages/ubuntu/ codename nginx
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;codename是第三步得到的。&lt;/p&gt;
-
-&lt;p&gt;5.更新apt-get，并安装nginx&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get update
-
-sudo apt-get install nginx
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;安装完成之后用nginx -V查看一下吧。&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 01 Sep 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/09/01/ubuntu_nginx_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/09/01/ubuntu_nginx_introduction/</guid>
-        
-        <category>Ubuntu</category>
-        
-        <category>Nginx</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Nginx 操作篇</title>
-        <description>&lt;h3 id=&quot;nginx&quot;&gt;重点介绍nginx配置&lt;/h3&gt;
-
-&lt;p&gt;在上篇中，安装成功后，会有 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/nginx&lt;/code&gt; 目录，在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/nginx&lt;/code&gt; 目录中找到 &lt;code class=&quot;highlighter-rouge&quot;&gt;nginx.conf&lt;/code&gt;.使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;vi nginx.conf&lt;/code&gt; 打开文件。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;user  nginx;
-#操作线程数
-worker_processes  1;
-
-#引用目录地址
-error_log  /var/log/nginx/error.log warn;
-pid        /var/run/nginx.pid;
-
-#单个线程最大连接数
-events {
-    worker_connections  1024;
 }
 
 
-http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
+public class TestMapperXml {
 
-    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
-                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
-                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+	public static final Map&amp;lt;String,String&amp;gt; map=new HashMap&amp;lt;String,String&amp;gt;();
 
-    access_log  /var/log/nginx/access.log  main;
+	static{
+		//模拟xml中的id与sql语句
+		map.put(&quot;getTestModel&quot;, &quot;测试SQL&quot;);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-    sendfile        on;
-    #tcp_nopush     on;
+&lt;h2 id=&quot;executor&quot;&gt;Executor接口与实现类&lt;/h2&gt;
 
-	 #超时时间
-	 client_body_timeout 12;
-    client_header_timeout 12;
-    keepalive_timeout 15;
-    send_timeout 10;
-    #gzip  on;
-	
-	 #我们需要配置目录
-    include /etc/nginx/conf.d/*.conf;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface TestExecutor {
+
+	public &amp;lt;T&amp;gt; T query(String statement,Object parameter);
+
+}
+
+public class TestSimpleExcutor implements TestExecutor{
+
+	public &amp;lt;T&amp;gt; T query(String statement, Object parameter) {
+		//JDBC 内容
+		TestModel model = new TestModel();
+		model.setName(statement + &quot;-入参-&quot; + parameter.toString());
+		return (T) model;
+	}
+
 }
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;操作 &lt;code class=&quot;highlighter-rouge&quot;&gt;vi /etc/nginx/conf.d/deault.conf&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;handler&quot;&gt;Handler实现类&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;upstream site {
-    server 127.0.0.1:8080 weight=1;
-    }
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class TestMapperHandler implements InvocationHandler {
 
-server {
-    listen       90;
-    server_name  localhost;
 
-    #charset koi8-r;
-    #access_log  /var/log/nginx/log/host.access.log  main;
-	#静态资源截获
-    location ~* ^.+\.(ico|gif|jpg|jpeg|png|html|htm)$ {
-        root         /usr/share/nginx/XXX;
-        access_log   /var/log/nginx/access.log;
-        expires      30d;
-    }
+	private TestSqlSession testSqlSession;
 
-	#静态资源截获
-    location ~* ^.+\.(css|js|txt|xml|swf|wav)$ {
-        root         /usr/share/nginx/XXX;
-        access_log   /var/log/nginx/access.log;
-        expires      24h;
-    }
+	public TestMapperHandler(TestSqlSession testSqlSession) {
+		this.testSqlSession  = testSqlSession;
+	}
 
-	
-    location / {
-        proxy_pass      http://site;
-        proxy_set_header        Host            $host;
-        proxy_set_header        X-Forwarded-For         $remote_addr;
-    }
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-    gzip on;
-    gzip_comp_level 2;
-    gzip_min_length  1000;
-    gzip_buffers    4 8k;
-    gzip_types      text/plain application/javascript text/css text/xml application/x-httpd-php;
-    output_buffers  1 32k; 
-    postpone_output  1460;
-          
-         
-    #error_page  404              /404.html;
+		return testSqlSession.selectOne(TestMapperXml.map.get(method.getName()),args[0]);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-    # redirect server error pages to the static page /50x.html
-    # 
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html { 
-        root   /usr/share/nginx/html; 
-    }
+&lt;h2 id=&quot;sqlsession&quot;&gt;SqlSession实现类&lt;/h2&gt;
 
-    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
-    #
-    #location ~ \.php$ {
-    #    proxy_pass   http://127.0.0.1;
-    #}
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class TestSqlSession {
 
-    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-    #
-    #location ~ \.php$ {
-    #    root           html;
-    #    fastcgi_pass   127.0.0.1:9000;
-    #    fastcgi_index  index.php;
-    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
-    #    include        fastcgi_params;
-    #}
+	private TestExecutor excutor = new TestSimpleExcutor();
 
-    # deny access to .htaccess files, if Apache&#39;s document root
-    # concurs with nginx&#39;s one
-    #
-    #location ~ /\.ht {
-    #    deny  all;
-    #}
+	public &amp;lt;T&amp;gt; T selectOne(String statement,Object parameter){
+		return excutor.query(statement, parameter);
+	}
+
+	public &amp;lt;T&amp;gt; T getMapper(Class&amp;lt;T&amp;gt; clas){
+		return (T) Proxy.newProxyInstance(clas.getClassLoader(),new Class[]{clas}, new TestMapperHandler(this));
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;调用类&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class TestMainMybatis {
+
+	public static void main(String[] args) {
+		TestSqlSession sqlsession = new TestSqlSession();
+		TestMapper mapper = sqlsession.getMapper(TestMapper.class);
+		TestModel model = mapper.getTestModel(1);
+		System.out.println(model.toString());
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Mon, 21 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/21/mybatis_four_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/21/mybatis_four_introduction/</guid>
+        
+        <category>Mybatis</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Mybatis回顾 三</title>
+        <description>&lt;h1 id=&quot;mybatis-&quot;&gt;Mybatis回顾-动态代理&lt;/h1&gt;
+
+&lt;p&gt;mybait有两种开发方式，一种是传统的dao开发方式，一种是Mapper动态代理方式。&lt;/p&gt;
+
+&lt;p&gt;传统为：配置XX.xml &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;mapper resource=&quot;XX.xml&quot;/&amp;gt;&lt;/code&gt; 使用XX.xml中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;mapper namespace=&quot;test&quot;&amp;gt;&lt;/code&gt; 的标记来找到结构内的方法.比如 &lt;code class=&quot;highlighter-rouge&quot;&gt;install&lt;/code&gt;.
+然后使用SqlSession &lt;code class=&quot;highlighter-rouge&quot;&gt;selectOne&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;selectList&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;insert（如果是事务需手动提交-commit）&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;动态代理： 配置 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;mapper resource=&quot;XXXMapper.xml包目录&quot;/&amp;gt;&lt;/code&gt; 需要创建 interface XXXMapper ，然后使用 SqlSession &lt;code class=&quot;highlighter-rouge&quot;&gt;getMapper(XXXMapper.class)&lt;/code&gt; 获取Mapper对象，然后使用Mapper 来操作 XX.xml中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;install （如果是事务需手动提交-commit）&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;以上是使用Mybatis的动态代理。&lt;/p&gt;
+
+&lt;h2 id=&quot;jdk&quot;&gt;JDK动态代理&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//接口类
+public interface TestInterFace {
+	public void showTest();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//实体类
+public class TestMapperTarget implements TestInterFace{
+	public void showTest() {
+		System.out.println(&quot;测试内容&quot;);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//处理类
+public class TestHandler implements InvocationHandler {
+
+	TestInterFace interFace;
+
+	public TestHandler(TestInterFace interFace) {
+		this.interFace = interFace;
+	}
+
+	public &amp;lt;T&amp;gt; T newInstance(Class&amp;lt;T&amp;gt; clz) {
+		return (T) Proxy.newProxyInstance(clz.getClassLoader(), new Class[] { clz }, this);
+	}
+
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		after();
+		interFace.showTest();
+		before();
+		return null;
+	}
+
+	public void before(){
+		System.out.println(&quot;之后&quot;);
+	}
+
+	public void after(){
+		System.out.println(&quot;之前&quot;);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//测试类
+public class TestMan {
+
+	public static void main(String [] args) throws Exception{
+		TestInterFace interFace = new TestMapperTarget();
+		TestHandler handler = new TestHandler(interFace);
+		TestInterFace testInterFace = handler.newInstance(TestInterFace.class);;
+		System.out.println(testInterFace.getClass().getName());
+		testInterFace.showTest();
+
+		test(TestInterFace.class);
+	}
+
+	public static void test(Class c) throws Exception{
+		byte[] data = ProxyGenerator.generateProxyClass(&quot;$Proxy0&quot;,new Class[]{c});
+		FileOutputStream fileOutputStream = new FileOutputStream(&quot;$Proxy0.class&quot;);
+		fileOutputStream.write(data);
+		fileOutputStream.close();
+	}
+
 }
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;location&quot;&gt;重点讲解下：location语法规则&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; 开头表示精确匹配&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;输出：
+com.sun.proxy.$Proxy0
+之前
+测试内容
+之后
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;^~&lt;/code&gt; 开头表示uri以某个常规字符串开头，理解为匹配 url路径即可。nginx不对url做编码。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//实现 TestInterFace 接口 ， 集成 Proxy
+public final class $Proxy0 extends Proxy implements TestInterFace {
+    private static Method m1;
+    private static Method m2;
+    private static Method m0;
+    private static Method m3;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;~&lt;/code&gt; 开头表示区分大小写的正则匹配&lt;/p&gt;
+    public $Proxy0(InvocationHandler var1) throws  {
+        super(var1);
+    }
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;~*&lt;/code&gt;  开头表示不区分大小写的正则匹配&lt;/p&gt;
+    public final boolean equals(Object var1) throws  {
+        try {
+            return ((Boolean)super.h.invoke(this, m1, new Object[]{var1})).booleanValue();
+        } catch (RuntimeException | Error var3) {
+            throw var3;
+        } catch (Throwable var4) {
+            throw new UndeclaredThrowableException(var4);
+        }
+    }
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;!~&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;!~*&lt;/code&gt; 分别为区分大小写不匹配及不区分大小写不匹配 的正则&lt;/p&gt;
+    public final String toString() throws  {
+        try {
+            return (String)super.h.invoke(this, m2, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt; 通用匹配，任何请求都会匹配到。&lt;/p&gt;
+    public final int hashCode() throws  {
+        try {
+            return ((Integer)super.h.invoke(this, m0, (Object[])null)).intValue();
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
 
-&lt;p&gt;多个location配置的情况下匹配顺序为：&lt;/p&gt;
+    public final void showTest() throws  {
+        try {
+        	//最终还是 invoke 方法完成调用
+            super.h.invoke(this, m3, (Object[])null);
+        } catch (RuntimeException | Error var2) {
+            throw var2;
+        } catch (Throwable var3) {
+            throw new UndeclaredThrowableException(var3);
+        }
+    }
 
-&lt;p&gt;首先匹配 &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt;，其次匹配 &lt;code class=&quot;highlighter-rouge&quot;&gt;^~&lt;/code&gt; , 其次是按文件中顺序的正则匹配，最后是交给 &lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt; 通用匹配。当有匹配成功时候，停止匹配，按当前匹配规则处理请求。&lt;/p&gt;
-
-&lt;h3 id=&quot;redirect&quot;&gt;Redirect语法&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;server {
-    listen 90;
-    server_name localhost;
-    index index.html index.php;
-    root html;
-    if ($http_host !~ “^star\.igrow\.cn$&amp;amp;quot {
-        rewrite ^(.*) http://XXX.cn$1 redirect;
+    static {
+        try {
+            m1 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;equals&quot;, Class.forName(&quot;java.lang.Object&quot;));
+            m2 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;toString&quot;);
+            m0 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;hashCode&quot;);
+            m3 = Class.forName(&quot;com.tudou.core.TestInterFace&quot;).getMethod(&quot;showTest&quot;);
+        } catch (NoSuchMethodException var2) {
+            throw new NoSuchMethodError(var2.getMessage());
+        } catch (ClassNotFoundException var3) {
+            throw new NoClassDefFoundError(var3.getMessage());
+        }
     }
 }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-#放盗链
-location ~* \.(gif|jpg|swf)$ {
-    valid_referers none blocked XX.cn XXX.cn;
-    if ($invalid_referer) {
-        rewrite ^/ http://$host/logo.png;
+&lt;h2 id=&quot;mybatis&quot;&gt;Mybatis动态代理&lt;/h2&gt;
+
+&lt;p&gt;Mybatis 主要实现代理类 &lt;code class=&quot;highlighter-rouge&quot;&gt;MapperProxy&amp;lt;T&amp;gt;&lt;/code&gt; 核心代码如下&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        try {
+        	//判断hashCode()、toString()、equals()等方法，将target指向当前对象this
+            if (Object.class.equals(method.getDeclaringClass())) {
+                return method.invoke(this, args);
+            }
+
+            if (this.isDefaultMethod(method)) {
+                return this.invokeDefaultMethod(proxy, method, args);
+            }
+        } catch (Throwable var5) {
+            throw ExceptionUtil.unwrapThrowable(var5);
+        }
+
+
+        MapperMethod mapperMethod = this.cachedMapperMethod(method);
+        //获取sql生成的对应的模型对象
+        return mapperMethod.execute(this.sqlSession, args);
+    }
+
+    private MapperMethod cachedMapperMethod(Method method) {
+        MapperMethod mapperMethod = (MapperMethod)this.methodCache.get(method);
+        if (mapperMethod == null) {
+            mapperMethod = new MapperMethod(this.mapperInterface, method, this.sqlSession.getConfiguration());
+            this.methodCache.put(method, mapperMethod);
+        }
+
+        return mapperMethod;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class MapperProxyFactory&amp;lt;T&amp;gt; {
+    private final Class&amp;lt;T&amp;gt; mapperInterface;
+    private final Map&amp;lt;Method, MapperMethod&amp;gt; methodCache = new ConcurrentHashMap();
+
+    public MapperProxyFactory(Class&amp;lt;T&amp;gt; mapperInterface) {
+        this.mapperInterface = mapperInterface;
+    }
+
+    public Class&amp;lt;T&amp;gt; getMapperInterface() {
+        return this.mapperInterface;
+    }
+
+    public Map&amp;lt;Method, MapperMethod&amp;gt; getMethodCache() {
+        return this.methodCache;
+    }
+
+    protected T newInstance(MapperProxy&amp;lt;T&amp;gt; mapperProxy) {
+        return Proxy.newProxyInstance(this.mapperInterface.getClassLoader(), new Class[]{this.mapperInterface}, mapperProxy);
+    }
+
+    public T newInstance(SqlSession sqlSession) {
+        MapperProxy&amp;lt;T&amp;gt; mapperProxy = new MapperProxy(sqlSession, this.mapperInterface, this.methodCache);
+        return this.newInstance(mapperProxy);
     }
 }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Sun, 20 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/20/mybatis_three_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/20/mybatis_three_introduction/</guid>
+        
+        <category>Mybatis</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Mybatis回顾 二</title>
+        <description>&lt;h1 id=&quot;mybatis&quot;&gt;Mybatis回顾&lt;/h1&gt;
 
-#过期时间
-location ~* \.(js|css|jpg|jpeg|gif|png|swf)$ {
-    if (-f $request_filename) {
-        expires 1h;
-        break;
-    }
+&lt;h2 id=&quot;spring--sqlsession&quot;&gt;Spring 集成下的 SqlSession&lt;/h2&gt;
+
+&lt;p&gt;在 MyBatis 中,你可以使用 SqlSessionFactory 来创建 SqlSession。一旦你获得一个 session 之后,你可以使用它来执行映射语句,提交或回滚连接,最后,当不再需要它的时 候, 你可以关闭 session。 使用 MyBatis-Spring 之后, 你不再需要直接使用 SqlSessionFactory 了,因为你的 bean 可以通过一个线程安全的 SqlSession 来注入,基于 Spring 的事务配置 来自动提交,回滚,关闭 session。&lt;/p&gt;
+
+&lt;p&gt;注意通常不必直接使用 SqlSession。 在大多数情况下 MapperFactoryBean, 将会在 bean 中注入所需要的映射器。&lt;/p&gt;
+
+&lt;h3 id=&quot;sqlsessiontemplate&quot;&gt;SqlSessionTemplate&lt;/h3&gt;
+
+&lt;p&gt;SqlSessionTemplate 是 MyBatis-Spring 的核心。 这个类负责管理 MyBatis 的 SqlSession, 调用 MyBatis 的 SQL 方法, 翻译异常。 SqlSessionTemplate 是线程安全的, 可以被多个 DAO 所共享使用。&lt;/p&gt;
+
+&lt;p&gt;当调用 SQL 方法时, 包含从映射器 getMapper()方法返回的方法, SqlSessionTemplate 将会保证使用的 SqlSession 是和当前 Spring 的事务相关的。此外,它管理 session 的生命 周期,包含必要的关闭,提交或回滚操作。&lt;/p&gt;
+
+&lt;p&gt;SqlSessionTemplate 实现了 SqlSession 接口,这就是说,在代码中无需对 MyBatis 的 SqlSession 进行替换。 SqlSessionTemplate 通常是被用来替代默认的 MyBatis 实现的 DefaultSqlSession , 因为模板可以参与到 Spring 的事务中并且被多个注入的映射器类所使 用时也是线程安全的。相同应用程序中两个类之间的转换可能会引起数据一致性的问题。&lt;/p&gt;
+
+&lt;p&gt;SqlSessionTemplate 对象可以使用 SqlSessionFactory 作为构造方法的参数来创建。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;sqlSession&quot; class=&quot;org.mybatis.spring.SqlSessionTemplate&quot;&amp;gt;
+  &amp;lt;constructor-arg index=&quot;0&quot; ref=&quot;sqlSessionFactory&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这个 bean 现在可以直接注入到 DAO bean 中。你需要在 bean 中添加一个 SqlSession 属性,就像下面的代码:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class UserDaoImpl implements UserDao {
+
+  private SqlSession sqlSession;
+
+  public void setSqlSession(SqlSession sqlSession) {
+    this.sqlSession = sqlSession;
+  }
+
+  public User getUser(String userId) {
+    return (User) sqlSession.selectOne(&quot;org.mybatis.spring.sample.mapper.UserMapper.getUser&quot;, userId);
+  }
 }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-#禁止访问某个目录
-location ~* \.(txt|doc)${
-    root /usr/share/nginx/XXX;
-    deny all;
+&lt;p&gt;如下注入 SqlSessionTemplate:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;userDao&quot; class=&quot;org.mybatis.spring.sample.dao.UserDaoImpl&quot;&amp;gt;
+  &amp;lt;property name=&quot;sqlSession&quot; ref=&quot;sqlSession&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;SqlSessionTemplate 有一个使用 ExecutorType 作为参数的构造方法。这允许你用来 创建对象,比如,一个批量 SqlSession,但是使用了下列 Spring 配置的 XML 文件:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;sqlSession&quot; class=&quot;org.mybatis.spring.SqlSessionTemplate&quot;&amp;gt;
+  &amp;lt;constructor-arg index=&quot;0&quot; ref=&quot;sqlSessionFactory&quot; /&amp;gt;
+  &amp;lt;constructor-arg index=&quot;1&quot; value=&quot;BATCH&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;现在你所有的语句可以批量操作了,下面的语句就可以在 DAO 中使用了&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public void insertUsers(User[] users) {
+   for (User user : users) {
+     sqlSession.insert(&quot;org.mybatis.spring.sample.mapper.UserMapper.insertUser&quot;, user);
+   }
+ }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;sqlsessiondaosupport&quot;&gt;SqlSessionDaoSupport&lt;/h3&gt;
+
+&lt;p&gt;SqlSessionDaoSupport 是一个抽象的支持类, 用来为你提供SqlSession 。 调用getSqlSession()方法你会得到一个 SqlSessionTemplate,之后可以用于执行 SQL 方法, 就像下面这样:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {
+  public User getUser(String userId) {
+    return (User) getSqlSession().selectOne(&quot;org.mybatis.spring.sample.mapper.UserMapper.getUser&quot;, userId);
+  }
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;一些可用的全局变量:&lt;/p&gt;
+&lt;p&gt;通常 MapperFactoryBean 是这个类的首选,因为它不需要额外的代码。但是,如果你 需要在 DAO 中做其它非 MyBatis 的工作或需要具体的类,那么这个类就很有用了。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$args $content_length $content_type $document_root
-$document_uri $host $http_user_agent
-$http_cookie $limit_rate $request_body_file
-$request_method $remote_addr $remote_port
-$remote_user $request_filename $request_uri
-$query_string $scheme $server_protocol
-$server_addr $server_name $server_port
-$uri
+&lt;p&gt;SqlSessionDaoSupport 需要一个 sqlSessionFactory 或 sqlSessionTemplate 属性来 设 置 。 这 些 被 明 确 地 设 置 或 由 Spring 来 自 动 装 配 。 如 果 两 者 都 被 设 置 了 , 那 么 SqlSessionFactory 是被忽略的。&lt;/p&gt;
+
+&lt;p&gt;假设类 UserMapperImpl 是 SqlSessionDaoSupport 的子类,它可以在 Spring 中进行如 下的配置:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;userMapper&quot; class=&quot;org.mybatis.spring.sample.mapper.UserDaoImpl&quot;&amp;gt;
+  &amp;lt;property name=&quot;sqlSessionFactory&quot; ref=&quot;sqlSessionFactory&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;rewrite&quot;&gt;ReWrite语法&lt;/h3&gt;
+&lt;h2 id=&quot;spring--mapper&quot;&gt;Spring 集成下的 Mapper&lt;/h2&gt;
 
-&lt;p&gt;三、ReWrite语法&lt;/p&gt;
+&lt;p&gt;为了代替手工使用 SqlSessionDaoSupport 或 SqlSessionTemplate 编写数据访问对象 (DAO)的代码,MyBatis-Spring 提供了一个动态代理的实现:MapperFactoryBean。这个类 可以让你直接注入数据映射器接口到你的 service 层 bean 中。当使用映射器时,你仅仅如调 用你的 DAO 一样调用它们就可以了,但是你不需要编写任何 DAO 实现的代码,因为 MyBatis-Spring 将会为你创建代理。&lt;/p&gt;
 
-&lt;p&gt;last – 基本上都用这个Flag。&lt;/p&gt;
+&lt;p&gt;使用注入的映射器代码,在 MyBatis,Spring 或 MyBatis-Spring 上面不会有直接的依赖。 MapperFactoryBean 创建的代理控制开放和关闭 session,翻译任意的异常到 Spring 的 DataAccessException 异常中。此外,如果需要或参与到一个已经存在活动事务中,代理将 会开启一个新的 Spring 事务。&lt;/p&gt;
 
-&lt;p&gt;break – 中止Rewirte，不在继续匹配&lt;/p&gt;
+&lt;h3 id=&quot;mapperfactorybean&quot;&gt;MapperFactoryBean&lt;/h3&gt;
 
-&lt;p&gt;redirect – 返回临时重定向的HTTP状态302&lt;/p&gt;
+&lt;p&gt;数据映射器接口可以按照如下做法加入到 Spring 中:&lt;/p&gt;
 
-&lt;p&gt;permanent – 返回永久重定向的HTTP状态301&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;userMapper&quot; class=&quot;org.mybatis.spring.mapper.MapperFactoryBean&quot;&amp;gt;
+  &amp;lt;property name=&quot;mapperInterface&quot; value=&quot;org.mybatis.spring.sample.mapper.UserMapper&quot; /&amp;gt;
+  &amp;lt;property name=&quot;sqlSessionFactory&quot; ref=&quot;sqlSessionFactory&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;1、下面是可以用来判断的表达式：&lt;/p&gt;
+&lt;p&gt;MapperFactoryBean 创建的代理类实现了 UserMapper 接口,并且注入到应用程序中。 因为代理创建在运行时环境中(Runtime,译者注) ,那么指定的映射器必须是一个接口,而 不是一个具体的实现类。&lt;/p&gt;
 
-&lt;p&gt;-f和!-f用来判断是否存在文件&lt;/p&gt;
+&lt;p&gt;如果 UserMapper 有一个对应的 MyBatis 的 XML 映射器文件, 如果 XML 文件在类路径的 位置和映射器类相同时, 它会被 MapperFactoryBean 自动解析。 没有必要在 MyBatis 配置文 件 中 去 指 定 映 射 器 , 除 非 映 射 器 的 XML 文 件 在 不 同 的 类 路 径 下 。&lt;/p&gt;
 
-&lt;p&gt;-d和!-d用来判断是否存在目录&lt;/p&gt;
+&lt;p&gt;注意,当 MapperFactoryBean 需要 SqlSessionFactory 或 SqlSessionTemplate 时。 这些可以通过各自的 SqlSessionFactory 或 SqlSessionTemplate 属性来设置, 或者可以由 Spring 来自动装配。如果两个属性都设置了,那么 SqlSessionFactory 就会被忽略,因为 SqlSessionTemplate 是需要有一个 session 工厂的设置; 那个工厂会由 MapperFactoryBean. 来使用。&lt;/p&gt;
 
-&lt;p&gt;-e和!-e用来判断是否存在文件或目录&lt;/p&gt;
+&lt;p&gt;你可以直接在 business/service 对象中以和注入任意 Spring bean 的相同方式直接注入映 射器:&lt;/p&gt;
 
-&lt;p&gt;-x和!-x用来判断文件是否可执行&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;fooService&quot; class=&quot;org.mybatis.spring.sample.mapper.FooServiceImpl&quot;&amp;gt;
+  &amp;lt;property name=&quot;userMapper&quot; ref=&quot;userMapper&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;2、下面是可以用作判断的全局变量&lt;/p&gt;
+&lt;p&gt;这个 bean 可以直接在应用程序逻辑中使用:&lt;/p&gt;
 
-&lt;p&gt;例：http://localhost:88/test1/test2/test.php&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class FooServiceImpl implements FooService {
 
-&lt;p&gt;$host：localhost&lt;/p&gt;
+  private UserMapper userMapper;
 
-&lt;p&gt;$server_port：88&lt;/p&gt;
+  public void setUserMapper(UserMapper userMapper) {
+    this.userMapper = userMapper;
+  }
 
-&lt;p&gt;$request_uri：http://localhost:88/test1/test2/test.php&lt;/p&gt;
+  public User doSomeBusinessStuff(String userId) {
+    return this.userMapper.getUser(userId);
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;$document_uri：/test1/test2/test.php&lt;/p&gt;
+&lt;p&gt;注意在这段代码中没有 SqlSession 或 MyBatis 的引用。也没有任何需要创建,打开或 关闭 session 的代码,MyBatis-Spring 会来关心它的。&lt;/p&gt;
 
-&lt;p&gt;$document_root：D:\nginx/html&lt;/p&gt;
+&lt;h3 id=&quot;mapperscannerconfigurer&quot;&gt;MapperScannerConfigurer&lt;/h3&gt;
 
-&lt;p&gt;$request_filename：D:\nginx/html/test1/test2/test.php&lt;/p&gt;
+&lt;p&gt;有必要在 Spring 的 XML 配置文件中注册所有的映射器。相反,你可以使用一个 MapperScannerConfigurer , 它 将 会 查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean。&lt;/p&gt;
+
+&lt;p&gt;要创建 MapperScannerConfigurer,可以在 Spring 的配置中添加如下代码:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&amp;gt;
+  &amp;lt;property name=&quot;basePackage&quot; value=&quot;org.mybatis.spring.sample.mapper&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;basePackage 属性是让你为映射器接口文件设置基本的包路径。 你可以使用分号或逗号 作为分隔符设置多于一个的包路径。每个映射器将会在指定的包路径中递归地被搜索到。&lt;/p&gt;
+
+&lt;p&gt;MapperScannerConfigurer 属性不支持使用了 PropertyPlaceholderConfigurer 的属 性替换,因为会在 Spring 其中之前来它加载。但是,你可以使用 PropertiesFactoryBean 和 SpEL 表达式来作为替代。&lt;/p&gt;
+
+&lt;p&gt;注 意 , 没 有 必 要 去 指 定 SqlSessionFactory 或 SqlSessionTemplate , 因 为 MapperScannerConfigurer 将会创建 MapperFactoryBean,之后自动装配。但是,如果你使 用了一个 以上的 DataSource ,那 么自动 装配可 能会失效 。这种 情况下 ,你可 以使用 sqlSessionFactoryBeanName 或 sqlSessionTemplateBeanName 属性来设置正确的 bean 名 称来使用。这就是它如何来配置的,注意 bean 的名称是必须的,而不是 bean 的引用,因 此,value 属性在这里替代通常的 ref:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory&quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;MapperScannerConfigurer 支 持 过 滤 由 指 定 的 创 建 接 口 或 注 解 创 建 映 射 器 。 annotationClass 属性指定了要寻找的注解名称。 markerInterface 属性指定了要寻找的父 接口。如果两者都被指定了,加入到接口中的映射器会匹配两种标准。默认情况下,这两个 属性都是 null,所以在基包中给定的所有接口可以作为映射器加载。&lt;/p&gt;
+
+&lt;p&gt;被发现的映射器将会使用 Spring 对自动侦测组件(参考 Spring 手册的 3.14.4)默认的命 名策略来命名。也就是说,如果没有发现注解,它就会使用映射器的非大写的非完全限定类 名。但是如果发现了@Component 或 JSR-330 的@Named 注解,它会获取名称。注意你可以 配 置 到 org.springframework.stereotype.Component , javax.inject.Named(如果你使用 JSE 6 的话)或你自己的注解(肯定是自我注解)中,这 样注解将会用作生成器和名称提供器。&lt;/p&gt;
+
+&lt;h2 id=&quot;mybatis-1&quot;&gt;Mybatis的事务&lt;/h2&gt;
+
+&lt;p&gt;一个使用 MyBatis-Spring 的主要原因是它允许 MyBatis 参与到 Spring 的事务管理中。而 不是给 MyBatis 创建一个新的特定的事务管理器,MyBatis-Spring 利用了存在于 Spring 中的 DataSourceTransactionManager。&lt;/p&gt;
+
+&lt;p&gt;一旦 Spring 的 PlatformTransactionManager 配置好了,你可以在 Spring 中以你通常的做 法来配置事务。@Transactional 注解和 AOP(Aspect-Oriented Program,面向切面编程,译 者注)样式的配置都是支持的。在事务处理期间,一个单独的 SqlSession 对象将会被创建 和使用。当事务完成时,这个 session 会以合适的方式提交或回滚。&lt;/p&gt;
+
+&lt;p&gt;一旦事务创建之后,MyBatis-Spring 将会透明的管理事务。在你的 DAO 类中就不需要额 外的代码了&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;标准配置&lt;/h3&gt;
+
+&lt;p&gt;要 开 启 Spring 的 事 务 处 理 , 在 Spring 的 XML 配 置 文 件 中 简 单 创 建 一 个 DataSourceTransactionManager 对象:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&amp;gt;
+  &amp;lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;指定的 DataSource 一般可以是你使用 Spring 的任意 JDBC DataSource。这包含了连接 池和通过 JNDI 查找获得的 DataSource。&lt;/p&gt;
+
+&lt;p&gt;要注意, 为事务管理器指定的 DataSource 必须和用来创建 SqlSessionFactoryBean 的 是同一个数据源,否则事务管理器就无法工作了。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;容器管理事务&lt;/h3&gt;
+
+&lt;p&gt;如果你正使用一个 JEE 容器而且想让 Spring 参与到容器管理事务(Container managed transactions,CMT,译者注)中,那么 Spring 应该使用 JtaTransactionManager 或它的容 器指定的子类来配置。做这件事情的最方便的方式是用 Spring 的事务命名空间:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;tx:jta-transaction-manager /&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;在这种配置中,MyBatis 将会和其它由 CMT 配置的 Spring 事务资源一样。Spring 会自动 使用任意存在的容器事务,在上面附加一个 SqlSession。如果没有开始事务,或者需要基 于事务配置,Spring 会开启一个新的容器管理事务。&lt;/p&gt;
+
+&lt;p&gt;注 意 , 如 果 你 想 使 用 CMT , 而 不 想 使 用 Spring 的 事 务 管 理 , 你 就 必 须 配 置 SqlSessionFactoryBean 来使用基本的 MyBatis 的 ManagedTransactionFactory 而不是其 它任意的 Spring 事务管理器:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&amp;gt;
+  &amp;lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot; /&amp;gt;
+  &amp;lt;property name=&quot;transactionFactory&quot;&amp;gt;
+    &amp;lt;bean class=&quot;org.apache.ibatis.transaction.managed.ManagedTransactionFactory&quot; /&amp;gt;
+  &amp;lt;/property&amp;gt;  
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;编程式事务管理&lt;/h3&gt;
+
+&lt;p&gt;MyBatis 的 SqlSession 提供指定的方法来处理编程式的事务。 但是当使用 MyBatis-Spring 时, bean 将会使用 Spring 管理的 SqlSession 或映射器来注入。 那就是说 Spring 通常是处理 事务的。&lt;/p&gt;
+
+&lt;p&gt;你 不 能 在 Spring 管 理 的 SqlSession 上 调 用 SqlSession.commit() , SqlSession.rollback() 或 SqlSession.close() 方 法 。 如 果 这 样 做 了 , 就 会 抛 出 UnsupportedOperationException 异常。注意在使用注入的映射器时不能访问那些方法。&lt;/p&gt;
+
+&lt;p&gt;无论 JDBC 连接是否设置为自动提交, SqlSession 数据方法的执行或在 Spring 事务之外 任意调用映射器方法都将会自动被提交。&lt;/p&gt;
+
+&lt;p&gt;如果你想编程式地控制事务,请参考 Spring 手册的 10.6 节。这段代码展示了如何手动 使用在 10.6.2 章节描述的 PlatformTransactionManager 来处理事务。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+
+TransactionStatus status = txManager.getTransaction(def);
+try {
+  userMapper.insertUser(user);
+}
+catch (MyException ex) {
+  txManager.rollback(status);
+  throw ex;
+}
+txManager.commit(status);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;注意这段代码展示了一个映射器,但它也能和 SqlSession 一起使用。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;注解事务&lt;/h3&gt;
+
+&lt;p&gt;在基础事务上配置 注解事务 @Transactional&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot;/&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
 </description>
-        <pubDate>Sun, 28 Aug 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/08/28/ubuntu_nginx1_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/08/28/ubuntu_nginx1_introduction/</guid>
+        <pubDate>Sat, 19 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/19/mybatis_two_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/19/mybatis_two_introduction/</guid>
         
-        <category>Ubuntu</category>
-        
-        <category>Nginx</category>
+        <category>Mybatis</category>
         
         
       </item>
     
       <item>
-        <title>Ubuntu 操作篇</title>
-        <description>&lt;h2 id=&quot;ubuntu-1404redis&quot;&gt;ubuntu 14.04下的redis安装配置&lt;/h2&gt;
+        <title>Mybatis回顾 一</title>
+        <description>&lt;h1 id=&quot;mybatis&quot;&gt;Mybatis回顾&lt;/h1&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;安装&lt;/h3&gt;
+&lt;h2 id=&quot;generator&quot;&gt;代码自动生成器 generator&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install redis-server
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE generatorConfiguration PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot; &amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;generatorConfiguration&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 配置文件 --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;properties&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;resource=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;generator.properties&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/properties&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 配置数据库的context --&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;context&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MysqlContext&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetRuntime=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MyBatis3&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;defaultModelType=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flat&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    	&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 设置文件编码 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;javaFileEncoding&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;UTF-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(&quot;)，在Mysql中不能这么写，所以还要将这两个默认值改为`  --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;beginningDelimiter&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;`&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;endingDelimiter&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;`&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 为生成的Java模型创建一个toString方法 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;plugin&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;org.mybatis.generator.plugins.ToStringPlugin&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 为生成的Java模型类添加序列化接口，并生成serialVersionUID字段 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;plugin&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.tudou.common.plugin.SerializablePlugin&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;suppressJavaInterface&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 生成在XML中的&amp;lt;cache&amp;gt;元素 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;plugin&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;org.mybatis.generator.plugins.CachePlugin&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 使用ehcache --&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cache_type&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;org.mybatis.caches.ehcache.LoggingEhcache&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 内置cache配置 --&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;&amp;lt;!--
+            &amp;lt;property name=&quot;cache_eviction&quot; value=&quot;LRU&quot; /&amp;gt;
+            &amp;lt;property name=&quot;cache_flushInterval&quot; value=&quot;60000&quot; /&amp;gt;
+            &amp;lt;property name=&quot;cache_readOnly&quot; value=&quot;true&quot; /&amp;gt;
+            &amp;lt;property name=&quot;cache_size&quot; value=&quot;1024&quot; /&amp;gt;
+            --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Java模型生成equals和hashcode方法 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;plugin&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;org.mybatis.generator.plugins.EqualsHashCodePlugin&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 生成的代码去掉注释 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;commentGenerator&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.tudou.common.plugin.CommentGenerator&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;suppressAllComments&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;suppressDate&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/commentGenerator&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 数据库连接 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;jdbcConnection&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;driverClass=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${generator.jdbc.driver}&quot;&lt;/span&gt;
+                        &lt;span class=&quot;na&quot;&gt;connectionURL=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${generator.jdbc.url}&quot;&lt;/span&gt;
+                        &lt;span class=&quot;na&quot;&gt;userId=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;${generator.jdbc.username}&quot;&lt;/span&gt;
+                        &lt;span class=&quot;na&quot;&gt;password=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;123456&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- model生成 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;javaModelGenerator&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetPackage=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.tudou.dao.model&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetProject=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tudou/tudou-dao/src/main/java&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- MapperXML生成 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;sqlMapGenerator&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetPackage=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.tudou.dao.mapper&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetProject=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tudou/tudou-service/src/main/java&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Mapper接口生成 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;javaClientGenerator&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetPackage=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;com.tudou.dao.mapper&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;targetProject=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tudou/tudou-dao/src/main/java&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;XMLMAPPER&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 需要映射的表 --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;table&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;tableName=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;view_class_data&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;domainObjectName=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ViewClassData&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        	&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 同表字段生成 --&amp;gt;&lt;/span&gt;
+			&lt;span class=&quot;nt&quot;&gt;&amp;lt;property&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;useActualColumnNames&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;/context&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/generatorConfiguration&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;redis&quot;&gt;检查redis系统进程&lt;/h3&gt;
+&lt;h2 id=&quot;section&quot;&gt;关联查询，嵌套查询&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ps -aux|grep redis
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Users { 
+    private int id;  
+    private String userName;  
+    private int userAge;  
+    private String userAddress;  
+}  
+
+public class Article {  
+     private int id;  
+     private Users user;//外键  
+     private String title;  
+     private String content;  
+}  
+
+public class Blog {  
+    private int id;  
+    private String title;  
+    private List&amp;lt;Article&amp;gt; articles;  
+}  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;redis-1&quot;&gt;redis服务器状态检查&lt;/h3&gt;
+&lt;h3 id=&quot;section-1&quot;&gt;关联查询&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo /etc/init.d/redis-server status
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;resultMap type=&quot;User&quot; id=&quot;userResultMap&quot;&amp;gt;  
+    &amp;lt;!-- 属性名和数据库列名映射 --&amp;gt;  
+    &amp;lt;id property=&quot;id&quot; column=&quot;user_id&quot;  /&amp;gt;  
+    &amp;lt;result property=&quot;userName&quot; column=&quot;user_userName&quot;  /&amp;gt;  
+    &amp;lt;result property=&quot;userAge&quot; column=&quot;user_userAge&quot;  /&amp;gt;  
+    &amp;lt;result property=&quot;userAddress&quot; column=&quot;user_userAddress&quot;  /&amp;gt;  
+&amp;lt;/resultMap&amp;gt;  
+  
+&amp;lt;!-- User join Article进行联合查询  (一对一)--&amp;gt;      
+&amp;lt;resultMap id=&quot;articleResultMap&quot; type=&quot;Article&quot;&amp;gt;  
+    &amp;lt;id property=&quot;id&quot; column=&quot;article_id&quot; /&amp;gt;  
+    &amp;lt;result property=&quot;title&quot; column=&quot;article_title&quot; /&amp;gt;  
+    &amp;lt;result property=&quot;content&quot; column=&quot;article_content&quot; /&amp;gt;  
+    &amp;lt;!-- 将article的user属性映射到userResultMap --&amp;gt;  
+    &amp;lt;association property=&quot;user&quot; javaType=&quot;User&quot; resultMap=&quot;userResultMap&quot;/&amp;gt;    
+&amp;lt;/resultMap&amp;gt;  
+
+&amp;lt;!-- 使用别名来映射匹配 --&amp;gt;  
+&amp;lt;select id=&quot;getUserArticles&quot; parameterType=&quot;int&quot; resultMap=&quot;articleResultMap&quot;&amp;gt;  
+   select user.id user_id,user.userName user_userName,user.userAddress user_userAddress,  
+   article.id article_id,article.title article_title,article.content article_content   
+   from users user,article   
+   where user.id=article.userid and user.id=#{id}  
+&amp;lt;/select&amp;gt;  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;或&lt;/p&gt;
+&lt;h3 id=&quot;section-2&quot;&gt;嵌套查询&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;netstat -nlt|grep 6379
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;resultMap id=&quot;blogResultMap&quot; type=&quot;Blog&quot;&amp;gt;  
+    &amp;lt;id property=&quot;id&quot; column=&quot;blog_id&quot; /&amp;gt;  
+    &amp;lt;result property=&quot;title&quot; column=&quot;blog_title&quot; /&amp;gt;  
+    &amp;lt;!-- 将article list属性映射到collection --&amp;gt;  
+    &amp;lt;collection property=&quot;articles&quot; ofType=&quot;Article&quot; resultMap=&quot;articleResultMap&quot;/&amp;gt;  
+&amp;lt;/resultMap&amp;gt; 
+
+&amp;lt;!-- select语句 --&amp;gt;  
+&amp;lt;select id=&quot;getBlogByID&quot; parameterType=&quot;int&quot; resultMap=&quot;blogResultMap&quot;&amp;gt;  
+   select user.id user_id,user.userName user_userName,user.userAddress user_userAddress,  
+   article.id article_id,article.title article_title,article.content article_content,   
+   blog.id blog_id, blog.title blog_title  
+   from users user,article,blog   
+   where user.id=article.userid and blog.id=article.blogid and blog.id=#{id}  
+&amp;lt;/select&amp;gt;  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;redis-2&quot;&gt;通过终端访问redis&lt;/h3&gt;
+&lt;h3 id=&quot;section-3&quot;&gt;缓存使用场景和选择策略&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;redis-cli
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;MyBatis将数据缓存设计成两级结构，分为一级缓存、二级缓存，没有层级关系，只是命名而已。&lt;/p&gt;
 
-&lt;h3 id=&quot;redis-3&quot;&gt;重启redis&lt;/h3&gt;
+&lt;h4 id=&quot;section-4&quot;&gt;一级缓存&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo /etc/init.d/redis-server restart
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;MyBatis在SqlSession对象中建立一个简单的缓存，将每次查询到的结果结果缓存起来，当下次查询的时候，如果判断先前有完全一样的查询，会直接从缓存中直接将结果取出，返回给用户。其内部就是通过一个简单的HashMap&amp;lt;k,v&amp;gt; 来实现的。&lt;/p&gt;
 
-&lt;h3 id=&quot;redis-4&quot;&gt;配置redis&lt;/h3&gt;
+&lt;p&gt;每当我们使用MyBatis开启一次和数据库的会话，MyBatis会创建出一个SqlSession对象表示一次数据库会话。一级缓存是Session会话级别的缓存，位于数据库会话的SqlSession对象之中，又被称之为本地缓存。一级缓存是MyBatis内部特性，用户不能配置。且默认情况下mybatis自动支持这种缓存，用户没有定制它的权利（除非通过开发插件对它进行修改）。 
+每个SqlSession中的缓存都是独立的。&lt;/p&gt;
 
-&lt;p&gt;默认情况下，redis的访问是不需要账号和密码的。&lt;/p&gt;
-
-&lt;p&gt;要增加账号和密码，可以通过修改配置文件实现。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo vim /etc/redis/redis.conf
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;取消掉注释&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#取消注释requirepass
-requirepass xxxx
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;重启redis服务器&lt;/p&gt;
-
-&lt;p&gt;带密码登录&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;redis-cli -a xxx
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;redis-5&quot;&gt;访问远程redis服务器&lt;/h3&gt;
-
-&lt;p&gt;注：默认情况下，redis服务器仅能本地方位。远程访问需注释掉配置文件中的“bind”项。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;redis-cli -a xxx -h 192.168.1.200
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Fri, 26 Aug 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/08/26/ubuntu_redis_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/08/26/ubuntu_redis_introduction/</guid>
-        
-        <category>Ubuntu</category>
-        
-        <category>Redis</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>SSM框架 shiro篇</title>
-        <description>&lt;p&gt;Shiro    提供了 JSP 的一套 JSTL 标签，用于做 JSP   页面做权限控制的。可以控制一些按钮和一些超链接，或者一些显示内容。&lt;/p&gt;
-
-&lt;p&gt;不过引入有区分，JSP需要在头部引入， Shiro  提供的TLD 文件:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;%@taglib prefix=&quot;shiro&quot; uri=&quot;http://shiro.apache.org/tags&quot; %&amp;gt;  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;下面是具体的标签用法：&lt;/p&gt;
-
-&lt;h3 id=&quot;guest&quot;&gt;1.guest（游客）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:guest&amp;gt;  
-您当前是游客，&amp;lt;a href=&quot;javascript:void(0);&quot; class=&quot;dropdown-toggle qqlogin&quot; &amp;gt;登录&amp;lt;/a&amp;gt;
-&amp;lt;/shiro:guest&amp;gt; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;user&quot;&gt;2.user（已经登录，或者记住我登录）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:user&amp;gt;  
-欢迎[&amp;lt;shiro:principal/&amp;gt;]登录，&amp;lt;a href=&quot;/logout.shtml&quot;&amp;gt;退出&amp;lt;/a&amp;gt;  
-&amp;lt;/shiro:user&amp;gt;   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;authenticated&quot;&gt;3.authenticated（已经认证，排除记住我登录的）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:authenticated&amp;gt;  
-	用户[&amp;lt;shiro:principal/&amp;gt;]已身份验证通过  
-&amp;lt;/shiro:authenticated&amp;gt;   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;notauthenticatedauthenticated&quot;&gt;4.notAuthenticated（和authenticated相反）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:notAuthenticated&amp;gt;
-	当前身份未认证（包括记住我登录的）
-&amp;lt;/shiro:notAuthenticated&amp;gt; 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;这个功能主要用途，识别是不是本次操作登录过的，比如支付系统，进入系统可以用记住我的登录信息，但是当要关键操作的时候，需要进行认证识别。&lt;/p&gt;
-
-&lt;h3 id=&quot;principal&quot;&gt;5.principal标签，比较常用。&lt;/h3&gt;
-
-&lt;p&gt;principal 标签，取值取的是你登录的时候。在Realm 实现类中的如下代码：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;....
-return new SimpleAuthenticationInfo(user,user.getPswd(), getName());
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;在new SimpleAuthenticationInfo(第一个参数,….) 的第一个参数放的如果是一个username ，那么就可以直接用。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;!--取到username--&amp;gt;
-&amp;lt;shiro: principal/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;如果第一个参数放的是对象，比如我喜欢放User 对象。那么如果要取username 字段。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;!--需要指定property--&amp;gt;
-&amp;lt;shiro:principal property=&quot;username&quot;/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;和下面 Java  代码一致&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;User user = (User)SecurityUtils.getSubject().getPrincipals();
-String username = user.getUsername();
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;hasrole&quot;&gt;6.hasRole标签（判断是否拥有这个角色）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:hasRole name=&quot;admin&quot;&amp;gt;  
-	用户[&amp;lt;shiro:principal/&amp;gt;]拥有角色admin&amp;lt;br/&amp;gt;  
-&amp;lt;/shiro:hasRole&amp;gt;   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;hasanyroles&quot;&gt;7.hasAnyRoles标签（判断是否拥有这些角色的其中一个）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:hasAnyRoles name=&quot;admin,user,member&quot;&amp;gt;  
-用户[&amp;lt;shiro:principal/&amp;gt;]拥有角色admin或user或member&amp;lt;br/&amp;gt;  
-&amp;lt;/shiro:hasAnyRoles&amp;gt;   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;lacksrole&quot;&gt;8.lacksRole标签（判断是否不拥有这个角色）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:lacksRole name=&quot;admin&quot;&amp;gt;  
-用户[&amp;lt;shiro:principal/&amp;gt;]不拥有admin角色
-&amp;lt;/shiro:lacksRole&amp;gt;   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;haspermission&quot;&gt;9.hasPermission标签（判断是否有拥有这个权限）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:hasPermission name=&quot;user:add&quot;&amp;gt;  
-	用户[&amp;lt;shiro:principal/&amp;gt;]拥有user:add权限
-&amp;lt;/shiro:hasPermission&amp;gt;   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;lackspermission&quot;&gt;10.lacksPermission标签（判断是否没有这个权限）&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;shiro:lacksPermission name=&quot;user:add&quot;&amp;gt;  
-	用户[&amp;lt;shiro:principal/&amp;gt;]不拥有user:add权限
-&amp;lt;/shiro:lacksPermission&amp;gt;   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-</description>
-        <pubDate>Tue, 02 Aug 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/08/02/ssm_shiro_jsp_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/08/02/ssm_shiro_jsp_introduction/</guid>
-        
-        <category>SSM</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Ubuntu 操作篇</title>
-        <description>&lt;h3 id=&quot;root-&quot;&gt;1. 修改 root 密码&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo passwd root
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section&quot;&gt;2. 以其他账户登录修改内容&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xxx@ubuntu14:~$ su - root
-Password:
-root@ubuntu14:~# vi /etc/ssh/sshd_config
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;3. 注释注解&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Authentication:
-LoginGraceTime 120
-#PermitRootLogin without-password
-PermitRootLogin yes
-StrictModes yes
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;ssh&quot;&gt;4. 重启ssh服务&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@ubuntu14:~# sudo service ssh restart
-ssh stop/waiting
-ssh start/running, process 1499
-root@ubuntu14:~#
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Mon, 01 Aug 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/08/01/ubuntu_root_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/08/01/ubuntu_root_introduction/</guid>
-        
-        <category>Ubuntu</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Mac下配置redis</title>
-        <description>&lt;h3 id=&quot;mac--redis&quot;&gt;Mac 下安装运行 redis&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mac&lt;/code&gt; 上安装 redis 首先必须保证 &lt;code class=&quot;highlighter-rouge&quot;&gt;mac&lt;/code&gt; 已经安装 &lt;code class=&quot;highlighter-rouge&quot;&gt;xcode&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;redis&quot;&gt;一.下载redis&lt;/h4&gt;
-
-&lt;p&gt;redis下载地址：&lt;a href=&quot;https://code.google.com/archive/p/redis/downloads&quot;&gt;https://code.google.com/archive/p/redis/downloads&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;redis-1&quot;&gt;二.配置redis&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//依次运行
-sudo make
-sudo make test
-sudo make isntall
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;运行完成后，将配置文件移动到/etc目录下.&lt;/p&gt;
-
-&lt;h4 id=&quot;redis-2&quot;&gt;三.启动redis&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/bin/redis-server
-//或者
-/usr/local/bin/redis-server /etc/redis.conf
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;img src=&quot;/img/in-post/redis.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;redis-3&quot;&gt;四.尝试连接redis，进行数据操作&lt;/h4&gt;
-
-&lt;p&gt;进入到&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/bin&lt;/code&gt;目录，输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;./redis-cli&lt;/code&gt;即可进入编辑页面&lt;/p&gt;
-
-&lt;h4 id=&quot;redis-commander&quot;&gt;五.安装redis-commander&lt;/h4&gt;
-
-&lt;p&gt;Redis web-based management tool written in node.js&lt;/p&gt;
-
-&lt;h5 id=&quot;section&quot;&gt;安装和运行&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm install -g redis-commander
-$ redis-commander
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h5 id=&quot;section-1&quot;&gt;使用&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-commander --help
-Options:
-  --redis-port                    The port to find redis on.         [string]
-  --redis-host                    The host to find redis on.         [string]
-  --redis-socket                  The unix-socket to find redis on.  [string]
-  --redis-password                The redis password.                [string]
-  --redis-db                      The redis database.                [string]
-  --http-auth-username, --http-u  The http authorisation username.   [string]
-  --http-auth-password, --http-p  The http authorisation password.   [string]
-  --port, -p                      The port to run the server on.     [string]  [default: 8081]
-  --address, -a                   The address to run the server on   [string]  [default: 0.0.0.0]
-   
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-</description>
-        <pubDate>Wed, 20 Jul 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/07/20/mac_redis_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/07/20/mac_redis_introduction/</guid>
-        
-        <category>Redis</category>
-        
-        <category>Mac</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>阿里云端口配置</title>
-        <description>&lt;h3 id=&quot;section&quot;&gt;阿里云将80端口请求转发到其他端口&lt;/h3&gt;
-
-&lt;h4 id=&quot;section-1&quot;&gt;背景&lt;/h4&gt;
-&lt;p&gt;租了一台阿里云ECS，想搭建一个java Web 程序，环境都搭建好后，将Tomcat端口改为80并执行&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./startup.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;程序报错端口号冲突。
-估计是80端口被占用了，但是想绑定域名，还是需要将80端口映射到tomcat才行。&lt;/p&gt;
-
-&lt;p&gt;于是检查占用80端口的程序&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/aliyun_80.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;是一个叫&lt;code class=&quot;highlighter-rouge&quot;&gt;AliYunDun&lt;/code&gt;的程序将80端口占用了。&lt;/p&gt;
-
-&lt;h4 id=&quot;section-2&quot;&gt;解决方案&lt;/h4&gt;
-&lt;p&gt;由于80端口受到各种保护措施，所以一般程序是无法获取80端口的使用权的，要想实现不输入端口号直接访问程序，需要将80端口的请求转发到Tomcat设定的端口上去，也就是默认的8080端口。&lt;/p&gt;
-
-&lt;h4 id=&quot;ip&quot;&gt;首先查看服务器网卡及ip设置：&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/aliyun_ip.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;很明显eth1为外网网卡。&lt;/p&gt;
-
-&lt;h4 id=&quot;section-3&quot;&gt;设置端口号转发规则：&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables -A PREROUTING -t nat -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 8080
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-</description>
-        <pubDate>Mon, 11 Jul 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/07/11/tomcat_80_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/07/11/tomcat_80_introduction/</guid>
-        
-        <category>Tomcat</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Tomcat 安装</title>
-        <description>&lt;h3 id=&quot;apache-tomcat&quot;&gt;关于 Apache Tomcat&lt;/h3&gt;
-
-&lt;p&gt;Apache Tomcat 是一个服务器应用，通常用来部署 Java 应用到 Web 。 Tomcat 是 Java Servlet 与 JSP 技术的一个开源实现，由 Apache 软件基金会发布。&lt;/p&gt;
-
-&lt;p&gt;这个教程涵盖了在 Ubuntu 14.04 上 Tomcat 7.0.x 版本的安装和基础配置。&lt;/p&gt;
-
-&lt;p&gt;有两种基本的途径来安装 Tomcat 到 Ubuntu 上：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/in-post/basic_design_patterns/basic_design_patterns_29.png&quot; alt=&quot;basic_design_patterns_29&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;通过 apt-get 工具来安装，这是最简单的方法。&lt;/li&gt;
-  &lt;li&gt;从 Apache Tomcat 网站下载二进制发布包。本教程不涵盖这种方法。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果SqlSession调用了close()方法，会释放掉一级缓存PerpetualCache对象，一级缓存将不可用；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果SqlSession调用了clearCache()，会清空PerpetualCache对象中的数据，但是该对象仍可使用；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;SqlSession中执行了任何一个update操作(update()、delete()、insert()) ，都会清空PerpetualCache对象的数据，但是该对象可以继续使用；&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;在这个教程中，我们将使用最简单地方法： &lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get&lt;/code&gt; 。这将从官方的 Ubuntu 资源仓库安装最新的 Tomcat 发布包，这个包可能不是 Tomcat 的最新发布版本。如果你想要确保安装 Tomcat 的最新版，你可以下载最新的二进制发布包。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/in-post/basic_design_patterns/basic_design_patterns_30.png&quot; alt=&quot;basic_design_patterns_30&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;步骤一 - 先决条件&lt;/h3&gt;
-
-&lt;p&gt;在你开始这个向导之前，在你的服务器上需要配置一个独立的非 root 用户账号。你可以按照 Ubuntu 14.04 上搭建服务器中的 1-4 步来学习完成它。我们这里使用创建的 &lt;code class=&quot;highlighter-rouge&quot;&gt;demo&lt;/code&gt; 用户来完成后续的教程。&lt;/p&gt;
-
-&lt;h3 id=&quot;tomcat&quot;&gt;步骤二 - 安装 Tomcat&lt;/h3&gt;
-
-&lt;p&gt;首先，你需要升级 apt-get 软件包列表：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get update
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;现在你已经准备好安装 Tomcat。运行以下命令，开始安装：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install tomcat7
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;yes&lt;/code&gt; 来安装 Tomcat 。这将同时安装 Tomcat 和它的依赖，例如 Java，同时，它将创建一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;tomcat7&lt;/code&gt; 用户，并以默认设置启动 Tomcat 。&lt;/p&gt;
-
-&lt;p&gt;这时候， Tomcat 并没有完全安装完成，但你可以通过在浏览器中输入本地域名或IP地址之后加 :8080 的方法来访问默认页面。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://your_ip_address:8080
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;你会看到一个闪屏页面，显示 “It works” ，和其他附加信息。现在，我们要深入到 Tomcat 的安装过程。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-1&quot;&gt;步骤三 - 安装额外软件包&lt;/h3&gt;
-
-&lt;p&gt;注意：如果你对 Tomcat 足够了解，且不需要 Web 管理接口，文档和示例，那这个章节不是必须的。如果你是第一次接触 Tomcat ，请继续。&lt;/p&gt;
-
-&lt;p&gt;通过以下代码，你将安装 Tomcat 的在线文档， Web接 口（管理 Web 应用），以及一些示例应用。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install tomcat7-docs tomcat7-admin tomcat7-examples
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;yes&lt;/code&gt; 来安装这些软件包。后面我们会讲到这些工具的用法和配置。接下来，我们要安装 JDK 。&lt;/p&gt;
-
-&lt;h3 id=&quot;jdk-&quot;&gt;步骤四 - 安装 JDK (可选)&lt;/h3&gt;
-
-&lt;p&gt;如果你打算在服务器上开发应用，你需要安装本章节中提到的软件。&lt;/p&gt;
-
-&lt;p&gt;JDK 确保我们可以开发运行在 Tomcat 服务器上的 Java 应用。运行以下命令来安装 &lt;code class=&quot;highlighter-rouge&quot;&gt;openjdk-7-jdk&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install default-jdk
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;作为 JDK 的附件， Tomcat 文档上建议同时安装用来构建 Java 应用 Apache Ant 工具及包括 Git 在内的源码控制系统。通过下面的命令来安装它们：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ant git
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Apache Ant 的更多信息，可查阅&lt;a href=&quot;http://ant.apache.org/manual/index.html&quot;&gt;其官方文档&lt;/a&gt;。 &lt;a href=&quot;https://www.digitalocean.com/community/articles/how-to-use-git-effectively&quot;&gt;Git&lt;/a&gt; 使用教程可以参考这里。&lt;/p&gt;
-
-&lt;h3 id=&quot;tomcat-web-&quot;&gt;步骤五 - 配置 Tomcat Web 管理器&lt;/h3&gt;
-
-&lt;p&gt;想要使用步骤三中安装的 Web 应用管理器，需要先登录到 Tomcat 服务器。首先需要编辑修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;tomcat-users.xml&lt;/code&gt; ：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nano /etc/tomcat7/tomcat-users.xml
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;该文件充满了用于说明如何配置的注释。你需要删除下面两行之间的所有注释。如需要用作参考，则保留。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;tomcat-users&amp;gt;
-&amp;lt;/tomcat-users&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;你需要添加一个用户，可以访问 &lt;code class=&quot;highlighter-rouge&quot;&gt;manager-gui&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;admin-gui&lt;/code&gt; （我们在步骤三种安装的管理界面）。你可以通过如下的配置来定义一个用户。如果需要，确保修改用户名和密码。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;tomcat-users&amp;gt;
-	&amp;lt;user username=&quot;admin&quot; password=&quot;password&quot; roles=&quot;manager-gui,admin-gui&quot; /&amp;gt;
-&amp;lt;/tomcat-users&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;保存并退出 &lt;code class=&quot;highlighter-rouge&quot;&gt;tomcat-users.xml&lt;/code&gt; 文件。重启 &lt;code class=&quot;highlighter-rouge&quot;&gt;Tomcat&lt;/code&gt; 服务，以便修改配置生效。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo service tomcat7 restart
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;web-&quot;&gt;步骤六 - 访问 Web 界面&lt;/h3&gt;
-
-&lt;p&gt;现在，我们已经配置了一个管理员用户，从 Web 浏览器访问 Web 管理器页面。&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://your-ip_address:8080
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;你可以看到的页面如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/show.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;从上面可以看到，里面有四个链接到步骤三中安装的软件包：&lt;/p&gt;
+&lt;h4 id=&quot;section-5&quot;&gt;二级缓存&lt;/h4&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;tomcat7-docs: Tomcat 的在线文档。通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://your_ip_address:8080/docs/&lt;/code&gt; 来访问&lt;/li&gt;
-  &lt;li&gt;tomcat7-examples: Tomcat 7 Servlet 和 JSP 示例。你可以点击这些示例 Web 应用来了解它们是怎么工作的（通过源码可以了解它们是怎么实现的）。通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://your_ip_address:8080/examples/&lt;/code&gt; 来访问&lt;/li&gt;
-  &lt;li&gt;tomcat7-admin ( Web 应用管理器): Tomcat Web 应用管理器。通过这里来管理你的 Java 应用。&lt;/li&gt;
-  &lt;li&gt;tomcat7-admin (主机管理器): Tomcat 虚拟主机管理器。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;与一级缓存相比，二级缓存的范围更大。多个sqlSession可以共享一个UserMapper的二级缓存区域。其内部也是通过HashMap&amp;lt;k,v&amp;gt; 来实现的。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;每个Mapper对象（如：Mapper.xml）都会有一个与之对应的二级缓存区域。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;mybatis根据Mapper对象的namespace区分，如果两个mapper的namespace相同，即使是两个mapper，那么这两个mapper中执行sql查询到的数据也将存在相同的二级缓存区域中。可以认为在hashMap中存储时，是以namespace作为主键的。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果两个mapper的namespace如果相同，任意一个mapper的写操作，都会清空整个namespace缓存。&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;通过打开链接 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://your_ip_address:8080/manager/html&lt;/code&gt; ，来查看 Web 应用管理器：&lt;/p&gt;
+&lt;p&gt;mybaits的二级缓存是mapper范围级别，要想使某条Select查询支持二级缓存，你需要做以下几步开启：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/in-post/show1.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;设置 MyBatis支持二级缓存的总开关：全局配置变量参数 &lt;code class=&quot;highlighter-rouge&quot;&gt;cacheEnabled=&quot;true&quot;&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;这个Web应用管理器使用来管理Java应用的。你可以在这里执行应用的启动，停止，重新加载，部署，下架等操作。还可以对应用做一些诊断（如内存泄露）。最后，你服务器的相关信息被显示在页面的最底部。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;settings&amp;gt;
+   &amp;lt;!-- 对在此配置文件下的所有cache 进行全局性开/关设置  默认值为true --&amp;gt;
+   &amp;lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&amp;gt;
+&amp;lt;/settings&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;通过打开链接 &lt;code class=&quot;highlighter-rouge&quot;&gt;http://your_ip_address:8080/host-manager/html&lt;/code&gt; ，来查看虚拟主机管理器：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;该select语句所在的Mapper，配置了 或节点，并且有效&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/img/in-post/show3.png&quot; alt=&quot;IMG&quot; /&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;!-- 在UserMapper.xml中开启二缓存，UserMapper.xml下的任意sql执行完成后，都会存储到它的缓存区域(HashMap) --&amp;gt;
+&amp;lt;mapper namespace=&quot;twm.mybatisdemo.mapper.UserMapper&quot;&amp;gt;
+&amp;lt;!-- 开启本mapper namespace下的二级缓存 --&amp;gt;
+&amp;lt;cache&amp;gt;&amp;lt;/cache&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;在虚拟主机管理页面，你可以为应用程序添加虚拟主机。&lt;/p&gt;
+&lt;p&gt;可以看到&lt;cache&gt;没有作配置，即采用了默认设置。&lt;/cache&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-2&quot;&gt;结束&lt;/h3&gt;
+&lt;p&gt;Mybatis Cache参数设置：&lt;/p&gt;
 
-&lt;p&gt;Tomcat 的安装到此结束。你现在就可以免费得来部署自己的 Web 应用。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;flushInterval（刷新间隔）可以被设置为任意的正整数，而且它们代表一个合理的毫秒形式的时间段。默认情况是不设置，也就是没有刷新间隔，缓存仅仅调用语句时刷新。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;size（引用数目）可以被设置为任意正整数，要记住你缓存的对象数目和你运行环境的可用内存资源数目。默认值是1024。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;readOnly（只读）属性可以被设置为true或false。只读的缓存会给所有调用者返回缓存对象的相同实例。因此这些对象不能被修改。这提供了很重要的性能优势。可读写的缓存会返回缓存对象的拷贝（通过序列化）。这会慢一些，但是安全，因此默认是false。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;eviction（回收策略）。可用的回收策略有：&lt;/p&gt;
+    &lt;ol&gt;
+      &lt;li&gt;LRU – 最近最少使用的:移除最长时间不被使用的对象。&lt;/li&gt;
+      &lt;li&gt;FIFO – 先进先出:按对象进入缓存的顺序来移除它们。&lt;/li&gt;
+      &lt;li&gt;SOFT – 软引用:移除基于垃圾回收器状态和软引用规则的对象。&lt;/li&gt;
+      &lt;li&gt;WEAK – 弱引用:更积极地移除基于垃圾收集器状态和弱引用规则的对象。 
+默认的是：LRU&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如下例子：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;cache  eviction=&quot;FIFO&quot; flushInterval=&quot;60000&quot;  size=&quot;512&quot; readOnly=&quot;true&quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这个更高级的配置创建了一个 FIFO 缓存,并每隔 60 秒刷新,存数结果对象或列表的 512 个引用,而且返回的对象被认为是只读的,因此在不同线程中的调用者之间修改它们会导致冲突。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;需要用到缓存的select语句的参数 useCache=”true”&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;select id=&quot;selectById&quot; parameterType=&quot;int&quot; resultType=&quot;User&quot; useCache=&quot;true&quot;&amp;gt;
+    select * from user where id=#{id}  
+&amp;lt;/select&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;POJO类序列化&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;pojo类实现序列化接口是为了将缓存数据取出执行反序列化操作。因为二级缓存数据存储介质多种多样，不一定都是存在内存，有可能是硬盘或者远程服务器。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class User implements Serializable{
+    private static final long serialVersionUID = 1L;
+    Integer id;
+    ....
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;禁用二级缓存： 
+在statement中设置useCache=false可以禁用当前select语句的二级缓存，即每次查询都会发出sql去查询，默认情况是true，即该sql使用二级缓存。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;selectid=&quot;findOrderListResultMap&quot; resultMap=&quot;ordersUserMap&quot; useCache=&quot;false&quot;&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;总结：针对每次查询都需要最新的数据sql，要设置成useCache=&lt;/p&gt;
+
+&lt;p&gt;对查询频率高，变化频率低的数据建议使用二级缓存。&lt;/p&gt;
+
+&lt;p&gt;对于访问多的查询请求且用户对查询结果实时性要求不高，此时可采用mybatis二级缓存技术降低数据库访问量，提高访问速度&lt;/p&gt;
+
+&lt;p&gt;业务场景比如：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;耗时较高的统计分析sql.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;电话账单查询sql等.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;实现方法如下：通过设置刷新间隔时间，由mybatis每隔一段时间自动清空缓存，根据数据变化频率设置缓存刷新间隔flushInterval，比如设置为30分钟、60分钟、24小时等，根据需求而定。&lt;/p&gt;
 
 </description>
-        <pubDate>Sat, 09 Jul 2016 15:00:00 +0800</pubDate>
-        <link>http://DavidWangTM.github.io/2016/07/09/tomcat_install_introduction/</link>
-        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/07/09/tomcat_install_introduction/</guid>
+        <pubDate>Fri, 18 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/18/mybatis_one_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/18/mybatis_one_introduction/</guid>
         
-        <category>Tomcat</category>
+        <category>Mybatis</category>
         
-        <category>Ubuntu</category>
+        
+      </item>
+    
+      <item>
+        <title>Spring回顾 (八)</title>
+        <description>&lt;h1 id=&quot;spring-mvc--struts2-&quot;&gt;Spring MVC 和 struts2 对比&lt;/h1&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;框架机制&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Struts2采用Filter（StrutsPrepareAndExecuteFilter）实现，SpringMVC（DispatcherServlet）则采用Servlet实现。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;servlet&quot;&gt;&lt;strong&gt;servlet&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;servlet是一种运行服务器端的java应用程序，具有独立于平台和协议的特性，并且可以动态的生成web页面，它工作在客户端请求与服务器响应的中间层。&lt;/p&gt;
+
+&lt;h3 id=&quot;filter&quot;&gt;&lt;strong&gt;Filter&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;filter是一个可以复用的代码片段，可以用来转换HTTP请求、响应和头信息。Filter不像Servlet，它不能产生一个请求或者响应，它只是修改对某一资源的请求，或者修改从某一的响应。
+可以在servlet之前，也可以在之后。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;拦截机制&lt;/h2&gt;
+
+&lt;h3 id=&quot;struts2&quot;&gt;&lt;strong&gt;Struts2&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Struts2框架是类级别的拦截，每次请求就会创建一个Action，和Spring整合时Struts2的ActionBean注入作用域是原型模式prototype（否则会出现线程并发问题），然后通过setter，getter吧request数据注入到属性。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Struts2中，一个Action对应一个request，response上下文，在接收参数时，可以通过属性接收，这说明属性参数是让多个方法共享的。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Struts2中Action的一个方法可以对应一个url，而其类属性却被所有方法共享，这也就无法用注解或其他方式标识其所属方法了&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;springmvc&quot;&gt;&lt;strong&gt;SpringMVC&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;SpringMVC是方法级别的拦截，一个方法对应一个Request上下文，所以方法直接基本上是独立的，独享request，response数据。而每个方法同时又何一个url对应，参数的传递是直接注入到方法中的，是方法所独有的。处理结果通过ModeMap返回给框架。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在Spring整合时，SpringMVC的Controller Bean默认单例模式Singleton，所以默认对所有的请求，只会创建一个Controller，有应为没有共享的属性，所以是线程安全的，如果要改变默认的作用域，需要添加@Scope注解修改。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;性能方面&lt;/h3&gt;
+
+&lt;p&gt;SpringMVC实现了零配置，由于SpringMVC基于方法的拦截，有加载一次单例模式bean注入。而Struts2是类级别的拦截，每次请求对应实例一个新的Action，需要加载所有的属性值注入，所以，SpringMVC开发效率和性能高于Struts2。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;拦截机制&lt;/h3&gt;
+
+&lt;p&gt;Struts2有自己的拦截Interceptor机制，SpringMVC这是用的是独立的Aop方式，这样导致Struts2的配置文件量还是比SpringMVC大。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;配置方面&lt;/h3&gt;
+
+&lt;p&gt;Spring MVC和Spring是无缝的。从这个项目的管理和安全上也比Struts2高（当然Struts2也可以通过不同的目录结构和相关配置做到SpringMVC一样的效果，但是需要xml配置的地方不少）。
+SpringMVC可以认为已经100%零配置。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;设计思想&lt;/h3&gt;
+
+&lt;p&gt;Struts2更加符合OOP的编程思想， SpringMVC就比较谨慎，在servlet上扩展。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;集成方面&lt;/h3&gt;
+
+&lt;p&gt;SpringMVC集成了Ajax，使用非常方便，只需一个注解@ResponseBody就可以实现，然后直接返回响应文本即可，而Struts2拦截器集成了Ajax，在Action中处理时一般必须安装插件或者自己写代码集成进去，使用起来也相对不方便&lt;/p&gt;
+</description>
+        <pubDate>Thu, 17 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/17/spring_eight_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/17/spring_eight_introduction/</guid>
+        
+        <category>Spring</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Spring回顾 (七)</title>
+        <description>&lt;h1 id=&quot;springmvc-&quot;&gt;手写SpringMVC 框架&lt;/h1&gt;
+
+&lt;p&gt;上篇已经介绍过了SpringMVC的九大组件，本篇实战手写SpringMVC 框架。&lt;/p&gt;
+
+&lt;h2 id=&quot;springmvc--1&quot;&gt;手写SpringMVC 框架步骤&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;加载配置文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;扫描配置包&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;利用反射机制，实例化存放IOC容器&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;初始化 HandlerMapping&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;异常拦截&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;处理参数&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;HandlerMapping 通过url反射调用方法&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;springmvc&quot;&gt;手写SpringMVC&lt;/h2&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;配置文件:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	&amp;lt;!-- 在web.xml 配置资源文件 --&amp;gt;
+	&amp;lt;servlet&amp;gt;
+		&amp;lt;servlet-name&amp;gt;DWSpringMVC&amp;lt;/servlet-name&amp;gt;
+		&amp;lt;servlet-class&amp;gt;com.davidwang.servlet.DWDispatcherServlet&amp;lt;/servlet-class&amp;gt;
+		&amp;lt;init-param&amp;gt;
+			&amp;lt;param-name&amp;gt;contextConfigLocation&amp;lt;/param-name&amp;gt;
+			&amp;lt;param-value&amp;gt;application.properties&amp;lt;/param-value&amp;gt;
+		&amp;lt;/init-param&amp;gt;
+		&amp;lt;load-on-startup&amp;gt;1&amp;lt;/load-on-startup&amp;gt;
+	&amp;lt;/servlet&amp;gt;
+	&amp;lt;servlet-mapping&amp;gt;
+		&amp;lt;servlet-name&amp;gt;DWSpringMVC&amp;lt;/servlet-name&amp;gt;
+		&amp;lt;url-pattern&amp;gt;/*&amp;lt;/url-pattern&amp;gt;
+	&amp;lt;/servlet-mapping&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//application.properties 里面存放Controller 路径
+
+scan_package = com.davidwang.controller
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;注解接口:&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//接口、类、枚举、注解
+@Target({ ElementType.TYPE })  
+@Retention(RetentionPolicy.RUNTIME)  
+@Documented  
+public @interface DWController {  
+	//Controller 注册别名
+    String value() default &quot;&quot;;  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//方法
+@Target({ ElementType.METHOD })  
+@Retention(RetentionPolicy.RUNTIME)  
+@Documented  
+public @interface RequestMapping {  
+	// 方法注解别名
+    String value() default &quot;&quot;;  
+}  	
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//字段、枚举的常量
+@Target({ ElementType.FIELD })   
+@Retention(RetentionPolicy.RUNTIME)  
+@Documented  
+public @interface Quatifier {  
+	// 注解注解别名
+    String value() default &quot;&quot;;  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//参数
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface DWRequestParam {
+    String value();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;httpservlet-&quot;&gt;继承 HttpServlet ：&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class MyDispatcherServlet extends HttpServlet{
+	
+	private Properties properties = new Properties();
+	
+	private List&amp;lt;String&amp;gt; classNames = new ArrayList&amp;lt;&amp;gt;();
+	
+	private Map&amp;lt;String, Object&amp;gt; ioc = new HashMap&amp;lt;&amp;gt;();
+	
+	private Map&amp;lt;String, Method&amp;gt; handlerMapping = new  HashMap&amp;lt;&amp;gt;();
+	
+	private Map&amp;lt;String, Object&amp;gt; controllerMap  =new HashMap&amp;lt;&amp;gt;();
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		
+		//1.加载配置文件
+		doLoadConfig(config.getInitParameter(&quot;contextConfigLocation&quot;));
+		
+		//2.初始化所有相关联的类,扫描用户设定的包下面所有的类
+		doScanner(properties.getProperty(&quot;scan_package&quot;));
+		
+		//3.拿到扫描到的类,通过反射机制,实例化,并且放到ioc容器中(k-v  beanName-bean) beanName默认是首字母小写
+		doInstance();
+		
+		//4.初始化HandlerMapping(将url和method对应上)
+		initHandlerMapping();
+		
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		this.doPost(req,resp);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			//处理请求
+			doDispatch(req,resp);
+		} catch (Exception e) {
+			resp.getWriter().write(e);
+		}
+
+	}
+
+	private void doDispatch(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		if(handlerMapping.isEmpty()){
+			return;
+		}
+		
+		String url =req.getRequestURI();
+		String contextPath = req.getContextPath();
+		
+		url=url.replace(contextPath, &quot;&quot;).replaceAll(&quot;/+&quot;, &quot;/&quot;);
+		
+		if(!this.handlerMapping.containsKey(url)){
+			resp.getWriter().write(&quot;404 NOT FOUND!&quot;);
+			return;
+		}
+		
+		Method method =this.handlerMapping.get(url);
+		
+		//获取方法的参数列表
+		Class&amp;lt;?&amp;gt;[] parameterTypes = method.getParameterTypes();
+	
+		//获取请求的参数
+		Map&amp;lt;String, String[]&amp;gt; parameterMap = req.getParameterMap();
+		
+		//保存参数值
+		Object [] paramValues= new Object[parameterTypes.length];
+		
+		//方法的参数列表
+        for (int i = 0; i&amp;lt;parameterTypes.length; i++){  
+            //根据参数名称，做某些处理  
+            String requestParam = parameterTypes[i].getSimpleName();  
+            
+            
+            if (requestParam.equals(&quot;HttpServletRequest&quot;)){  
+                //参数类型已明确，这边强转类型  
+            	paramValues[i]=req;
+                continue;  
+            }  
+            if (requestParam.equals(&quot;HttpServletResponse&quot;)){  
+            	paramValues[i]=resp;
+                continue;  
+            }
+            if(requestParam.equals(&quot;String&quot;)){
+            	for (Entry&amp;lt;String, String[]&amp;gt; param : parameterMap.entrySet()) {
+         			String value =Arrays.toString(param.getValue()).replaceAll(&quot;\\[|\\]&quot;, &quot;&quot;).replaceAll(&quot;,\\s&quot;, &quot;,&quot;);
+         			paramValues[i]=value;
+         		}
+            }
+        }  
+		//利用反射机制来调用
+		try {
+			method.invoke(this.controllerMap.get(url), paramValues);//第一个参数是method所对应的实例 在ioc容器中
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+	private void doLoadConfig(String location){
+		//把web.xml中的contextConfigLocation对应value值的文件加载到流里面
+		InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(location);
+		try {
+			//用Properties文件加载文件里的内容
+			properties.load(resourceAsStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			//关流
+			if(null!=resourceAsStream){
+				try {
+					resourceAsStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	private void doScanner(String packageName) {
+		//把所有的.替换成/
+		URL url  =this.getClass().getClassLoader().getResource(&quot;/&quot;+packageName.replaceAll(&quot;\\.&quot;, &quot;/&quot;));
+		File dir = new File(url.getFile());
+		for (File file : dir.listFiles()) {
+			if(file.isDirectory()){
+				//递归读取包
+				doScanner(packageName+&quot;.&quot;+file.getName());
+			}else{
+				String className =packageName +&quot;.&quot; +file.getName().replace(&quot;.class&quot;, &quot;&quot;);
+				classNames.add(className);
+			}
+		}
+	}
+	
+	
+	
+	private void doInstance() {
+		if (classNames.isEmpty()) {
+			return;
+		}	
+		for (String className : classNames) {
+			try {
+				//把类搞出来,反射来实例化(只有加@DWController需要实例化)
+				Class&amp;lt;?&amp;gt; clazz =Class.forName(className);
+			   if(clazz.isAnnotationPresent(DWController.class)){
+					ioc.put(toLowerFirstWord(clazz.getSimpleName()),clazz.newInstance());
+				}else{
+					continue;
+				}
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+	}
+
+
+	private void initHandlerMapping(){
+		if(ioc.isEmpty()){
+			return;
+		}
+		try {
+			for (Entry&amp;lt;String, Object&amp;gt; entry: ioc.entrySet()) {
+				Class&amp;lt;? extends Object&amp;gt; clazz = entry.getValue().getClass();
+				if(!clazz.isAnnotationPresent(MyController.class)){
+					continue;
+				}
+				
+				//拼url时,是controller头的url拼上方法上的url
+				String baseUrl =&quot;&quot;;
+				if(clazz.isAnnotationPresent(RequestMapping.class)){
+					RequestMapping annotation = clazz.getAnnotation(RequestMapping.class);
+					baseUrl=annotation.value();
+				}
+				Method[] methods = clazz.getMethods();
+				for (Method method : methods) {
+					if(!method.isAnnotationPresent(RequestMapping.class)){
+						continue;
+					}
+					RequestMapping annotation = method.getAnnotation(RequestMapping.class);
+					String url = annotation.value();
+					
+					url =(baseUrl+&quot;/&quot;+url).replaceAll(&quot;/+&quot;, &quot;/&quot;);
+					handlerMapping.put(url,method);
+					controllerMap.put(url,clazz.newInstance());
+					System.out.println(url+&quot;,&quot;+method);
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	/**
+	 * 把字符串的首字母小写
+	 * @param name
+	 * @return
+	 */
+	private String toLowerFirstWord(String name){
+		char[] charArray = name.toCharArray();
+		charArray[0] += 32;
+		return String.valueOf(charArray);
+	}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;controller&quot;&gt;测试Controller&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@DWController
+@RequestMapping(&quot;/api&quot;)
+public class TestController {
+
+	@Quatifier(&quot;TestServiceImpl&quot;)
+	TestService testService; 
+
+	@RequestMapping(&quot;/test1&quot;)
+	public void test1(HttpServletRequest request, HttpServletResponse response,@RequestParam(&quot;name&quot;) String name){
+		System.out.println(param);
+	    testService.insert(name);
+	}
+	 
+	 
+	@RequestMapping(&quot;/test2&quot;)
+	public void test2(HttpServletRequest request, HttpServletResponse response,@RequestParam(&quot;name&quot;) String name){
+		System.out.println(param);
+		testService.update(name);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Wed, 16 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/16/spring_seven_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/16/spring_seven_introduction/</guid>
+        
+        <category>Spring</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Spring回顾 (六)</title>
+        <description>&lt;h2 id=&quot;spring-mvc-&quot;&gt;Spring MVC 原理介绍&lt;/h2&gt;
+
+&lt;p&gt;Spring MVC 本质是一个Servlet , 通过下图可以看出 Servlet 继承自 HttpServlet, 提供了： Servlet：HttpServletBean ，FrameworkServlet ，DispatcherServlet 继承关系.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/basic_design_patterns/basic_design_patterns_28.png&quot; alt=&quot;basic_design_patterns_28&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;HttpServletBean直接继承自java的HttpServlet，其作用是将Servlet中配置的参数设置到相应的属性；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;FrameworkServlet 初始化了 WebApplicationContext，DispatcherServlet 初始化了自身的9个组件。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我们需要先了解Handler就是处理器，可以表现的是类，和方法，也可以理解为 Controller层中@RequestMapping标注的所有方法 , 只要能实际处理请求的都可以是Handler.&lt;/p&gt;
+
+&lt;h3 id=&quot;handlermapping&quot;&gt;HandlerMapping&lt;/h3&gt;
+
+&lt;p&gt;对于&lt;code class=&quot;highlighter-rouge&quot;&gt;HandlerMapping&lt;/code&gt;来说，其作用就是根据&lt;code class=&quot;highlighter-rouge&quot;&gt;request&lt;/code&gt;找到相应的处理器&lt;code class=&quot;highlighter-rouge&quot;&gt;Handler&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Intecepter&lt;/code&gt;拦截器&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;handleradapter&quot;&gt;HandlerAdapter&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Handler&lt;/code&gt;是用来干活的工具,&lt;code class=&quot;highlighter-rouge&quot;&gt;HandlerMapping&lt;/code&gt;用于根据需要干的活找到相应的工具,&lt;code class=&quot;highlighter-rouge&quot;&gt;HandlerAdapter&lt;/code&gt;是使用工具干活的人。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface HandlerAdapter {
+    boolean supports(Object var1);
+    ModelAndView handle(HttpServletRequest var1, HttpServletResponse var2, Object var3) throws Exception;
+    long getLastModified(HttpServletRequest var1, Object var2);
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;HandlerAdapter&lt;/code&gt;接口中提供了&lt;code class=&quot;highlighter-rouge&quot;&gt;handle&lt;/code&gt;这样一个方法，参数中Object handler第三个参数其实就是一个处理器，&lt;code class=&quot;highlighter-rouge&quot;&gt;handle&lt;/code&gt;方法就是使用&lt;code class=&quot;highlighter-rouge&quot;&gt;handler&lt;/code&gt;来处理逻辑的。处理之后返回一个&lt;code class=&quot;highlighter-rouge&quot;&gt;ModelAndView&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;handlerexceptionresolver&quot;&gt;HandlerExceptionResolver&lt;/h3&gt;
+
+&lt;p&gt;这个是&lt;code class=&quot;highlighter-rouge&quot;&gt;SpringMVC&lt;/code&gt;中的异常处理组件，&lt;code class=&quot;highlighter-rouge&quot;&gt;HandlerExceptionResolver&lt;/code&gt;这个组件的作用就是根据异常设置&lt;code class=&quot;highlighter-rouge&quot;&gt;ModelAndView&lt;/code&gt;，然后再将处理结果交给&lt;code class=&quot;highlighter-rouge&quot;&gt;render&lt;/code&gt;方法进行渲染，&lt;code class=&quot;highlighter-rouge&quot;&gt;HandlerExceptionResolver&lt;/code&gt;是在渲染之前工作的，渲染过程中发生异&lt;code class=&quot;highlighter-rouge&quot;&gt;HandlerExceptionResolver&lt;/code&gt;无法处理。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface HandlerExceptionResolver { 
+	ModelAndView resolveException(HttpServletRequest var1,HttpServletResponse var2, Object var3, Exception var4); 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;viewresolver&quot;&gt;ViewResolver&lt;/h3&gt;
+
+&lt;p&gt;用来将 String 类型的视图名和 Locale 解析为 View 类型的视图。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;View resolveViewName(String viewName, Locale locale) throws Exception;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;viewName 视图名称&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;local 区域，作为国际化&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;requesttoviewnametranslator&quot;&gt;RequestToViewNameTranslator&lt;/h3&gt;
+
+&lt;p&gt;获取 request 中的视图名。接口里面也是只有一个方法：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;String getViewName(HttpServletRequest request) throws Exception; //根据 request 查找视图名
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;localeresolver&quot;&gt;LocaleResolver&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LocaleResolver&lt;/code&gt; 用于从 request 解析出 Locale。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface LocaleResolver { 
+	//从 request 解析出 Locale
+	Locale resolveLocale(HttpServletRequest request); 
+	//根据 request 设置 Locale
+	void setLocale(HttpServletRequest request, HttpServletResponse response, Locale local); 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;themeresolver&quot;&gt;ThemeResolver&lt;/h3&gt;
+
+&lt;p&gt;解析主题，SpringMVC 中一个主题对应一个properties文件，里面存放着跟当前主题相关的所有资源、如图片、css样式。 SpringMVC 的主题也支持国际化，同一个主题不同区域也可以显示不同的风格。SpringMVC 中跟主题相关的类有 &lt;code class=&quot;highlighter-rouge&quot;&gt;ThemeResolver&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;ThemeSource&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;Theme&lt;/code&gt;。主题是通过一系列资源来具体体现的，要得到一个主题的资源，首先要得到资源的名称，这是ThemeResolver的工作。然后通过主题名称找到对应的主题（可以理解为一个配置）文件，这是ThemeSource的工作流程。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface ThemeResolver {
+ //通过给定的 request 查找主题名
+ String resolveThemeName(HttpServletRequest request);
+ //根据给定的 request 设置主题名
+ void setThemeName(HttpServletRequest request, HttpServletResponse response, String themeName);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;multipartresolver&quot;&gt;MultipartResolver&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MultipartResolver&lt;/code&gt; 用来处理上传请求 ，将request包装成&lt;code class=&quot;highlighter-rouge&quot;&gt;MultipartHttpServletRequest&lt;/code&gt;。可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;MultipartHttpServletRequest&lt;/code&gt; 直接调用getFile获取文件。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface MultipartResolver {
+ //根据 request 判断是否是上传请求
+ boolean isMultipart(HttpServletRequest request);
+ //将 request 包装成 MultipartHttpServletRequest
+ MultipartHttpServletRequest resolveMultipart(HttpServletRequest request) throws MultipartException;
+ //清理上传过程中产生的临时资源
+ void cleanupMultipart(MultipartHttpServletRequest request);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;flashmapmanager&quot;&gt;FlashMapManager&lt;/h3&gt;
+
+&lt;p&gt;FlashMap 主要在 redirect 中传递参数，FlashMapManager 用来管理 FlashMap 。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface FlashMapManager {
+ //恢复参数，并将恢复过的和超时的参数从保存介质中删除
+ @Nullable
+ FlashMap retrieveAndUpdate(HttpServletRequest request, HttpServletResponse response);
+ //将参数保存起来
+ void saveOutputFlashMap(FlashMap flashMap, HttpServletRequest request, HttpServletResponse response);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Tue, 15 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/15/spring_six_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/15/spring_six_introduction/</guid>
+        
+        <category>Spring</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Spring回顾 (五)</title>
+        <description>&lt;h2 id=&quot;spring-framework-jdbc-&quot;&gt;Spring Framework JDBC 简介&lt;/h2&gt;
+
+&lt;p&gt;Spring Framework JDBC抽象提供的增值可能通过下表中:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/basic_design_patterns/basic_design_patterns_27.png&quot; alt=&quot;basic_design_patterns_27&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Spring框架帮助我们做的事情有：
+- 打开数据库连接
+- 执行相关sql语句
+- 处理异常
+- 操作事务 
+- 关闭数据库连接&lt;/p&gt;
+
+&lt;h3 id=&quot;jdbc&quot;&gt;选择JDBC数据库访问的方法&lt;/h3&gt;
+
+&lt;p&gt;除了三种风格的JdbcTemplate之外，新的SimpleJdbcInsert和SimplejdbcCall方法优化了数据库元数据，RDBMS对象样式采用了类似于JDO Query设计的面向对象方法。一旦你开始使用这些方法之一，你仍然可以混合和匹配，以包括来自不同方法的功能。所有方法都需要符合JDBC 2.0的驱动程序，一些高级功能需要JDBC 3.0驱动程序。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;JdbcTemplate是一种经典且最流行的Spring JDBC方法，这是一种最底层（lowest level）的方法，其他方法内部都借助与JdbcTemplate来完成。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;NamedParameterJdbcTemplate 封装了JdbcTemplate以提供命名参数，而不是传统的JDBC“？”占位符。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;SimpleJdbcInsert和SimpleJdbcCall优化数据库元数据，以限制必要配置的数量。这种方法简化了编码，只需要提供表或过程的名称，并提供与列名匹配的参数映射。这仅在数据库提供足够的元数据时有效。如果数据库不提供此元数据，则必须提供参数的显式配置。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;RDBMS Objects 包括 MappingSqlQuery, SqlUpdate 和 StoredProcedure，需要你在数据访问层初始化期间建立可重用的并且是线程安全的对象。此方法在JDO Query之后建模，你可以在其中定义查询字符串，声明参数并编译查询。一旦你这样做，执行方法可以多次调用传入的各种参数值。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;jdbctemplate--orm&quot;&gt;基于JdbcTemplate 写 ORM&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;datasource&quot; class=&quot;org.springframework.jdbc.datasource.DriverManagerDataSource&quot; &amp;gt;
+	&amp;lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.jdbc.Driver&quot; /&amp;gt;
+    &amp;lt;!--注意一下&amp;amp;characterEncoding要修改为&amp;amp;amp;characterEncoding--&amp;gt;
+    &amp;lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/dbstudent?useSSL=false&quot;/&amp;gt;
+    &amp;lt;property name=&quot;username&quot; value=&quot;root&quot;/&amp;gt;
+    &amp;lt;property name=&quot;password&quot; value=&quot;123456&quot; /&amp;gt;
+&amp;lt;/bean&amp;gt;
+		
+&amp;lt;bean id=&quot;jdbcTemplate&quot; class=&quot;org.springframework.jdbc.core.JdbcTemplate&quot; abstract=&quot;false&quot; lazy-init=&quot;false&quot; autowire=&quot;default&quot; &amp;gt;
+    &amp;lt;property name=&quot;dataSource&quot;&amp;gt;
+    	&amp;lt;ref bean=&quot;datasource&quot; /&amp;gt;
+    &amp;lt;/property&amp;gt;
+ &amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;创建组装Sql的基础接口类:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface BaseSql
+{
+	
+	public String getSql() throws Exception;
+
+	public List&amp;lt;Object&amp;gt; getParam();
+
+	public void setSql(BaseSql query) throws Exception;
+
+	public String toString();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;创建BaseSql工具类:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class BaseSqlUtils
+{
+	public static &amp;lt;T&amp;gt; BaseSql createSelect(T obj)
+	{
+		return new SelectBaseSql&amp;lt;T&amp;gt;(obj);
+	}
+
+	public static &amp;lt;T&amp;gt; BaseSql createInster(T obj)
+	{
+		return new InsertBaseSql&amp;lt;T&amp;gt;(obj);
+	}
+
+	public static &amp;lt;T&amp;gt; BaseSql createUpdate(T obj)
+	{
+		return new UpdateBaseSql&amp;lt;T&amp;gt;(obj);
+	}
+
+	public static &amp;lt;T&amp;gt; BaseSql createDeleteByObj(T obj)
+	{
+		return new DeleteByObjBaseSql&amp;lt;T&amp;gt;(obj);
+	}
+
+	
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;基础实体转化类:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public abstract class BaseEntity implements Serializable
+{
+	private static final long serialVersionUID = -696673736536660920L;
+
+	public abstract String toString();
+
+	public abstract int hashCode();
+
+	public abstract boolean equals(Object obj);
+	
+	/**
+	 * map转对象。
+	 * @param map
+	 * @param objClass
+	 * @return
+	 */
+	public static &amp;lt;T&amp;gt; T mapToObj(Map&amp;lt;String, Object&amp;gt; map, Class&amp;lt;T&amp;gt; objClass)
+	{
+		if (map == null || objClass == null)
+			return null;
+		
+		Field[] fields = getFieldByClass(objClass);
+		T obj = null;
+
+		try
+		{
+			obj = objClass.newInstance();
+		}
+		catch (InstantiationException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		catch (IllegalAccessException e1)
+		{
+			e1.printStackTrace();
+			return null;
+		}
+		setFieldValue(map, obj, fields, true);
+		return obj;
+	}
+
+	public static &amp;lt;T&amp;gt; List&amp;lt;T&amp;gt; mapToObjs(List&amp;lt;Map&amp;lt;String, Object&amp;gt;&amp;gt; lstMap, Class&amp;lt;T&amp;gt; objClass)
+	{
+		if (lstMap == null || lstMap.isEmpty())
+			return null;
+		List&amp;lt;T&amp;gt; lst = new ArrayList&amp;lt;T&amp;gt;();
+		for (Map&amp;lt;String, Object&amp;gt; map : lstMap)
+		{
+			lst.add(BaseEntity.mapToObj(map, objClass));
+		}
+		return lst;
+	}
+
+	/**
+	 * 调用set方法。
+	 * @param obj
+	 * @param att
+	 * @param value
+	 * @param type
+	 */
+	private static void setter(Object obj, String att, Object value, Class&amp;lt;?&amp;gt; type)
+	{
+		att = StringUtil.toUpperCaseFirstOne(att);
+		try
+		{
+			Method method = obj.getClass().getMethod(&quot;set&quot; + att, type);
+			method.invoke(obj, value);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 调用get方法
+	 * @param obj
+	 * @param att
+	 * @return
+	 */
+	public static Object getter(Object obj, String att)
+	{
+		att = StringUtil.toUpperCaseFirstOne(att);
+		try
+		{
+			Method method = obj.getClass().getMethod(&quot;get&quot; + att);
+			return method.invoke(obj);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 初始化方法，用户子类带参数得构造方法
+	 * @param map
+	 * @param objClass
+	 * @param obj
+	 * @return
+	 */
+	public &amp;lt;T&amp;gt; T init(Map&amp;lt;String, Object&amp;gt; map, T obj)
+	{
+		if (map == null || obj == null)
+			return null;
+
+		Field[] fields = getFieldByClass(obj.getClass());
+
+		setFieldValue(map, obj, fields, false);
+		return obj;
+	}
+
+	/**
+	 * 设置字段值。
+	 * @param map
+	 * @param obj
+	 * @param fields
+	 * @param isMethod
+	 */
+	private static &amp;lt;T&amp;gt; void setFieldValue(Map&amp;lt;String, Object&amp;gt; map, T obj, Field[] fields, boolean isMethod)
+	{
+		TableColumn column = null;
+		Object value = null;
+		String key = null;
+
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (column == null)
+			{
+				continue;
+			}
+			key = f.getName();
+			if (StringUtil.isNotEmpty(column.value()))
+				key = column.value();
+			value = map.get(key);
+
+			if (value == null)
+				continue;
+			
+			if (isMethod)
+			{
+				setter(obj, f.getName(), value, f.getType());
+				continue;
+			}
+			f.setAccessible(true);
+			try
+			{
+				f.set(obj, value);
+			}
+			catch (IllegalArgumentException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * 对象转map。
+	 * @param obj
+	 * @param objClass
+	 * @return
+	 */
+	public &amp;lt;T&amp;gt; Map&amp;lt;String, Object&amp;gt; objToMap(T obj)
+	{
+		Field[] fields = getFieldByClass(obj.getClass());
+		TableColumn column = null;
+		Object value = null;
+		String key = null;
+		Map&amp;lt;String, Object&amp;gt; map = new HashMap&amp;lt;String, Object&amp;gt;();
+
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (column == null)
+				continue;
+			key = f.getName();
+			if (StringUtil.isNotEmpty(column.value()))
+				key = column.value();
+			
+			f.setAccessible(true);
+			try
+			{
+				value = f.get(obj);
+				if (value == null)
+					continue;
+
+				map.put(key, value);
+			}
+			catch (IllegalArgumentException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IllegalAccessException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return map;
+	}
+
+	/**
+	 * 获取实体主键或数据库字段主键名称。
+	 * @param objClass
+	 * @param isDataColumn true 返回数据库对应列名  false 返回属性列名。
+	 * @return
+	 * @throws Exception
+	 */
+	public static &amp;lt;T&amp;gt; String getKeyByClass(Class&amp;lt;T&amp;gt; objClass, boolean isDataColumn) throws Exception
+	{
+		Field[] lstField = getFieldByClass(objClass);
+		TableColumn column = null;
+		String objColumn = null;
+		String dataColumn = null;
+		for (Field f : lstField)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (column == null)
+				continue;
+			if (column.isKey())
+			{
+				objColumn = f.getName();
+				dataColumn = column.value();
+				if (dataColumn == null || &quot;&quot;.equals(dataColumn))
+					dataColumn = objColumn;
+				break;
+			}
+		}
+		if (objColumn == null || &quot;&quot;.equals(objColumn))
+			throw new Exception(&quot;Entity primary key not found&quot;);
+		return isDataColumn ?  dataColumn : objColumn;
+	}
+
+	/**
+	 * 获取主键的值。
+	 * @param lst
+	 * @param objClass
+	 * @return
+	 * @throws Exception
+	 */
+	public static &amp;lt;T&amp;gt; Collection&amp;lt;Serializable&amp;gt; getKeysValues(List&amp;lt;T&amp;gt; lst, Class&amp;lt;T&amp;gt; objClass) throws Exception
+	{
+		Collection&amp;lt;Serializable&amp;gt; lstResult = new LinkedHashSet&amp;lt;Serializable&amp;gt;();
+		String objColumn = getKeyByClass(objClass, false);
+
+		for (T t : lst)
+		{
+			lstResult.add((Serializable)getter(t, objColumn));
+		}
+		return lstResult;
+	}
+
+	/**
+	 * 获取所有成员变量（包括继承的私有成员变量）
+	 * @param objClass
+	 * @return
+	 */
+	public static Field[] getFieldByClass(Class&amp;lt;?&amp;gt; objClass)
+	{
+		List&amp;lt;Field&amp;gt; lstField = new ArrayList&amp;lt;Field&amp;gt;();
+		Field[] tempField = null;
+		if (objClass == null || objClass.getDeclaredFields() == null || objClass.equals(Object.class))
+			return null;
+		if (objClass.getSuperclass() != null)
+		{
+			tempField = getFieldByClass(objClass.getSuperclass());
+			if (tempField != null)
+			{
+				for (Field f : tempField)
+				{
+					if (!f.getName().equals(&quot;serialVersionUID&quot;))
+						lstField.add(f);
+				}
+			}
+		}
+		tempField = objClass.getDeclaredFields();
+		if (tempField != null)
+		{
+			for (Field f : tempField)
+			{
+				if (!f.getName().equals(&quot;serialVersionUID&quot;))
+					lstField.add(f);
+			}
+		}
+		return lstField.toArray(new Field[0]);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;创建拼接接口基础实现类:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public abstract class Sql&amp;lt;T&amp;gt; implements BaseSql
+{
+	protected StringBuffer sql;
+	protected Class&amp;lt;?&amp;gt; objClass;
+	protected T obj;
+	protected List&amp;lt;Object&amp;gt; lstParam;
+	protected Field[] fields;
+	private String tableName;
+
+	public Sql(Class&amp;lt;?&amp;gt; objClass)
+	{
+		this.objClass = objClass;
+		//this.obj = obj;
+		fields = BaseEntity.getFieldByClass(objClass);
+	}
+
+	/**
+	 * 获取字段列表(插入使用)
+	 * @return
+	 */
+	public String getFields()
+	{
+		StringBuffer sqlField = new StringBuffer();
+		TableColumn column = null;
+		String key = null;
+
+		int count = 0;
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (!this.valdateTableColumnNullAndIncrement(column))
+				continue;
+			key = f.getName();
+			if (StringUtil.isNotEmpty(column.value()))
+				key = column.value();
+
+			if (count &amp;gt; 0)
+				sqlField.append(&quot;,&quot;);
+			sqlField.append(key);
+			count++;
+		}
+		return sqlField.toString();
+	}
+
+	/**
+	 * 获取字段参数位置。
+	 * @return
+	 */
+	public String getFieldsParamIndex()
+	{
+		int count = this.getFieldsCount();
+		StringBuffer sql = new StringBuffer();
+		for (int n = 0; n &amp;lt; count - 1; n++)
+			sql.append(&quot;?&quot;).append(&#39;,&#39;);
+		sql.append(&quot;?&quot;);
+		return sql.toString();
+	}
+
+	/**
+	 * 获取字段数量。（插入使用）
+	 * @return
+	 */
+	public int getFieldsCount()
+	{
+		int count = 0;
+
+		for (Field f : fields)
+		{
+			if (!this.valdateTableColumnNullAndIncrement(f.getAnnotation(TableColumn.class)))
+			{
+				continue;
+			}
+			count++;
+		}
+		return count;
+	}
+
+	/**
+	 * 获取表明
+	 * @return
+	 * @throws Exception
+	 */
+	public String getTableName() throws Exception
+	{
+		if (tableName != null &amp;amp;&amp;amp; !&quot;&quot;.equals(tableName))
+			return tableName;
+		Table table = (Table) objClass.getAnnotation(Table.class);
+		if (table == null || table.name().equals(&quot;&quot;))
+			throw new Exception(&quot;get table name error, annotation not exist&quot;);
+		tableName = table.name();
+		return tableName;
+	}
+
+	/**
+	 * 验证表字段 Annotation
+	 * @param column 
+	 * @return
+	 */
+	public boolean valdateTableColumnNullAndIncrement(TableColumn column)
+	{
+		if (column == null || column.increment() == true)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 验证参数默认值。
+	 * @param obj
+	 * @return
+	 */
+	public boolean valdateParamDefault(Object obj)
+	{
+		if (obj == null)
+			return false;
+		if (Integer.class.equals(obj.getClass()))
+		{
+			if ((Integer)obj == Constants.ENTITY_NULLITY_DEFAULT)
+				return false;
+		}
+		if (Long.class.equals(obj.getClass()))
+		{
+			if ((Long)obj == Constants.ENTITY_NULLITY_DEFAULT)
+				return false;
+		}
+		if (Float.class.equals(obj.getClass()))
+		{
+			if ((Float)obj == Constants.ENTITY_NULLITY_DEFAULT)
+				return false;
+		}
+		if (Double.class.equals(obj.getClass()))
+		{
+			if ((Double)obj == Constants.ENTITY_NULLITY_DEFAULT)
+				return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 获取查询参数
+	 * @return
+	 */
+	public List&amp;lt;Object&amp;gt; getSelectParam()
+	{
+		lstParam = new ArrayList&amp;lt;Object&amp;gt;();
+		Object value = null;
+
+		for (Field f : fields)
+		{
+			if (null == f.getAnnotation(TableColumn.class))
+				continue;
+			value = BaseEntity.getter(obj, f.getName());
+			if (!this.valdateParamDefault(value))
+				continue;
+			lstParam.add(value);
+		}
+		return lstParam;
+	}
+
+	/**
+	 * 获取插入参数
+	 * @return
+	 */
+	public List&amp;lt;Object&amp;gt; getInsertParam()
+	{
+		lstParam = new ArrayList&amp;lt;Object&amp;gt;();
+
+		for (Field f : fields)
+		{
+			if (!this.valdateTableColumnNullAndIncrement(f.getAnnotation(TableColumn.class)))
+				continue;
+			lstParam.add(BaseEntity.getter(obj, f.getName()));
+		}
+		return lstParam;
+	}
+
+	/**
+	 * 获取where主键条件
+	 * @return
+	 * @throws Exception
+	 */
+	public String getKeyWhere() throws Exception
+	{
+		StringBuffer sql = new StringBuffer();
+		TableColumn column = null;
+		String key = null;
+		Object value = null;
+		lstParam = new ArrayList&amp;lt;Object&amp;gt;();
+
+		sql.append(&quot; where &quot;);
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (column == null || !column.isKey())
+				continue;
+			key = f.getName();
+			if (StringUtil.isNotEmpty(column.value()))
+				key = column.value();
+
+			value = BaseEntity.getter(obj, f.getName());
+			if (!this.valdateParamDefault(value))
+				throw new Exception(&quot;key value is null&quot;);
+			lstParam.add(value);
+			sql.append(key).append(&quot; = &quot;).append(&quot;? &quot;);
+			break;
+		}
+		return sql.toString();
+	}
+
+	/**
+	 * 获取查询语句。
+	 * @return
+	 */
+	public String getSelectSql()
+	{
+		StringBuffer sql = new StringBuffer();
+		TableColumn column = null;
+		String key = null;
+
+		sql.append(&quot; where 1=1 &quot;);
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (column == null)
+			{
+				continue;
+			}
+			key = f.getName();
+			if (StringUtil.isNotEmpty(column.value()))
+				key = column.value();
+
+			if (!this.valdateParamDefault(BaseEntity.getter(obj, f.getName())))
+				continue;
+			sql.append(&quot; and &quot;).append(key).append(&quot; = ? &quot;);
+		}
+		return sql.toString();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;SelectBaseSql 为查询实体操作类&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class SelectBaseSql&amp;lt;T&amp;gt; extends Sql&amp;lt;T&amp;gt; implements BaseSql
+{
+	private String[] showColumns = null;
+
+	public SelectBaseSql(T obj)
+	{
+		super(obj.getClass());
+		super.obj = obj;
+	}
+	
+	public String getSql() throws Exception
+	{
+		sql = new StringBuffer();
+		sql.append(&quot; select &quot;).append(this.getShowColumns()).append(&quot; from &quot;)
+				.append(this.getTableName()).append(this.getSelectSql());
+		return sql.toString();
+	}
+
+	private String getShowColumns()
+	{
+		if (this.showColumns == null || this.showColumns.length == 0)
+			return &quot; * &quot;;
+		StringBuffer strColumns = new StringBuffer();
+
+		for (int n = 0; n &amp;lt; this.showColumns.length - 1; n++)
+			strColumns.append(this.showColumns[n]).append(&#39;,&#39;);
+		strColumns.append(this.showColumns[this.showColumns.length - 1]).append(&#39; &#39;);
+
+		return strColumns.toString();
+	}
+
+	public List&amp;lt;Object&amp;gt; getParam()
+	{
+		return super.getSelectParam();
+	}
+
+	public void setSql(CombineSql query)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	public String toString()
+	{
+		try
+		{
+			return this.getSql();
+		}
+		catch (Exception e)
+		{
+		}
+		return &quot;-----&quot;;
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;InsertBaseSql 为插入实体操作类&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class InsertBaseSql&amp;lt;T&amp;gt; extends Sql&amp;lt;T&amp;gt; implements BaseSql
+{
+	public InsertBaseSql(T obj)
+	{
+		super(obj.getClass()); // 初始化
+		super.obj = obj;
+	}
+
+	@Override
+	public String getSql() throws Exception
+	{
+		sql = new StringBuffer();
+		sql.append(&quot;insert into &quot;).append(super.getTableName())
+		.append(&quot; (&quot;).append(this.getFields()).append(&quot;) &quot;)
+		.append(&quot;values(&quot;).append(this.getFieldsParamIndex()).append(&quot;)&quot;);
+		return sql.toString();
+	}
+
+	@Override
+	public List&amp;lt;Object&amp;gt; getParam()
+	{
+		return super.getInsertParam();
+	}
+
+	@Override
+	public void setSql(CombineSql query)
+	{
+	}
+	
+	public String toString()
+	{
+		try
+		{
+			return this.getSql();
+		}
+		catch (Exception e)
+		{
+		}
+		return &quot;-----&quot;;
+	}
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;UpdateBaseSql 为更新操作实现类：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class UpdateBaseSql&amp;lt;T&amp;gt; extends Sql&amp;lt;T&amp;gt; implements BaseSql
+{
+
+	private List&amp;lt;Object&amp;gt; lstParam;
+
+	public UpdateBaseSql(T obj)
+	{
+		super(obj.getClass());
+		super.obj = obj;
+		lstParam = new ArrayList&amp;lt;Object&amp;gt;();
+	}
+
+	public String getSql() throws Exception
+	{
+		sql = new StringBuffer();
+		sql.append(&quot; update &quot;).append(this.getTableName()).append(&quot; &quot;)
+				.append(this.getUpdateSql());
+		sql.append(this.getKeyWhere());
+		return sql.toString();
+	}
+
+	public List&amp;lt;Object&amp;gt; getParam()
+	{
+		lstParam = this.getUpdateParam();
+		lstParam.add(this.getKeyParam());
+		return lstParam;
+	}
+
+	public void setSql(CombineSql query)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	public String toString()
+	{
+		try
+		{
+			return this.getSql();
+		}
+		catch (Exception e)
+		{
+		}
+		return &quot;-----&quot;;
+	}
+
+	public String getUpdateSql()
+	{
+		StringBuffer sql = new StringBuffer();
+		TableColumn column = null;
+		String key = null;
+		int count = 0;
+		Object value;
+
+		sql.append(&quot; set &quot;);
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (!this.valdateTableColumnNullAndIncrement(column) || column.isKey())
+				continue;
+			key = f.getName();
+			if (StringUtil.isNotEmpty(column.value()))
+				key = column.value();
+
+			value = BaseEntity.getter(obj, f.getName());
+			if (!this.valdateParamDefault(value))
+				continue;
+			if (count &amp;gt; 0)
+				sql.append(&quot;, &quot;);
+			sql.append(key).append(&quot; = ? &quot;);
+			count++;
+		}
+		return sql.toString();
+	}
+
+	public Object getKeyParam()
+	{
+		TableColumn column = null;
+		Object value = null;
+
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (!this.valdateTableColumnNullAndIncrement(column) || !column.isKey())
+				continue;
+			value = BaseEntity.getter(obj, f.getName());
+			break;
+		}
+		return value;
+	}
+
+	public List&amp;lt;Object&amp;gt; getUpdateParam()
+	{
+		lstParam = new ArrayList&amp;lt;Object&amp;gt;();
+		Object value = null;
+		TableColumn column = null;
+
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (!this.valdateTableColumnNullAndIncrement(f.getAnnotation(TableColumn.class))
+					|| column.isKey())
+				continue;
+			value = BaseEntity.getter(obj, f.getName());
+			if (!this.valdateParamDefault(value))
+				continue;
+			lstParam.add(value);
+		}
+		return lstParam;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;DeleteBaseSql 为删除操作实现类:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class DeleteBaseSql&amp;lt;T&amp;gt; extends Sql&amp;lt;T&amp;gt; implements BaseSql
+{
+	private Serializable id;
+	public DeleteBaseSql(Class&amp;lt;?&amp;gt; objClass, Serializable id)
+	{
+		super(objClass);
+		this.id = id;
+	}
+
+	public String getSql() throws Exception
+	{
+		sql = new StringBuffer();
+		sql.append(&quot;delete from &quot;).append(this.getTableName()).append(&quot; &quot;).append(this.getKeyWhere());
+
+		return sql.toString();
+	}
+
+	public List&amp;lt;Object&amp;gt; getParam()
+	{
+		if (this.lstParam == null)
+		{
+			try
+			{
+				this.getSql();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return this.lstParam;
+	}
+
+	public void setSql(CombineSql query)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getKeyWhere() throws Exception
+	{
+		StringBuffer sql = new StringBuffer();
+		TableColumn column = null;
+		String key = null;
+		Object value = null;
+		lstParam = new ArrayList&amp;lt;Object&amp;gt;();
+
+		sql.append(&quot; where &quot;);
+		for (Field f : fields)
+		{
+			column = f.getAnnotation(TableColumn.class);
+			if (!this.valdateTableColumnNullAndIncrement(column) || !column.isKey())
+				continue;
+			key = f.getName();
+			if (StringUtil.isNotEmpty(column.value()))
+				key = column.value();
+
+			value = id;
+			if (!this.valdateParamDefault(value))
+				throw new Exception(&quot;key value is null&quot;);
+			lstParam.add(value);
+			sql.append(key).append(&quot; = &quot;).append(&quot;? &quot;);
+			break;
+		}
+		return sql.toString();
+	}
+	
+	public String toString()
+	{
+		try
+		{
+			return this.getSql();
+		}
+		catch (Exception e)
+		{
+		}
+		return &quot;-----&quot;;
+	}
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Dao实现方法&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface BaseDao&amp;lt;T&amp;gt;{
+	public List&amp;lt;T&amp;gt; search(T obj);
+	public int add(T obj);
+	public int update(T obj);
+	public int delete(T obj);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;DaoImpl 实现&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class BaseDaoImpl&amp;lt;T&amp;gt; implements BaseDao&amp;lt;T&amp;gt;
+{
+	@Resource
+	private JdbcTemplate jdbcTemplate;
+	
+	//BaseSql 是组装sql 的基础接口
+	//BaseSqlUtils 是 BaseSql 工具类
+	//BaseEntity 转换实体类	
+
+	public List&amp;lt;T&amp;gt; search(T obj) throws Exception
+	{
+		BaseSql comSql = BaseSqlUtils.createSelect(obj);
+		return (List&amp;lt;T&amp;gt;) BaseEntity.mapToObjs(this.querySqlByBaseSql(comSql), obj.getClass());
+	}
+	
+	public int add(T obj) throws Exception
+	{
+		BaseSql comSql = BaseSqlUtils.createInster(obj);
+		return this.updateSqlByBaseSql(comSql);
+	}
+
+	public int update(T obj) throws Exception
+	{
+		BaseSql comSql = BaseSqlUtils.createUpdate(obj);
+		return this.updateSqlByBaseSql(comSql);
+	}
+
+	public int delete(Class&amp;lt;T&amp;gt; objClass, Serializable id) throws Exception
+	{
+		BaseSql comSql = BaseSqlUtils.createDelete(objClass, id);
+		return this.updateSqlByBaseSql(comSql);
+	}
+
+	protected List&amp;lt;Map&amp;lt;String, Object&amp;gt;&amp;gt; querySqlByBaseSql(BaseSql sql) throws Exception
+	{
+		if (sql.getParam() == null || sql.getParam().isEmpty())
+			return jdbcTemplate.queryForList(sql.getSql());
+		return jdbcTemplate.queryForList(sql.getSql(),sql.getParam().toArray(new Object[0]));
+		
+	}
+
+	protected int updateSqlByBaseSql(BaseSql sql) throws Exception
+	{
+		if (sql.getParam() == null || sql.getParam().isEmpty())
+			return jdbcTemplate.update(sql.getSql());
+		return jdbcTemplate.update(sql.getSql(), sql.getParam().toArray(new Object[0]));
+	}
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 14 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/14/spring_five_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/14/spring_five_introduction/</guid>
+        
+        <category>Spring</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Spring回顾 (四)</title>
+        <description>&lt;h2 id=&quot;spring-&quot;&gt;Spring 事务属性分析&lt;/h2&gt;
+
+&lt;p&gt;事务管理对于企业应用而言至关重要。它保证了用户的每一次操作都是可靠的，即便出现了异常的访问情况，也不至于破坏后台数据的完整性。就像银行的自助取款机，通常都能正常为客户服务，但是也难免遇到操作过程中机器突然出故障的情况，此时，事务就必须确保出故障前对账户的操作不生效，就像用户刚才完全没有使用过取款机一样，以保证用户和银行的利益都不受损失。&lt;/p&gt;
+
+&lt;p&gt;在 &lt;code class=&quot;highlighter-rouge&quot;&gt;Spring&lt;/code&gt; 中，事务是通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;TransactionDefinition&lt;/code&gt; 接口来定义的。该接口包含与事务属性有关的方法。具体如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface TransactionDefinition{
+
+int getIsolationLevel();
+
+int getPropagationBehavior();
+
+int getTimeout();
+
+boolean isReadOnly();
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;也许你会奇怪，为什么接口只提供了获取属性的方法，而没有提供相关设置属性的方法。其实道理很简单，事务属性的设置完全是程序员控制的，因此程序员可以自定义任何设置属性的方法，而且保存属性的字段也没有任何要求。唯一的要求的是，Spring 进行事务操作的时候，通过调用以上接口提供的方法必须能够返回事务相关的属性取值。&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;事务隔离级别&lt;/h3&gt;
+
+&lt;p&gt;隔离级别是指若干个并发的事务之间的隔离程度。&lt;code class=&quot;highlighter-rouge&quot;&gt;TransactionDefinition&lt;/code&gt; 接口中定义了五个表示隔离级别的常量：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.ISOLATION_DEFAULT：这是默认值，表示使用底层数据库的默认隔离级别。对大部分数据库而言，通常这值就是TransactionDefinition.ISOLATION_READ_COMMITTED。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.ISOLATION_READ_UNCOMMITTED：该隔离级别表示一个事务可以读取另一个事务修改但还没有提交的数据。该级别不能防止脏读和不可重复读，因此很少使用该隔离级别。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.ISOLATION_READ_COMMITTED：该隔离级别表示一个事务只能读取另一个事务已经提交的数据。该级别可以防止脏读，这也是大多数情况下的推荐值。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.ISOLATION_REPEATABLE_READ：该隔离级别表示一个事务在整个过程中可以多次重复执行某个查询，并且每次返回的记录都相同。即使在多次查询之间有新增的数据满足该查询，这些新增的记录也会被忽略。该级别可以防止脏读和不可重复读。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.ISOLATION_SERIALIZABLE：所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;事务传播行为&lt;/h3&gt;
+
+&lt;p&gt;所谓事务的传播行为是指，如果在开始当前事务之前，一个事务上下文已经存在，此时有若干选项可以指定一个事务性方法的执行行为。在TransactionDefinition定义中包括了如下几个表示传播行为的常量：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.PROPAGATION_REQUIRED：如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.PROPAGATION_REQUIRES_NEW：创建一个新的事务，如果当前存在事务，则把当前事务挂起。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.PROPAGATION_SUPPORTS：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.PROPAGATION_NOT_SUPPORTED：以非事务方式运行，如果当前存在事务，则把当前事务挂起。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.PROPAGATION_NEVER：以非事务方式运行，如果当前存在事务，则抛出异常。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.PROPAGATION_MANDATORY：如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;TransactionDefinition.PROPAGATION_NESTED：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里需要指出的是，前面的六种事务传播行为是 Spring 从 EJB 中引入的，他们共享相同的概念。而 PROPAGATION_NESTED是 Spring 所特有的。以 PROPAGATION_NESTED 启动的事务内嵌于外部事务中（如果存在外部事务的话），此时，内嵌事务并不是一个独立的事务，它依赖于外部事务的存在，只有通过外部的事务提交，才能引起内部事务的提交，嵌套的子事务不能单独提交。如果熟悉 JDBC 中的保存点（SavePoint）的概念，那嵌套事务就很容易理解了，其实嵌套的子事务就是保存点的一个应用，一个事务中可以包括多个保存点，每一个嵌套子事务。另外，外部事务的回滚也会导致嵌套子事务的回滚。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;事务超时&lt;/h3&gt;
+
+&lt;p&gt;所谓事务超时，就是指一个事务所允许执行的最长时间，如果超过该时间限制但事务还没有完成，则自动回滚事务。在 TransactionDefinition 中以 int 的值来表示超时时间，其单位是秒。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;事务的只读属性&lt;/h3&gt;
+
+&lt;p&gt;事务的只读属性是指，对事务性资源进行只读操作或者是读写操作。所谓事务性资源就是指那些被事务管理的资源，比如数据源、 JMS 资源，以及自定义的事务性资源等等。如果确定只对事务性资源进行只读操作，那么我们可以将事务标志为只读的，以提高事务处理的性能。在 TransactionDefinition 中以 boolean 类型来表示该事务是否只读。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;事务的回滚规则&lt;/h3&gt;
+
+&lt;p&gt;通常情况下，如果在事务中抛出了未检查异常（继承自 RuntimeException 的异常），则默认将回滚事务。如果没有抛出任何异常，或者抛出了已检查异常，则仍然提交事务。这通常也是大多数开发者希望的处理方式，也是 EJB 中的默认处理方式。但是，我们可以根据需要人为控制事务在抛出某些未检查异常时任然提交事务，或者在抛出某些已检查异常时回滚事务。&lt;/p&gt;
+
+&lt;h2 id=&quot;spring--api-&quot;&gt;Spring 事务管理 API 分析&lt;/h2&gt;
+
+&lt;p&gt;Spring 框架中，涉及到事务管理的 API 大约有100个左右，其中最重要的有三个：TransactionDefinition、PlatformTransactionManager、TransactionStatus。所谓事务管理，其实就是“按照给定的事务规则来执行提交或者回滚操作”。“给定的事务规则”就是用 TransactionDefinition 表示的，“按照……来执行提交或者回滚操作”便是用 PlatformTransactionManager 来表示，而 TransactionStatus 用于表示一个运行着的事务的状态。打一个不恰当的比喻，TransactionDefinition 与 TransactionStatus 的关系就像程序和进程的关系。&lt;/p&gt;
+
+&lt;h3 id=&quot;transactiondef&quot;&gt;TransactionDef…&lt;/h3&gt;
+
+&lt;p&gt;该接口在前面已经介绍过，它用于定义一个事务。它包含了事务的静态属性，比如：事务传播行为、超时时间等等。Spring 为我们提供了一个默认的实现类：DefaultTransactionDefinition，该类适用于大多数情况。如果该类不能满足需求，可以通过实现 TransactionDefinition 接口来实现自己的事务定义。&lt;/p&gt;
+
+&lt;h3 id=&quot;platformtrans&quot;&gt;PlatformTrans…&lt;/h3&gt;
+
+&lt;p&gt;PlatformTransactionManager 用于执行具体的事务操作。接口定义如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Public interface PlatformTransactionManager{
+
+TransactionStatus getTransaction(TransactionDefinition definition)
+
+throws TransactionException;
+
+void commit(TransactionStatus status)throws TransactionException;
+
+void rollback(TransactionStatus status)throws TransactionException;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;根据底层所使用的不同的持久化 API 或框架，PlatformTransactionManager 的主要实现类大致如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;ataSourceTransactionManager：适用于使用JDBC和iBatis进行数据持久化操作的情况。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;HibernateTransactionManager：适用于使用Hibernate进行数据持久化操作的情况。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;JpaTransactionManager：适用于使用JPA进行数据持久化操作的情况。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;另外还有JtaTransactionManager 、JdoTransactionManager、JmsTransactionManager等等。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果我们使用JTA进行事务管理，我们可以通过 JNDI 和 Spring 的 JtaTransactionManager 来获取一个容器管理的 DataSource。JtaTransactionManager 不需要知道 DataSource 和其他特定的资源，因为它将使用容器提供的全局事务管理。而对于其他事务管理器，比如DataSourceTransactionManager，在定义时需要提供底层的数据源作为其属性，也就是 DataSource。与 HibernateTransactionManager 对应的是 SessionFactory，与 JpaTransactionManager 对应的是 EntityManagerFactory 等等。&lt;/p&gt;
+
+&lt;h3 id=&quot;transactionstatus&quot;&gt;TransactionStatus&lt;/h3&gt;
+
+&lt;p&gt;PlatformTransactionManager.getTransaction(…) 方法返回一个 TransactionStatus 对象。返回的TransactionStatus 对象可能代表一个新的或已经存在的事务（如果在当前调用堆栈有一个符合条件的事务）。TransactionStatus 接口提供了一个简单的控制事务执行和查询事务状态的方法。该接口定义如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public  interface TransactionStatus{
+
+boolean isNewTransaction();
+
+void setRollbackOnly();
+
+boolean isRollbackOnly();
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;编程式事务管理&lt;/h2&gt;
+
+&lt;h3 id=&quot;spring--1&quot;&gt;Spring 的编程式事务管理概述&lt;/h3&gt;
+
+&lt;p&gt;在 Spring 出现以前，编程式事务管理对基于 POJO 的应用来说是唯一选择。用过 Hibernate 的人都知道，我们需要在代码中显式调用beginTransaction()、commit()、rollback()等事务管理相关的方法，这就是编程式事务管理。通过 Spring 提供的事务管理 API，我们可以在代码中灵活控制事务的执行。在底层，Spring 仍然将事务操作委托给底层的持久化框架来执行。&lt;/p&gt;
+
+&lt;h3 id=&quot;api-&quot;&gt;基于底层 API 的编程式事务管理&lt;/h3&gt;
+
+&lt;p&gt;根据PlatformTransactionManager、TransactionDefinition 和 TransactionStatus 三个核心接口，我们完全可以通过编程的方式来进行事务管理。示例代码如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class BankServiceImpl implements BankService {
+private BankDao bankDao;
+private TransactionDefinition txDefinition;
+private PlatformTransactionManager txManager;
+......
+public boolean transfer(Long fromId， Long toId， double amount) {
+TransactionStatus txStatus = txManager.getTransaction(txDefinition);
+boolean result = false;
+try {
+result = bankDao.transfer(fromId， toId， amount);
+txManager.commit(txStatus);
+} catch (Exception e) {
+result = false;
+txManager.rollback(txStatus);
+System.out.println(&quot;Transfer Error!&quot;);
+}
+return result;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;相应的配置文件如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;bankService&quot; class=&quot;footmark.spring.core.tx.programmatic.origin.BankServiceImpl&quot;&amp;gt;
+&amp;lt;property name=&quot;bankDao&quot; ref=&quot;bankDao&quot;/&amp;gt;
+&amp;lt;property name=&quot;txManager&quot; ref=&quot;transactionManager&quot;/&amp;gt;
+&amp;lt;property name=&quot;txDefinition&quot;&amp;gt;
+&amp;lt;bean class=&quot;org.springframework.transaction.support.DefaultTransactionDefinition&quot;&amp;gt;
+&amp;lt;property name=&quot;propagationBehaviorName&quot; value=&quot;PROPAGATION_REQUIRED&quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如上所示，我们在类中增加了两个属性：一个是 TransactionDefinition 类型的属性，它用于定义一个事务；另一个是 PlatformTransactionManager 类型的属性，用于执行事务管理操作。&lt;/p&gt;
+
+&lt;p&gt;如果方法需要实施事务管理，我们首先需要在方法开始执行前启动一个事务，调用PlatformTransactionManager.getTransaction(…) 方法便可启动一个事务。创建并启动了事务之后，便可以开始编写业务逻辑代码，然后在适当的地方执行事务的提交或者回滚。&lt;/p&gt;
+
+&lt;h3 id=&quot;transactiontemplate-&quot;&gt;基于 TransactionTemplate 的编程式事务管理&lt;/h3&gt;
+
+&lt;p&gt;通过前面的示例可以发现，这种事务管理方式很容易理解，但令人头疼的是，事务管理的代码散落在业务逻辑代码中，破坏了原有代码的条理性，并且每一个业务方法都包含了类似的启动事务、提交/回滚事务的样板代码。幸好，Spring 也意识到了这些，并提供了简化的方法，这就是 Spring 在数据访问层非常常见的模板回调模式。如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class BankServiceImpl implements BankService {
+private BankDao bankDao;
+private TransactionTemplate transactionTemplate;
+......
+public boolean transfer(final Long fromId， final Long toId， final double amount) {
+return (Boolean) transactionTemplate.execute(new TransactionCallback(){
+public Object doInTransaction(TransactionStatus status) {
+Object result;
+try {
+result = bankDao.transfer(fromId， toId， amount);
+} catch (Exception e) {
+status.setRollbackOnly();
+result = false;
+System.out.println(&quot;Transfer Error!&quot;);
+}
+return result;
+}
+});
+}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;相应的XML配置如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;bankService&quot;
+class=&quot;footmark.spring.core.tx.programmatic.template.BankServiceImpl&quot;&amp;gt;
+&amp;lt;property name=&quot;bankDao&quot; ref=&quot;bankDao&quot;/&amp;gt;
+&amp;lt;property name=&quot;transactionTemplate&quot; ref=&quot;transactionTemplate&quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;TransactionTemplate 的 execute() 方法有一个 TransactionCallback 类型的参数，该接口中定义了一个 doInTransaction() 方法，通常我们以匿名内部类的方式实现 TransactionCallback 接口，并在其 doInTransaction() 方法中书写业务逻辑代码。这里可以使用默认的事务提交和回滚规则，这样在业务代码中就不需要显式调用任何事务管理的 API。doInTransaction() 方法有一个TransactionStatus 类型的参数，我们可以在方法的任何位置调用该参数的 setRollbackOnly() 方法将事务标识为回滚的，以执行事务回滚。&lt;/p&gt;
+
+&lt;p&gt;根据默认规则，如果在执行回调方法的过程中抛出了未检查异常，或者显式调用了TransacationStatus.setRollbackOnly() 方法，则回滚事务；如果事务执行完成或者抛出了 checked 类型的异常，则提交事务。&lt;/p&gt;
+
+&lt;p&gt;TransactionCallback 接口有一个子接口 TransactionCallbackWithoutResult，该接口中定义了一个 doInTransactionWithoutResult() 方法，TransactionCallbackWithoutResult 接口主要用于事务过程中不需要返回值的情况。当然，对于不需要返回值的情况，我们仍然可以使用 TransactionCallback 接口，并在方法中返回任意值即可。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;声明式事务管理&lt;/h2&gt;
+
+&lt;h3 id=&quot;spring--2&quot;&gt;Spring 的声明式事务管理概述&lt;/h3&gt;
+
+&lt;p&gt;Spring 的声明式事务管理在底层是建立在 AOP 的基础之上的。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或者加入一个事务，在执行完目标方法之后根据执行情况提交或者回滚事务。&lt;/p&gt;
+
+&lt;p&gt;声明式事务最大的优点就是不需要通过编程的方式管理事务，这样就不需要在业务逻辑代码中掺杂事务管理的代码，只需在配置文件中做相关的事务规则声明（或通过等价的基于标注的方式），便可以将事务规则应用到业务逻辑中。因为事务管理本身就是一个典型的横切逻辑，正是 AOP 的用武之地。Spring 开发团队也意识到了这一点，为声明式事务提供了简单而强大的支持。&lt;/p&gt;
+
+&lt;p&gt;声明式事务管理曾经是 EJB 引以为傲的一个亮点，如今 Spring 让 POJO 在事务管理方面也拥有了和 EJB 一样的待遇，让开发人员在 EJB 容器之外也用上了强大的声明式事务管理功能，这主要得益于 Spring 依赖注入容器和 Spring AOP 的支持。依赖注入容器为声明式事务管理提供了基础设施，使得 Bean 对于 Spring 框架而言是可管理的；而 Spring AOP 则是声明式事务管理的直接实现者，这一点通过清单8可以看出来。&lt;/p&gt;
+
+&lt;p&gt;通常情况下，笔者强烈建议在开发中使用声明式事务，不仅因为其简单，更主要是因为这样使得纯业务代码不被污染，极大方便后期的代码维护。&lt;/p&gt;
+
+&lt;p&gt;和编程式事务相比，声明式事务唯一不足地方是，后者的最细粒度只能作用到方法级别，无法做到像编程式事务那样可以作用到代码块级别。但是即便有这样的需求，也存在很多变通的方法，比如，可以将需要进行事务管理的代码块独立为方法等等。&lt;/p&gt;
+
+&lt;p&gt;下面就来看看 Spring 为我们提供的声明式事务管理功能。&lt;/p&gt;
+
+&lt;h3 id=&quot;transactioninter-&quot;&gt;基于 TransactionInter… 的声明式事务管理&lt;/h3&gt;
+
+&lt;p&gt;最初，Spring 提供了 TransactionInterceptor 类来实施声明式事务管理功能。先看看配置文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;beans...&amp;gt;
+......
+&amp;lt;bean id=&quot;transactionInterceptor&quot;
+class=&quot;org.springframework.transaction.interceptor.TransactionInterceptor&quot;&amp;gt;
+&amp;lt;property name=&quot;transactionManager&quot; ref=&quot;transactionManager&quot;/&amp;gt;
+&amp;lt;property name=&quot;transactionAttributes&quot;&amp;gt;
+&amp;lt;props&amp;gt;
+&amp;lt;prop key=&quot;transfer&quot;&amp;gt;PROPAGATION_REQUIRED&amp;lt;/prop&amp;gt;
+&amp;lt;/props&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;bean id=&quot;bankServiceTarget&quot;
+class=&quot;footmark.spring.core.tx.declare.origin.BankServiceImpl&quot;&amp;gt;
+&amp;lt;property name=&quot;bankDao&quot; ref=&quot;bankDao&quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;bean id=&quot;bankService&quot;
+class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;&amp;gt;
+&amp;lt;property name=&quot;target&quot; ref=&quot;bankServiceTarget&quot;/&amp;gt;
+&amp;lt;property name=&quot;interceptorNames&quot;&amp;gt;
+&amp;lt;list&amp;gt;
+&amp;lt;idref bean=&quot;transactionInterceptor&quot;/&amp;gt;
+&amp;lt;/list&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;/bean&amp;gt;
+......
+&amp;lt;/beans&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;首先，我们配置了一个 TransactionInterceptor 来定义相关的事务规则，他有两个主要的属性：一个是 transactionManager，用来指定一个事务管理器，并将具体事务相关的操作委托给它；另一个是 Properties 类型的 transactionAttributes 属性，它主要用来定义事务规则，该属性的每一个键值对中，键指定的是方法名，方法名可以使用通配符，而值就表示相应方法的所应用的事务属性。&lt;/p&gt;
+
+&lt;p&gt;指定事务属性的取值有较复杂的规则，这在 Spring 中算得上是一件让人头疼的事。具体的书写规则如下：&lt;/p&gt;
+
+&lt;p&gt;传播行为
+-  [隔离级别]
+-  [只读属性]
+-  [超时属性] 
+-  [不影响提交的异常]
+-  [导致回滚的异常]&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;传播行为是唯一必须设置的属性，其他都可以忽略，Spring为我们提供了合理的默认值。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;传播行为的取值必须以“PROPAGATION_”开头，具体包括：PROPAGATION_MANDATORY、PROPAGATION_NESTED、PROPAGATION_NEVER、PROPAGATION_NOT_SUPPORTED、PROPAGATION_REQUIRED、PROPAGATION_REQUIRES_NEW、PROPAGATION_SUPPORTS，共七种取值。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;隔离级别的取值必须以“ISOLATION_”开头，具体包括：ISOLATION_DEFAULT、ISOLATION_READ_COMMITTED、ISOLATION_READ_UNCOMMITTED、ISOLATION_REPEATABLE_READ、ISOLATION_SERIALIZABLE，共五种取值。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果事务是只读的，那么我们可以指定只读属性，使用“readOnly”指定。否则我们不需要设置该属性。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;超时属性的取值必须以“TIMEOUT_”开头，后面跟一个int类型的值，表示超时时间，单位是秒。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;不影响提交的异常是指，即使事务中抛出了这些类型的异常，事务任然正常提交。必须在每一个异常的名字前面加上“+”。异常的名字可以是类名的一部分。比如“+RuntimeException”、“+tion”等等。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;导致回滚的异常是指，当事务中抛出这些类型的异常时，事务将回滚。必须在每一个异常的名字前面加上“-”。异常的名字可以是类名的全部或者部分，比如“-RuntimeException”、“-tion”等等。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以下是两个示例：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;property name=&quot;*Service&quot;&amp;gt;
+PROPAGATION_REQUIRED，ISOLATION_READ_COMMITTED，TIMEOUT_20，
++AbcException，+DefException，-HijException
+&amp;lt;/property&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以上表达式表示，针对所有方法名以 Service 结尾的方法，使用 PROPAGATION_REQUIRED 事务传播行为，事务的隔离级别是 ISOLATION_READ_COMMITTED，超时时间为20秒，当事务抛出 AbcException 或者 DefException 类型的异常，则仍然提交，当抛出 HijException 类型的异常时必须回滚事务。这里没有指定”readOnly”，表示事务不是只读的。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;property name=&quot;test&quot;&amp;gt;PROPAGATION_REQUIRED，readOnly&amp;lt;/property&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以上表达式表示，针对所有方法名为 test 的方法，使用 PROPAGATION_REQUIRED 事务传播行为，并且该事务是只读的。除此之外，其他的属性均使用默认值。比如，隔离级别和超时时间使用底层事务性资源的默认值，并且当发生未检查异常，则回滚事务，发生已检查异常则仍提交事务。&lt;/p&gt;
+
+&lt;p&gt;配置好了 TransactionInterceptor，我们还需要配置一个 ProxyFactoryBean 来组装 target 和advice。这也是典型的 Spring AOP 的做法。通过 ProxyFactoryBean 生成的代理类就是织入了事务管理逻辑后的目标类。至此，声明式事务管理就算是实现了。我们没有对业务代码进行任何操作，所有设置均在配置文件中完成，这就是声明式事务的最大优点。&lt;/p&gt;
+
+&lt;h3 id=&quot;transactionproxy-&quot;&gt;基于 TransactionProxy… 的声明式事务管理&lt;/h3&gt;
+
+&lt;p&gt;前面的声明式事务虽然好，但是却存在一个非常恼人的问题：配置文件太多。我们必须针对每一个目标对象配置一个 ProxyFactoryBean；另外，虽然可以通过父子 Bean 的方式来复用 TransactionInterceptor 的配置，但是实际的复用几率也不高；这样，加上目标对象本身，每一个业务类可能需要对应三个 &lt;bean&gt;&lt;/bean&gt; 配置，随着业务类的增多，配置文件将会变得越来越庞大，管理配置文件又成了问题。&lt;/p&gt;
+
+&lt;p&gt;为了缓解这个问题，Spring 为我们提供了 TransactionProxyFactoryBean，用于将TransactionInterceptor 和 ProxyFactoryBean 的配置合二为一。如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;beans......&amp;gt;
+......
+&amp;lt;bean id=&quot;bankServiceTarget&quot;
+class=&quot;footmark.spring.core.tx.declare.classic.BankServiceImpl&quot;&amp;gt;
+&amp;lt;property name=&quot;bankDao&quot; ref=&quot;bankDao&quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;bean id=&quot;bankService&quot;
+class=&quot;org.springframework.transaction.interceptor.TransactionProxyFactoryBean&quot;&amp;gt;
+&amp;lt;property name=&quot;target&quot; ref=&quot;bankServiceTarget&quot;/&amp;gt;
+&amp;lt;property name=&quot;transactionManager&quot; ref=&quot;transactionManager&quot;/&amp;gt;
+&amp;lt;property name=&quot;transactionAttributes&quot;&amp;gt;
+&amp;lt;props&amp;gt;
+&amp;lt;prop key=&quot;transfer&quot;&amp;gt;PROPAGATION_REQUIRED&amp;lt;/prop&amp;gt;
+&amp;lt;/props&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;/bean&amp;gt;
+......
+&amp;lt;/beans&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如此一来，配置文件与先前相比简化了很多。我们把这种配置方式称为 Spring 经典的声明式事务管理。相信在早期使用 Spring 的开发人员对这种配置声明式事务的方式一定非常熟悉。&lt;/p&gt;
+
+&lt;p&gt;但是，显式为每一个业务类配置一个 TransactionProxyFactoryBean 的做法将使得代码显得过于刻板，为此我们可以使用自动创建代理的方式来将其简化，使用自动创建代理是纯 AOP 知识，请读者参考相关文档，不在此赘述。&lt;/p&gt;
+
+&lt;h3 id=&quot;tx-&quot;&gt;基于 &lt;tx&gt; 命名空间的声明式事务管理&lt;/tx&gt;&lt;/h3&gt;
+
+&lt;p&gt;前面两种声明式事务配置方式奠定了 Spring 声明式事务管理的基石。在此基础上，Spring 2.x 引入了 &lt;tx&gt; 命名空间，结合使用 &lt;aop&gt; 命名空间，带给开发人员配置声明式事务的全新体验，配置变得更加简单和灵活。另外，得益于 &lt;aop&gt; 命名空间的切点表达式支持，声明式事务也变得更加强大。&lt;/aop&gt;&lt;/aop&gt;&lt;/tx&gt;&lt;/p&gt;
+
+&lt;p&gt;如:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;beans......&amp;gt;
+......
+&amp;lt;bean id=&quot;bankService&quot;
+class=&quot;footmark.spring.core.tx.declare.namespace.BankServiceImpl&quot;&amp;gt;
+&amp;lt;property name=&quot;bankDao&quot; ref=&quot;bankDao&quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;tx:advice id=&quot;bankAdvice&quot; transaction-manager=&quot;transactionManager&quot;&amp;gt;
+&amp;lt;tx:attributes&amp;gt;
+&amp;lt;tx:method name=&quot;transfer&quot; propagation=&quot;REQUIRED&quot;/&amp;gt;
+&amp;lt;/tx:attributes&amp;gt;
+&amp;lt;/tx:advice&amp;gt;
+ 
+&amp;lt;aop:config&amp;gt;
+&amp;lt;aop:pointcut id=&quot;bankPointcut&quot; expression=&quot;execution(* *.transfer(..))&quot;/&amp;gt;
+&amp;lt;aop:advisor advice-ref=&quot;bankAdvice&quot; pointcut-ref=&quot;bankPointcut&quot;/&amp;gt;
+&amp;lt;/aop:config&amp;gt;
+......
+&amp;lt;/beans&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如果默认的事务属性就能满足要求，那么代码简化为如:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;beans......&amp;gt;
+......
+&amp;lt;bean id=&quot;bankService&quot;
+class=&quot;footmark.spring.core.tx.declare.namespace.BankServiceImpl&quot;&amp;gt;
+&amp;lt;property name=&quot;bankDao&quot; ref=&quot;bankDao&quot;/&amp;gt;
+&amp;lt;/bean&amp;gt;
+&amp;lt;tx:advice id=&quot;bankAdvice&quot; transaction-manager=&quot;transactionManager&quot;&amp;gt;
+&amp;lt;aop:config&amp;gt;
+&amp;lt;aop:pointcut id=&quot;bankPointcut&quot; expression=&quot;execution(**.transfer(..))&quot;/&amp;gt;
+&amp;lt;aop:advisor advice-ref=&quot;bankAdvice&quot; pointcut-ref=&quot;bankPointcut&quot;/&amp;gt;
+&amp;lt;/aop:config&amp;gt;
+......
+&amp;lt;/beans&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;由于使用了切点表达式，我们就不需要针对每一个业务类创建一个代理对象了。另外，如果配置的事务管理器 Bean 的名字取值为“transactionManager”，则我们可以省略 &lt;tx:advice&gt; 的 transaction-manager 属性，因为该属性的默认值即为“transactionManager”。&lt;/tx:advice&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;transactional-&quot;&gt;基于 @Transactional 的声明式事务管理&lt;/h3&gt;
+
+&lt;p&gt;除了基于命名空间的事务配置方式，Spring 2.x 还引入了基于 Annotation 的方式，具体主要涉及@Transactional 标注。@Transactional 可以作用于接口、接口方法、类以及类方法上。当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。如:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Transactional(propagation = Propagation.REQUIRED)
+public boolean transfer(Long fromId， Long toId， double amount) {
+return bankDao.transfer(fromId， toId， amount);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Spring 使用 BeanPostProcessor 来处理 Bean 中的标注，因此我们需要在配置文件中作如下声明来激活该后处理 Bean，如:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;tx:annotation-driven transaction-manager=&quot;transactionManager&quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;与前面相似，transaction-manager 属性的默认值是 transactionManager，如果事务管理器 Bean 的名字即为该值，则可以省略该属性。&lt;/p&gt;
+
+&lt;p&gt;虽然 @Transactional 注解可以作用于接口、接口方法、类以及类方法上，但是 Spring 小组建议不要在接口或者接口方法上使用该注解，因为这只有在使用基于接口的代理时它才会生效。另外， @Transactional 注解应该只被应用到 public 方法上，这是由 Spring AOP 的本质决定的。如果你在 protected、private 或者默认可见性的方法上使用 @Transactional 注解，这将被忽略，也不会抛出任何异常。&lt;/p&gt;
+
+&lt;p&gt;基于 &lt;tx&gt; 命名空间和基于 @Transactional 的事务声明方式各有优缺点。基于 &lt;tx&gt; 的方式，其优点是与切点表达式结合，功能强大。利用切点表达式，一个配置可以匹配多个方法，而基于 @Transactional 的方式必须在每一个需要使用事务的方法或者类上用 @Transactional 标注，尽管可能大多数事务的规则是一致的，但是对 @Transactional 而言，也无法重用，必须逐个指定。另一方面，基于 @Transactional 的方式使用起来非常简单明了，没有学习成本。开发人员可以根据需要，任选其中一种使用，甚至也可以根据需要混合使用这两种方式。&lt;/tx&gt;&lt;/tx&gt;&lt;/p&gt;
+
+&lt;p&gt;如果不是对遗留代码进行维护，则不建议再使用基于 TransactionInterceptor 以及基于TransactionProxyFactoryBean 的声明式事务管理方式，但是，学习这两种方式非常有利于对底层实现的理解。&lt;/p&gt;
+
+&lt;p&gt;虽然上面共列举了四种声明式事务管理方式，但是这样的划分只是为了便于理解，其实后台的实现方式是一样的，只是用户使用的方式不同而已。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-7&quot;&gt;结束语&lt;/h2&gt;
+
+&lt;p&gt;知识点大致总结如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于 TransactionDefinition、PlatformTransactionManager、TransactionStatus 编程式事务管理是 Spring 提供的最原始的方式，通常我们不会这么写，但是了解这种方式对理解 Spring 事务管理的本质有很大作用。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于 TransactionTemplate 的编程式事务管理是对上一种方式的封装，使得编码更简单、清晰。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于 TransactionInterceptor 的声明式事务是 Spring 声明式事务的基础，通常也不建议使用这种方式，但是与前面一样，了解这种方式对理解 Spring 声明式事务有很大作用。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于 TransactionProxyFactoryBean 的声明式事务是上中方式的改进版本，简化的配置文件的书写，这是 Spring 早期推荐的声明式事务管理方式，但是在 Spring 2.0 中已经不推荐了。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于 &lt;tx&gt; 和 &lt;aop&gt; 命名空间的声明式事务管理是目前推荐的方式，其最大特点是与 Spring AOP 结合紧密，可以充分利用切点表达式的强大支持，使得管理事务更加灵活。&lt;/aop&gt;&lt;/tx&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;基于 @Transactional 的方式将声明式事务管理简化到了极致。开发人员只需在配置文件中加上一行启用相关后处理 Bean 的配置，然后在需要实施事务管理的方法或者类上使用 @Transactional 指定事务规则即可实现事务管理，而且功能也不必其他方式逊色。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 13 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/13/spring_four_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/13/spring_four_introduction/</guid>
+        
+        <category>Spring</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Spring回顾 (三)</title>
+        <description>&lt;h2 id=&quot;section&quot;&gt;一概述&lt;/h2&gt;
+
+&lt;p&gt;BeanFactory 与 FactoryBean的区别， 两个名字很像，面试中也经常遇到，所以容易搞混，现从源码以及示例两方面来分析。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;二、源码&lt;/h2&gt;
+
+&lt;h3 id=&quot;beanfactory&quot;&gt;BeanFactory&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BeanFactory&lt;/code&gt; 定义了 IOC 容器的最基本形式，并提供了 IOC 容器应遵守的的最基本的接口，也就是 Spring IOC 所遵守的最底层和最基本的编程规范。&lt;/p&gt;
+
+&lt;p&gt;BeanFactory仅是个接口，并不是IOC容器的具体实现，具体的实现有：如 DefaultListableBeanFactory 、 XmlBeanFactory 、 ApplicationContext 等。&lt;/p&gt;
+
+&lt;p&gt;在 IOC 的说明有指出。&lt;a href=&quot;https://davidwangtm.github.io/2016/11/10/spring_one_introduction/&quot;&gt;https://davidwangtm.github.io/2016/11/10/spring_one_introduction/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;factorybean&quot;&gt;FactoryBean&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FactoryBean&lt;/code&gt;工厂类接口，用户可以通过实现该接口定制实例化 Bean 的逻辑。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public  interface FactoryBean&amp;lt;T&amp;gt; { 
+	//FactoryBean 创建的 Bean 实例  
+	T getObject() throws Exception; 
+	//返回 FactoryBean 创建的 Bean 类型 
+	Class&amp;lt;?&amp;gt; getObjectType(); 
+	//返回由 FactoryBean 创建的 Bean 实例的作用域是 singleton 还是 prototype  
+	boolean isSingleton(); 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;三、示例&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Message{
+	private String msg;
+	
+	public Message(String msg){
+		this.msg = msg;
+	}
+
+	public void send(){
+		System.out.println(msg);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class MessageBean implements  FactoryBean&amp;lt;Message&amp;gt;{
+	
+	public Message getObject() throws Exception { 
+		return new Message(&quot;MessageBean Send&quot;); 
+	}
+
+	public Class&amp;lt;?&amp;gt; getObjectType() {
+	 	return MessageBean.class; 
+	} 
+	public boolean isSingleton() {
+		 return  false; 
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;msg&quot; class=&quot;com.test.Message&quot; &amp;gt; 
+	&amp;lt;constructor-arg value=&quot;Message Send&quot;/&amp;gt; 
+&amp;lt;/bean&amp;gt; 
+&amp;lt;bean id=&quot;msgBean&quot;  class=&quot;com.test.MessageBean&quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public void testBean() throws Exception {
+    ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+
+    Message msg_one = (Message) ctx.getBean(&quot;msg&quot;);
+    msg_one.send();
+
+    Message mes_two = (Message) ctx.getBean(&quot;msgBean&quot;);
+    mes_two.send();
+
+    //使用&amp;amp;前缀可以获取FactoryBean本身
+    FactoryBean dogFactoryBean = (FactoryBean) ctx.getBean(&quot;&amp;amp;msgBean&quot;);
+    Message Message_three = (Message) dogFactoryBean.getObject();
+    Message_three.send();
+}
+
+Message Send
+MessageBean Send 
+MessageBean Send
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;四、总结&lt;/h3&gt;
+
+&lt;p&gt;通过以上源码和示例来看，基本上能印证以下结论，也就是二者的区别。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;BeanFactory是个Factory，也就是 IOC 容器或对象工厂，所有的 Bean 都是由 BeanFactory( 也就是 IOC 容器 ) 来进行管理。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;FactoryBean是一个能生产或者修饰生成对象的工厂Bean，可以在IOC容器中被管理，所以它并不是一个简单的Bean。当使用容器中factory bean的时候，该容器不会返回factory bean本身，而是返回其生成的对象。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Sat, 12 Nov 2016 15:00:00 +0800</pubDate>
+        <link>http://DavidWangTM.github.io/2016/11/12/spring_three_introduction/</link>
+        <guid isPermaLink="true">http://DavidWangTM.github.io/2016/11/12/spring_three_introduction/</guid>
+        
+        <category>Spring</category>
         
         
       </item>
